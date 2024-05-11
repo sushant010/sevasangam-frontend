@@ -1,0 +1,41 @@
+/* to all buttons */
+button{
+    border-radius: 8px;
+    transition: .3s all;
+    font-weight: 500;
+}
+
+button.btn:hover,button.btn:active{
+    filter:brightness(.9);
+}
+
+
+/* theme buttons */
+
+.primary,.primary:hover{
+    background-color: var(--color-theme-primary);
+    border: 1px solid var(--color-theme-primary);
+    color: var(--color-white);
+}
+
+
+.grey,.grey:hover{
+    color: var(--color-theme-primary);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-white);
+}
+
+
+.btn-md{
+    padding: 8px 14px;
+    font-size: 1rem;
+}
+
+
+
+@media screen and (max-width: 768px){
+    .btn-lg{
+      
+        font-size: 1.1rem;   
+    }
+}

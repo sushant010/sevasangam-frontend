@@ -1,0 +1,242 @@
+
+.numbers > div >div:nth-of-type(1){
+    flex: 1;
+}
+.numbers > div >div:nth-of-type(2){
+    flex-basis: 70%;
+}
+.numbers > div >div:nth-of-type(1){
+    flex-direction: column;
+   
+ }
+
+
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  
+  .card {
+    width: 260px;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+    flex: 1;
+    margin: 15px;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 16px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .card-description {
+    font-size: 16px;
+    color: #666;
+  }
+
+
+  .review-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+
+  }
+
+  .review,.review-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    margin: 15px;
+    flex: 1;
+    padding: 1rem;
+    min-width: 20%;
+    max-width: 400px;
+ 
+  }
+  .review-heading{
+    box-shadow: none;
+    border:none;
+    text-align: center  ;
+    min-width: 40%;
+  }
+  .review-text{
+    margin-bottom: 1rem;
+  }
+  .review img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+  
+  }
+  .review-author{
+    display: flex;
+  }
+  .review-author > div{
+    display: flex;
+    flex-direction: column;
+  }
+  .review-author span:nth-of-type(2n){
+    font-weight: 500;
+    color: var(--color-grey-light-2);
+  }
+ 
+
+  .listing-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .listing{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 15px 10px;
+    flex: 1;
+    /* padding: 1rem; */
+    min-width: 20%;
+    max-width: 300px;
+  }
+.listing-img-wrapper{
+    width: 100%;
+    border: 1px solid #ccc;
+    box-shadow: var(--shadow-dark);
+    height: 260px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.listing-img-wrapper img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.listing-content{
+   display: flex;
+   flex-direction: column;
+   gap: .2rem;
+    margin-top: .6rem;
+
+}
+
+.search-section{
+position: relative;
+}
+.search-section .search-bar-wrapper{
+  max-width: 600px;
+  margin: auto;
+}
+.search-section .listing-container{
+ padding: 0 3rem;
+}
+.search-section .search-bar-wrapper .searchbar-container{
+border: 1px solid var(--color-theme-primary);
+}
+.search-section .listing-content p{
+  color:var(--color-grey-dark)
+}
+.search-section .box{
+  position: absolute;
+  width: 90vw;
+  height: 430px;
+  z-index: -1;
+  background-color: var(--color-theme-accent);
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50px;
+  top: 20%;
+}
+ 
+@media screen and (max-width: 768px) {
+
+  .listing ,.review{
+    width: 100%;
+    flex: auto;
+  }
+    .hero-section{
+        padding: 2rem 1rem;
+     min-height: 400px;
+    }
+    .hero-section:after {
+        background: linear-gradient(to right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .6));
+        
+            
+          }
+    .hero-section-text {
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+            
+        }
+        .hero-section > div{ 
+       justify-content: center;
+       align-items: center;
+         
+        }
+         .numbers > div >div:nth-of-type(1){
+           flex-direction: row;
+         
+        }
+
+        .numbers > div >div:nth-of-type(2) {
+            flex-basis: 100%;
+        }
+
+
+
+        .styled-img-container{
+            width: 100%;
+            height: 440px;
+        }
+
+
+        .styled-img-container .styled-img:nth-of-type(1){
+            width: 160px;
+            height: 190px;
+            right: 200px;
+            
+         }
+         .styled-img-container .styled-img:nth-of-type(2){
+             width: 180px;
+             height: 320px;
+             right: 0;
+         }
+         .styled-img-container .styled-img:nth-of-type(3){
+             width: 160px;
+             height: 160px;
+             right: 200px;
+             top:240px
+         }
+}
+
+

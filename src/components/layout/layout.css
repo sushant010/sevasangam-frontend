@@ -1,0 +1,188 @@
+/* Navbar Section */
+body{
+    margin-top: 20px;
+}
+.nav-wrapper {
+    width: 100%;
+    padding: .4rem 3rem;
+    box-shadow: var(--shadow-dark);
+    overflow: hidden;
+    position:fixed;
+    z-index: 10;
+    top: 0;
+    background-color: var(--color-white);
+}
+
+/* .nav-wrapper  *{
+    transform: scale(.97);
+} */
+
+.nav-wrapper nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav .nav-left .logo-container {
+    width: auto;
+    height: 60px;
+    margin: auto;
+}
+
+nav .nav-left .logo-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+nav .nav-left,
+nav .nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+nav .nav-item {
+    gap: 1rem;
+    font-weight: 500;
+}
+nav .nav-item {
+    gap: 1rem;
+    font-weight: 500;
+}
+
+
+nav .nav-left .nav-item a {
+    color: var(--text-color-grey-dark);
+}
+nav .nav-left .nav-item.active a {
+    color: var(--color-theme-primary);
+}
+
+/* Footer Section */
+.footer-wrapper {
+    padding: 3rem;
+    background-color: var(--color-theme-accent);
+}
+
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+footer > div {
+    flex: 1;
+}
+
+.subscribe-box div {
+    box-shadow: var(--shadow-light);
+    justify-content: space-between;
+}
+
+.subscribe-box input,
+.subscribe-box button {
+    height: 40px;
+    border: 1px solid var(--color-dark);
+}
+
+.subscribe-box input {
+    padding: 1rem;
+    flex: 1;
+}
+
+.subscribe-box button {
+    border-radius: 0;
+    padding: 0px 20px;
+}
+
+footer > div:nth-of-type(2n) {
+    justify-content: space-around;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon-wrapper{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-theme-primary);
+    color: var(--color-white);
+    border-radius: 50%;
+    transition: .3s all;
+}
+
+
+.icon-wrapper:not(.static):hover {
+    transform: scale(1.2);
+}
+
+.about-and-social {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.about-and-social img {
+    height: 60px;
+    width: auto;
+}
+
+.links-wrapper {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-wrapper,
+    .footer-wrapper {
+        padding: .4rem 1rem;
+    }
+
+    nav .nav-left .logo-container {
+        height: 40px;
+    }
+
+    nav .nav-right .nav-item a {
+        font-size: .8rem;
+    }
+
+    footer {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .subscribe-box input,
+    .subscribe-box button {
+        height: 30px;
+    }
+
+    .icon-wrapper {
+        width: 20px;
+        height: 20px;
+    }
+
+    .about-and-social img {
+        height: 40px;
+    }
+
+    footer > div {
+        flex-basis: 100%;
+        justify-content: flex-start;
+    }
+
+    footer > div:nth-of-type(2n) {
+        justify-content: flex-start;
+    }
+}
+
+main {
+    min-height: 400px;
+    margin-top: 73px;
+}

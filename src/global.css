@@ -1,0 +1,258 @@
+
+
+
+
+body , button{
+    font-family: var( --font-body);
+}
+
+p,a,div{
+  color: var(--text-color-grey-dark);
+
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: var( --font-heading);
+    color: var(--text-color-grey-dark);
+}
+
+
+
+/* vars for text */
+
+.text-xs{
+  font-size: .8rem;
+  }
+
+.text-sm{
+font-size: .9rem;
+}
+
+.text-md{
+  font-size: 1rem;
+}
+
+.text-lg{
+  font-size: 1.2rem;
+}
+
+.text-xl{
+  font-size: 2.4rem;
+}
+
+.text-heading{
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.text-grey-dark{
+  color: var(--text-color-grey-dark);
+
+}
+
+.text-grey-light{
+  color: var(--color-grey-light-2);
+
+}
+
+.text-primary{
+  color: var(--color-theme-primary) !important;
+
+}
+
+
+/* CSS Reset */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles */
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+/* Remove default padding */
+html {
+  padding: 0;
+}
+
+/* Remove text-decoration */
+a {
+  text-decoration: none;
+}
+
+/* Reset font sizes */
+html {
+  font-size: 16px; /* Adjust as needed */
+}
+
+/* Reset line heights */
+body {
+  line-height: 1.5;
+}
+
+/* Reset heading sizes */
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: normal;
+}
+
+/* Reset default button styles */
+button {
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+
+input,textarea,select{
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid var(--color-grey-light);
+  width: 100%;
+  min-height: 30px;
+}
+
+
+
+
+/* headings */
+.section-heading{
+  font-size: 2.6rem;
+  color:var(--color-theme-primary);
+  font-weight: 700;
+  position: relative;
+}
+
+.section-heading.line {
+
+  padding-left: 30px;
+
+}
+.section-heading.line:before {
+
+  position: absolute;
+      content:"";
+      height: 120%;
+      width: 10px;
+      background-color: var(--color-theme-accent);
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+}
+
+
+section{
+
+  padding: 2rem 3rem;
+}
+
+.linear-bg{
+  background: linear-gradient(45deg, rgb(246,248,246) 0%,rgba(0,0,0,0) 100%);
+
+}
+
+.linear-bg .text-container{
+  padding: 3rem;
+}
+
+
+/* banner */
+
+
+  .banner {
+    background: url('https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+    background-size: cover;
+    min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 3rem;
+      position: relative;
+    
+  }
+  .banner:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, .7), rgba(255, 255, 255, .7 ));
+  top: 0;
+  left: 0;
+
+      
+    }
+
+  .banner-text { 
+position: relative;
+z-index: 1;
+width: 50%;
+text-align: center;
+gap: 2rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+  }
+
+
+
+
+
+@media screen and (max-width: 768px) {
+
+  .text-heading{
+    font-size: 1.9rem;
+   
+  }
+
+
+  section{
+
+    padding: 1.5rem 2rem;
+  }
+  section > .d-flex{
+    flex-wrap: wrap;
+  }
+
+
+
+  .section-heading{
+    font-size: 1.8rem;
+  }
+
+  .linear-bg .text-container{
+    padding: 0rem;
+  }
+  
+  .banner {
+
+      padding: 0rem;
+      min-height: 360px;
+    
+  }
+  .banner-text{
+    width: 85%;
+  }
+}
