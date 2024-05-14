@@ -4,6 +4,7 @@ import SearchBar from "../../components/searchBar/SearchBar";
 import SectionImgWithText from "../../components/sectionImgWithTextDesc/SectionImgWithText";
 import SectionBgImgWithGradient from "../../components/sectionBgImgWithGradient/SectionBgImgWithGradient";
 import Button from "../../components/buttons/Button";
+import ListingCard from "../../components/listingCard/ListingCard";
 
 function Home() {
   return (
@@ -23,43 +24,27 @@ function Home() {
             <SearchBar />
           </div>
 
-          <div className="listing-container">
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
+          <div className="listing-container center">
+          <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
           </div>
         </section>
         <section className="numbers">
@@ -220,78 +205,26 @@ function Home() {
           </div>
 
           <div className="listing-container">
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
+          <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
           </div>
         </section>
 
@@ -304,78 +237,26 @@ function Home() {
           </div>
 
           <div className="listing-container">
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
-            <div className="listing">
-              <div className="listing-img-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                />
-              </div>
-
-              <div className="listing-content">
-                <h2 className="listing-title fw-bold ">Rameshwaram Temple</h2>
-                <p className="listing-description text-grey-light text-sm">
-                  Mumbai, India{" "}
-                </p>
-                <p className="text-grey-light fw-normal   text-xs">
-                  ₹ 2,25,232 Donated in last 30 days{" "}
-                </p>
-              </div>
-            </div>
+          <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
+                <ListingCard
+        title="Rameshwaram Temple"
+        location="Mumbai, India"
+        donation="₹ 2,25,232 Donated in last 30 days"
+              />
           </div>
         </section>
 

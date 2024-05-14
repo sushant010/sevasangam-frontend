@@ -51,12 +51,13 @@ const Footer = () => {
           <div className="links-wrapper">
             <span className="text-lg">Discover</span>
             <Link to="/">Home</Link>
-            <Link to="/">Contact Us</Link>
-            <Link to="/">About Us</Link>
-            <Link to="/">How it works</Link>
-            <Link to="/">Privacy Policy</Link>
-            <Link to="/">Add a Temple</Link>
-            <Link to="/">FAQs</Link>
+            <Link to="/about">About Us</Link>
+            <Link to="/contact">Contact Us</Link>
+            <Link to="/temples">Temples</Link>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/terms-and-conditions">Terms and Conditions</Link>
+            {/* <Link to="/">Add a Temple</Link>
+            <Link to="/">FAQs</Link> */}
           </div>
           <div className="links-wrapper ">
             <span className="text-lg">Discover</span>

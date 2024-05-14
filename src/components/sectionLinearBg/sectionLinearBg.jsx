@@ -1,8 +1,8 @@
-
+import './sectionLinearBg.css'
 
 const sectionLinearBg = ({children,background}) => {
   return (
-      <section className="" style={{ backgroundImage: `url('${background}')` }}>
+      <section className="section-linear-bg" style={{ backgroundImage: `url('${background}')` }}>
           {children}
     </section>
   )

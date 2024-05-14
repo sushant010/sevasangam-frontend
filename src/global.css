@@ -57,7 +57,19 @@ font-size: .9rem;
 
 .text-primary{
   color: var(--color-theme-primary) !important;
+}
 
+.bg-primary{
+  background-color: var(--color-theme-primary) !important;
+  color: white;
+}
+
+.bg-accent{
+  background-color: var(--color-theme-accent) !important;
+}
+.bg-success{
+  background-color: var(--color-success) !important;
+  color: white;
 }
 
 

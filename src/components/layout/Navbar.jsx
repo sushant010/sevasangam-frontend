@@ -19,7 +19,7 @@ const Navbar = () => {
           <div className={`nav-item ${location.pathname === '/about' ? 'active' : ''}`}>
             <Link to="/about">About Us</Link>
           </div>
-          <div className="nav-item">
+          <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
             <Link to="/temples">Temples</Link>
           </div>
           <div className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}>

@@ -1,0 +1,43 @@
+.temple-container{
+
+    & > div > div{
+     flex: 1;
+    }
+    & > div > div:nth-of-type(2){
+        padding: 1rem;
+    }
+
+    & .temple-details{
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+    }
+    & .img-wrapper{
+        overflow: hidden;
+ 
+        
+
+        & img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+
+}
+
+.feature{
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: .8rem;
+    margin: .3rem .4rem .3rem 0;
+}
+
+.donation-ways{
+    flex-basis: 40%;
+}
+.temple-details{
+    flex: 1;
+}
+
