@@ -39,7 +39,7 @@ const SearchBar = () => {
     }
     useEffect(() => {
        
-        fetchLocation()
+        // fetchLocation()
 
     })
     

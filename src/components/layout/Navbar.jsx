@@ -35,7 +35,10 @@ const Navbar = () => {
             <Button size='medium' type='primary' text='Donate Now'/>
           </div>
           <div className="nav-item">
-            <Button size='medium' type='primary' text='Sign Up / Login'/>
+         
+            <button type="button" className="btn btn-theme-primary" data-bs-toggle="modal" data-bs-target="#loginBackdrop">
+            Sign Up / Login
+      </button>
           </div>
         </div>
       </nav>

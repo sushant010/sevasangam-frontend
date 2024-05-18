@@ -6,16 +6,16 @@ button{
 }
 
 button.btn:hover,button.btn:active{
-    filter:brightness(.9);
+    filter:brightness(.9) !important;
 }
 
 
 /* theme buttons */
 
-.primary,.primary:hover{
-    background-color: var(--color-theme-primary);
-    border: 1px solid var(--color-theme-primary);
-    color: var(--color-white);
+.primary,.primary:hover,.btn-theme-primary,button.btn-theme-primary:active{
+    background-color: var(--color-theme-primary) !important;
+    border: 1px solid var(--color-theme-primary) !important;
+    color: var(--color-white) !important;
 }
 
 
@@ -23,6 +23,12 @@ button.btn:hover,button.btn:active{
     color: var(--color-theme-primary);
     background-color: var(--color-white);
     border: 1px solid var(--color-white);
+}
+
+.btn-theme-accent{
+    color: var(--color-theme-primary) !important;
+    border: 1px solid var(--color-theme-primary) !important;
+    background-color: var(--color-white) !important;
 }
 
 
