@@ -1,9 +1,12 @@
 import "./modals.css";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useAuth } from "../../context/Auth";
 import { useState } from "react";
+import { GoogleLoginButton } from "react-social-login-buttons";
+import { LoginSocialGoogle } from "reactjs-social-login";
+
 
 const LoginModal = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -11,10 +14,22 @@ const LoginModal = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+
+
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+
+  const closeLoginModal = () => {
+    // Close the modal
+    const modal = document.getElementById("loginBackdrop");
+    //eslint-disable-next-line
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -27,13 +42,7 @@ const LoginModal = () => {
         localStorage.setItem("auth", JSON.stringify(res.data));
         toast.success(res.data.message);
         navigate(location.state || "/");
-        // Close the modal
-        const modal = document.getElementById("loginBackdrop");
-
-        //eslint-disable-next-line
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-
-        modalInstance.hide();
+        closeLoginModal();
         setCredentials({ email: "", password: "" });
       } else {
         toast.error(res.data.error);
@@ -42,6 +51,43 @@ const LoginModal = () => {
       console.log(error);
     }
   };
+
+  const handleGoogleLoginSuccess = async ({ data }) => {
+
+    const accessToken = data.access_token;
+
+
+    try {
+      const userInfoRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const { name, email, picture } = userInfoRes.data;
+
+      // Send user data to your backend to handle registration or login
+      const res = await axios.post(`${api}/auth/google-login`, {
+        name,
+        email,
+        picture,
+        accessToken,
+      });
+
+      if (res.data.success) {
+        closeLoginModal();
+        toast.success(res.data.message);
+
+        // Perform any further actions, e.g., redirect to a different page
+      } else {
+        toast.error(res.data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      toast.error('Login failed. Please try again.');
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -114,6 +160,18 @@ const LoginModal = () => {
               >
                 Register
               </a>
+
+              <LoginSocialGoogle
+                client_id={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}
+                fetch_basic_profile={true}
+                scope="profile email"
+                onResolve={handleGoogleLoginSuccess}
+                onReject={(err) => {
+                  console.log(err);
+                }}
+              >
+                <GoogleLoginButton />
+              </LoginSocialGoogle>
             </div>
           </div>
         </div>
