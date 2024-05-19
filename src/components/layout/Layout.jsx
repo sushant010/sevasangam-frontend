@@ -5,8 +5,10 @@ import Footer from "./Footer";
 import SignupModal from '../modals/SignupModal';
 import LoginModal from '../modals/LoginModal';
 import { Toaster } from 'react-hot-toast';
+import UpdateProfileModal from '../modals/UpdateProfileModal';
 
 function Layout({ children }) {
+
     return (
         <>
             <Navbar />
@@ -54,6 +56,7 @@ function Layout({ children }) {
             <Footer />
             <SignupModal></SignupModal>
             <LoginModal></LoginModal>
+            <UpdateProfileModal></UpdateProfileModal>
         </>
     );
 }

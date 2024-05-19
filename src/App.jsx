@@ -1,9 +1,10 @@
-import { BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import './global.css';
 import '../src/css/buttons.css';
 import './css/typography.css';
 import './css/variables.css';
+import './css/customForm.css';
 import About from "./pages/about/About";
 import HowItWorks from "./pages/howItWorks/HowItWorks";
 import Contact from "./pages/contact/Contact";
@@ -12,25 +13,65 @@ import Temple from "./pages/temple/Temple";
 import OurTeamAndJourney from "./pages/our-team-and-journey/OurTeamAndJourney";
 import PrivacyPolicy from "./pages/privacy-policy/PrivacyPolicy";
 import TermsAndConditions from "./pages/terms-and-conditions/TermsAndConditions";
+import AddTemple from "./pages/admin/AddTemple";
+import IsSuperadmin from "./routes/IsSuperadmin";
+import IsTempleAdmin from "./routes/IsTempleAdmin";
+import AdminTemples from "./pages/admin/AdminTemples";
+import UpdateTemple from "./pages/admin/UpdateTemple";
+import ViewTemple from "./pages/admin/ViewTemple";
+import UpdateProfile from "./pages/profile/UpdateProfile";
+import AllAdmins from "./pages/superadmin/AllAdmins";
+import TemplesBySingleAdmin from "./pages/superadmin/TemplesBySingleAdmin";
+import AllDonation from "./pages/donation/AllDonation";
 
 function App() {
   return (
     <>
-       <BrowserRouter>
-      <Routes>
+      <BrowserRouter>
+        <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+
+          <Route path="about" element={<About />} />
+
+
+
+
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/temples" element={<Temples />} />
           <Route path="/temple" element={<Temple />} />
           <Route path="/our-team-and-journey" element={<OurTeamAndJourney />} />
 
+
+
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        {/* Add more Route components for other paths if needed */}
+          <Route path="/update-profile" element={<UpdateProfile />} />
+
+
+
+
+          <Route path="/admin" element={<IsTempleAdmin />} >
+            <Route path="add-temple" element={<AddTemple />} />
+            <Route path="update-temple/:id" element={<UpdateTemple />} />
+            <Route path="temples" element={<AdminTemples />} />
+            <Route path="temple/:id" element={<ViewTemple />} />
+          </Route>
+
+          <Route path="/superadmin" element={<IsSuperadmin />} >
+            <Route path="add-temple" element={<AddTemple />} />
+            <Route path="update-temple/:id" element={<UpdateTemple />} />
+            <Route path="temples" element={<AdminTemples />} />
+            <Route path="temple/:id" element={<ViewTemple />} />
+            <Route path="temple-listers" element={<AllAdmins />} />
+            <Route path="temples-listed/:id" element={<TemplesBySingleAdmin />} />
+            <Route path="donations" element={<AllDonation />} />
+          </Route>
+
+
+
         </Routes>
-        </BrowserRouter>
+      </BrowserRouter>
     </>
   );
 }

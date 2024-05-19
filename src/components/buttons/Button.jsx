@@ -1,7 +1,7 @@
 import './buttons.css'
 import PropTypes from "prop-types";
 
-function Button({ size, text = "Donate Now", type }) {
+function Button({ size = "medium", text = "Donate Now", type = "primary" }) {
   const buttonSizes = {
     small: "btn-sm",
     medium: "btn-md",
@@ -17,13 +17,8 @@ function Button({ size, text = "Donate Now", type }) {
 
 Button.propTypes = {
   size: PropTypes.oneOf(["small", "medium", "large"]),
-  text: PropTypes.string.isRequired ,
+  text: PropTypes.string.isRequired,
   type: PropTypes.oneOf(["primary", "grey"])
-};
-
-Button.defaultProps = {
-  size: "medium",
-  type: "primary"
 };
 
 export default Button;

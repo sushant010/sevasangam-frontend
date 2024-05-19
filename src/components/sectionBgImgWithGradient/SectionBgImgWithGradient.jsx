@@ -2,25 +2,25 @@ import PropTypes from 'prop-types';
 import './sectionBgImgWithGradient.css';
 import { Link } from 'react-router-dom';
 
-const SectionBgImgWithGradient = ({bgImg,heading,description,btn1Link,btn1Text, btn2Link,btn2Text,btn1Class,btn2Class}) => {
-  
+const SectionBgImgWithGradient = ({ bgImg, heading, description, btn1Link, btn1Text, btn2Link, btn2Text, btn1Class, btn2Class }) => {
+
   return (
- 
-    <section className="hero-section" style={{backgroundImage: `url('${bgImg}')`}}>
-    <div className="hero-section-text">
-      <h2 className="text-heading">
-        {heading}
-      </h2>
-      <p className="text-lg">
-        {description}
-      </p>
-      <div className="btns d-flex gap-4">
-  
+
+    <section className="hero-section" style={{ backgroundImage: `url('${bgImg}')` }}>
+      <div className="hero-section-text">
+        <h2 className="text-heading">
+          {heading}
+        </h2>
+        <p className="text-lg">
+          {description}
+        </p>
+        <div className="btns d-flex gap-4">
+
           <Link to={btn1Link} className={`btn ${btn1Class}`}>{btn1Text}</Link>
-          <Link to={btn2Link} className={`btn ${btn2Class}`}>{ btn2Text}</Link>
+          <Link to={btn2Link} className={`btn ${btn2Class}`}>{btn2Text}</Link>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
   )
 }
@@ -38,7 +38,7 @@ SectionBgImgWithGradient.propTypes = {
 };
 SectionBgImgWithGradient.defaultProps = {
   btn1Link: "/",
-  btn2Link: "/contact-us",
+  btn2Link: "/contact",
   btn1Text: "Donate Now",
   btn2Text: "Contact Us",
   btn1Class: "btn-theme-primary",

@@ -1,8 +1,9 @@
 // import { useNavigate } from 'react-router-dom';
 import './modals.css';
 import { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import OauthGoogle from '../OauthGoogle';
 
 
 const SignupModal = () => {
@@ -26,6 +27,7 @@ const SignupModal = () => {
       })
       if (res && res.data.success) {
         toast.success(res.data.message)
+        closeSignupModal();
         setCredentials({ name: '', email: '', phone: '', password: '' })
         // Navigate('/login')
 
@@ -40,6 +42,17 @@ const SignupModal = () => {
     }
 
   }
+
+  const closeSignupModal = () => {
+    // Close the modal
+    const modal = document.getElementById("signupBackdrop");
+    //eslint-disable-next-line
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
+  }
+
+
 
   return (
     <div className="modal fade" id="signupBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -76,9 +89,12 @@ const SignupModal = () => {
 
 
           </div>
-          <div className="modal-footer">
+          <div className="modal-footer flex-column">
             <button type="button" onClick={handleSubmit} className="m-auto btn btn-theme-primary">Signup</button>
+
+
           </div>
+
         </div>
       </div>
     </div>

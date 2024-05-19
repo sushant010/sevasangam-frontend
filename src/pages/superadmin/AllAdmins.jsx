@@ -1,0 +1,88 @@
+import React, { useEffect, useState } from 'react'
+import Layout from '../../components/layout/Layout'
+import axios from 'axios'
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+
+const AllAdmins = () => {
+    const api = import.meta.env.VITE_API_URL;
+    const [templeAdmins, setTempleAdmins] = useState([])
+
+    const fetchAllTempleAdmins = async () => {
+
+        try {
+            const response = await axios.get(`${api}/auth/all-temple-admin`);
+
+            if (response.data.success) {
+                console.log(response)
+                toast.success(response.data.message);
+                setTempleAdmins(response.data.users)
+
+            } else {
+                toast.error(response.data.message);
+            }
+
+        } catch (error) {
+            console.error('Error creating temple:', error);
+        }
+
+
+    }
+
+
+    useEffect(() => {
+
+        fetchAllTempleAdmins()
+    }, [])
+    return (
+
+        <Layout>
+            <section>
+                <div className="section-heading mb-2">
+                    Temple Listers
+                </div>
+                <table className="table table-light table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <td><p className='fw-bold text-primary'>S.No</p></td>
+                            <td><p className='fw-bold text-primary'>Name</p></td>
+                            <td><p className='fw-bold text-primary'>Email</p></td>
+                            <td><p className='fw-bold text-primary'>Phone</p></td>
+                            <td><p className='fw-bold text-primary'>Total Temple Listed</p></td>
+                            <td><p className='fw-bold text-primary'>Total Donation Collected</p></td>
+                            <td><p className='fw-bold text-primary'>Actions</p></td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {templeAdmins?.map((admin, index) => (
+                            <tr key={index}>
+
+                                <td> {index + 1}</td>
+                                <td>{admin.name}</td>
+                                <td>{admin.email}</td>
+                                <td>{admin.phone}</td>
+                                <td>{admin.totalTempleCreated}</td>
+                                <td></td>
+                                <td><Link to={`/superadmin/temples-listed/${admin._id}`} className='btn btn-theme-primary'>View Temples</Link></td>
+
+                            </tr>
+
+
+
+                        ))}
+
+
+
+                    </tbody>
+                </table>
+
+
+
+            </section>
+        </Layout >
+    )
+}
+
+export default AllAdmins
