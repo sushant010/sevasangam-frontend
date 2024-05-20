@@ -23,6 +23,7 @@ import UpdateProfile from "./pages/profile/UpdateProfile";
 import AllAdmins from "./pages/superadmin/AllAdmins";
 import TemplesBySingleAdmin from "./pages/superadmin/TemplesBySingleAdmin";
 import AllDonation from "./pages/donation/AllDonation";
+import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/temples" element={<Temples />} />
           <Route path="/temple" element={<Temple />} />
           <Route path="/our-team-and-journey" element={<OurTeamAndJourney />} />
+
 
 
 
@@ -66,6 +68,7 @@ function App() {
             <Route path="temple-listers" element={<AllAdmins />} />
             <Route path="temples-listed/:id" element={<TemplesBySingleAdmin />} />
             <Route path="donations" element={<AllDonation />} />
+            <Route path="unverified-temples" element={<UnverifiedTemples />} />
           </Route>
 
 

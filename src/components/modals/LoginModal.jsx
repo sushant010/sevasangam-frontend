@@ -41,7 +41,7 @@ const LoginModal = () => {
         localStorage.setItem("auth", JSON.stringify(res.data));
         toast.success(res.data.message);
         navigate(location.state || "/");
-        closeLoginModal();
+        // closeLoginModal();
         setCredentials({ email: "", password: "" });
       } else {
         toast.error(res.data.error);
@@ -110,11 +110,29 @@ const LoginModal = () => {
             >
               Login
             </button>
+            <div>
+
+
+
+              <a
+                style={{
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "var(--color-theme-primary)",
+                }}
+                data-bs-toggle="modal"
+                data-bs-target="#forgotPasswordBackdrop"
+              >
+                Forgot Password
+              </a>
+
+
+            </div>
 
 
             <div style={{ borderTop: "1px solid #eee", }} className="text-muted text-center mt-3 pt-2 w-100">  New to SevaSangam?</div>
 
-            <OauthGoogle></OauthGoogle>
+            <OauthGoogle closeLoginModal={closeLoginModal}></OauthGoogle>
             <p className="text-muted fw-bold text-center my-2 "><small>OR</small></p>
             <div>
 
@@ -134,6 +152,7 @@ const LoginModal = () => {
 
 
             </div>
+
           </div>
         </div>
       </div>

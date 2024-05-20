@@ -1,19 +1,17 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { LoginSocialGoogle } from 'reactjs-social-login';
+import { useAuth } from '../context/Auth';
+import { useNavigate } from 'react-router-dom';
 
 const OauthGoogle = () => {
 
     const api = import.meta.env.VITE_API_URL;
+    const [auth, setAuth] = useAuth();
 
-    const closeSignupModal = () => {
-        // Close the modal
-        const modal = document.getElementById("signupBackdrop");
-        //eslint-disable-next-line
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
+    const navigate = useNavigate();
 
-    }
+
 
     const handleGoogleLoginSuccess = async ({ data }) => {
 
@@ -38,8 +36,11 @@ const OauthGoogle = () => {
             });
 
             if (res.data.success) {
-                closeSignupModal();
+
+                setAuth({ ...auth, user: res.data.user, token: res.data.token });
+                localStorage.setItem("auth", JSON.stringify(res.data));
                 toast.success(res.data.message);
+                window.location.reload()
 
                 // Perform any further actions, e.g., redirect to a different page
             } else {

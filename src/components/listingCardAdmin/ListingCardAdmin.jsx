@@ -68,59 +68,61 @@ const ListingCardAdmin = ({ temple }) => {
         <p className="listing-description text-grey-light text-sm">
           {temple.location.address.length > 20 ? `${temple.location.address.slice(0, 20)}...` : temple.location.address}
         </p>
-        <table className='table table-light table-bordered table-striped' style={{ border: "1px solid #cecece", width: "100%" }}>
-          <tbody>
-            <tr>
-              <td className="listing-donation  text-sm">Donation : </td>
-              <td className="listing-donation text-grey-dark text-sm">{temple.donation}</td>
-            </tr>
-            {auth?.user?.role == 2 ? (
+        <div className="table-responsive">
+          <table className='table table-light table-bordered table-striped' style={{ border: "1px solid #cecece", width: "100%" }}>
+            <tbody>
+              <tr>
+                <td className="listing-donation  text-sm">Donation : </td>
+                <td className="listing-donation text-grey-dark text-sm">{temple.donation}</td>
+              </tr>
+              {auth?.user?.role == 2 ? (
+
+                <tr>
+                  <td className="listing-donation text-sm">Created By : </td>
+                  <td className="listing-donation text-grey-dark text-sm">{createdBy}</td>
+                </tr>
+              ) : null
+
+              }
 
               <tr>
-                <td className="listing-donation text-sm">Created By : </td>
-                <td className="listing-donation text-grey-dark text-sm">{createdBy}</td>
+                <td className="listing-donation text-sm">Actions : </td>
+                <td className="listing-donation text-grey-dark text-sm">
+                  <button
+                    title="View Temple"
+                    onClick={() => handleViewTemple(temple._id)}
+
+                  >
+                    <i
+                      className="fa-solid fa-eye"
+                      style={{ color: "var(--color-theme-primary)" }}
+                    ></i>
+                  </button>
+                  <button
+                    title="Update Temple"
+                    onClick={() => handleUpdateTemple(temple._id)}
+
+                  >
+                    <i
+                      className="fa-solid fa-pen-to-square"
+                      style={{ color: "var(--color-theme-primary)" }}
+                    ></i>
+                  </button>
+                  {auth?.user?.role == 2 ? (<button title="Delete Temple"
+                    onClick={() => handleDeleteTemple(temple._id)}
+
+                  >
+                    <i
+                      className="fa-solid fa-trash-can"
+                      style={{ color: "#D83F31" }}
+                    ></i>
+                  </button>) : null}
+
+                </td>
               </tr>
-            ) : null
-
-            }
-
-            <tr>
-              <td className="listing-donation text-sm">Actions : </td>
-              <td className="listing-donation text-grey-dark text-sm">
-                <button
-                  title="View Temple"
-                  onClick={() => handleViewTemple(temple._id)}
-
-                >
-                  <i
-                    className="fa-solid fa-eye"
-                    style={{ color: "var(--color-theme-primary)" }}
-                  ></i>
-                </button>
-                <button
-                  title="Update Temple"
-                  onClick={() => handleUpdateTemple(temple._id)}
-
-                >
-                  <i
-                    className="fa-solid fa-pen-to-square"
-                    style={{ color: "var(--color-theme-primary)" }}
-                  ></i>
-                </button>
-                {auth?.user?.role == 2 ? (<button title="Delete Temple"
-                  onClick={() => handleDeleteTemple(temple._id)}
-
-                >
-                  <i
-                    className="fa-solid fa-trash-can"
-                    style={{ color: "#D83F31" }}
-                  ></i>
-                </button>) : null}
-
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

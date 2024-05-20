@@ -6,6 +6,7 @@ import SignupModal from '../modals/SignupModal';
 import LoginModal from '../modals/LoginModal';
 import { Toaster } from 'react-hot-toast';
 import UpdateProfileModal from '../modals/UpdateProfileModal';
+import ForgotPasswordModal from '../modals/ForgotPassword';
 
 function Layout({ children }) {
 
@@ -57,6 +58,7 @@ function Layout({ children }) {
             <SignupModal></SignupModal>
             <LoginModal></LoginModal>
             <UpdateProfileModal></UpdateProfileModal>
+            <ForgotPasswordModal />
         </>
     );
 }

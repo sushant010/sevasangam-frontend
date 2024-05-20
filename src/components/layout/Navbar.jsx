@@ -119,6 +119,11 @@ const Navbar = () => {
                         Donations
                       </Link>
                     </li>
+                    <li>
+                      <Link className="dropdown-item" to="/superadmin/unverified-temples">
+                        Unverified Temples
+                      </Link>
+                    </li>
 
                   </>
                 ) : (

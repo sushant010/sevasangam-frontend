@@ -95,68 +95,68 @@ const ViewTemple = () => {
                     <div className='col-md-8'>
                         <h1 className="section-heading  ">Name : {temple.templeName}</h1>
                         <h2 className='text-grey-dark  my-3 fw-bold'>Location : {temple.location.address}, {temple.location.country}</h2>
+                        <div className="table-responsive">
+                            <table className="table table-light table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <td colSpan="2 "><p className='fw-bold text-primary'>Basic</p></td>
 
-                        <table className="table table-light table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <td colSpan="2 "><p className='fw-bold text-primary'>Basic</p></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    <tr>
+                                        <td>Type of Organization</td>
+                                        <td>{temple.typeOfOrganization}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Donation</td>
+                                        <td>{temple.donation}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>{temple.description}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Contact Person</td>
+                                        <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Location</td>
+                                        <td>{temple.location.address}, {temple.location.country}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Logo</td>
+                                        <td><img src={temple?.images?.logo ? temple?.images?.logo : defaultLogo} alt="Temple Logo" style={{ maxWidth: '100px' }} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Actions</td>
+                                        <td className="listing-donation text-grey-dark text-sm">
 
-                                <tr>
-                                    <td>Type of Organization</td>
-                                    <td>{temple.typeOfOrganization}</td>
-                                </tr>
-                                <tr>
-                                    <td>Donation</td>
-                                    <td>{temple.donation}</td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td>{temple.description}</td>
-                                </tr>
-                                <tr>
-                                    <td>Contact Person</td>
-                                    <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
-                                </tr>
-                                <tr>
-                                    <td>Location</td>
-                                    <td>{temple.location.address}, {temple.location.country}</td>
-                                </tr>
-                                <tr>
-                                    <td>Logo</td>
-                                    <td><img src={temple?.images?.logo ? temple?.images?.logo : defaultLogo} alt="Temple Logo" style={{ maxWidth: '100px' }} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Actions</td>
-                                    <td className="listing-donation text-grey-dark text-sm">
+                                            <button
+                                                title="Update Temple"
+                                                onClick={() => handleUpdateTemple(temple._id)}
 
-                                        <button
-                                            title="Update Temple"
-                                            onClick={() => handleUpdateTemple(temple._id)}
+                                            >
+                                                <i
+                                                    className="fa-solid fa-pen-to-square"
+                                                    style={{ color: "var(--color-theme-primary)" }}
+                                                ></i>
+                                            </button>
+                                            {auth?.user?.role == 2 ? (<button title="Delete Temple"
+                                                onClick={() => handleDeleteTemple(temple._id)}
 
-                                        >
-                                            <i
-                                                className="fa-solid fa-pen-to-square"
-                                                style={{ color: "var(--color-theme-primary)" }}
-                                            ></i>
-                                        </button>
-                                        {auth?.user?.role == 2 ? (<button title="Delete Temple"
-                                            onClick={() => handleDeleteTemple(temple._id)}
+                                            >
+                                                <i
+                                                    className="fa-solid fa-trash-can"
+                                                    style={{ color: "#D83F31" }}
+                                                ></i>
+                                            </button>) : null}
 
-                                        >
-                                            <i
-                                                className="fa-solid fa-trash-can"
-                                                style={{ color: "#D83F31" }}
-                                            ></i>
-                                        </button>) : null}
+                                        </td>
+                                    </tr>
 
-                                    </td>
-                                </tr>
-
-                                {/* <tr>
+                                    {/* <tr>
                             <td>Upcoming Events</td>
                             <td>
                                 <ul>
@@ -166,7 +166,7 @@ const ViewTemple = () => {
                                 </ul>
                             </td>
                         </tr> */}
-                                {/* <tr>
+                                    {/* <tr>
                             <td>Temple Banner Images</td>
                             <td>
                                 {temple.images.templeBannerImage.map((image, index) => (
@@ -182,8 +182,9 @@ const ViewTemple = () => {
                                 ))}
                             </td>
                         </tr> */}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="col-md-4  mb-4 ">
                         <div title="Banner Image" style={{ height: '400px', border: '' }}>
@@ -255,74 +256,74 @@ const ViewTemple = () => {
                     <div className="col-md-6">
                         <div className="row">
                             <div className="col-md-12">
+                                <div className="table-responsive">
+                                    <table className="table table-light table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td colSpan="2 "><p className='fw-bold text-primary'>Contact Person</p></td>
 
-                                <table className="table table-light table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td colSpan="2 "><p className='fw-bold text-primary'>Contact Person</p></td>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-
-                                        <tr>
-                                            <td>Name</td>
-                                            <td>{temple.contactPerson.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td>{temple.contactPerson.email}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mobile</td>
-                                            <td>{temple.contactPerson.mobile}</td>
-                                        </tr>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
 
-                                    </tbody>
-                                </table>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>{temple.contactPerson.name}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>{temple.contactPerson.email}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mobile</td>
+                                                <td>{temple.contactPerson.mobile}</td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div className="col-md-12">
-                                <table className="table table-light table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td colSpan="2 "><p className='fw-bold text-primary'>Social</p></td>
+                                <div className="table-responsive">
+                                    <table className="table table-light table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td colSpan="2 "><p className='fw-bold text-primary'>Social</p></td>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
 
-                                        <tr>
-                                            <td>Website</td>
-                                            <td><a href={temple.website}>{temple.website}</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Facebook</td>
-                                            <td><a href={temple.socialMedia.facebook}>{temple.socialMedia.facebook}</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Twitter</td>
-                                            <td><a href={temple.socialMedia.twitter}>{temple.socialMedia.twitter}</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Instagram</td>
-                                            <td><a href={temple.socialMedia.instagram}>{temple.socialMedia.instagram}</a></td>
-                                        </tr>
+                                            <tr>
+                                                <td>Website</td>
+                                                <td><a href={temple.website}>{temple.website}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Facebook</td>
+                                                <td><a href={temple.socialMedia.facebook}>{temple.socialMedia.facebook}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Twitter</td>
+                                                <td><a href={temple.socialMedia.twitter}>{temple.socialMedia.twitter}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Instagram</td>
+                                                <td><a href={temple.socialMedia.instagram}>{temple.socialMedia.instagram}</a></td>
+                                            </tr>
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
 
                     </div>
 
-                    <div className="col-md-6">
 
-
-                    </div>
 
                 </div>
 
