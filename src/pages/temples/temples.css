@@ -1,0 +1,9 @@
+.filter-container {
+  & .form-control,
+  & .form-select {
+    font-size: 14px !important;
+  }
+}
+.sort-buttons .btn {
+  flex: 1;
+}

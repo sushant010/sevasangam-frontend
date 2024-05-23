@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
 import img from './../../assets/images/sevasangam-logo.jpg'
-import Button from './../buttons/Button'
 import SearchBar from '../searchBar/SearchBar'
 import { useAuth } from '../../context/Auth'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 
 
@@ -11,7 +10,18 @@ const Navbar = () => {
 
   const [auth] = useAuth();
 
+  const toggleNavButton = useRef(null);
 
+  const toggleNavbar = () => {
+    const buttonElement = toggleNavButton.current;
+    if (!buttonElement.classList.contains('active')) {
+      buttonElement.classList.add('active');
+    } else {
+      // If it's already active, remove the 'active' class
+      buttonElement.classList.remove('active');
+    }
+
+  }
 
   const logout = () => {
 
@@ -31,6 +41,21 @@ const Navbar = () => {
 
     <div className="nav-wrapper">
       <nav>
+        <div className="toggle-navbar" ref={toggleNavButton}>
+          <div className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
+            <Link to="/">Home</Link>
+          </div>
+          <div className={`nav-item ${location.pathname === '/about' ? 'active' : ''}`}>
+            <Link to="/about">About Us</Link>
+          </div>
+          <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
+            <Link to="/temples">Temples</Link>
+          </div>
+          <div className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}>
+            <Link to="/contact">Contact Us</Link>
+          </div>
+
+        </div>
         <div className="nav-left">
           <div className="logo-container">
             <img src={img}></img>
@@ -49,12 +74,18 @@ const Navbar = () => {
           </div>
         </div>
         <div className="nav-right">
+          <div className="toggle-nav">
+            <button onClick={toggleNavbar}>
+              <i className="fa-solid fa-bars"></i>
+            </button>
+          </div>
 
           <div className="nav-item">
             <SearchBar />
           </div>
           <div className="nav-item">
-            <Button size='medium' type='primary' text='Donate Now' />
+
+            <Link to="/temples" className="btn btn-theme-primary">Donate Now</Link>
           </div>
           <div className="nav-item">
             {auth?.user ? (<button type="button" onClick={logout} className="btn btn-theme-primary">

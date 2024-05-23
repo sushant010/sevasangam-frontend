@@ -94,7 +94,7 @@ function Home() {
         and spreading love and light to all. Make your mark on Temples
         journey today by giving from your heart to ours." />
 
-        <section className="search-section">
+        <section id="searchTempleToDonate" className="search-section">
           <h2 className="w-100 text-center m-auto text-primary text-xl fw-bold mb-4">
             Search Temple to Donate..
           </h2>
@@ -173,9 +173,9 @@ function Home() {
 
           <div className="d-flex align-items-center flex-wrap">
             <div className="w-100">
-              <div className="d-flex justify-content-center w-25 m-auto mt-4">
+              <div className="tab-btns-container d-flex justify-content-center m-auto mt-4">
                 <div
-                  className="btn primary"
+                  className="tab-btns btn primary"
                   style={{
                     borderTopRightRadius: "0px",
                     borderBottomRightRadius: "0px",
@@ -185,7 +185,7 @@ function Home() {
                   For Donors
                 </div>
                 <div
-                  className="btn primary"
+                  className=" tab-btns btn primary"
                   style={{
                     borderTopLeftRadius: "0px",
                     borderBottomLeftRadius: "0px",

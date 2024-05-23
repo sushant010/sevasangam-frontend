@@ -210,7 +210,23 @@
   top: 20%;
 }
 
+.tab-btns-container {
+  max-width: 25%;
+  & .btn:first-of-type {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-right: 1px solid #fff !important;
+  }
+  & .btn:nth-of-type(2) {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}
+
 @media screen and (max-width: 768px) {
+  .tab-btns-container {
+    max-width: fit-content;
+  }
   .listing,
   .review {
     width: 100%;
@@ -239,6 +255,9 @@
   }
   .numbers > div > div:nth-of-type(1) {
     flex-direction: row;
+    & .text-heading {
+      font-size: 1.2rem;
+    }
   }
 
   .numbers > div > div:nth-of-type(2) {
@@ -265,5 +284,34 @@
     height: 160px;
     right: 200px;
     top: 240px;
+  }
+
+  .search-section .box {
+    height: 95%;
+    top: 65px;
+    border-radius: 22px;
+  }
+
+  .tab-btns {
+    padding: 4px 10px;
+    flex: none !important;
+  }
+  .card-container {
+    flex-direction: column;
+  }
+  .search-section .listing-container {
+    padding: 0 6px;
+  }
+
+  .review-heading {
+    order: -1;
+  }
+
+  .review-container {
+    margin: 0;
+  }
+  .review-heading {
+    margin: 0;
+    padding: 0;
   }
 }

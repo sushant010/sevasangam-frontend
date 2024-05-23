@@ -1,66 +1,63 @@
 .searchbar-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #D3D3D3;
-    border-radius: 30px;
-overflow: hidden;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d3d3d3;
+  border-radius: 30px;
+  overflow: hidden;
 }
 
-.location-select ,.search-input {
-    padding: 5px;
+.location-select,
+.search-input {
+  padding: 5px;
   flex: 1;
 }
 
-.location-select{
-    border-right: 1px solid #D3D3D3;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+.location-select {
+  border-right: 1px solid #d3d3d3;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
-.location-select{
-    min-width: 200px;
-    position: relative;
-    overflow: hidden;
+.location-select {
+  position: relative;
+  overflow: hidden;
 }
-.search-input{
-    min-width: 200px;
-    border-right: 0px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    position: relative;
-    overflow: hidden;
-    min-height: 40px;
+.search-input {
+  min-width: 150px;
+  border-right: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  position: relative;
+  overflow: hidden;
+  min-height: 40px;
 }
-.location-select{
-    min-width: 200px;
-    border-left: 0px;
-    position: relative;
-    overflow: hidden;
-    min-height: 40px;
-}
-
-
-.location-select i,.search-input i {
-   position: absolute;
-   top: 50%;
-   transform: translateY(-50%);
-   color: var(--color-theme-primary);
-   padding: 0 4px;
-   z-index: 2;
+.location-select {
+  min-width: 150px;
+  border-left: 0px;
+  position: relative;
+  overflow: hidden;
+  min-height: 40px;
 }
 
+.location-select i,
+.search-input i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-theme-primary);
+  padding: 0 4px;
+  z-index: 2;
+}
 
 .location-select datalist,
-.location-select input,.search-input input {
-    border:none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    padding-left: 30px;
-   
-   
- }
+.location-select input,
+.search-input input {
+  border: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding-left: 30px;
+}
