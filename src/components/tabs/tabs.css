@@ -1,0 +1,22 @@
+.tab {
+  margin: auto;
+  width: fit-content;
+  border: 2px;
+  border: 1px solid #ccc;
+  & .tab-item {
+    padding: 6px 12px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--color-theme-primary);
+    background-color: #eee;
+
+    &:first-of-type {
+      border-right: 1px solid #ccc;
+    }
+
+    &.active {
+      background-color: var(--color-theme-primary);
+      color: #fff;
+    }
+  }
+}

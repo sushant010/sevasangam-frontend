@@ -24,6 +24,7 @@ import AllAdmins from "./pages/superadmin/AllAdmins";
 import TemplesBySingleAdmin from "./pages/superadmin/TemplesBySingleAdmin";
 import AllDonation from "./pages/donation/AllDonation";
 import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
+import Checkout from "./pages/checkout/Checkout";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="about" element={<About />} />
+          <Route path="checkout" element={<Checkout />} />
 
 
 
@@ -40,7 +42,7 @@ function App() {
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/temples" element={<Temples />} />
-          <Route path="/temple" element={<Temple />} />
+          <Route path="/temple/:id" element={<Temple />} />
           <Route path="/our-team-and-journey" element={<OurTeamAndJourney />} />
 
 

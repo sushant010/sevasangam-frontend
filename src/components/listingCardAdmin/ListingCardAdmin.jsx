@@ -51,11 +51,15 @@ const ListingCardAdmin = ({ temple }) => {
   };
 
 
+  const navigateToTemple = (id) => () => {
+    navigate('/superadmin/temple/' + id)
+  }
+
 
 
   return (
 
-    <div className="listing admin">
+    <div className="listing admin" onClick={navigateToTemple(temple._id)}>
       <div className="listing-img-wrapper">
         <img
           src={temple?.images.templeBannerImage ? temple?.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}

@@ -1,0 +1,67 @@
+.donation-ways .amount {
+  color: var(--color-theme-primary);
+  background-color: #fff;
+  font-size: 1.2rem;
+}
+.payment-options {
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 20px 0;
+}
+
+.payment-options div {
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border: 1px solid var(--color-theme-primary);
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.amount {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--clr-primary-5);
+  padding: 4px 10px;
+  background-color: #f5f5f5;
+  color: var(--color-text-grey);
+  text-transform: capitalize;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-theme-primary) !important;
+    color: #fff;
+  }
+}
+
+.form-check-input.custom-checkbox {
+  width: 30px !important;
+  height: 30px !important;
+  margin-right: 10px;
+  background-color: #fff;
+  border: 1px solid var(--color-theme-primary);
+  border-radius: 2px; /* Optional, if you want rounded corners */
+  appearance: none; /* Removes default checkbox styling */
+  cursor: pointer;
+  position: relative;
+}
+
+.form-check-input.custom-checkbox:checked::before {
+  content: "✔";
+  color: white;
+  width: 24px !important;
+  height: 24px !important;
+  border: 1px solid var(--color-theme-primary) !important;
+  background-color: var(--color-theme-primary) !important;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

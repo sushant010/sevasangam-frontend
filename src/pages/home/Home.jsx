@@ -5,12 +5,91 @@ import SectionImgWithText from "../../components/sectionImgWithTextDesc/SectionI
 import SectionBgImgWithGradient from "../../components/sectionBgImgWithGradient/SectionBgImgWithGradient";
 import Button from "../../components/buttons/Button";
 import ListingCard from "../../components/listingCard/ListingCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function Home() {
+
+  const api = import.meta.env.VITE_API_URL;
+
+
+  const [popularTemples, setPopularTemples] = useState([])
+  const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
+  const [searchTemple, setSearchTemple] = useState([])
+
+
+  const [filters, setFilters] = useState({
+    templeName: '',
+    address: ''
+  });
+
+  const fetchPopularTemples = async () => {
+    try {
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular' });
+      if (response.data.success) {
+        setPopularTemples(response.data.data.temples);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching filtered temples:', error);
+    }
+  };
+
+  const fetchRecentlyCreatedTemples = async () => {
+    try {
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded' });
+      if (response.data.success) {
+        setRecentlyCreatedTemples(response.data.data.temples);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching filtered temples:', error);
+    }
+  };
+
+
+  const fetchfilteredTemples = async () => {
+    try {
+      const response = await axios.post(`${api}/temple/filter-temples`, filters);
+      if (response.data.success) {
+        setSearchTemple(response.data.data.temples);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching filtered temples:', error);
+    }
+  };
+
+
+
+  useEffect(() => {
+    fetchPopularTemples();
+    fetchRecentlyCreatedTemples();
+    fetchfilteredTemples();
+  }, []);
+
+  // const handleFilterChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFilters(prevFilters => ({
+  //     ...prevFilters,
+  //     [name]: value
+  //   }));
+  // };
+
+  // const handleFilterSubmit = (e) => {
+  //   e.preventDefault();
+  //   fetchFilteredTemples();
+  // };
+
+
   return (
     <>
       <Layout>
-        
+
         <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Indias Most Trusted and Transparent Temple Donation Platform" description="Join hands with us in upholding tradition, fostering inclusivity,
         and spreading love and light to all. Make your mark on Temples
         journey today by giving from your heart to ours." />
@@ -25,26 +104,13 @@ function Home() {
           </div>
 
           <div className="listing-container center">
-          <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
+            {searchTemple && searchTemple.map((temple, index) => (
+              <ListingCard
+                key={index} temple={temple}
               />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
+
+            ))}
+
           </div>
         </section>
         <section className="numbers">
@@ -196,67 +262,42 @@ function Home() {
           sectionDesc="Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         />
 
+
+
         <section className="listings">
           <div className="section-heading line">
-            Trending Temples{" "}
+            Based on Popularity
             <span className="text-sm d-block mx-2 fw-light text-grey-light">
               Donate to the trending temples
             </span>
           </div>
 
           <div className="listing-container">
-          <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
+            {popularTemples && popularTemples.map((temple, index) => (
+              <ListingCard
+                key={index} temple={temple}
               />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
+
+            ))}
+
+
           </div>
         </section>
-
         <section className="listings">
           <div className="section-heading line">
-            Based on Popularity{" "}
+            Recently Created
             <span className="text-sm d-block mx-2 fw-light text-grey-light">
               Donate to the trending temples
             </span>
           </div>
 
           <div className="listing-container">
-          <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
+            {recentlyCreatedTemples && recentlyCreatedTemples.map((temple, index) => (
+              <ListingCard
+                key={index} temple={temple}
               />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
-                <ListingCard
-        title="Rameshwaram Temple"
-        location="Mumbai, India"
-        donation="₹ 2,25,232 Donated in last 30 days"
-              />
+
+            ))}
           </div>
         </section>
 

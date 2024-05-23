@@ -112,6 +112,9 @@
 }
 
 .listing {
+  padding: 6px;
+  border-radius: 8px;
+  transition: 0.3s all;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -120,6 +123,12 @@
   /* padding: 1rem; */
   min-width: 20%;
   max-width: 400px;
+  border: 1px solid transparent;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-color: #eee;
+  }
 
   &.admin {
     box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
