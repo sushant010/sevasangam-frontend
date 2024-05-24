@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
 import { useAuth } from '../../context/Auth';
 
+
 const Checkout = () => {
     const api = import.meta.env.VITE_API_URL;
     const [donate, setDonate] = useDonate();
@@ -111,7 +112,7 @@ const Checkout = () => {
                             <h3 style={{ fontSize: "20px" }} className='section-heading'>Add on Donation Amount</h3>
                             <div className='temple-donation' style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" }}>
                                 <div style={{ gap: "10px" }} className='mt-2 my-4 d-flex flex-wrap align-items-center'>
-                                    <span onClick={handleAddtoDonation} className='amount'>+ 500</span> <span onClick={handleAddtoDonation} className='amount'>+ 1000</span> <span onClick={handleAddtoDonation} className='amount'>+ 1500</span><span onClick={handleAddtoDonation} className='amount'>+ 2000</span>
+                                    <span onClick={handleAddtoDonation} className='amount'>+ ₹500</span> <span onClick={handleAddtoDonation} className='amount'>+ ₹1000</span> <span onClick={handleAddtoDonation} className='amount'>+ ₹1500</span><span onClick={handleAddtoDonation} className='amount'>+ ₹2000</span>
                                     <input style={{ fontSize: "14px", flex: "1", padding: "4px", width: "150px", height: "35px" }} placeholder='Enter Amount' className='form-control' />
                                 </div>
                                 <input onChange={handleUpdateDonation} value={donate.amount} style={{ fontSize: "14px", flex: "1", padding: "4px", width: "100%", height: "40px" }} placeholder='Enter Amount' className='mb-4 form-control' />

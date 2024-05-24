@@ -59,7 +59,7 @@ const Temple = () => {
 
 
   const updateAmount = (e) => {
-    setAmount(parseInt(e.target.innerText.split('+')[1]));
+    setAmount(parseInt(e.target.innerText.split('+')[1].split('₹')[1]));
   }
 
   const handleAmountChange = (e) => {
@@ -192,12 +192,12 @@ const Temple = () => {
                 <h3 style={{ fontSize: "20px" }} className='section-heading'>Choose Amount</h3>
                 <div className='temple-donation' style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" }}>
                   <div style={{ gap: "10px" }} className='mt-2 my-4 d-flex flex-wrap align-items-center'>
-                    <span onClick={updateAmount} className='amount'>+ 1000</span>
+                    <span onClick={updateAmount} className='amount'>+ ₹1000</span>
 
-                    <span onClick={updateAmount} className='amount'>+ 2000</span>
+                    <span onClick={updateAmount} className='amount'>+ ₹2000</span>
 
 
-                    <span onClick={updateAmount} className='amount'>+ 3000</span>
+                    <span onClick={updateAmount} className='amount'>+ ₹3000</span>
                     <input name="amount" onChange={handleAmountChange} value={amount} style={{ fontSize: "16px", padding: "4px", flex: "1", height: "45px" }} placeholder='Enter Amount' className='form-control' />
 
                   </div>
