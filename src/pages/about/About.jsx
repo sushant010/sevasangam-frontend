@@ -1,6 +1,6 @@
 import Layout from '../../components/layout/Layout';
 import SectionImgWithText from '../../components/sectionImgWithTextDesc/SectionImgWithText.jsx';
-import SectionLinearBg from '../../components/sectionLinearBg/SectionLinearBg.jsx';
+import SectionLinearBg from '../../components/sectionLinearBg/sectionLinearBg';
 import './about.css';
 const About = () => {
   return (
