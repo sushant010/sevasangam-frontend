@@ -98,10 +98,11 @@ const Navbar = () => {
           </div>
 
           {auth?.user ? (
-            <div className="nav-item dropup-center dropup">
+
+            <Link className="nav-item dropup-center dropup" type="button" >
               <button data-bs-toggle="dropdown" aria-expanded="false">
                 <div className="d-flex align-items-center">
-                  <div className='avatar-wrapper mx-2'>
+                  <div style={{ marginRight: "8px" }} className='avatar-wrapper'>
                     <img src={auth.user.picture ? auth.user.picture : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar' />
                   </div>
                   <span><small>{(auth.user.name).toUpperCase()}</small></span>
@@ -176,7 +177,8 @@ const Navbar = () => {
               </ul>
 
 
-            </div>
+            </Link>
+
           ) : null
           }
         </div>

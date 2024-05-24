@@ -58,7 +58,7 @@ const AddTemple = () => {
     const initialState = {
         templeName: 'Sample Temple',
         typeOfOrganization: 'Non-Profit',
-        description: 'This is a sample temple description.',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum unde eius, voluptas modi provident natus laborum officia, maxime, porro enim consequuntur impedit at nobis pariatur libero eveniet! Quis dicta exercitationem quae consectetur pariatur id quidem quasi laudantium optio error asperiores, facere neque perspiciatis quam quod vero blanditiis eaque. Perferendis consequatur sunt eius illum minus ab excepturi harum ipsum nobis. Quasi veritatis aut minus quo possimus.',
         createdBy: '', // Sample user ID
         contactPerson: {
             name: 'John Doe',
@@ -235,6 +235,7 @@ const AddTemple = () => {
                                 value={temple.description}
                                 className="form-control"
                                 id="description"
+                                style={{ height: '150px' }}
                             />
                         </div>
                         <div className="mb-3">
