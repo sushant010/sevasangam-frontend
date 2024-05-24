@@ -20,6 +20,19 @@ const Checkout = () => {
 
     const [temples, setTemples] = useState([])
     const [auth] = useAuth();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [currency, setCurrency] = useState(searchParams.get("currency"));
+    const [currencySymbol, setCurrencySymbol] = useState(getSymbolFromCurrency(currency) || '₹');
+
+    const currencySelectChange = (e) => {
+        setCurrency(e.target.value);
+        setSearchParams({ currency: e.target.value });
+    }
+
+    useEffect(() => {
+        setCurrencySymbol(getSymbolFromCurrency(currency) || '₹');
+    }, [currency]);
+
 
     const fetchAllTemples = async () => {
         try {
