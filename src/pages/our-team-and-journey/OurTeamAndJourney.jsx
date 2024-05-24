@@ -1,6 +1,6 @@
 import Layout from "../../components/layout/Layout";
 import SectionImgWithText from "../../components/sectionImgWithTextDesc/SectionImgWithText";
-import SectionLinearBg from '../../components/sectionLinearBg/SectionLinearBg';
+import SectionLinearBg from "../../components/sectionLinearBg/sectionLinearBg";
 
 const OurTeamAndJourney = () => {
   return (

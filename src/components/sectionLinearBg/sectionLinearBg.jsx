@@ -1,11 +1,18 @@
-import './sectionLinearBg.css'
+import "./sectionLinearBg.css";
+import PropTypes from "prop-types";
 
-const sectionLinearBg = ({children,background}) => {
+SectionLinearBg.propTypes = {
+  children: PropTypes.node,
+  background: PropTypes.string,
+};
+
+export default function SectionLinearBg({ children, background }) {
   return (
-      <section className="section-linear-bg" style={{ backgroundImage: `url('${background}')` }}>
-          {children}
+    <section
+      className="section-linear-bg"
+      style={{ backgroundImage: `url('${background}')` }}
+    >
+      {children}
     </section>
-  )
+  );
 }
-
-export default sectionLinearBg

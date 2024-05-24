@@ -55,3 +55,12 @@
 .temple-details {
   flex: 1;
 }
+
+.section-heading-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .form-select{
+    padding-right: 35px;
+  }
+}
