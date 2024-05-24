@@ -4,11 +4,20 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import OauthGoogle from '../OauthGoogle';
+import zod from 'zod';
+
+const schema = zod.object({
+  name: zod.string().min(3, { message: 'Name must be atleast 3 characters long' }),
+  email: zod.string().email({ message: 'Invalid email address' }),
+  phone: zod.string().min(10, { message: 'Phone number must be atleast 10 characters long' }),
+  password: zod.string().min(6, { message: 'Password must be atleast 6 characters long' }),
+});
 
 
 const SignupModal = () => {
 
   const api = import.meta.env.VITE_API_URL;
+  const [registerError, setRegisterError] = useState('');
 
   // const Navigate = useNavigate();
   const [credentials, setCredentials] = useState({ name: '', email: '', phone: '', password: '' })
@@ -18,6 +27,23 @@ const SignupModal = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
+    try {
+      schema.parse(credentials);
+    } catch (error) {
+      
+      error.errors.forEach(element => {
+        toast.error(element.message);
+      });
+      const errorMessage = error.errors.map((err) => err.message).join(" ");
+      setRegisterError(errorMessage);
+      return;
+    }
+    // check if password and confirm password match
+    if (credentials.password !== credentials.cpassword) {
+      toast.error('Passwords do not match')
+      setRegisterError('Passwords do not match')
+      return;
+    }
     try {
       const res = await axios.post(`${api}/auth/register`, {
         name: credentials.name,
@@ -62,6 +88,8 @@ const SignupModal = () => {
             <h1 className="modal-title fs-5" id="staticBackdropLabel">Signup</h1>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
+          {/* Error message container */}
+          {registerError && <div className="alert alert-danger">{registerError}</div>}
           <div className="modal-body">
             <div className="mb-3">
 
