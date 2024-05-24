@@ -188,7 +188,7 @@ const ViewTemple = () => {
                     </div>
                     <div className="col-md-4  mb-4 ">
                         <div title="Banner Image" style={{ height: '400px', border: '' }}>
-                            <img src={temple?.images.templeBannerImage ? temple?.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="Temple Banner" style={{ width: '100%', height: '100%', objectFit: "contain" }} />
+                            <img src={temple.images.templeBannerImage !== null ? temple.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="Temple Banner" style={{ width: '100%', height: '100%', objectFit: "contain" }} />
 
                         </div>
                     </div>

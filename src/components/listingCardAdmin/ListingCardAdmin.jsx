@@ -14,10 +14,11 @@ const ListingCardAdmin = ({ temple }) => {
 
   const handleViewTemple = (id) => {
 
-    if (auth?.user?.role == 2) {
-      navigate(`/superadmin/temple/${id}`)
-    } else {
+    if (auth.user?.role == 1) {
       navigate(`/admin/temple/${id}`)
+
+    } else {
+      navigate(`/superadmin/temple/${id}`)
     }
 
 
@@ -62,7 +63,7 @@ const ListingCardAdmin = ({ temple }) => {
     <div className="listing admin" onClick={navigateToTemple(temple._id)}>
       <div className="listing-img-wrapper">
         <img
-          src={temple?.images.templeBannerImage ? temple?.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+          src={temple.images.templeBannerImage == null ? temple.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 
         />
       </div>
