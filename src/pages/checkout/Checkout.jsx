@@ -4,9 +4,11 @@ import Layout from '../../components/layout/Layout';
 import { useDonate } from '../../context/Donate';
 import axios from 'axios';
 import './checkout.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
 import { useAuth } from '../../context/Auth';
+import getSymbolFromCurrency from 'currency-symbol-map';
+import currencyCodes from 'currency-codes';
 
 
 const Checkout = () => {
@@ -14,6 +16,18 @@ const Checkout = () => {
     const [donate, setDonate] = useDonate();
     const [temple, setTemple] = useState({});
     const [auth] = useAuth();
+    let [searchParams, setSearchParams] = useSearchParams();
+    const [currency,setCurrency] = useState( searchParams.get("currency"))
+    const [currencySymbol,setCurrencySymbol] = useState(getSymbolFromCurrency(currency))
+
+    useEffect(() => {
+        const currencySymbol =  getSymbolFromCurrency(currency)
+        setCurrencySymbol(currencySymbol);
+    }, [currency])
+    const currencySelectChange = (e) => {
+        setCurrency(e.target.value)
+        setSearchParams({ currency: e.target.value })
+    }
 
 
     const [donateUser, setDonateUser] = useState({ name: auth.user.name, email: auth.user.email, phone: auth.user.phone });
@@ -106,13 +120,25 @@ const Checkout = () => {
         <Layout>
             <section>
                 <Tabs />
+                <div className='CurrencyContainer'>
+                <div className="currency-select">
+                    <select className="form-select" defaultValue={currency} onChange={currencySelectChange}>
+                      {
+                        currencyCodes.codes().map((code) => {
+                          return <option key={code} value={code}>{code}</option>
+                        })
+
+                      }
+                    </select>
+                  </div>
+                </div>
                 <div className='donate-once'>
                     <div className="row">
                         <div className="col-md-4">
                             <h3 style={{ fontSize: "20px" }} className='section-heading'>Add on Donation Amount</h3>
                             <div className='temple-donation' style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" }}>
                                 <div style={{ gap: "10px" }} className='mt-2 my-4 d-flex flex-wrap align-items-center'>
-                                    <span onClick={handleAddtoDonation} className='amount'>+ ₹500</span> <span onClick={handleAddtoDonation} className='amount'>+ ₹1000</span> <span onClick={handleAddtoDonation} className='amount'>+ ₹1500</span><span onClick={handleAddtoDonation} className='amount'>+ ₹2000</span>
+                                    <span onClick={handleAddtoDonation} className='amount'>+ {currencySymbol}500</span> <span onClick={handleAddtoDonation} className='amount'>+ {currencySymbol}1000</span> <span onClick={handleAddtoDonation} className='amount'>+ {currencySymbol}1500</span><span onClick={handleAddtoDonation} className='amount'>+ {currencySymbol}2000</span>
                                     <input style={{ fontSize: "14px", flex: "1", padding: "4px", width: "150px", height: "35px" }} placeholder='Enter Amount' className='form-control' />
                                 </div>
                                 <input onChange={handleUpdateDonation} value={donate.amount} style={{ fontSize: "14px", flex: "1", padding: "4px", width: "100%", height: "40px" }} placeholder='Enter Amount' className='mb-4 form-control' />
@@ -146,9 +172,9 @@ const Checkout = () => {
                                             className="form-select"
                                             style={{ marginRight: '10px', width: '160px', backgroundColor: "#fff", fontSize: "13.5px" }}
                                         >
-                                            <option value="16">16% (₹ {Math.round(donate.amount * 0.16)})</option>
-                                            <option value="14">14% (₹ {Math.round(donate.amount * 0.14)})</option>
-                                            <option value="12">12% (₹ {Math.round(donate.amount * 0.12)})</option>
+                                            <option value="16">16% ({currencySymbol} {Math.round(donate.amount * 0.16)})</option>
+                                            <option value="14">14% ({currencySymbol} {Math.round(donate.amount * 0.14)})</option>
+                                            <option value="12">12% ({currencySymbol} {Math.round(donate.amount * 0.12)})</option>
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
@@ -215,7 +241,7 @@ const Checkout = () => {
                                 </div>
                             </div>
                             <p style={{ fontSize: "13.5px", color: "darkgrey" }} className='mt-4 text-center'>By Continuing you are agreeing to <Link to='/terms-and-conditions'>Terms</Link> of use and <Link to='/privacy-policy'>Privacy Policy</Link></p>
-                            <button onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'>Checkout (₹ {donate.amount})</button>
+                            <button onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'>Checkout ({currencySymbol} {donate.amount})</button>
                         </div>
                     </div>
                 </div>
@@ -259,9 +285,9 @@ const Checkout = () => {
                                             className="form-select"
                                             style={{ marginRight: '10px', width: '160px', backgroundColor: "#fff", fontSize: "13.5px" }}
                                         >
-                                            <option value="16">16% (₹ {Math.round(donate.amount * 0.16)})</option>
-                                            <option value="14">14% (₹ {Math.round(donate.amount * 0.14)})</option>
-                                            <option value="12">12% (₹ {Math.round(donate.amount * 0.12)})</option>
+                                            <option value="16">16% ({currencySymbol} {Math.round(donate.amount * 0.16)})</option>
+                                            <option value="14">14% ({currencySymbol} {Math.round(donate.amount * 0.14)})</option>
+                                            <option value="12">12% ({currencySymbol} {Math.round(donate.amount * 0.12)})</option>
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
@@ -328,7 +354,7 @@ const Checkout = () => {
                                 </div>
                             </div>
                             <p style={{ fontSize: "13.5px", color: "darkgrey" }} className='mt-4 text-center'>By Continuing you are agreeing to <Link to='/terms-and-conditions'>Terms</Link> of use and <Link to='/privacy-policy'>Privacy Policy</Link></p>
-                            <button onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'>Checkout (₹ {donate.amount})</button>
+                            <button onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'>Checkout ({currencySymbol} {donate.amount})</button>
                         </div>
                     </div>
                 </div>

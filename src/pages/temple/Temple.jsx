@@ -1,12 +1,19 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { createSearchParams, Link, useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/layout/Layout"
 import './temple.css'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
 import { useDonate } from "../../context/Donate";
+import currencyCodes from 'currency-codes';
+import getSymbolFromCurrency from 'currency-symbol-map'
+
 
 const Temple = () => {
+  //console all the currency code with symbols
+
+
+
 
   const initialState = {
     templeName: '',
@@ -54,12 +61,24 @@ const Temple = () => {
   const [donate, setDonate] = useDonate()
   const api = import.meta.env.VITE_API_URL;
   const [temple, setTemple] = useState(initialState);
+  const [currency, setCurrency] = useState('INR');
+  const [currencySymbol, setCurrencySymbol] = useState('₹');
+
+  const currencySelectChange = (e)=>{
+    setCurrency(e.target.value)
+  }
+
+  useEffect(() => {
+    const currencySymbol =  getSymbolFromCurrency(currency)
+    setCurrencySymbol(currencySymbol);
+  }, [currency])
+
 
   const [amount, setAmount] = useState(3000);
 
 
   const updateAmount = (e) => {
-    setAmount(parseInt(e.target.innerText.split('+')[1].split('₹')[1]));
+    setAmount(parseInt(e.target.innerText.replace(/[^\d]/g, '')));
   }
 
   const handleAmountChange = (e) => {
@@ -70,7 +89,10 @@ const Temple = () => {
   const handleDonation = (e) => {
     setDonate({ ...donate, amount: amount, templeId: temple._id });
     localStorage.setItem('donate', JSON.stringify({ amount: amount, templeId: temple._id }));
-    navigate('/checkout');
+    navigate({
+      pathname: '/checkout',
+      search: `?${createSearchParams({ currency: currency})}`
+    });
   }
 
 
@@ -189,15 +211,29 @@ const Temple = () => {
             <div className="donation-ways row">
 
               <div className="col-md-12">
-                <h3 style={{ fontSize: "20px" }} className='section-heading'>Choose Amount</h3>
+                <div className="section-heading-wrapper">
+                  <h3 style={{ fontSize: "20px" }} className='section-heading'>Choose Amount</h3>
+                  {/* Currency select */}
+                  <div className="currency-select">
+                    <select className="form-select" defaultValue={"INR"} onChange={currencySelectChange}>
+                      {
+                        currencyCodes.codes().map((code) => {
+                          return <option key={code} value={code}>{code}</option>
+                        })
+
+                      }
+                    </select>
+                  </div>
+                  
+                </div>
                 <div className='temple-donation' style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" }}>
                   <div style={{ gap: "10px" }} className='mt-2 my-4 d-flex flex-wrap align-items-center'>
-                    <span onClick={updateAmount} className='amount'>+ ₹1000</span>
+                    <span onClick={updateAmount} className='amount'>+ {currencySymbol}1000</span>
 
-                    <span onClick={updateAmount} className='amount'>+ ₹2000</span>
+                    <span onClick={updateAmount} className='amount'>+ {currencySymbol}2000</span>
 
 
-                    <span onClick={updateAmount} className='amount'>+ ₹3000</span>
+                    <span onClick={updateAmount} className='amount'>+ {currencySymbol}3000</span>
                     <input name="amount" onChange={handleAmountChange} value={amount} style={{ fontSize: "16px", padding: "4px", flex: "1", height: "45px" }} placeholder='Enter Amount' className='form-control' />
 
                   </div>
