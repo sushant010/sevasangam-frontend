@@ -12,25 +12,26 @@ const ListingCardAdmin = ({ temple }) => {
 
   const createdBy = temple.createdBy?.name ? temple.createdBy?.name : 'ahsjh'[0].toUpperCase();
 
-  const handleViewTemple = (id) => {
+  // const handleViewTemple = (id) => {
 
-    if (auth.user?.role == 1) {
-      navigate(`/admin/temple/${id}`)
+  //   if (auth.user?.role == 1) {
+  //     navigate(`/admin/temple/${id}`)
 
-    } else {
-      navigate(`/superadmin/temple/${id}`)
-    }
+  //   } else {
+  //     navigate(`/superadmin/temple/${id}`)
+  //   }
 
 
-  }
+  // }
 
-  const handleUpdateTemple = (id) => {
+  const handleViewTemple = (id, e) => {
+    e.stopPropagation();
+    auth.user?.role === 1 ? navigate(`/admin/temple/${id}`) : navigate(`/superadmin/temple/${id}`);
+  };
 
-    if (auth?.user?.role == 2) {
-      navigate(`/superadmin/update-temple/${id}`)
-    } else {
-      navigate(`/admin/update-temple/${id}`)
-    }
+  const handleUpdateTemple = (id, e) => {
+    e.stopPropagation();
+    auth?.user?.role == 1 ? navigate(`/admin/update-temple/${id}`) : navigate(`/superadmin/update-temple/${id}`);
 
   }
 
@@ -52,15 +53,16 @@ const ListingCardAdmin = ({ temple }) => {
   };
 
 
-  const navigateToTemple = (id) => () => {
-    navigate('/superadmin/temple/' + id)
+  const navigateToTemple = (id, e) => () => {
+    e.stopPropagation();
+    auth.user?.role === 1 ? navigate('/admin/temple/' + id) : navigate('/superadmin/temple/' + id);
   }
 
 
 
   return (
 
-    <div className="listing admin" onClick={navigateToTemple(temple._id)}>
+    <div className="listing admin" onClick={(e) => navigateToTemple(temple._id, e)}>
       <div className="listing-img-wrapper">
         <img
           src={temple.images.templeBannerImage == null ? temple.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
@@ -95,7 +97,7 @@ const ListingCardAdmin = ({ temple }) => {
                 <td className="listing-donation text-grey-dark text-sm">
                   <button
                     title="View Temple"
-                    onClick={() => handleViewTemple(temple._id)}
+                    onClick={(e) => handleViewTemple(temple._id, e)}
 
                   >
                     <i
@@ -105,7 +107,7 @@ const ListingCardAdmin = ({ temple }) => {
                   </button>
                   <button
                     title="Update Temple"
-                    onClick={() => handleUpdateTemple(temple._id)}
+                    onClick={(e) => handleUpdateTemple(temple._id, e)}
 
                   >
                     <i

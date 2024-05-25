@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import Layout from '../../components/layout/Layout';
 
 const AllDonation = () => {
 
@@ -27,46 +28,46 @@ const AllDonation = () => {
     })
 
     return (
+        <Layout>
+            <section>
 
-        <section>
+                <div className="section-heading">
+                    All Donations
+                </div>
+                <div className="table-responsive">
+                    <table className="table table-light table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td ><p className='fw-bold text-primary'>S. No</p></td>
+                                <td ><p className='fw-bold text-primary'>Temple</p></td>
 
-            <div className="section-heading">
-                All Donations
-            </div>
-            <div className="table-responsive">
-                <table className="table table-light table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <td ><p className='fw-bold text-primary'>S. No</p></td>
-                            <td ><p className='fw-bold text-primary'>Temple</p></td>
+                                <td ><p className='fw-bold text-primary'>Date of Donation</p></td>
+                                <td ><p className='fw-bold text-primary'>Donation by User</p></td>
+                                <td ><p className='fw-bold text-primary'>Payment Method</p></td>
+                                <td ><p className='fw-bold text-primary'>Transaction Id</p></td>
+                                <td ><p className='fw-bold text-primary'>Payment Status</p></td>
 
-                            <td ><p className='fw-bold text-primary'>Date of Donation</p></td>
-                            <td ><p className='fw-bold text-primary'>Donation by User</p></td>
-                            <td ><p className='fw-bold text-primary'>Payment Method</p></td>
-                            <td ><p className='fw-bold text-primary'>Transaction Id</p></td>
-                            <td ><p className='fw-bold text-primary'>Payment Status</p></td>
-
-                        </tr>
-                    </thead>
-                    <tbody>
+                            </tr>
+                        </thead>
+                        <tbody>
 
 
-                        <tr>
-                            <td >S. No</td>
-                            <td >Temple</td>
-                            <td >Date of Donation</td>
-                            <td >Donation by User</td>
-                            <td >Payment Method</td>
-                            <td >Transaction Id</td>
-                            <td >Payment Status</td>
-                        </tr>
+                            <tr>
+                                <td >S. No</td>
+                                <td >Temple</td>
+                                <td >Date of Donation</td>
+                                <td >Donation by User</td>
+                                <td >Payment Method</td>
+                                <td >Transaction Id</td>
+                                <td >Payment Status</td>
+                            </tr>
 
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
 
-        </section>
-
+            </section>
+        </Layout>
     )
 }
 

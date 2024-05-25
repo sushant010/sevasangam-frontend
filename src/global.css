@@ -18,6 +18,15 @@ h6 {
   font-family: var(--font-heading);
   color: var(--text-color-grey-dark);
 }
+table thead td * {
+  font-size: 13px !important;
+}
+
+table td,
+table td button,
+table td a {
+  font-size: 14px !important;
+}
 
 /* vars for text */
 

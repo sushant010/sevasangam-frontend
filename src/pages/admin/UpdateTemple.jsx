@@ -78,8 +78,10 @@ const UpdateTemple = () => {
         try {
             const res = await axios.put(`${api}/temple/update-temple/${id}`, temple);
             if (res.data.success) {
-                navigate(`/admin/temples`); // Redirect to temple details page
                 toast.success(res.data.message);
+
+                setTimeout(() => { navigate(`/admin/temples`); }, 2000);
+                // Redirect to temple details page
             } else {
                 toast.error(res.data.message);
             }

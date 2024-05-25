@@ -16,7 +16,7 @@ function Home() {
 
   const [popularTemples, setPopularTemples] = useState([])
   const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
-  const [searchTemple, setSearchTemple] = useState([])
+  const [searchTemple, setSearchTemple] = useState({})
 
 
   const [filters, setFilters] = useState({
@@ -64,7 +64,20 @@ function Home() {
     }
   };
 
+  const handleSearchSubmitOnHomepage = async (id) => {
 
+    try {
+      const res = await axios.get(`${api}/temple/get-temple/${id}`);
+      const { data } = res.data;
+      console.log(data)
+      setSearchTemple(data);
+    } catch (error) {
+      console.error(error);
+      // Handle error, e.g., display a toast message
+    }
+
+
+  }
 
   useEffect(() => {
     fetchPopularTemples();
@@ -100,17 +113,21 @@ function Home() {
           </h2>
           <div className="box"></div>
           <div className="search-bar-wrapper">
-            <SearchBar />
+            <SearchBar inHomepage={true} handleSearchSubmitOnHomepage={handleSearchSubmitOnHomepage} />
           </div>
 
           <div className="listing-container center">
-            {searchTemple && searchTemple.map((temple, index) => (
+            {searchTemple.templeName ? (
               <ListingCard
-                key={index} temple={temple}
+                temple={searchTemple}
               />
-
-            ))}
-
+            ) : (
+              popularTemples.map((temple) => (
+                <ListingCard
+                  key={temple._id} temple={temple}
+                />
+              ))
+            )}
           </div>
         </section>
         <section className="numbers">

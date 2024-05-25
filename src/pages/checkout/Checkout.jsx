@@ -4,7 +4,7 @@ import Layout from '../../components/layout/Layout';
 import { useDonate } from '../../context/Donate';
 import axios from 'axios';
 import './checkout.css';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
 import { useAuth } from '../../context/Auth';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -289,16 +289,16 @@ const Checkout = () => {
             <section>
                 <Tabs />
                 <div className='CurrencyContainer'>
-                <div className="currency-select">
-                    <select className="form-select" defaultValue={currency} onChange={currencySelectChange}>
-                      {
-                        currencyCodes.codes().map((code) => {
-                          return <option key={code} value={code}>{code}</option>
-                        })
+                    <div className="currency-select">
+                        <select className="form-select" defaultValue={currency} onChange={currencySelectChange}>
+                            {
+                                currencyCodes.codes().map((code) => {
+                                    return <option key={code} value={code}>{code}</option>
+                                })
 
-                      }
-                    </select>
-                  </div>
+                            }
+                        </select>
+                    </div>
                 </div>
                 <div className='donate-once'>
                     <div className="row">

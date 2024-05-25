@@ -25,6 +25,7 @@ import TemplesBySingleAdmin from "./pages/superadmin/TemplesBySingleAdmin";
 import AllDonation from "./pages/donation/AllDonation";
 import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
 import Checkout from "./pages/checkout/Checkout";
+import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
 
 function App() {
   return (
@@ -69,6 +70,8 @@ function App() {
             <Route path="temple/:id" element={<ViewTemple />} />
             <Route path="temple-listers" element={<AllAdmins />} />
             <Route path="temples-listed/:id" element={<TemplesBySingleAdmin />} />
+
+            <Route path="verify-temple-changes/:id" element={<VerifyTempleChanges />} />
             <Route path="donations" element={<AllDonation />} />
             <Route path="unverified-temples" element={<UnverifiedTemples />} />
           </Route>

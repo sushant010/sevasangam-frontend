@@ -4,7 +4,7 @@
   justify-content: center;
   border: 1px solid #d3d3d3;
   border-radius: 30px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .location-select,
@@ -26,15 +26,19 @@
 .search-input {
   min-width: 150px;
   border-right: 0px;
+  border-radius: 30px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   min-height: 40px;
 }
 .location-select {
   min-width: 150px;
   border-left: 0px;
+  border-radius: 30px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
   position: relative;
   overflow: hidden;
   min-height: 40px;
@@ -60,4 +64,26 @@
   top: 0;
   bottom: 0;
   padding-left: 30px;
+  border-radius: 30px;
+}
+
+.suggestions-list {
+  position: absolute;
+  background-color: #fff;
+  top: 46px;
+  left: 0px;
+  min-width: 200px;
+  border-radius: 4px;
+  border: 1px solid #d3d3d3;
+  & li {
+    font-size: 13.5px;
+    padding: 4px 10px;
+    border-bottom: 1px solid #d3d3d3;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eee;
+      color: var(--color-theme-primary);
+    }
+  }
 }
