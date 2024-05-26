@@ -26,7 +26,7 @@ function Home() {
 
   const fetchPopularTemples = async () => {
     try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular' });
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 4 });
       if (response.data.success) {
         setPopularTemples(response.data.data.temples);
       } else {
@@ -39,7 +39,7 @@ function Home() {
 
   const fetchRecentlyCreatedTemples = async () => {
     try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded' });
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded', limit: 4 });
       if (response.data.success) {
         setRecentlyCreatedTemples(response.data.data.temples);
       } else {

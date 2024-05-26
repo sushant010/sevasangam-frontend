@@ -8,7 +8,7 @@ const ListingCardAdmin = ({ temple }) => {
 
   const [auth] = useAuth()
   const navigate = useNavigate();
-  const [adminTemples, setAdminTemples] = useAdminTemples()
+  const [removeTempleFromLocalStorage] = useAdminTemples()
 
   const createdBy = temple.createdBy?.name ? temple.createdBy?.name : 'ahsjh'[0].toUpperCase();
 
@@ -42,7 +42,7 @@ const ListingCardAdmin = ({ temple }) => {
       const response = await axios.delete(`${api}/temple/delete-temple/${id}`);
       if (response.data.success) {
         toast.success(response.data.message);
-        setAdminTemples(adminTemples.filter(temple => temple._id !== id));
+        removeTempleFromLocalStorage(id);
       } else {
         toast.error(response.data.message);
       }
@@ -65,7 +65,7 @@ const ListingCardAdmin = ({ temple }) => {
     <div className="listing admin" onClick={(e) => navigateToTemple(temple._id, e)}>
       <div className="listing-img-wrapper">
         <img
-          src={temple.images.templeBannerImage == null ? temple.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+          src={temple.images.bannerImage !== null ? temple.images.bannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 
         />
       </div>

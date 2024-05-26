@@ -29,15 +29,12 @@ const Checkout = () => {
         setSearchParams({ currency: e.target.value });
     }
 
-    useEffect(() => {
-        setCurrencySymbol(getSymbolFromCurrency(currency) || '₹');
-    }, [currency]);
+
 
 
     const fetchAllTemples = async () => {
         try {
-            const response = await axios.get(`${api}/temple/get-temples`
-            );
+            const response = await axios.get(`${api}/temple/get-temples`);
             if (response.data.success) {
                 setTemples(response.data.data.temples);
             } else {
@@ -143,31 +140,51 @@ const Checkout = () => {
             return;
         }
 
-        const { data: { order } } = await axios.post(`${api}/donation/checkout`, { amount: donate.amount })
+        try {
+            // Get the order data first
+            const orderResponse = await axios.post(`${api}/donation/checkout`, {
+                amount: donate.amount,
+                currency: currency,
+                donationType: 'once',
+                temple: donate.templeId,
+                donateUser: {
+                    name: donateUser.user,
+                    email: donateUser.email,
+                    phone: donateUser.phone,
+                }
+            });
 
-        const options = {
-            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-            amount: amount * 100,
-            currency: "INR",
-            name: "Seva Sangam",
-            description: `Donation for ${temple.templeName}`,
-            image: defaultLogo,
-            order_id: order.id,
-            callback_url: `${api}/donation/payment-verification`,
-            prefill: {
-                name: donateUser.name,
-                email: donateUser.email,
-                contact: donateUser.phone
-            },
-            notes: {
-                "address": "Razorpay Corporate Office"
-            },
-            theme: {
-                "color": "var(--color-primary-color)"
-            }
-        };
-        const razor = new window.Razorpay(options);
-        razor.open();
+            const { order } = orderResponse.data; // Extract order from the response
+
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+                amount: donate.amount * 100, // Corrected amount calculation
+                currency: currency,
+                name: "Seva Sangam",
+                description: `Donation for ${temple.templeName}`,
+                image: defaultLogo,
+                order_id: order.id,
+                callback_url: `${api}/donation/payment-verification`,
+                prefill: {
+                    name: donateUser.name,
+                    email: donateUser.email,
+                    contact: donateUser.phone
+                },
+                notes: {
+                    amount: donate.amount,
+                    temple: donate.templeId,
+                    donateUser: JSON.stringify(donateUser) // Store as a string
+                },
+                theme: {
+                    "color": "var(--color-primary-color)"
+                }
+            };
+            const razor = new window.Razorpay(options);
+            razor.open();
+        } catch (error) {
+            console.error("Error handling donation:", error);
+            toast.error('An error occurred while processing the donation. Please try again later.');
+        }
     }
 
     const handleDonateMonthly = async (e) => {
@@ -277,12 +294,17 @@ const Checkout = () => {
         // Update the amount state
         setAmount(newAmount);
     };
-
-
     useEffect(() => {
-        fetchTemple();
         fetchAllTemples();
     }, []);
+
+    useEffect(() => {
+        donate && fetchTemple();
+    }, [donate]);
+
+    useEffect(() => {
+        setCurrencySymbol(getSymbolFromCurrency(currency) || '₹');
+    }, [currency]);
 
     return (
         <Layout>
@@ -314,22 +336,22 @@ const Checkout = () => {
 
                                 {temple ?
                                     (<div className='d-flex' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
-                                        <div style={{ borderRadius: "8px", overflow: "hidden", width: "50%", height: '200px' }} className="img-wrapper">
+                                        <div style={{ flexShrink: 0, borderRadius: "8px", overflow: "hidden", width: "50%", height: '200px' }} className="img-wrapper">
                                             <img
-                                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                                style={{ width: "100%", height: "100%", objectFit: "contain" }}
                                                 src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
                                                 alt="temple"
                                             />
                                         </div>
-                                        <div className='px-4'>
+                                        <div className='px-2'>
                                             <h3 style={{ fontSize: "20px" }} className='mt-2 section-heading'>
                                                 {temple?.templeName}
                                             </h3>
-                                            <p className='my-2'>
+                                            <p style={{ fontSize: "14px", }} className='my-2'>
                                                 {temple?.location?.address}, {temple?.location?.country}
                                             </p>
-                                            <p className='my-2'>
-                                                {temple?.description}
+                                            <p style={{ fontSize: "14px", }} className='my-2'>
+                                                {temple?.description?.length > 80 ? temple?.description.slice(0, 80) + '...' : temple?.description}
                                             </p>
                                         </div>
                                     </div>) : null
@@ -340,18 +362,16 @@ const Checkout = () => {
 
                                 <p className='fw-bold text-primary'>Donate to Some other temple</p>
                                 <select
-                                    style={{ fontSize: "14px" }}
+                                    style={{ fontSize: "14px", backgroundColor: "#fff" }}
                                     className="form-select"
                                     name="templeName"
-                                    value={temple}
-                                    onChange={handletempleToDonateOnceChange}
+
+                                    onChange={handletempleToDonateMonthlyChange} // Assuming this function updates donate.templeId
                                 >
                                     <option value="">Select Temple</option>
                                     {temples.map((temple) => (
                                         <option key={temple._id} value={temple._id}>{temple.templeName}</option>
                                     ))}
-
-
                                 </select>
 
                             </div>

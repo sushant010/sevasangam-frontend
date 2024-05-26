@@ -1,43 +1,50 @@
-.btn-theme-primary,.btn-theme-primary:hover,.btn-theme-primary:active{
-    background-color: var(--color-theme-primary);
-    border: 1px solid var(--color-theme-primary);
-    color: var(--color-white);
+.btn-theme-primary,
+.btn-theme-primary:hover,
+.btn-theme-primary:active {
+  background-color: var(--color-theme-primary);
+  border: 1px solid var(--color-theme-primary);
+  color: var(--color-white);
 }
 
+.btn-theme-primary-outline,
+.btn-theme-primary-outline:hover,
+.btn-theme-primary-outline:active {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-theme-primary);
+  color: var(--color-theme-primary);
+}
 
 /* to all buttons */
-button,a.btn{
-    border-radius: 8px;
-    transition: .3s all;
-    font-weight: 500;
+button,
+a.btn {
+  border-radius: 8px;
+  transition: 0.3s all;
+  font-weight: 500;
 }
 
-button:hover,button:active,a.btn:hover,a.btn:active{
-    filter:brightness(.9) ;
+button:hover,
+button:active,
+a.btn:hover,
+a.btn:active {
+  filter: brightness(0.9);
 }
-
 
 /* theme buttons */
 
-
-
-.btn-theme-grey,.btn-theme-grey:hover{
-    color: var(--color-theme-primary);
-    background-color: var(--color-white);
-    border: 1px solid var(--color-white);
+.btn-theme-grey,
+.btn-theme-grey:hover {
+  color: var(--color-theme-primary);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-white);
 }
 
-
-.btn-md{
-    padding: 8px 14px;
-    font-size: 1rem;
+.btn-md {
+  padding: 8px 14px;
+  font-size: 1rem;
 }
 
-
-
-@media screen and (max-width: 768px){
-    .btn-lg{
-      
-        font-size: 1.1rem;   
-    }
+@media screen and (max-width: 768px) {
+  .btn-lg {
+    font-size: 1.1rem;
+  }
 }

@@ -24,7 +24,7 @@ const ViewTemple = () => {
         },
         images: {
             logo: '',
-            templeBannerImage: [],
+            bannerImage: [],
             templeImages: []
         },
         bankDetails: {
@@ -92,9 +92,12 @@ const ViewTemple = () => {
         <Layout>
             <section>
                 <div className="row">
-                    <div className='col-md-8'>
+                    <div className="col-md-12">
                         <h1 className="section-heading  ">Name : {temple.templeName}</h1>
                         <h2 className='text-grey-dark  my-3 fw-bold'>Location : {temple.location.address}, {temple.location.country}</h2>
+                    </div>
+                    <div className='col-md-8'>
+
                         <div className="table-responsive">
                             <table className="table table-light table-bordered table-striped">
                                 <thead>
@@ -169,7 +172,7 @@ const ViewTemple = () => {
                                     {/* <tr>
                             <td>Temple Banner Images</td>
                             <td>
-                                {temple.images.templeBannerImage.map((image, index) => (
+                                {temple.images.bannerImage.map((image, index) => (
                                     <img key={index} src={image} alt={`Temple Banner ${index + 1}`} style={{ maxWidth: '100px', marginRight: '10px' }} />
                                 ))}
                             </td>
@@ -187,8 +190,8 @@ const ViewTemple = () => {
                         </div>
                     </div>
                     <div className="col-md-4  mb-4 ">
-                        <div title="Banner Image" style={{ height: '400px', border: '' }}>
-                            <img src={temple.images.templeBannerImage !== null ? temple.images.templeBannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="Temple Banner" style={{ width: '100%', height: '100%', objectFit: "contain" }} />
+                        <div title="Banner Image" className='' style={{ width: "auto", height: '100%', border: '' }}>
+                            <img src={temple.images.bannerImage !== null ? temple.images.bannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="Temple Banner" style={{ width: '100%', height: '100%', objectFit: "cover" }} />
 
                         </div>
                     </div>

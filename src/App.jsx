@@ -26,6 +26,8 @@ import AllDonation from "./pages/donation/AllDonation";
 import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
 import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
+import UserDonations from "./pages/donation/UserDonations";
+import IsSignedIn from "./routes/IsSignedIn";
 
 function App() {
   return (
@@ -54,6 +56,11 @@ function App() {
           <Route path="/update-profile" element={<UpdateProfile />} />
 
 
+
+          <Route path="/user" element={<IsSignedIn />}>
+            <Route path="donations" element={<UserDonations />} />
+
+          </Route>
 
 
           <Route path="/admin" element={<IsTempleAdmin />} >

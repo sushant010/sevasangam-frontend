@@ -163,15 +163,15 @@ const Navbar = () => {
                   <>
 
                     <li>
-                      <Link className="dropdown-item" to="/add-new-temple">
+                      <Link className="dropdown-item" to="/user/donations">
                         Past Donations
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link className="dropdown-item" to="/view-update-temples">
                         80G Certificates
                       </Link>
-                    </li>
+                    </li> */}
                   </>
                 )}
               </ul>

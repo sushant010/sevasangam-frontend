@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Layout from "../../components/layout/Layout"
-import ListingCard from "../../components/listingCard/ListingCard"
 import { useAuth } from "../../context/Auth"
-import axios from "axios"
-import toast from 'react-hot-toast';
+
 import ListingCardAdmin from "../../components/listingCardAdmin/ListingCardAdmin"
 import { useAdminTemples } from "../../context/AdminTemples"
+
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 
 const AdminTemples = () => {
 
-
     const api = import.meta.env.VITE_API_URL;
-    const [auth, setAuth] = useAuth()
+    const [auth] = useAuth()
 
     const [adminTemples, setAdminTemples] = useAdminTemples()
 
     const fetchTemplesByAdmin = async () => {
+        localStorage.removeItem('adminTemples');
         if (auth.user.role == 1) {
             const userId = auth?.user?._id;
 
@@ -55,10 +56,8 @@ const AdminTemples = () => {
     };
 
     useEffect(() => {
-
-        fetchTemplesByAdmin()
-
-    }, [auth])
+        fetchTemplesByAdmin();
+    }, [])
 
     return (
         <Layout>
