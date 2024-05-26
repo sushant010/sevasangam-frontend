@@ -1,15 +1,18 @@
 // import { useNavigate } from 'react-router-dom';
 import './modals.css';
+import "./signupmodel.css"
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import OauthGoogle from '../OauthGoogle';
-import zod from 'zod';
+import PhoneInput, { isPossiblePhoneNumber, isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import zod, { set } from 'zod';
 
 const schema = zod.object({
   name: zod.string().min(3, { message: 'Name must be atleast 3 characters long' }),
   email: zod.string().email({ message: 'Invalid email address' }),
-  phone: zod.string().min(10, { message: 'Phone number must be atleast 10 characters long' }),
+  // phone: zod.string().min(10, { message: 'Phone number must be atleast 10 characters long' }),
   password: zod.string().min(6, { message: 'Password must be atleast 6 characters long' }),
 });
 
@@ -17,7 +20,12 @@ const schema = zod.object({
 const SignupModal = () => {
 
   const api = import.meta.env.VITE_API_URL;
-  const [registerError, setRegisterError] = useState('');
+  // const [registerError, setRegisterError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [cpasswordError, setCpasswordError] = useState('');
 
   // const Navigate = useNavigate();
   const [credentials, setCredentials] = useState({ name: '', email: '', phone: '', password: '' })
@@ -27,21 +35,46 @@ const SignupModal = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setNameError('');
+    setEmailError('');
+    setPhoneError('');
+    setPasswordError('');
+    setCpasswordError('');
     try {
+      console.log(credentials)
       schema.parse(credentials);
     } catch (error) {
       
-      error.errors.forEach(element => {
-        toast.error(element.message);
+      //fetch all errors
+      error.errors.forEach(err => {
+        const message = err.message;
+        const path = err.path[0];
+        if (path === 'name') {
+          setNameError(message);
+        }
+        if (path === 'email') {
+          setEmailError(message);
+        }
+        if (path === 'phone') {
+          setPhoneError(message);
+        }
+        if (path === 'password') {
+          setPasswordError(message);
+        }
+
       });
-      const errorMessage = error.errors.map((err) => err.message).join(" ");
-      setRegisterError(errorMessage);
+
       return;
     }
     // check if password and confirm password match
     if (credentials.password !== credentials.cpassword) {
-      toast.error('Passwords do not match')
-      setRegisterError('Passwords do not match')
+      
+      setCpasswordError('Passwords do not match');
+      return;
+    }
+    console.log()
+    if(credentials.phone === "" || isValidPhoneNumber(credentials.phone) === false){
+      setPhoneError('Invalid phone number');
       return;
     }
     try {
@@ -78,6 +111,10 @@ const SignupModal = () => {
 
   }
 
+  const phoneNumChange = (value) => {
+    setCredentials({ ...credentials, phone: value });
+  }
+
 
 
   return (
@@ -89,30 +126,44 @@ const SignupModal = () => {
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
           {/* Error message container */}
-          {registerError && <div className="alert alert-danger">{registerError}</div>}
+          {/* {registerError && <div className="alert alert-danger">{registerError}</div>} */}
           <div className="modal-body">
             <div className="mb-3">
 
               <input placeholder='Name' type="text" name='name' onChange={handleChange} value={credentials.name} className="form-control" id="name" aria-describedby="emailHelp" />
+             {nameError && <p className="text-danger mt-1">{nameError}</p>}
 
             </div>
             <div className="mb-3">
 
               <input placeholder='Email' type="email" name='email' onChange={handleChange} value={credentials.email} className="form-control" id="email" aria-describedby="emailHelp" />
+              {emailError && <p className="text-danger mt-1">{emailError}</p>}
 
             </div>
             <div className="mb-3">
 
-              <input placeholder='Mobile' type="text" name='phone' onChange={handleChange} value={credentials.phone} className="form-control" id="phone" aria-describedby="emailHelp" />
+              {/* <input placeholder='Mobile' type="text" name='phone' onChange={handleChange} value={credentials.phone} className="form-control" id="phone" aria-describedby="emailHelp" /> */}
+              <PhoneInput
 
+                placeholder='Mobile'
+                value={credentials.phone}
+                onChange={phoneNumChange}
+                defaultCountry="IN"
+                className="form-control input-form-control"
+                international
+                // withCountryCallingCode
+              />
+              {phoneError && <p className="text-danger mt-1">{phoneError}</p>}
             </div>
             <div className="mb-3">
 
               <input placeholder='Password' type="password" name='password' onChange={handleChange} value={credentials.password} className="form-control" id="password" />
+              {passwordError && <p className="text-danger mt-1">{passwordError}</p>}
             </div>
             <div className="mb-3">
 
               <input placeholder='Confirm Password' type="password" name='cpassword' onChange={handleChange} value={credentials.cpassword} className="form-control" id="cpassword" />
+              {cpasswordError && <p className="text-danger mt-1">{cpasswordError}</p>}
             </div>
 
 
