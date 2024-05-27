@@ -1,17 +1,42 @@
 import { Link } from "react-router-dom";
 import img from "./../../assets/images/sevasangam-logo.jpg";
-
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useState } from "react";
 const Footer = () => {
+  const [subEmailLoading,setSubEmailLoading] = useState(false)
+  const handelSubmit = async(e)=>{
+
+    e.preventDefault();
+    const email = e.target[0].value;
+    if(email === "") return toast.error("Please Enter Email");
+    const backendUrl = import.meta.env.VITE_API_URL
+    setSubEmailLoading(true)
+    try {
+      
+      const response = await axios.post(`${backendUrl}/subscriptionEmail/subscribe`,{email});
+        toast.success("Subscribed Successfully");
+    } catch (error) {
+      console.log(error.response.data.message)
+      if(error.response?.data?.message === "Email already subscribed") return toast.error("Email already subscribed")
+      toast.error("Something went wrong please try again latter")
+    }finally{
+      setSubEmailLoading(false)
+    }
+
+  }
   return (
     <div className="footer-wrapper">
       <footer>
         <div>
           <div className="subscribe-box">
             <p className="text-lg my-2">Subscribe Us for Updates</p>
-            <div className="d-flex">
+            <form className="d-flex" onSubmit={handelSubmit}>
               <input placeholder="Email id"></input>
-              <button className="btn primary">Subscribe Now</button>
-            </div>
+              <button className="btn primary" type="submit">
+                {subEmailLoading ? "Subscribing..." : "Subscribe"}
+              </button>
+            </form>
           </div>
           <div className="about-and-social mt-4">
             <div>

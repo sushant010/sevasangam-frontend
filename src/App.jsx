@@ -28,6 +28,8 @@ import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
 import UserDonations from "./pages/donation/UserDonations";
 import IsSignedIn from "./routes/IsSignedIn";
+import ContactTicket from "./pages/superadmin/contactTicket";
+import SubscribedEmails from "./pages/superadmin/subscibedEmails";
 
 function App() {
   return (
@@ -81,6 +83,9 @@ function App() {
             <Route path="verify-temple-changes/:id" element={<VerifyTempleChanges />} />
             <Route path="donations" element={<AllDonation />} />
             <Route path="unverified-temples" element={<UnverifiedTemples />} />
+            <Route path="contact-ticket" element={<ContactTicket />} />
+            <Route path="update-subscribed-emails" element={<SubscribedEmails />} />
+
           </Route>
 
 
