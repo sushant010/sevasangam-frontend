@@ -8,39 +8,34 @@ import React from "react";
 const VerifyTempleChanges = () => {
     const { id } = useParams();
     const api = import.meta.env.VITE_API_URL;
-    const [pendingChanges, setPendingChanges] = useState(null);
+
+    const [pendingChanges, setPendingChanges] = useState({});
+
     const [currentTemple, setCurrentTemple] = useState({});
     const navigate = useNavigate();
 
     const fetchCurrentTemple = async () => {
         try {
-
             const res = await axios.get(`${api}/temple/get-temple/${id}`);
             if (res.data.success) {
+                console.log(res.data.data)
                 setCurrentTemple(res.data.data);
-                console.log("current temple")
-                console.log(res.data.data);
-
             } else {
                 toast.error(res.data.message);
             }
         } catch (error) {
             console.error('Error fetching current temple:', error);
         }
-    }
+    };
 
     const fetchPendingChanges = async () => {
         try {
             const res = await axios.get(`${api}/temple/pending-changes/${id}`);
             if (res.data.success) {
-                console.log("modified temple")
-                console.log(res.data.data)
-                if (currentTemple?.isCreated === 1) {
-                    const modifiedTemple = res.data.data;
 
-                    setPendingChanges(modifiedTemple);
-                }
-
+                const modifiedTemple = res.data.data;
+                console.log(modifiedTemple)
+                setPendingChanges(modifiedTemple);
 
             } else {
                 toast.error(res.data.message);
@@ -67,25 +62,104 @@ const VerifyTempleChanges = () => {
         fetchCurrentTemple();
     }, []);
 
+    const formatKey = (key) => {
+        // Split the string at uppercase letters and join with spaces
+        return key.replace(/([A-Z])/g, ' $1') // Add a space before each uppercase letter
+            .replace(/^./, (str) => str.toUpperCase()); // Capitalize the first letter
+    };
+
     const renderPropertyRows = (object) => {
         return Object.entries(object).map(([key, value]) => {
-            if (typeof value === 'object' && value !== null) {
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
                 return (
-                    <tr key={key}>
-                        <td colSpan={2}>{key}</td>
-                    </tr>
+                    <React.Fragment key={key}>
+                        <tr>
+                            <td colSpan={2}>
+                                <strong>{formatKey(key)}</strong>
+                            </td>
+                        </tr>
+                        {renderPropertyRows(value)}
+                    </React.Fragment>
                 );
             } else {
-                return (
-                    <tr key={key}>
-                        <td>{key}</td>
-                        <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+                if (key === 'logo' || key === 'bannerImage') {
+                    return (
+                        <>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td> <img src={value} alt="Banner Preview" className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+                            </tr>
+                        </>
+                    );
+                } else if (key === 'otherImages') {
+                    return (
+                        <>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>    </tr>
+                        </>
+                    );
+                } else {
+                    return (
+                        <>        <tr>
+                            <td>{formatKey(key)}</td>
+                            <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>   </tr>
+                        </>
+                    );
+                }
 
-                    </tr>
-                );
+
             }
         });
     };
+
+    const renderPropertyRowsForModifiedTemples = (currentTemple, modifiedTemple) => {
+        return Object.entries(modifiedTemple).map(([key, value]) => {
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                return (
+                    <React.Fragment key={key}>
+                        <tr>
+                            <td colSpan={3}>
+                                <strong>{formatKey(key)}</strong>
+                            </td>
+                        </tr>
+                        {renderPropertyRowsForModifiedTemples(currentTemple[key] || {}, value)}
+                    </React.Fragment>
+                );
+            } else {
+                if (key === 'logo' || key === 'bannerImage') {
+                    return (
+                        <>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td> <img src={currentTemple[key] || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+                                <td> <img src={value} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+                            </tr>
+                        </>
+                    );
+                } else if (key === 'otherImages') {
+                    return (
+                        <>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>    </tr>
+                        </>
+                    );
+                } else {
+                    return (
+                        <>        <tr>
+                            <td>{formatKey(key)}</td>
+                            <td>{currentTemple[key] || ''}</td>
+                            <td style={{ color: 'var(--color-theme-success)' }}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+
+                        </tr>
+                        </>
+                    );
+                }
+            }
+        });
+    };
+
 
 
     return (
@@ -94,7 +168,7 @@ const VerifyTempleChanges = () => {
                 {currentTemple?.isCreated === 1 && (
                     <div>
                         <div style={{ fontSize: "30px" }} className="section-heading mb-2">
-                            Review Changes : {currentTemple?.templeName}
+                            Review New Created Temple : {currentTemple?.templeName}
                         </div>
                         {pendingChanges ? (
                             <div>
@@ -122,9 +196,34 @@ const VerifyTempleChanges = () => {
                 )}
 
                 {!(currentTemple?.isCreated === 1) && (
-                    <div style={{ fontSize: "30px" }} className="section-heading mb-2">
-                        Review Changes : {currentTemple?.templeName}
+                    <div>
+                        <div style={{ fontSize: "30px" }} className="section-heading mb-2">
+                            Review Changes : {currentTemple?.templeName}
+                        </div>
+                        {pendingChanges ? (
+                            <div>
+                                <table className="table table-light table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Property</th>
+                                            <th>Current</th>
+                                            <th>Modified</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderPropertyRowsForModifiedTemples(currentTemple, pendingChanges)}
+                                    </tbody>
+                                </table>
+                                <button onClick={handleApproveChanges} className='btn btn-theme-primary'>
+                                    Approve Changes
+                                </button>
+                            </div>
+                        ) : (
+                            <p>No pending changes to review.</p>
+                        )}
                     </div>
+
 
                 )}
             </section>

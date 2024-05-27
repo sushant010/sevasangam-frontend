@@ -99,7 +99,7 @@ const Navbar = () => {
 
           {auth?.user ? (
 
-            <Link className="nav-item dropup-center dropup" type="button" >
+            <div className="nav-item dropup-center dropup" type="button" >
               <button data-bs-toggle="dropdown" aria-expanded="false">
                 <div className="d-flex align-items-center">
                   <div style={{ marginRight: "8px" }} className='avatar-wrapper'>
@@ -177,7 +177,7 @@ const Navbar = () => {
               </ul>
 
 
-            </Link>
+            </div>
 
           ) : null
           }

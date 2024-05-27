@@ -120,7 +120,7 @@ const UnverifiedTemples = () => {
                                     <td><p className='fw-bold text-primary'>Contact Person</p></td>
                                     <td><p className='fw-bold text-primary'>Created On</p></td>
                                     <td><p className='fw-bold text-primary'>Created By</p></td>
-                                    <td><p className='fw-bold text-primary'>Type of Change</p></td>
+
                                     <td colSpan={3}><p className='fw-bold text-primary'>Actions</p></td>
 
                                 </tr>
@@ -136,7 +136,7 @@ const UnverifiedTemples = () => {
                                         <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
                                         <td>{new Date(temple.createdOn).toLocaleString("en-US")}</td>
                                         <td>{temple.createdBy.name}</td>
-                                        <td>{temple.createdBy.name}</td>
+
                                         <td><button onClick={() => handleVerifyTemple(temple._id)} className='btn btn-theme-primary'>Verify</button> </td>
 
                                         <td> <button onClick={() => handleRejectTemple(temple._id)} style={{ background: "var(--color-theme-error)", color: "#fff" }} className='btn '>Reject</button></td>

@@ -136,7 +136,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
   );
 };
 SearchBar.propTypes = {
-  inHomepage: PropTypes.boolean,
+  inHomepage: PropTypes.bool,
   handleSearchSubmitOnHomepage: PropTypes.func
 };
 

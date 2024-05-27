@@ -109,11 +109,26 @@ const UpdateTemple = () => {
     };
 
     const handleChange = (e) => {
+
         const { name, value } = e.target;
-        setTemple(prevTemple => ({
-            ...prevTemple,
-            [name]: value
-        }));
+
+        // If the name contains a dot (.), it means it's a nested property
+        if (name.includes('.')) {
+            const [parent, child] = name.split('.'); // Split the name into parent and child keys
+            setTemple(prevTemple => ({
+                ...prevTemple,
+                [parent]: {
+                    ...prevTemple[parent], // Preserve other properties of the parent object
+                    [child]: value // Update the value of the nested property
+                }
+            }));
+        } else {
+            // If it's not a nested property, update it directly
+            setTemple(prevTemple => ({
+                ...prevTemple,
+                [name]: value
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
