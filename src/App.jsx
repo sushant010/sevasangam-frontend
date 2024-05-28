@@ -28,8 +28,8 @@ import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
 import UserDonations from "./pages/donation/UserDonations";
 import IsSignedIn from "./routes/IsSignedIn";
-import ContactTicket from "./pages/superadmin/contactTicket";
-import SubscribedEmails from "./pages/superadmin/subscibedEmails";
+import ContactTicket from "./pages/superadmin/ContactTicket";
+import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
 
 function App() {
   return (
