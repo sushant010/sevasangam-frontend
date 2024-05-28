@@ -10,9 +10,9 @@ export default function SubscribedEmails() {
 
   const fetchSubscribedEmails = async () => {
     try {
-      const backendURL = import.meta.env.VITE_API_URL;
+      const api = import.meta.env.VITE_API_URL;
       const response = await axios.post(
-        `${backendURL}/subscriptionEmail/getallSubscriptionEmails`,
+        `${api}/subscriptionEmail/getallSubscriptionEmails`,
         {},
         {
           headers: {

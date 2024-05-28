@@ -8,10 +8,10 @@ export default function ContactTicket() {
   const auth = useAuth();
   const fetchContactTickets = async () => {
     try {
-      const backendURL = import.meta.env.VITE_API_URL;
+      const api = import.meta.env.VITE_API_URL;
       console.log();
       const response = await axios.post(
-        `${backendURL}/contact/contact-form/getallContactTickets`,
+        `${api}/contact/contact-form/getallContactTickets`,
         {},
         {
           headers: {

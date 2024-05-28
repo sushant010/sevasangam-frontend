@@ -25,8 +25,8 @@ const Contact = () => {
 
     setContactFormLoading(true)
     try {
-      const backendURL = import.meta.env.VITE_API_URL;
-      await axios.post(`${backendURL}/contact/contact-form`, {
+      const api = import.meta.env.VITE_API_URL;
+      await axios.post(`${api}/contact/contact-form`, {
         tittle: formData.title,
         message: formData.message,
         email: formData.email
