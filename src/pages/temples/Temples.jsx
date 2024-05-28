@@ -227,7 +227,7 @@ const Temples = () => {
 
           {loading && (
             <div className="col-12 text-center">
-              <LoadingSpinner />
+              <p>Loading.</p>
             </div>
           )}
           {!loading && !hasMore && (

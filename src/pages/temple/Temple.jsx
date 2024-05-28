@@ -3,10 +3,11 @@ import Layout from "../../components/layout/Layout"
 import './temple.css'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
+// import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
 import { useDonate } from "../../context/Donate";
 import currencyCodes from 'currency-codes';
 import getSymbolFromCurrency from 'currency-symbol-map'
+import ListingCard from "../../components/listingCard/ListingCard";
 
 
 const Temple = () => {
@@ -64,12 +65,14 @@ const Temple = () => {
   const [currency, setCurrency] = useState('INR');
   const [currencySymbol, setCurrencySymbol] = useState('₹');
 
-  const currencySelectChange = (e)=>{
+  const [similarTemple, setSimilarTemple] = useState([]);
+
+  const currencySelectChange = (e) => {
     setCurrency(e.target.value)
   }
 
   useEffect(() => {
-    const currencySymbol =  getSymbolFromCurrency(currency)
+    const currencySymbol = getSymbolFromCurrency(currency)
     setCurrencySymbol(currencySymbol);
   }, [currency])
 
@@ -91,7 +94,7 @@ const Temple = () => {
     localStorage.setItem('donate', JSON.stringify({ amount: amount, templeId: temple._id }));
     navigate({
       pathname: '/checkout',
-      search: `?${createSearchParams({ currency: currency})}`
+      search: `?${createSearchParams({ currency: currency })}`
     });
   }
 
@@ -111,10 +114,23 @@ const Temple = () => {
 
 
 
+  const fetchSimilarTemples = async () => {
+    try {
+      const res = await axios.post(`${api}/temple/fetch-similar-temples/${id}`, { limit: 4 });
+      const { data } = res.data;
+      setSimilarTemple(data.temples);
+    } catch (error) {
+      console.error(error);
+      // Handle error, e.g., display a toast message
+    }
+  };
+
+
+
 
   useEffect(() => {
     fetchTemple();
-
+    fetchSimilarTemples()
   }, []);
 
 
@@ -124,9 +140,9 @@ const Temple = () => {
       <section className="temple-container">
         <div className="d-flex">
 
-          <div className="img-wrapper">
+          <div className="img-wrapper" style={{ height: "400px" }}>
 
-            <img src="https://source.unsplash.com/1600x900/?temple" alt="temple" />
+            <img src={temple.bannerImage ? temple.bannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="temple" />
 
           </div>
           <div className="temple-details">
@@ -224,7 +240,7 @@ const Temple = () => {
                       }
                     </select>
                   </div>
-                  
+
                 </div>
                 <div className='temple-donation' style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" }}>
                   <div style={{ gap: "10px" }} className='mt-2 my-4 d-flex flex-wrap align-items-center'>
@@ -288,6 +304,25 @@ const Temple = () => {
           </div>
         </div>
 
+      </section>
+      <section className="listings">
+        <div className="section-heading line">
+          Similar Temples
+          <span className="text-sm d-block mx-2 fw-light text-grey-light">
+            Donate to other similar temples
+          </span>
+        </div>
+
+        <div className="listing-container">
+          {similarTemple && similarTemple.length > 0 && similarTemple.map((temple, index) => (
+            <ListingCard
+              key={index} temple={temple}
+            />
+
+          ))}
+
+
+        </div>
       </section>
 
     </Layout>
