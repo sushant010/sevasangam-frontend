@@ -2,28 +2,43 @@ import { useState } from 'react';
 import Button from '../../components/buttons/Button';
 import Layout from '../../components/layout/Layout';
 import './contact.css';
+import axios from "axios"
+import toast from 'react-hot-toast';
 const Contact = () => {
   const [formData, setFormData] = useState({
     title: '',
     message: '',
     email: ''
   });
+  const [contactFormLoading, setContactFormLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here, such as sending data to the server
     console.log(formData);
     // Reset form fields after submission
-    setFormData({
-      title: '',
-      message: '',
-      email: ''
-    });
+
+    setContactFormLoading(true)
+    try {
+      const api = import.meta.env.VITE_API_URL;
+      await axios.post(`${api}/contact/contact-form`, {
+        tittle: formData.title,
+        message: formData.message,
+        email: formData.email
+      });
+      toast.success('Your message has been sent successfully.');
+      
+    } catch (error) {
+      toast.error('Something went wrong, please try again later.');
+      
+    } finally{
+      setContactFormLoading(false)
+    }
   };
   return (
     <Layout>
@@ -111,7 +126,10 @@ const Contact = () => {
           required
         />
       </div>
-      <Button  text='Submit' type='primary submit'/>
+      {/* <Button  text='Submit' type='primary submit'/> */}
+      {
+        contactFormLoading ? <Button text='Sending...' type='primary' size='medium' /> : <Button text='Submit' type='primary' size='medium' />
+      }
     </form>
        </div>
       </section>
