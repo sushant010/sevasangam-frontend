@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/Auth";
+import { Link } from "react-router-dom";
 import Button from "../../components/buttons/Button";
 
 import ListingCardAdmin from "../../components/listingCardAdmin/ListingCardAdmin";
@@ -81,7 +82,9 @@ const AdminTemples = () => {
             className="d-flex flex-column align-items-center justify-content-center"
             >
                 <h3 className=" pb-2">No Temples Found!</h3>
-                <Button text="Add Temple" link="/admin/add-temple" />
+            <Link to="/admin/add-temple" className="btn btn-theme-primary">Add Temple</Link>
+
+                {/* <Button text="Add Temple" link="/admin/add-temple" /> */}
             </div>
         )}
       </section>

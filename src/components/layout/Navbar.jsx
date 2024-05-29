@@ -127,7 +127,9 @@ const Navbar = () => {
                       {/* <Link className="dropdown-item" to="/admin/add-temple">
                         Add New Temple
                       </Link> */}
-                      <Button text="Add Temple" className= "m-auto" type="primary" link="/admin/add-temple" />
+            <Link to="/admin/add-temple" className="btn btn-theme-primary">Add Temple</Link>
+
+                      {/* <Button text="Add Temple" className= "m-auto" type="primary" link="/admin/add-temple" /> */}
 
 
                     </li>
