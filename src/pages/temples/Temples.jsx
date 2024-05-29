@@ -225,13 +225,17 @@ const Temples = () => {
             ))
           ) : null}
 
-          {loading && (
-            <div className="col-12 text-center">
-              <p>Loading.</p>
-            </div>
-          )}
-          
         </div>
+        {loading && (
+            
+            <div className="loading-container">
+              
+              <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+
+           )} 
       </section>
     </Layout>
   );

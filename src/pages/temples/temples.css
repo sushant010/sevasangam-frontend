@@ -8,8 +8,20 @@
   flex: 1;
 }
 
+
 .trending-temples > div{
   flex-shrink: 0;
   width: 260px;
+
+}
+
+.loading-container{
+  height: 200px;
+  max-width: 100%;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 
 }
