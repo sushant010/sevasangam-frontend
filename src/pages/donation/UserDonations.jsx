@@ -8,22 +8,20 @@ const UserDonations = () => {
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
 
-    const fetchAllDonation = async () => {
+    const fetchAllDonation = async (id) => {
         try {
-            const res = await axios.get(`${api}/donation/fetch-all-donation`);
+            const res = await axios.get(`${api}/donation/fetch-donations-by-user`,{id});
 
-            setDonations(res.data.donations.items)
-
-
+            setDonations(res.data.donations)
         } catch (error) {
             console.error(error);
             // Handle error, e.g., display a toast message
         }
     };
 
-    const handleRequestCertificate = async () => {
+    const handleRequestCertificate = async (id) => {
         try {
-            const res = await axios.get(`${api}/donation/request-80-certificate`);
+            const res = await axios.post(`${api}/donation/request-80-certificate`,{id});
             console.log(res.data)
         } catch (error) {
             console.error(error);
@@ -82,7 +80,7 @@ const UserDonations = () => {
                                         <td>{formattedDate}</td>
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
-                                            <button onClick={handleRequestCertificate} className='btn btn-theme-primary' title="View Temple">
+                                            <button onClick={()=>handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
                                                 Request 80 Certificate
                                             </button>
                                             {/* <button className='btn btn-theme-primary' title="View Temple">

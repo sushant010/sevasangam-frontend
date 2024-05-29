@@ -117,13 +117,16 @@ const AllDonation = () => {
         }
     };
 
-    const handleRequestCertificate = async () => {
+    const handleRequestCertificate = async (id) => {
         try {
-            const res = await axios.get(`${api}/donation/request-80-certificate`);
-            console.log(res.data)
+            const res = await axios.get(`${api}/donation/request-80-certificate`,{id});
+            
+      
+            if (res.data.success) {
+            toast.success(res.data.message);
+            }
         } catch (error) {
             console.error(error);
-            // Handle error, e.g., display a toast message
         }
     }
 
@@ -304,7 +307,7 @@ const AllDonation = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>{donation.method}</td>
                                         <td>
-                                            <button onClick={handleRequestCertificate} className='btn btn-theme-primary' title="View Temple">
+                                            <button onClick={handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
                                                 Request 80 Certificate
                                             </button>
                                             {/* <button className='btn btn-theme-primary' title="View Temple">
