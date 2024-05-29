@@ -18,6 +18,9 @@ function Home() {
   const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
   const [searchTemple, setSearchTemple] = useState({})
 
+  const [trendingTemples, setTrendingTemples] = useState([])
+
+
 
   const [filters, setFilters] = useState({
     templeName: '',
@@ -78,11 +81,31 @@ function Home() {
 
 
   }
+  
+  const fetchTrendingTemples = async () => {
+
+    try {
+        const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "4" } });
+
+        if (res.data.success) {
+            setTrendingTemples(res.data.data.temples)
+
+        } else {
+            toast.error(res.data.message);
+        }
+
+    } catch (error) {
+        console.error('Error creating temple:', error);
+    }
+
+
+}
 
   useEffect(() => {
     fetchPopularTemples();
     fetchRecentlyCreatedTemples();
     fetchfilteredTemples();
+    fetchTrendingTemples()
   }, []);
 
   // const handleFilterChange = (e) => {
@@ -107,8 +130,8 @@ function Home() {
         and spreading love and light to all. Make your mark on Temples
         journey today by giving from your heart to ours." />
 
-        <section id="searchTempleToDonate" className="search-section">
-          <h2 className="w-100 text-center m-auto text-primary text-xl fw-bold mb-4">
+        <section style={{marginTop:"-130px"}} id="searchTempleToDonate" className="search-section">
+          <h2  className=" text-center m-auto text-primary text-xl fw-bold mb-4">
             Search Temple to Donate..
           </h2>
           <div className="box"></div>
@@ -280,12 +303,28 @@ function Home() {
         />
 
 
+<section className="listings">
+          <div className="section-heading line">
+            Trending Temples
+            <span className="text-sm d-block mx-2 fw-light text-grey-light">
+              Donate to the trending temples
+            </span>
+          </div>
 
+          <div className="listing-container">
+            {trendingTemples && trendingTemples.map((temple, index) => (
+              <ListingCard
+                key={index} temple={temple}
+              />
+
+            ))}
+          </div>
+        </section>
         <section className="listings">
           <div className="section-heading line">
             Based on Popularity
             <span className="text-sm d-block mx-2 fw-light text-grey-light">
-              Donate to the trending temples
+              Donate to the temples based on popularity
             </span>
           </div>
 
@@ -304,7 +343,7 @@ function Home() {
           <div className="section-heading line">
             Recently Created
             <span className="text-sm d-block mx-2 fw-light text-grey-light">
-              Donate to the trending temples
+              Donate to the recently added temples
             </span>
           </div>
 

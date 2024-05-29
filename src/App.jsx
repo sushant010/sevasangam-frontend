@@ -28,9 +28,11 @@ import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
 import UserDonations from "./pages/donation/UserDonations";
 import IsSignedIn from "./routes/IsSignedIn";
-import ContactTicket from "./pages/superadmin/ContactTicket";
 
+import TrendingTemples from "./pages/superadmin/TrendingTemples";
+import ContactTicket from "./pages/superadmin/ContactTicket";
 import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
+
 
 function App() {
   return (
@@ -86,6 +88,8 @@ function App() {
             <Route path="unverified-temples" element={<UnverifiedTemples />} />
             <Route path="contact-ticket" element={<ContactTicket />} />
             <Route path="update-subscribed-emails" element={<SubscribedEmails />} />
+
+            <Route path="trending-temples" element={<TrendingTemples />} />
 
           </Route>
 

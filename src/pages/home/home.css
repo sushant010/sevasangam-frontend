@@ -1,3 +1,24 @@
+#searchTempleToDonate > h2{
+  position: relative;
+  z-index: 3;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: .5px;  
+  font-size: 40px;
+  text-shadow: 1px 1px 1px white;
+}
+&:before{
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -2;
+  /* border-radius: 50px; */
+}
+
 .numbers > div > div:nth-of-type(1) {
   flex: 1;
 }

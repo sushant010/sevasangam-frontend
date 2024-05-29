@@ -225,12 +225,6 @@ const Temples = () => {
             ))
           ) : null}
 
-          
-          {!loading && !hasMore && (
-            <div className="col-12 text-center">
-              <p>No Temples Found.</p>
-            </div>
-          )}
         </div>
         {loading && (
             
