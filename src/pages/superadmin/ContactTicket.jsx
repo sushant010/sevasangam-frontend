@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import axios from "axios";
@@ -56,7 +57,7 @@ export default function ContactTicket() {
                 </tr>
               </thead>
               <tbody>
-                {tickets.map((ticket, index) => (
+                {tickets.map((ticket) => (
                   <tr key={ticket._id}>
                     <td>{ticket.email}</td>
                     <td>{ticket.tittle}</td>

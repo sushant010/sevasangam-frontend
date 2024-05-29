@@ -13,7 +13,7 @@ function Layout({ children }) {
     return (
         <>
             <Navbar />
-            <main>{children}</main> <Toaster position="top-right" toastOptions={{
+            <main className='d-flex flex-column'>{children}</main> <Toaster position="top-right" toastOptions={{
 
                 duration: 2000,
 

@@ -3,6 +3,7 @@ import img from './../../assets/images/sevasangam-logo.jpg'
 import SearchBar from '../searchBar/SearchBar'
 import { useAuth } from '../../context/Auth'
 import { useEffect, useRef } from 'react'
+import Button from '../buttons/Button'
 
 
 
@@ -35,6 +36,8 @@ const Navbar = () => {
 
 
   })
+
+  console.log(auth)
   return (
 
 
@@ -63,12 +66,13 @@ const Navbar = () => {
           <div className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
             <Link to="/">Home</Link>
           </div>
-          <div className={`nav-item ${location.pathname === '/about' ? 'active' : ''}`}>
-            <Link to="/about">About Us</Link>
-          </div>
           <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
             <Link to="/temples">Temples</Link>
           </div>
+          <div className={`nav-item ${location.pathname === '/about' ? 'active' : ''}`}>
+            <Link to="/about">About </Link>
+          </div>
+          
           <div className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}>
             <Link to="/contact">Contact Us</Link>
           </div>
@@ -85,12 +89,10 @@ const Navbar = () => {
           </div>
           <div className="nav-item">
 
-            <Link to="/temples" className="btn btn-theme-primary">Donate Now</Link>
+            <Link to="/temples" className="btn btn-theme-primary">Donate</Link>
           </div>
           <div className="nav-item">
-            {auth?.user ? (<button type="button" onClick={logout} className="btn btn-theme-primary">
-              Log out
-            </button>) : (<button type="button" className="btn btn-theme-primary" data-bs-toggle="modal" data-bs-target="#loginBackdrop">
+            {auth?.user ? (null) : (<button type="button" className="btn btn-theme-primary" data-bs-toggle="modal" data-bs-target="#loginBackdrop">
               Sign Up / Login
             </button>)}
 
@@ -108,7 +110,7 @@ const Navbar = () => {
                   <span><small>{(auth.user.name).toUpperCase()}</small></span>
                 </div>
               </button>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu p-2">
                 <li>
                   <Link className="dropdown-item" to="/update-profile">
                     Profile
@@ -121,10 +123,15 @@ const Navbar = () => {
                         All Temples
                       </Link>
                     </li>
-                    <li>
-                      <Link className="dropdown-item" to="/admin/add-temple">
+                    <li className='justify-content-center d-flex'>
+                      {/* <Link className="dropdown-item" to="/admin/add-temple">
                         Add New Temple
-                      </Link>
+                      </Link> */}
+            <Link to="/admin/add-temple" className="btn btn-theme-primary">Add Temple</Link>
+
+                      {/* <Button text="Add Temple" className= "m-auto" type="primary" link="/admin/add-temple" /> */}
+
+
                     </li>
 
                   </>
@@ -174,6 +181,10 @@ const Navbar = () => {
                     </li> */}
                   </>
                 )}
+                <li className=' d-flex align-content-center justify-content-center my-2'>
+                  <Button text="Logout" type="primary" onClick={logout} />
+
+                </li>
               </ul>
 
 

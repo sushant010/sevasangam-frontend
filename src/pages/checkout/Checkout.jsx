@@ -72,6 +72,7 @@ const Checkout = () => {
     };
 
     const handletempleToDonateMonthlyChange = (e) => {
+        console.log("Fired")
         setDonate({ ...donate, templeId: e.target.value })
         localStorage.setItem('donate', JSON.stringify({ amount: donate.amount, templeId: e.target.value }))
         const newTemple = fetchTempleById(e.target.value)
@@ -190,6 +191,8 @@ const Checkout = () => {
     const handleDonateMonthly = async (e) => {
         e.preventDefault();
 
+        console.log("fires")
+
         if (!donateUser.name) {
             toast.error('Name is required');
             return;
@@ -218,11 +221,14 @@ const Checkout = () => {
         try {
             // Create a subscription on the server
             const { data: { subscription } } = await axios.post(`${api}/donation/subscription`, {
-                plan_id: 'plan_xyz', // Replace with your plan ID
-                total_count: 12, // Number of billing cycles (e.g., 12 for yearly subscription)
-                customer_notify: 1,
-                amount: donate.amount * 100, // Amount in paise (₹1 = 100 paise)
-                start_at: Math.floor(Date.now() / 1000) + 60 // Subscription start time (optional)
+                amount:donate.amount,
+                currency: currency,
+                
+            },{
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+
             });
 
             const options = {
@@ -499,7 +505,7 @@ const Checkout = () => {
 
                                 }
 
-                                <div className="col-md-12">
+                                {/* <div className="col-md-12">
                                     <select
                                         style={{ fontSize: "14px", backgroundColor: "#fff" }}
                                         className="form-select"
@@ -516,7 +522,7 @@ const Checkout = () => {
 
                                     </select>
                                     <input onChange={handleUpdateDonation} value={donate.amount} style={{ fontSize: "14px", flex: "1", padding: "4px", width: "100%", height: "40px", backgroundColor: "#fff" }} placeholder='Monthly Donation Amount' className='mt-4 mb-3 form-control' />
-                                </div>
+                                </div> */}
 
 
                             </div>
