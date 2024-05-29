@@ -7,3 +7,9 @@
 .sort-buttons .btn {
   flex: 1;
 }
+
+.trending-temples > div{
+  flex-shrink: 0;
+  width: 260px;
+
+}

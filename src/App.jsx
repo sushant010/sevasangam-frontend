@@ -30,6 +30,7 @@ import UserDonations from "./pages/donation/UserDonations";
 import IsSignedIn from "./routes/IsSignedIn";
 import ContactTicket from "./pages/superadmin/contactTicket";
 import SubscribedEmails from "./pages/superadmin/subscibedEmails";
+import TrendingTemples from "./pages/superadmin/TrendingTemples";
 
 function App() {
   return (
@@ -85,6 +86,8 @@ function App() {
             <Route path="unverified-temples" element={<UnverifiedTemples />} />
             <Route path="contact-ticket" element={<ContactTicket />} />
             <Route path="update-subscribed-emails" element={<SubscribedEmails />} />
+
+            <Route path="trending-temples" element={<TrendingTemples />} />
 
           </Route>
 

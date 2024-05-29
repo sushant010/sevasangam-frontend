@@ -155,6 +155,11 @@ const Navbar = () => {
                       <Link className="dropdown-item" to="/superadmin/unverified-temples">
                         Unverified Temples
                       </Link>
+                      </li>
+                      <li>
+                      <Link className="dropdown-item" to="/superadmin/trending-temples">
+                        Trending Temples
+                      </Link>
                     </li>
 
                   </>

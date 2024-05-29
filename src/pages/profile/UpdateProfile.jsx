@@ -1,6 +1,6 @@
 import Layout from '../../components/layout/Layout';
 import { useAuth } from '../../context/Auth';
-
+import './profile.css';
 const UpdateProfile = () => {
 
     const [auth] = useAuth();
@@ -9,7 +9,9 @@ const UpdateProfile = () => {
         <Layout>
             <section>
                 <h2 className='section-heading'> Profile</h2>
-                <table className="table table-light table-bordered table-striped">
+                <div className="row">
+                    <div className="col-md-4">
+                    <table className="table table-light profile">
                     <thead>
                         <tr>
                             <td colSpan="2">
@@ -46,6 +48,9 @@ const UpdateProfile = () => {
 
                     </tbody>
                 </table>
+                    </div>
+                </div>
+             
 
                 <button type="button" className="btn btn-theme-primary" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
                     Update Profile

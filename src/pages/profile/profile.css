@@ -1,0 +1,10 @@
+table.table.profile {
+
+    & tr{
+       border-bottom: 1px solid var(--color-theme-primary);
+       background-color: white !important;
+       & td{
+        background-color: white !important;
+       }
+    }
+}

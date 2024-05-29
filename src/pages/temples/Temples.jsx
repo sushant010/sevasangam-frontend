@@ -230,11 +230,7 @@ const Temples = () => {
               <p>Loading.</p>
             </div>
           )}
-          {!loading && !hasMore && (
-            <div className="col-12 text-center">
-              <p>No Temples Found.</p>
-            </div>
-          )}
+          
         </div>
       </section>
     </Layout>
