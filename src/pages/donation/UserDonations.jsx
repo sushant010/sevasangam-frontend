@@ -1,30 +1,41 @@
 import { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import axios from 'axios';
+import { useAuth } from '../../context/Auth';
+import toast from 'react-hot-toast';
 
 const UserDonations = () => {
 
     const api = import.meta.env.VITE_API_URL;
+    const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
 
-    const fetchAllDonation = async () => {
+    const [auth] = useAuth();
+
+    const fetchAllDonationOfUser = async () => {
         try {
-            const res = await axios.get(`${api}/donation/fetch-all-donation`);
-
-            setDonations(res.data.donations.items)
-
-
+            const email  = auth.user.email;
+            const res = await axios.post(`${api}/donation/fetch-donations-by-user`, { email });
+            console.log(res)
+            setRazorpayDonations(res.data.razorpayDonations)
+            setDonations(res.data.donations)
         } catch (error) {
             console.error(error);
             // Handle error, e.g., display a toast message
         }
     };
 
-    const handleRequestCertificate = async () => {
+    const handleRequestCertificate = async (id) => {
         try {
-            const res = await axios.get(`${api}/donation/request-80-certificate`);
-            console.log(res.data)
+            const res = await axios.post(`${api}/donation/request-80-certificate`, { id });
+            
+            if (res.data.success) {
+
+                toast.success(res.data.message);
+                fetchAllDonationOfUser();
+            }
+        
         } catch (error) {
             console.error(error);
             // Handle error, e.g., display a toast message
@@ -45,7 +56,7 @@ const UserDonations = () => {
 
 
     useEffect(() => {
-        fetchAllDonation();
+        fetchAllDonationOfUser();
         fetchAllTemples()
     }, []);
 
@@ -69,9 +80,10 @@ const UserDonations = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {donations && donations.map((donation, index) => {
+                            {razorpayDonations && razorpayDonations.map((donation, index) => {
 
                                 const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-US');
+                                const customDonation = donations.find((don)=>don.razorpay_payment_id === donation.id)
 
                                 return (
                                     <tr key={index}>
@@ -82,12 +94,15 @@ const UserDonations = () => {
                                         <td>{formattedDate}</td>
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
-                                            <button onClick={handleRequestCertificate} className='btn btn-theme-primary' title="View Temple">
-                                                Request 80 Certificate
-                                            </button>
-                                            {/* <button className='btn btn-theme-primary' title="View Temple">
-                                                Download Receipt
-                                            </button> */}
+                                            {customDonation.certificate ? <>
+                                            
+                                                <div>
+                                                    <img src={customDonation.certificate}></img>
+                                            </div>
+                                            </> : null}
+                                            {customDonation.is80CertificateRequested === false ? <> <button onClick={()=>handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
+                                            Request 80 Certificate
+                                        </button></> : <> <button>Request submitted for 80G Certificate</button></>}
                                         </td>
                                     </tr>
                                 );

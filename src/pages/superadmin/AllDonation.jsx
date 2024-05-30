@@ -117,13 +117,16 @@ const AllDonation = () => {
         }
     };
 
-    const handleRequestCertificate = async () => {
+    const handleRequestCertificate = async (id) => {
         try {
-            const res = await axios.get(`${api}/donation/request-80-certificate`);
-            console.log(res.data)
+            const res = await axios.get(`${api}/donation/request-80-certificate`,{id});
+            
+      
+            if (res.data.success) {
+            toast.success(res.data.message);
+            }
         } catch (error) {
             console.error(error);
-            // Handle error, e.g., display a toast message
         }
     }
 
@@ -291,7 +294,8 @@ const AllDonation = () => {
                             {donations && donations.map((donation, index) => {
 
                                 const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-US');
-                                const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : null
+                                const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : [];
+                
 
                                 return (
                                     <tr key={index}>
@@ -304,9 +308,9 @@ const AllDonation = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>{donation.method}</td>
                                         <td>
-                                            <button onClick={handleRequestCertificate} className='btn btn-theme-primary' title="View Temple">
-                                                Request 80 Certificate
-                                            </button>
+                                        <button onClick={()=>handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
+                                            Request 80 Certificate
+                                        </button>
                                             {/* <button className='btn btn-theme-primary' title="View Temple">
                                                 Download Receipt
                                             </button> */}

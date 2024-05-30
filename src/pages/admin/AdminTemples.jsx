@@ -67,25 +67,31 @@ const AdminTemples = () => {
   return (
     <Layout >
       <section className="m-auto">
-        {/* <div className="listing-container">
-
-                    {adminTemples && adminTemples.length > 0 && adminTemples.map((temple, index) => {
-                        return <ListingCardAdmin key={index} temple={temple} />
-                    })}
-
-                </div> */}
+      <div className="section-heading">
+            Temples Added by you
+          </div>
         {!adminTemples && <div className="loader"></div>}
+        <div className="listing-container">
+      
+
+           {adminTemples && adminTemples.length > 0 && adminTemples.map((temple, index) => {
+               return <ListingCardAdmin key={index} temple={temple} />
+           })}
+
+         </div>
+
+
         {adminTemples && adminTemples.length === 0 && (
-        //   show a message if there are no temples and  show the add temple button
-            <div 
+          //   show a message if there are no temples and  show the add temple button
+          <div
             
             className="d-flex flex-column align-items-center justify-content-center"
-            >
-                <h3 className=" pb-2">No Temples Found!</h3>
+          >
+            <h3 className=" pb-2">No Temples Found!</h3>
             <Link to="/admin/add-temple" className="btn btn-theme-primary">Add Temple</Link>
 
-                {/* <Button text="Add Temple" link="/admin/add-temple" /> */}
-            </div>
+            {/* <Button text="Add Temple" link="/admin/add-temple" /> */}
+          </div>
         )}
       </section>
     </Layout>

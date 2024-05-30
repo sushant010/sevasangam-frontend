@@ -22,7 +22,7 @@ import ViewTemple from "./pages/admin/ViewTemple";
 import UpdateProfile from "./pages/profile/UpdateProfile";
 import AllAdmins from "./pages/superadmin/AllAdmins";
 import TemplesBySingleAdmin from "./pages/superadmin/TemplesBySingleAdmin";
-import AllDonation from "./pages/donation/AllDonation";
+import AllDonation from "./pages/superadmin/AllDonation";
 import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
 import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
@@ -32,6 +32,7 @@ import IsSignedIn from "./routes/IsSignedIn";
 import TrendingTemples from "./pages/superadmin/TrendingTemples";
 import ContactTicket from "./pages/superadmin/ContactTicket";
 import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
+import AllDonationsAdmin from "./pages/admin/AllDonationsAdmin";
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
             <Route path="update-temple/:id" element={<UpdateTemple />} />
             <Route path="temples" element={<AdminTemples />} />
             <Route path="temple/:id" element={<ViewTemple />} />
+            <Route path="donations" element={<AllDonationsAdmin />} />
           </Route>
 
           <Route path="/superadmin" element={<IsSuperadmin />} >
