@@ -11,6 +11,12 @@ const TrendingTemples = () => {
     const [trendingTemples, setTrendingTemples] = useState([])
     const [temples, setTemples] = useState([])
 
+    const [searchFilter,setSearchFilter] = useState({
+        templeName: null,
+        location: null,
+        isTrending: false
+    
+    })
     const fetchTrendingTemples = async () => {
 
         try {
@@ -33,7 +39,13 @@ const TrendingTemples = () => {
     const fetchAllTemples = async () => {
 
         try {
-            const res = await axios.get(`${api}/temple/get-temples`);
+            const res = await axios.get(`${api}/temple/get-temples`,{
+                params: {
+                    templeName: searchFilter.templeName,
+                    location: searchFilter.location,
+                    isTrending: searchFilter.isTrending
+                }
+            });
 
             if (res.data.success) {
                 
@@ -97,12 +109,61 @@ const TrendingTemples = () => {
         fetchTrendingTemples()
         fetchAllTemples()
 
-    }, [])
+    }, [searchFilter])
+    const [isTrending, setIsTrending] = useState(false)
+    function searchFilterSubmit(e){
+        e.preventDefault()
+        setSearchFilter({
+            templeName: e.target.templeName.value.trim() === "" ? null : e.target.templeName.value.trim(),
+            location: e.target.location.value.trim() === "" ? null : e.target.location.value.trim(),
+            isTrending: isTrending
+        })
+    }
     return (
 
         <Layout>
             <section>
             <h1 className="mb-4 section-heading">Trending Temples</h1>
+            
+            {/* search filters */}
+            <form className="mb-4" onSubmit={searchFilterSubmit}>
+                <div className="row">
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            <input type="text" className="form-control" placeholder="Search by name" name='templeName' />
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            <input type="text" className="form-control" placeholder="Search by location" name='location' />
+                        </div>
+                    </div>
+                    {/* Is trending button */}
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            {/* <button className="btn btn-theme-primary" onClick={
+                                () => setIsTrending(!isTrending)
+                            } >Is Trending</button> */}
+                            {
+                                isTrending ? <button type='button' className="btn btn-theme-primary" onClick={
+                                    () => setIsTrending(!isTrending)
+                                } >Is Trending</button> : <button type='button' className="btn border-danger" onClick={
+                                    () => setIsTrending(!isTrending)
+                                } >Is Trending</button>
+                            }
+                        </div>
+                               
+                            
+                            
+                    </div>
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            <button className="btn btn-theme-primary" >Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             
                
                        

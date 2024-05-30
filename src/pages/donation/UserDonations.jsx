@@ -10,6 +10,7 @@ const UserDonations = () => {
     const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const [auth] = useAuth();
 
@@ -53,11 +54,26 @@ const UserDonations = () => {
         }
     };
 
+    const fetchData = async () => {
+        setLoading(true);
+
+        try {
+            await fetchAllDonationOfUser();
+            await fetchAllTemples();
+            
+        } catch (error) {
+            console.log(error)
+        } finally{
+            setLoading(false);
+        }
+    }
 
 
     useEffect(() => {
-        fetchAllDonationOfUser();
-        fetchAllTemples()
+        // fetchAllDonationOfUser();
+        // fetchAllTemples()
+
+        fetchData();
     }, []);
 
 
@@ -111,6 +127,16 @@ const UserDonations = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {
+                    //loading spinner
+                    loading && <div className="text-center">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                }
             </section>
         </Layout >
     );
