@@ -307,9 +307,9 @@ const AllDonation = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>{donation.method}</td>
                                         <td>
-                                            <button onClick={handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
-                                                Request 80 Certificate
-                                            </button>
+                                        <button onClick={handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
+                                            Request 80 Certificate
+                                        </button>
                                             {/* <button className='btn btn-theme-primary' title="View Temple">
                                                 Download Receipt
                                             </button> */}

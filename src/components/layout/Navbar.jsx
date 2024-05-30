@@ -110,7 +110,7 @@ const Navbar = () => {
                   <span><small>{(auth.user.name).toUpperCase()}</small></span>
                 </div>
               </button>
-              <ul className="dropdown-menu p-2">
+              <ul className="dropdown-menu">
                 <li>
                   <Link className="dropdown-item" to="/update-profile">
                     Profile
@@ -123,15 +123,10 @@ const Navbar = () => {
                         All Temples
                       </Link>
                     </li>
-                    <li className='justify-content-center d-flex'>
-                      {/* <Link className="dropdown-item" to="/admin/add-temple">
-                        Add New Temple
-                      </Link> */}
-            <Link to="/admin/add-temple" className="btn btn-theme-primary">Add Temple</Link>
-
-                      {/* <Button text="Add Temple" className= "m-auto" type="primary" link="/admin/add-temple" /> */}
-
-
+                    <li>
+                      <Link className="dropdown-item" to="/admin/add-temple">
+                        Add Temple
+                      </Link>
                     </li>
 
                   </>
@@ -186,8 +181,9 @@ const Navbar = () => {
                     </li> */}
                   </>
                 )}
-                <li className=' d-flex align-content-center justify-content-center my-2'>
-                  <Button text="Logout" type="primary" onClick={logout} />
+                <li className='logout'>
+                
+                  <span onClick={logout}><i className=" fa-solid fa-right-from-bracket"></i> Logout</span>
 
                 </li>
               </ul>

@@ -292,8 +292,22 @@ section {
 .dropdown-menu {
   padding: 0;
   overflow: hidden;
+
   &.show {
     margin-top: 15px !important;
+  }
+
+  & .logout{
+    color: var(--color-theme-error);
+    padding: 4px 16px;
+
+    &:hover{
+      background-color: #f5f5f5;
+    }
+  }
+
+  .dropdown-item {
+    border-bottom: 1px solid var(--color-theme-accent) !important;
   }
   & .dropdown-item:hover {
     color: var(--color-theme-primary);

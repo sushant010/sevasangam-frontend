@@ -22,7 +22,7 @@ import ViewTemple from "./pages/admin/ViewTemple";
 import UpdateProfile from "./pages/profile/UpdateProfile";
 import AllAdmins from "./pages/superadmin/AllAdmins";
 import TemplesBySingleAdmin from "./pages/superadmin/TemplesBySingleAdmin";
-import AllDonation from "./pages/donation/AllDonation";
+import AllDonation from "./pages/superadmin/AllDonation";
 import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
 import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
