@@ -128,6 +128,11 @@ const Navbar = () => {
                         Add Temple
                       </Link>
                     </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin/donations">
+                        All Donations
+                      </Link>
+                    </li>
 
                   </>
                 ) : auth.user.role === 2 ? (

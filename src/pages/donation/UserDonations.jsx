@@ -94,13 +94,15 @@ const UserDonations = () => {
                                         <td>{formattedDate}</td>
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
-                                            {customDonation.is80CertificateRequested === false ? <> <button onClick={handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
+                                            {customDonation.certificate ? <>
+                                            
+                                                <div>
+                                                    <img src={customDonation.certificate}></img>
+                                            </div>
+                                            </> : null}
+                                            {customDonation.is80CertificateRequested === false ? <> <button onClick={()=>handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
                                             Request 80 Certificate
                                         </button></> : <> <button>Request submitted for 80G Certificate</button></>}
-                                       
-                                            {/* <button className='btn btn-theme-primary' title="View Temple">
-                                                Download Receipt
-                                            </button> */}
                                         </td>
                                     </tr>
                                 );

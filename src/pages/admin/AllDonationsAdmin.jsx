@@ -3,16 +3,24 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../context/Auth';
 
-const AllDonation = () => {
+const AllDonationsAdmin = () => {
 
     const api = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate();
+    const [auth] = useAuth();
+    const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
+
     const [temples, setTemples] = useState([]);
     const [paymentMethod, setPaymentMethod] = useState([]);
     const [templeCreator, setTempleCreator] = useState([]);
+    const [file, setFile] = useState(null);
+    const [filePreview, setFilePreview] = useState(null);
+
+
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(1);
@@ -30,41 +38,67 @@ const AllDonation = () => {
     });
 
 
-
-    const fetchAllDonation = async (reset = false) => {
-        if (loading || (!hasMore && !reset)) return; // Prevent additional fetches if already loading or no more temples
-
-        setLoading(true); // Set loading to true before the API call
+    const fetchAllDonationsAdmin = async () => {
         try {
-            const res = await axios.post(`${api}/donation/fetch-all-donation`, {
-                page: reset ? 1 : page,
-                ...filters,
-            });
-            if (res.data.success) {
-                const paymentMethods = res.data.donations.items.map((donation) => donation.method);
-                setPaymentMethod([...new Set(paymentMethods)]);
-                setDonations((prevDonations) => reset ? res.data.donations.items : [...prevDonations, ...res.data.donations.items]);
-                setPage((prevPage) => reset ? 2 : prevPage + 1); // Increment page number for the next fetch
-                setHasMore(res.data.donations.items.length > 0); // Set hasMore based on the response
-
-            } else {
-                toast.error(res.data.message);
-                setHasMore(false); // No more data to load if the response is unsuccessful
-            }
+            const res = await axios.post(`${api}/donation/fetch-donations-by-admin`, {id: auth.user._id });
+            console.log(res)
+            setRazorpayDonations(res.data.razorpayDonations)
+            setDonations(res.data.donations)
         } catch (error) {
-            console.error('Error fetching temples:', error);
-            setHasMore(false); // Stop trying to fetch if there's an error
-        } finally {
-            setLoading(false); // Set loading to false after the API call
+            console.error(error);
+            // Handle error, e.g., display a toast message
         }
     };
 
+
+    const handleUpload80GCertificate = async (id, e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('certificate', file);
+            formData.append('id', id);
+            const res = await axios.post(`${api}/donation/upload-80-certificate`, formData);
+            if (res.data.success) {
+                toast.success(res.data.message);
+                fetchAllDonationsAdmin();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    
+    const handleUpdate80GCertificate = async (id, e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('certificate', file);
+            formData.append('id', id);
+            const res = await axios.put(`${api}/donation/update-80-certificate`, formData);
+
+            if (res.data.success) {
+                toast.success(res.data.message);
+                fetchAllDonationsAdmin();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        setFilePreview(URL.createObjectURL(selectedFile));
+    };
     // Function to handle scroll event
     const handleScroll = () => {
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
         if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
-            fetchAllDonation(); // Fetch more temples when scrolled to the bottom
+            fetchAllDonationsAdmin(); // Fetch more temples when scrolled to the bottom
         }
     };
 
@@ -76,7 +110,7 @@ const AllDonation = () => {
 
     // Fetch temples when filters or sortOption change
     useEffect(() => {
-        fetchAllDonation(true);
+        fetchAllDonationsAdmin(true);
     }, [filters]);
 
     const handleFilterChange = (e) => {
@@ -117,18 +151,7 @@ const AllDonation = () => {
         }
     };
 
-    const handleRequestCertificate = async (id) => {
-        try {
-            const res = await axios.get(`${api}/donation/request-80-certificate`,{id});
-            
-      
-            if (res.data.success) {
-            toast.success(res.data.message);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
+
 
     const getUniqueObjects = (array, key) => {
         const uniqueKeys = new Set();
@@ -157,7 +180,7 @@ const AllDonation = () => {
 
 
     useEffect(() => {
-        fetchAllDonation();
+        fetchAllDonationsAdmin();
         fetchAllTemples()
     }, []);
 
@@ -284,18 +307,18 @@ const AllDonation = () => {
                                 <td ><p className='fw-bold text-primary'>Donation by User</p></td>
                                 <td ><p className='fw-bold text-primary'>Amount</p></td>
                                 <td ><p className='fw-bold text-primary'>Payment Method</p></td>
-                                <td ><p className='fw-bold text-primary'>Transaction Id</p></td>
+                                <td ><p className='fw-bold text-primary'>80G Certificate</p></td>
 
                             </tr>
                         </thead>
                         <tbody>
 
 
-                            {donations && donations.map((donation, index) => {
+                            {razorpayDonations && razorpayDonations.map((donation, index) => {
 
                                 const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-US');
-                                const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : [];
-                
+                                const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : null
+                                const customDonation = donations.find((don)=>don.razorpay_payment_id === donation.id) || {}
 
                                 return (
                                     <tr key={index}>
@@ -308,12 +331,45 @@ const AllDonation = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>{donation.method}</td>
                                         <td>
-                                        <button onClick={()=>handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="View Temple">
-                                            Request 80 Certificate
-                                        </button>
-                                            {/* <button className='btn btn-theme-primary' title="View Temple">
-                                                Download Receipt
-                                            </button> */}
+                                            {(customDonation.is80CertificateRequested === true) ? <>
+                                                
+                                                {customDonation.certificate ? 
+                                                    <>
+                                                      <div className="file-preview">
+                                                    
+                                                    <a className='fw-bold' style={{color:"green",textDecoration:"underline"}} target="_blank" href={customDonation.certificate}>View Certificate </a>
+                                                     
+                                                </div>
+                                                <form onSubmit={(e) => handleUpdate80GCertificate(donation.id, e)}>
+                                                        <input onChange={handleFileChange} type="file" />
+                                                            <button type="submit" className="m-2 btn btn-theme-primary" title="View Temple">Update Certificate</button>
+                                                            {filePreview && (
+                                                            <div className="file-preview">
+                                                                  <a className='fw-bold' style={{color:"green",textDecoration:"underline"}} target="_blank" href={filePreview}>View Preview </a>
+                                                  </div>
+                                              )}
+                                                    </form>
+                                                    
+                                                    </>  : <> <div className="d-flex">
+                                              
+                                                        <form onSubmit={(e) => handleUpload80GCertificate(donation.id, e)}>
+                                                            <label className='mb-2' style={{color:"red"}}>80G Certificate Requested : </label>
+                                                  <input placeholder='upload certificate' onChange={handleFileChange} type="file" />
+                                                  <button type="submit" className="m-2 btn btn-theme-primary">Upload</button>
+                                              </form>
+                                              {filePreview && (
+                                                            <div className="file-preview">
+                                                                  <a className='fw-bold' style={{color:"green",textDecoration:"underline"}} target="_blank" href={filePreview}>View Preview </a>
+                                                  </div>
+                                              )}
+                                      </div></> 
+                                                   }
+                                              
+                                                    </> :   <div>No request</div>}
+                                            
+                                           
+                                            
+                                      
                                         </td>
                                     </tr>
                                 );
@@ -329,4 +385,4 @@ const AllDonation = () => {
     )
 }
 
-export default AllDonation
+export default AllDonationsAdmin
