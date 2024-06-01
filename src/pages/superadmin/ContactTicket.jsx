@@ -10,7 +10,6 @@ export default function ContactTicket() {
   const fetchContactTickets = async () => {
     try {
       const api = import.meta.env.VITE_API_URL;
-      console.log();
       const response = await axios.post(
         `${api}/contact/contact-form/getallContactTickets`,
         {},
@@ -20,7 +19,6 @@ export default function ContactTicket() {
           },
         }
       );
-      console.log(response);
       setTickets(response.data);
     } catch (error) {
       console.error("Error fetching contact tickets:", error);

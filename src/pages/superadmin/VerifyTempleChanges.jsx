@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import React from "react";
 
 const VerifyTempleChanges = () => {
@@ -18,6 +18,7 @@ const VerifyTempleChanges = () => {
         try {
             const res = await axios.get(`${api}/temple/get-temple/${id}`);
             if (res.data.success) {
+                console.log("current temple below")
                 console.log(res.data.data)
                 setCurrentTemple(res.data.data);
             } else {
@@ -34,6 +35,7 @@ const VerifyTempleChanges = () => {
             if (res.data.success) {
 
                 const modifiedTemple = res.data.data;
+                console.log("pending changes below")
                 console.log(modifiedTemple)
                 setPendingChanges(modifiedTemple);
 
@@ -123,7 +125,7 @@ const VerifyTempleChanges = () => {
                                 <strong>{formatKey(key)}</strong>
                             </td>
                         </tr>
-                        {renderPropertyRowsForModifiedTemples(currentTemple[key] || {}, value)}
+                        {/* {renderPropertyRowsForModifiedTemples(currentTemple[key] || {}, value)} */}
                     </React.Fragment>
                 );
             } else {
@@ -133,7 +135,7 @@ const VerifyTempleChanges = () => {
                             <tr>
                                 <td>{formatKey(key)}</td>
                                 <td> <img src={currentTemple[key] || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
-                                <td> <img src={value} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+                                <td> <img src={value || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
                             </tr>
                         </>
                     );

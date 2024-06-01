@@ -2,13 +2,12 @@ import { useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/Auth";
 import { Link } from "react-router-dom";
-import Button from "../../components/buttons/Button";
 
 import ListingCardAdmin from "../../components/listingCardAdmin/ListingCardAdmin";
 import { useAdminTemples } from "../../context/AdminTemples";
 
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const AdminTemples = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -20,7 +19,6 @@ const AdminTemples = () => {
     localStorage.removeItem("adminTemples");
     if (auth.user.role == 1) {
       const userId = auth?.user?._id;
-
       try {
         const response = await axios.post(
           `${api}/temple/get-temples-by-admin`,
@@ -28,7 +26,6 @@ const AdminTemples = () => {
         );
 
         if (response.data.success) {
-          // toast.success(response.data.message);
           setAdminTemples(response.data.data.temples);
           localStorage.setItem(
             "adminTemples",
@@ -45,7 +42,6 @@ const AdminTemples = () => {
         const response = await axios.get(`${api}/temple/get-temples`);
 
         if (response.data.success) {
-          // toast.success(response.data.message);
           setAdminTemples(response.data.data.temples);
           localStorage.setItem(
             "adminTemples",
@@ -65,32 +61,34 @@ const AdminTemples = () => {
   }, []);
 
   return (
-    <Layout >
-      <section className="m-auto">
-      <div className="section-heading">
-            Temples Added by you
-          </div>
+    <Layout>
+      <section>
+        <div className="section-heading">
+          {auth.user.role == 2 ? "All Temples" : "Temples Added by you"}
+        </div>
         {!adminTemples && <div className="loader"></div>}
-        <div className="listing-container">
-      
-
-           {adminTemples && adminTemples.length > 0 && adminTemples.map((temple, index) => {
-               return <ListingCardAdmin key={index} temple={temple} />
-           })}
-
-         </div>
-
+        <div className="listing-container m-auto">
+          {adminTemples &&
+            adminTemples.length > 0 &&
+            adminTemples.map((temple, index) => {
+              return <ListingCardAdmin key={index} temple={temple} />;
+            })}
+        </div>
 
         {adminTemples && adminTemples.length === 0 && (
           //   show a message if there are no temples and  show the add temple button
-          <div
-            
-            className="d-flex flex-column align-items-center justify-content-center"
-          >
+          <div className="d-flex flex-column align-items-center justify-content-center">
             <h3 className=" pb-2">No Temples Found!</h3>
-            <Link to="/admin/add-temple" className="btn btn-theme-primary">Add Temple</Link>
-
-            {/* <Button text="Add Temple" link="/admin/add-temple" /> */}
+            <Link
+              to={
+                auth.user.role == 2
+                  ? "/superadmin/add-temple"
+                  : "/admin/add-temple"
+              }
+              className="btn btn-theme-primary"
+            >
+              Add Temple
+            </Link>
           </div>
         )}
       </section>

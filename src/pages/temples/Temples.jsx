@@ -3,8 +3,9 @@ import Layout from "../../components/layout/Layout";
 import ListingCard from "../../components/listingCard/ListingCard";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import "./temples.css";
+import HashLoader from "react-spinners/HashLoader";
 
 const Temples = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -227,15 +228,11 @@ const Temples = () => {
 
         </div>
         {loading && (
-            
-            <div className="loading-container">
-              
-              <div className="spinner-border" role="status">
-                  <span className="sr-only">Loading...</span>
-              </div>
-            </div>
+          <section className="d-flex m-auto">
+            <HashLoader color={"#ff395c"} />
+          </section>
+        )}
 
-           )} 
       </section>
     </Layout>
   );

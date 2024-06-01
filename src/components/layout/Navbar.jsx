@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom'
-import img from './../../assets/images/sevasangam-logo.jpg'
+import img from './../../assets/images/sevasangam-logo.png'
 import SearchBar from '../searchBar/SearchBar'
 import { useAuth } from '../../context/Auth'
 import { useEffect, useRef } from 'react'
-import Button from '../buttons/Button'
-
 
 
 const Navbar = () => {
@@ -37,7 +35,6 @@ const Navbar = () => {
 
   })
 
-  console.log(auth)
   return (
 
 
@@ -61,7 +58,8 @@ const Navbar = () => {
         </div>
         <div className="nav-left">
           <div className="logo-container">
-            <img src={img}></img>
+            <Link to="/">       <img src={img}></img></Link>
+
           </div>
           <div className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
             <Link to="/">Home</Link>
@@ -72,7 +70,7 @@ const Navbar = () => {
           <div className={`nav-item ${location.pathname === '/about' ? 'active' : ''}`}>
             <Link to="/about">About </Link>
           </div>
-          
+
           <div className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}>
             <Link to="/contact">Contact Us</Link>
           </div>
@@ -105,7 +103,7 @@ const Navbar = () => {
               <button data-bs-toggle="dropdown" aria-expanded="false">
                 <div className="d-flex align-items-center">
                   <div style={{ marginRight: "8px" }} className='avatar-wrapper'>
-                    <img src={auth.user.picture ? auth.user.picture : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar' />
+                    <img src={auth.user.avatar ? auth.user.avatar : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar' />
                   </div>
                   <span><small>{(auth.user.name).toUpperCase()}</small></span>
                 </div>
@@ -162,8 +160,8 @@ const Navbar = () => {
                       <Link className="dropdown-item" to="/superadmin/unverified-temples">
                         Unverified Temples
                       </Link>
-                      </li>
-                      <li>
+                    </li>
+                    <li>
                       <Link className="dropdown-item" to="/superadmin/trending-temples">
                         Trending Temples
                       </Link>
@@ -187,7 +185,7 @@ const Navbar = () => {
                   </>
                 )}
                 <li className='logout'>
-                
+
                   <span onClick={logout}><i className=" fa-solid fa-right-from-bracket"></i> Logout</span>
 
                 </li>

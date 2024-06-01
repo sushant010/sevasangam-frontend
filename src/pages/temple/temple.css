@@ -21,15 +21,17 @@
     }
   }
 
-  & .social-media {
+  & 
+}
+.social-media {
     display: flex;
 
     & div {
       padding: 2px;
       border-radius: 50%;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       overflow: hidden;
       background-color: #f5f5f5;
       /* border: 1px solid var(--color-theme-primary); */
@@ -40,8 +42,6 @@
       }
     }
   }
-}
-
 .feature {
   padding: 4px 6px;
   border-radius: 4px;
@@ -49,18 +49,38 @@
   margin: 0.3rem 0.4rem 0.3rem 0;
 }
 
-.donation-ways {
+/* .donation-ways {
   flex-basis: 40%;
+} */
+
+.donate-card {
+  position: sticky;
+  top: 109px;
+  max-width: 450px;
+  flex: 1;
+  min-width: 400px;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  & .payment-options div {
+    width: 50px;
+    height: 50px;
+  }
+  & .amount {
+    font-size: 14px !important;
+  }
 }
+
 .temple-details {
   flex: 1;
 }
 
-.section-heading-wrapper{
+.section-heading-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .form-select{
+  .form-select {
     padding-right: 35px;
   }
 }

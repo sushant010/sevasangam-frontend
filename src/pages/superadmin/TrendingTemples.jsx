@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import axios from 'axios'
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import ListingCard from '../../components/listingCard/ListingCard';
 
 const TrendingTemples = () => {
     const api = import.meta.env.VITE_API_URL;
-  
+
     const [trendingTemples, setTrendingTemples] = useState([])
     const [temples, setTemples] = useState([])
 
-    const [searchFilter,setSearchFilter] = useState({
+    const [searchFilter, setSearchFilter] = useState({
         templeName: null,
         location: null,
         isTrending: false
-    
+
     })
     const fetchTrendingTemples = async () => {
 
@@ -35,11 +35,11 @@ const TrendingTemples = () => {
 
 
     }
- 
+
     const fetchAllTemples = async () => {
 
         try {
-            const res = await axios.get(`${api}/temple/get-temples`,{
+            const res = await axios.get(`${api}/temple/get-verified-temples`, {
                 params: {
                     templeName: searchFilter.templeName,
                     location: searchFilter.location,
@@ -48,7 +48,7 @@ const TrendingTemples = () => {
             });
 
             if (res.data.success) {
-                
+
                 setTemples(res.data.data.temples)
 
             } else {
@@ -61,7 +61,7 @@ const TrendingTemples = () => {
 
 
     }
- 
+
 
 
     const handleSetTrendingTemples = async (id) => {
@@ -111,7 +111,7 @@ const TrendingTemples = () => {
 
     }, [searchFilter])
     const [isTrending, setIsTrending] = useState(false)
-    function searchFilterSubmit(e){
+    function searchFilterSubmit(e) {
         e.preventDefault()
         setSearchFilter({
             templeName: e.target.templeName.value.trim() === "" ? null : e.target.templeName.value.trim(),
@@ -123,77 +123,80 @@ const TrendingTemples = () => {
 
         <Layout>
             <section>
-            <h1 className="mb-4 section-heading">Trending Temples</h1>
-            
-            {/* search filters */}
-            <form className="mb-4" onSubmit={searchFilterSubmit}>
-                <div className="row">
-                    <div className="col-md-3">
-                        <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Search by name" name='templeName' />
+                <h1 className="mb-4 section-heading">Trending Temples</h1>
+
+                {/* search filters */}
+                <form className="mb-4" onSubmit={searchFilterSubmit}>
+                    <div className="row">
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <input type="text" className="form-control" placeholder="Search by name" name='templeName' />
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Search by location" name='location' />
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <input type="text" className="form-control" placeholder="Search by location" name='location' />
+                            </div>
                         </div>
-                    </div>
-                    {/* Is trending button */}
-                    <div className="col-md-3">
-                        <div className="form-group">
-                            {/* <button className="btn btn-theme-primary" onClick={
+                        {/* Is trending button */}
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                {/* <button className="btn btn-theme-primary" onClick={
                                 () => setIsTrending(!isTrending)
                             } >Is Trending</button> */}
-                            {
-                                isTrending ? <button type='button' className="btn btn-theme-primary" onClick={
-                                    () => setIsTrending(!isTrending)
-                                } >Is Trending</button> : <button type='button' className="btn border-danger" onClick={
-                                    () => setIsTrending(!isTrending)
-                                } >Is Trending</button>
-                            }
-                        </div>
-                               
-                            
-                            
-                    </div>
-                    <div className="col-md-3">
-                        <div className="form-group">
-                            <button className="btn btn-theme-primary" >Search</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                                {
+                                    isTrending ? <button type='button' className="btn btn-theme-primary" onClick={
+                                        () => setIsTrending(!isTrending)
+                                    } >Is Trending</button> : <button type='button' className="btn border-danger" onClick={
+                                        () => setIsTrending(!isTrending)
+                                    } >Is Trending</button>
+                                }
+                            </div>
 
-            
-               
-                       
+
+
+                        </div>
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <button className="btn btn-theme-primary" >Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
                 <table className="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Temple Name</th>
-                                    <th>Location</th>
-                                    <th>Image</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {temples.map((temple, index) => (
-                                    <tr key={index}>
-                                        <td>{temple.templeName}</td>
-                                        <td> {temple.location && temple.location.address}</td>
-                                        <td>  {temple.images.bannerImage && (
-                                    <img src={temple.images.bannerImage} alt="Banner Preview" className="mt-2" style={{height: '80px', border: "3px solid #fff" }} />
+                    <thead>
+                        <tr>
+                            <th>Temple Name</th>
+                            <th>Location</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {temples.map((temple, index) => (
+                            <tr key={index}>
+                                <td ><Link className='fw-bold text-decoration-underline text-primary' to={`/superadmin/temple/${temple._id}`}>{temple.templeName}</Link> </td>
+                                <td> {temple.location && temple.location.address}</td>
+                                <td>  {temple.images.bannerImage && (
+                                    <img src={temple.images.bannerImage} alt="Banner Preview" className="mt-2" style={{ height: '80px', border: "3px solid #fff" }} />
                                 )}</td>
-                                        <td>
-                                        {temple.isTrending==0 ? <>    <button className="btn btn-theme-primary" onClick={() => handleSetTrendingTemples(temple._id)}>Add to Trending</button></> : <>    <button className="btn btn-theme-error" onClick={() => handleRemoveTrendingTemple(temple._id)}>Remove from Trending</button></>}
+                                <td>
+                                    {temple.isTrending == 0 ? <>    <button className="btn btn-theme-primary" onClick={() => handleSetTrendingTemples(temple._id)}>Add to Trending</button></> : <>    <button className="btn btn-theme-error" onClick={() => handleRemoveTrendingTemple(temple._id)}>Remove from Trending</button></>}
 
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </td>
+                            </tr>
+                        ))}
+
+
+                    </tbody>
+                </table>
+                {temples.length === 0 && <div className='my-4  text-center'>No Temples Found</div>}
             </section>
-          
+
         </Layout >
     )
 }

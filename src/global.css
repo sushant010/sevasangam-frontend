@@ -4,8 +4,7 @@ button {
 }
 
 p,
-a,
-div {
+a {
   color: var(--text-color-grey-dark);
 }
 
@@ -162,13 +161,18 @@ select {
 
 input.form-control,
 textarea.form-control,
-.form-select {
+.form-select,
+.input-form-control.PhoneInput {
   border-color: white;
   border-bottom: 3px solid var(--color-theme-primary);
   border-radius: 0px;
   padding: 8px 12px;
   font-size: 1rem;
   background-color: #f5f5f5;
+}
+.PhoneInputInput {
+  border-radius: 0;
+  border: none;
 }
 
 /* headings */
@@ -297,11 +301,11 @@ section {
     margin-top: 15px !important;
   }
 
-  & .logout{
+  & .logout {
     color: var(--color-theme-error);
     padding: 4px 16px;
 
-    &:hover{
+    &:hover {
       background-color: #f5f5f5;
     }
   }

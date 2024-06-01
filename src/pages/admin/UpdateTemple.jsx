@@ -1,7 +1,7 @@
 import Layout from '../../components/layout/Layout';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -47,29 +47,33 @@ const UpdateTemple = () => {
             twitter: '',
             instagram: ''
         },
-        upcomingEvents: []
+        upcomingEvents: [],
+        timing: {
+            start: '',
+            end: ''
+        },
     });
+    const fetchTemple = async () => {
+        try {
+            const res = await axios.get(`${api}/temple/get-temple/${id}`);
+            const { data } = res.data;
+            setTemple(data);
+            setImagePreviews({
+                logo: data.images.logo,
+                banner: data.images.bannerImage,
+                otherImages: data.images.otherImages,
+            });
+
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to fetch temple details');
+        }
+    };
 
     useEffect(() => {
-        const fetchTemple = async () => {
-            try {
-                const res = await axios.get(`${api}/temple/get-temple/${id}`);
-                const { data } = res.data;
-                setTemple(data);
-                console.log(data)
-                setImagePreviews({
-                    logo: data.images.logo,
-                    banner: data.images.bannerImage,
-                    otherImages: data.images.otherImages,
-                });
 
-            } catch (error) {
-                console.error(error);
-                toast.error('Failed to fetch temple details');
-            }
-        };
         fetchTemple();
-    }, [api, id]);
+    }, []);
 
     const [templeLogoImage, setTempleLogoImage] = useState(null);
     const [templeBannerImage, setTempleBannerImage] = useState(null);
@@ -134,7 +138,29 @@ const UpdateTemple = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${api}/temple/update-temple/${id}`, temple);
+            // Prepare form data
+            const formData = new FormData();
+            Object.entries(temple).forEach(([key, value]) => {
+                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                    Object.entries(value).forEach(([subKey, subValue]) => {
+                        formData.append(`${key}.${subKey}`, subValue);
+                    });
+                } else if (Array.isArray(value)) {
+                    value.forEach((item, index) => {
+                        Object.entries(item).forEach(([subKey, subValue]) => {
+                            formData.append(`${key}[${index}].${subKey}`, subValue);
+                        });
+                    });
+                } else {
+                    formData.append(key, value);
+                }
+            });
+
+            const res = await axios.put(`${api}/temple/update-temple/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             if (res.data.success) {
                 toast.success(res.data.message);
                 setTimeout(() => { navigate(`/admin/temples`); }, 2000);
@@ -511,6 +537,31 @@ const UpdateTemple = () => {
                                 >
                                     Add More Event
                                 </button>
+                            </div>
+                            <div className="mb-3">
+                                <h3 className='text-primary fw-bold text-md'>Timing</h3>
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Start Time"
+                                    type="time"
+                                    name="timing.start"
+                                    onChange={handleChange}
+                                    value={temple?.timing?.start}
+                                    className="form-control"
+                                    id="startTime"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="End Time"
+                                    type="time"
+                                    name="timing.end"
+                                    onChange={handleChange}
+                                    value={temple?.timing?.end}
+                                    className="form-control"
+                                    id="endTime"
+                                />
                             </div>
                         </div>
 

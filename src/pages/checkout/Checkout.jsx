@@ -5,14 +5,14 @@ import { useDonate } from '../../context/Donate';
 import axios from 'axios';
 import './checkout.css';
 import { Link, useSearchParams } from 'react-router-dom';
-import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
+import defaultLogo from '../../assets/images/sevasangam-logo.png';
 import { useAuth } from '../../context/Auth';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import currencyCodes from 'currency-codes';
 
 
 // import $ from 'jquery';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 const Checkout = () => {
     const api = import.meta.env.VITE_API_URL;
     const [donate, setDonate] = useDonate();
@@ -54,7 +54,7 @@ const Checkout = () => {
     });
 
     const [selectedPercentage, setSelectedPercentage] = useState('');
-    const [customPercentage, setCustomPercentage] = useState('');
+    const [customPercentage, setCustomPercentage] = useState(16);
 
     const handleSelectChange = (event) => {
         setSelectedPercentage(event.target.value);
@@ -149,7 +149,7 @@ const Checkout = () => {
                 donationType: 'once',
                 temple: donate.templeId,
                 donateUser: {
-                    name: donateUser.user,
+                    name: donateUser.name,
                     email: donateUser.email,
                     phone: donateUser.phone,
                 }
@@ -221,10 +221,10 @@ const Checkout = () => {
         try {
             // Create a subscription on the server
             const { data: { subscription } } = await axios.post(`${api}/donation/subscription`, {
-                amount:donate.amount,
+                amount: donate.amount,
                 currency: currency,
-                
-            },{
+
+            }, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
                 }
@@ -259,7 +259,7 @@ const Checkout = () => {
         }
     };
 
-    const [amount, setAmount] = useState('')
+    const [setAmount] = useState('')
 
     const handleAddtoDonation = (e) => {
         const addedAmount = parseInt(e.target.textContent.replace(/[^\d]/g, '')); // Extract only the numeric value
@@ -408,14 +408,17 @@ const Checkout = () => {
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
-                                            <input
-                                                type="number"
-                                                value={customPercentage}
-                                                onChange={handleCustomChange}
-                                                placeholder="Enter percentage"
-                                                className="form-control"
-                                                style={{ fontSize: "13.5px", width: '160px', display: 'inline-block' }}
-                                            />
+                                            <div style={{ position: "relative", display: "inline-block", width: "160px" }}>
+                                                <input
+                                                    type="number"
+                                                    value={customPercentage}
+                                                    onChange={handleCustomChange}
+                                                    placeholder="%"
+                                                    className="form-control"
+                                                    style={{ fontSize: "13.5px", width: '100%', paddingRight: '20px' }}
+                                                />
+                                                <span style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}>%</span>
+                                            </div>
                                         )}
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 import "./modals.css";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useAuth } from "../../context/Auth";
 import { useState } from "react";
 

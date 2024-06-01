@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
-import defaultLogo from '../../assets/images/sevasangam-logo.jpg';
+import defaultLogo from '../../assets/images/sevasangam-logo.png';
 import { useAuth } from '../../context/Auth';
 
 const ViewTemple = () => {

@@ -1,10 +1,11 @@
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { LoginSocialGoogle } from 'reactjs-social-login';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const OauthGoogle = () => {
+const OauthGoogle = ({ closeLoginModal, setLoading }) => {
 
     const api = import.meta.env.VITE_API_URL;
     const [auth, setAuth] = useAuth();
@@ -14,7 +15,7 @@ const OauthGoogle = () => {
 
 
     const handleGoogleLoginSuccess = async ({ data }) => {
-
+        setLoading(true)
         const accessToken = data.access_token;
 
 
@@ -35,12 +36,15 @@ const OauthGoogle = () => {
                 accessToken,
             });
 
-            if (res.data.success) {
+
+            if (res && res.data.success) {
+                closeLoginModal();
+                setLoading(false)
 
                 setAuth({ ...auth, user: res.data.user, token: res.data.token });
                 localStorage.setItem("auth", JSON.stringify(res.data));
                 toast.success(res.data.message);
-                window.location.reload()
+                // window.location.reload()
 
                 // Perform any further actions, e.g., redirect to a different page
             } else {
@@ -68,6 +72,11 @@ const OauthGoogle = () => {
             </button>
         </LoginSocialGoogle>
     )
+}
+
+OauthGoogle.propTypes = {
+    closeLoginModal: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired
 }
 
 export default OauthGoogle

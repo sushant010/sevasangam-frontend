@@ -1,20 +1,12 @@
-import { ThreeDots } from 'react-loader-spinner';
+import HashLoader from "react-spinners/HashLoader";
 import './loadingSpinner.css'
+import Layout from '../layout/Layout';
 
 const LoadingSpinner = () => {
     return (
-
-        <ThreeDots
-            visible={true}
-            height="80"
-            width="80"
-            color="var(--color-theme-primary)"
-            radius="9"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClass="custom-spinner"
-        />
-
+        <div className="loader-wrapper">
+            <HashLoader color={"#ff395c"} />
+        </div>
     )
 }
 

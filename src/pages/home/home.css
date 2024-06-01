@@ -1,13 +1,13 @@
-#searchTempleToDonate > h2{
+#searchTempleToDonate > h2 {
   position: relative;
   z-index: 3;
   -webkit-text-stroke-color: white;
-  -webkit-text-stroke-width: .5px;  
+  -webkit-text-stroke-width: 0.5px;
   font-size: 40px;
   text-shadow: 1px 1px 1px white;
 }
-&:before{
-  content: '';
+&:before {
+  content: "";
   position: absolute;
   width: 40%;
   height: 100%;
@@ -142,7 +142,7 @@
   margin: 15px 10px;
   flex: 1;
   /* padding: 1rem; */
-  min-width: 20%;
+  min-width: 360px;
   max-width: 400px;
   border: 1px solid transparent;
 

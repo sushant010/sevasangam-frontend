@@ -7,7 +7,7 @@ import Button from "../../components/buttons/Button";
 import ListingCard from "../../components/listingCard/ListingCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 function Home() {
 
@@ -81,25 +81,25 @@ function Home() {
 
 
   }
-  
+
   const fetchTrendingTemples = async () => {
 
     try {
-        const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "4" } });
+      const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "4" } });
 
-        if (res.data.success) {
-            setTrendingTemples(res.data.data.temples)
+      if (res.data.success) {
+        setTrendingTemples(res.data.data.temples)
 
-        } else {
-            toast.error(res.data.message);
-        }
+      } else {
+        toast.error(res.data.message);
+      }
 
     } catch (error) {
-        console.error('Error creating temple:', error);
+      console.error('Error creating temple:', error);
     }
 
 
-}
+  }
 
   useEffect(() => {
     fetchPopularTemples();
@@ -130,8 +130,8 @@ function Home() {
         and spreading love and light to all. Make your mark on Temples
         journey today by giving from your heart to ours." />
 
-        <section style={{marginTop:"-130px"}} id="searchTempleToDonate" className="search-section">
-          <h2  className=" text-center m-auto text-primary text-xl fw-bold mb-4">
+        <section style={{ marginTop: "-130px" }} id="searchTempleToDonate" className="search-section">
+          <h2 className=" text-center m-auto text-primary text-xl fw-bold mb-4">
             Search Temple to Donate..
           </h2>
           <div className="box"></div>
@@ -303,59 +303,72 @@ function Home() {
         />
 
 
-<section className="listings">
-          <div className="section-heading line">
-            Trending Temples
-            <span className="text-sm d-block mx-2 fw-light text-grey-light">
-              Donate to the trending temples
-            </span>
-          </div>
+        {trendingTemples && trendingTemples.length > 0 && (
+          <section className="listings">
+            <div className="section-heading line">
+              Trending Temples
+              <span className="text-sm d-block mx-2 fw-light text-grey-light">
+                Donate to the trending temples
+              </span>
+            </div>
 
-          <div className="listing-container">
-            {trendingTemples && trendingTemples.map((temple, index) => (
-              <ListingCard
-                key={index} temple={temple}
-              />
+            <div className="listing-container">
+              {trendingTemples.map((temple, index) => (
+                <ListingCard
+                  key={index} temple={temple}
+                />
 
-            ))}
-          </div>
-        </section>
-        <section className="listings">
-          <div className="section-heading line">
-            Based on Popularity
-            <span className="text-sm d-block mx-2 fw-light text-grey-light">
-              Donate to the temples based on popularity
-            </span>
-          </div>
+              ))}
+            </div>
+          </section>
+        )
 
-          <div className="listing-container">
-            {popularTemples && popularTemples.map((temple, index) => (
-              <ListingCard
-                key={index} temple={temple}
-              />
+        }
 
-            ))}
+        {popularTemples && popularTemples.length > 0 && (
+          <section className="listings">
+            <div className="section-heading line">
+              Based on Popularity
+              <span className="text-sm d-block mx-2 fw-light text-grey-light">
+                Donate to the temples based on popularity
+              </span>
+            </div>
+
+            <div className="listing-container">
+              {popularTemples.map((temple, index) => (
+                <ListingCard
+                  key={index} temple={temple}
+                />
+
+              ))}
 
 
-          </div>
-        </section>
-        <section className="listings">
-          <div className="section-heading line">
-            Recently Created
-            <span className="text-sm d-block mx-2 fw-light text-grey-light">
-              Donate to the recently added temples
-            </span>
-          </div>
+            </div>
+          </section>
+        )}
 
-          <div className="listing-container">
-            {recentlyCreatedTemples && recentlyCreatedTemples.map((temple, index) => (
-              <ListingCard
-                key={index} temple={temple}
-              />
+        {recentlyCreatedTemples && recentlyCreatedTemples.length > 0 && (
+          <section className="listings">
+            <div className="section-heading line">
+              Recently Created
+              <span className="text-sm d-block mx-2 fw-light text-grey-light">
+                Donate to the recently added temples
+              </span>
+            </div>
 
-            ))}
-          </div>
-        </section>
+            <div className="listing-container">
+              {recentlyCreatedTemples && recentlyCreatedTemples.map((temple, index) => (
+                <ListingCard
+                  key={index} temple={temple}
+                />
+
+              ))}
+            </div>
+          </section>
+
+        )}
+
+
 
         <section className="review-container">
           <div className="review">

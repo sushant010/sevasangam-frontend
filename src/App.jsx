@@ -33,6 +33,7 @@ import TrendingTemples from "./pages/superadmin/TrendingTemples";
 import ContactTicket from "./pages/superadmin/ContactTicket";
 import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
 import AllDonationsAdmin from "./pages/admin/AllDonationsAdmin";
+import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 
 
 function App() {
@@ -67,7 +68,7 @@ function App() {
             <Route path="donations" element={<UserDonations />} />
 
           </Route>
-
+          <Route path="loading" element={<LoadingSpinner />} />
 
           <Route path="/admin" element={<IsTempleAdmin />} >
             <Route path="add-temple" element={<AddTemple />} />

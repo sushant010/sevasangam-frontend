@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import axios from 'axios'
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 const UnverifiedTemples = () => {
@@ -54,8 +54,7 @@ const UnverifiedTemples = () => {
 
             if (res.data.success) {
                 toast.success(res.data.message);
-                fetchNewlyCreatedUnverifiedTemples()
-                fetchUpdatedByAdminUnverifiedTemples()
+                fetchData()
 
             } else {
                 toast.error(res.data.message);
@@ -75,8 +74,7 @@ const UnverifiedTemples = () => {
 
             if (res.data.success) {
                 toast.success(res.data.message);
-                fetchNewlyCreatedUnverifiedTemples()
-                fetchUpdatedByAdminUnverifiedTemples()
+                fetchData()
 
             } else {
                 toast.error(res.data.message);
@@ -91,11 +89,14 @@ const UnverifiedTemples = () => {
 
 
 
+    const fetchData = async () => {
+        await fetchNewlyCreatedUnverifiedTemples()
+        await fetchUpdatedByAdminUnverifiedTemples()
+    }
 
 
     useEffect(() => {
-        fetchNewlyCreatedUnverifiedTemples()
-        fetchUpdatedByAdminUnverifiedTemples()
+        fetchData()
 
     }, [])
     return (
@@ -106,106 +107,111 @@ const UnverifiedTemples = () => {
                     Unverified Temples
                 </div>
 
-                <h3 className='mb-2 fw-bold text-primary'> Recently Created </h3>
-                {newlyCreatedUnverifiedTemples.length === 0 ? <div className='mt-4 text-center'>No unverified temples found</div> :
+
+                {newlyCreatedUnverifiedTemples.length > 0 &&
 
 
-                    (<div className="table-responsive">
-                        <table className=" table table-light table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <td><p className='fw-bold text-primary'>S.No</p></td>
-                                    <td><p className='fw-bold text-primary'>Name</p></td>
-                                    <td><p className='fw-bold text-primary'>Location</p></td>
-                                    <td><p className='fw-bold text-primary'>Contact Person</p></td>
-                                    <td><p className='fw-bold text-primary'>Created On</p></td>
-                                    <td><p className='fw-bold text-primary'>Created By</p></td>
+                    (
+                        <>
+                            <h3 className='mb-2 fw-bold text-primary'> Recently Created </h3>
+                            <div className="table-responsive">
+                                <table className=" table table-light table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td><p className='fw-bold text-primary'>S.No</p></td>
+                                            <td><p className='fw-bold text-primary'>Name</p></td>
+                                            <td><p className='fw-bold text-primary'>Location</p></td>
+                                            <td><p className='fw-bold text-primary'>Contact Person</p></td>
+                                            <td><p className='fw-bold text-primary'>Created On</p></td>
+                                            <td><p className='fw-bold text-primary'>Created By</p></td>
 
-                                    <td colSpan={3}><p className='fw-bold text-primary'>Actions</p></td>
+                                            <td colSpan={3}><p className='fw-bold text-primary'>Actions</p></td>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                {newlyCreatedUnverifiedTemples?.map((temple, index) => (
-                                    <tr key={index}>
+                                        {newlyCreatedUnverifiedTemples?.map((temple, index) => (
+                                            <tr key={index}>
 
-                                        <td> {index + 1}</td>
-                                        <td>{temple.templeName}</td>
-                                        <td>{temple.location.address}, {temple.location.country} </td>
-                                        <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
-                                        <td>{new Date(temple.createdOn).toLocaleString("en-US")}</td>
-                                        <td>{temple.createdBy.name}</td>
+                                                <td> {index + 1}</td>
+                                                <td>{temple.templeName}</td>
+                                                <td>{temple.location.address}, {temple.location.country} </td>
+                                                <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
+                                                <td>{new Date(temple.createdOn).toLocaleDateString("en-GB")}</td>
+                                                <td>{temple.createdBy.name}</td>
 
-                                        <td><button onClick={() => handleVerifyTemple(temple._id)} className='btn btn-theme-primary'>Verify</button> </td>
+                                                <td><button onClick={() => handleVerifyTemple(temple._id)} className='btn btn-theme-primary'>Verify</button> </td>
 
-                                        <td> <button onClick={() => handleRejectTemple(temple._id)} style={{ background: "var(--color-theme-error)", color: "#fff" }} className='btn '>Reject</button></td>
-                                        <td><Link to={`/superadmin/verify-temple-changes/${temple._id}`} className='btn btn-theme-primary'>View Changes</Link></td>
+                                                <td> <button onClick={() => handleRejectTemple(temple._id)} style={{ background: "var(--color-theme-error)", color: "#fff" }} className='btn '>Reject</button></td>
+                                                <td><Link to={`/superadmin/verify-temple-changes/${temple._id}`} className='btn btn-theme-primary'>View Changes</Link></td>
 
-                                    </tr>
-
-
-
-                                ))}
-
+                                            </tr>
 
 
-                            </tbody>
-                        </table>
-                    </div>)}
+
+                                        ))}
 
 
-                <h3 className='mb-2 fw-bold text-primary'> Modified by Admins </h3>
 
-                {updatedByAdminUnverifiedTemples.length === 0 ? <div className='mt-4 text-center'>No unverified temples found</div> :
+                                    </tbody>
+                                </table>
+                            </div> </>)}
 
 
-                    (<div className="table-responsive">
-                        <table className=" table table-light table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <td><p className='fw-bold text-primary'>S.No</p></td>
-                                    <td><p className='fw-bold text-primary'>Name</p></td>
-                                    <td><p className='fw-bold text-primary'>Location</p></td>
-                                    <td><p className='fw-bold text-primary'>Contact Person</p></td>
-                                    <td><p className='fw-bold text-primary'>Created On</p></td>
-                                    <td><p className='fw-bold text-primary'>Created By</p></td>
-                                    <td><p className='fw-bold text-primary'>Type of Change</p></td>
-                                    <td colSpan={3}><p className='fw-bold text-primary'>Actions</p></td>
 
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                                {updatedByAdminUnverifiedTemples?.map((temple, index) => (
-                                    <tr key={index}>
+                {updatedByAdminUnverifiedTemples.length > 0 &&
 
-                                        <td> {index + 1}</td>
-                                        <td>{temple.templeName}</td>
-                                        <td>{temple.location.address}, {temple.location.country} </td>
-                                        <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
-                                        <td>{new Date(temple.createdOn).toLocaleString("en-US")}</td>
-                                        <td>{temple.createdBy.name}</td>
-                                        <td>{temple.createdBy.name}</td>
-                                        <td><button onClick={() => handleVerifyTemple(temple._id)} className='btn btn-theme-primary'>Verify</button> </td>
 
-                                        <td> <button onClick={() => handleRejectTemple(temple._id)} style={{ background: "var(--color-theme-error)", color: "#fff" }} className='btn '>Reject</button></td>
-                                        <td><Link to={`/superadmin/verify-temple-changes/${temple._id}`} className='btn btn-theme-primary'>View Changes</Link></td>
+                    (<><h3 className='mb-2 fw-bold text-primary'> Modified by Admins </h3>
+                        <div className="table-responsive">
+                            <table className=" table table-light table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <td><p className='fw-bold text-primary'>S.No</p></td>
+                                        <td><p className='fw-bold text-primary'>Name</p></td>
+                                        <td><p className='fw-bold text-primary'>Location</p></td>
+                                        <td><p className='fw-bold text-primary'>Contact Person</p></td>
+                                        <td><p className='fw-bold text-primary'>Created On</p></td>
+                                        <td><p className='fw-bold text-primary'>Created By</p></td>
+
+                                        <td colSpan={3}><p className='fw-bold text-primary'>Actions</p></td>
 
                                     </tr>
+                                </thead>
+                                <tbody>
+
+                                    {updatedByAdminUnverifiedTemples?.map((temple, index) => (
+                                        <tr key={index}>
+
+                                            <td> {index + 1}</td>
+                                            <td>{temple.templeName}</td>
+                                            <td>{temple.location.address}, {temple.location.country} </td>
+                                            <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
+                                            <td>{new Date(temple.createdOn).toLocaleDateString("en-GB")}</td>
+                                            <td>{temple.createdBy.name}</td>
+
+                                            <td><button onClick={() => handleVerifyTemple(temple._id)} className='btn btn-theme-primary'>Verify</button> </td>
+
+                                            <td> <button onClick={() => handleRejectTemple(temple._id)} style={{ background: "var(--color-theme-error)", color: "#fff" }} className='btn '>Reject</button></td>
+                                            <td><Link to={`/superadmin/verify-temple-changes/${temple._id}`} className='btn btn-theme-primary'>View Changes</Link></td>
+
+                                        </tr>
 
 
 
-                                ))}
+                                    ))}
 
 
 
-                            </tbody>
-                        </table>
-                    </div>)}
+                                </tbody>
+                            </table>
+                        </div></>)}
 
 
             </section>
+            {updatedByAdminUnverifiedTemples.length === 0 && newlyCreatedUnverifiedTemples.length === 0 && <div className='my-4  text-center'>No New Changes in Temples Found</div>}
         </Layout >
     )
 }

@@ -4,7 +4,7 @@ body {
 }
 .nav-wrapper {
   width: 100%;
-  padding: 0.4rem 3rem;
+  padding: 1rem 3rem;
   box-shadow: var(--shadow-dark);
   /* overflow: hidden; */
   position: fixed;
@@ -24,7 +24,7 @@ body {
 
 nav .nav-left .logo-container {
   width: auto;
-  height: 60px;
+  height: 30px;
   margin: auto;
 }
 

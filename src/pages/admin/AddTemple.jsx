@@ -1,7 +1,7 @@
 import Layout from '../../components/layout/Layout';
 import { useState } from 'react';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -87,49 +87,33 @@ const AddTemple = () => {
                 date: '2024-06-01',
                 location: 'Sample Location 1',
             },
-
         ],
+        timing: {
+            start: '08:00',
+            end: '17:00',
+        },
     };
 
     const [temple, setTemple] = useState(initialState);
 
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
+        const { name, value } = e.target;
         const keys = name.split('.');
 
-        if (files) {
-            const filePath = URL.createObjectURL(files[0]);
-            if (keys.length === 1) {
-                setTemple(prevTemple => ({
-                    ...prevTemple,
-                    [name]: filePath,
-                }));
-            } else {
-                const [key, subkey] = keys;
-                setTemple(prevTemple => ({
-                    ...prevTemple,
-                    [key]: {
-                        ...prevTemple[key],
-                        [subkey]: filePath,
-                    },
-                }));
-            }
+        if (keys.length === 1) {
+            setTemple(prevTemple => ({
+                ...prevTemple,
+                [name]: value,
+            }));
         } else {
-            if (keys.length === 1) {
-                setTemple(prevTemple => ({
-                    ...prevTemple,
-                    [name]: value,
-                }));
-            } else {
-                const [key, subkey] = keys;
-                setTemple(prevTemple => ({
-                    ...prevTemple,
-                    [key]: {
-                        ...prevTemple[key],
-                        [subkey]: value,
-                    },
-                }));
-            }
+            const [key, subkey] = keys;
+            setTemple(prevTemple => ({
+                ...prevTemple,
+                [key]: {
+                    ...prevTemple[key],
+                    [subkey]: value,
+                },
+            }));
         }
     };
 
@@ -190,7 +174,6 @@ const AddTemple = () => {
     return (
         <Layout>
             <section>
-
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-md-12">
@@ -198,7 +181,6 @@ const AddTemple = () => {
                                 Add Temple
                             </div>
                         </div>
-
 
                         <div className="col-md-4">
                             <div className="mb-3">
@@ -308,12 +290,9 @@ const AddTemple = () => {
                                     <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', width: 'auto', border: "3px solid #fff" }} />
                                 ))}
                             </div>
-
-
                         </div>
 
                         <div className="col-md-4">
-
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Contact Person</h3>
                             </div>
@@ -455,11 +434,9 @@ const AddTemple = () => {
                                     id="swiftBicCode"
                                 />
                             </div>
-
                         </div>
 
                         <div className="col-md-4">
-
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Social Media</h3>
                             </div>
@@ -556,10 +533,34 @@ const AddTemple = () => {
                                 >
                                     Add More Event
                                 </button>
-
                             </div>
-
+                            <div className="mb-3">
+                                <h3 className='text-primary fw-bold text-md'>Timing</h3>
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Start Time"
+                                    type="time"
+                                    name="timing.start"
+                                    onChange={handleChange}
+                                    value={temple.timing.start}
+                                    className="form-control"
+                                    id="startTime"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="End Time"
+                                    type="time"
+                                    name="timing.end"
+                                    onChange={handleChange}
+                                    value={temple.timing.end}
+                                    className="form-control"
+                                    id="endTime"
+                                />
+                            </div>
                         </div>
+
                         <div className="col-md-12">
                             <button
                                 type="submit"
@@ -569,18 +570,7 @@ const AddTemple = () => {
                             </button>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
-
                 </form>
-
             </section>
         </Layout>
     );

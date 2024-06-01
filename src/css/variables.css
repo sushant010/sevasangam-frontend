@@ -13,6 +13,18 @@
   --color-theme-success: #4caf50;
   --color-theme-error: #af4c4c;
 
+  /* for toasters start */
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #4caf50;
+  --toastify-color-warning: #f1c40f;
+  --toastify-color-error: #af4c4c;
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
+  /* for toasters end */
   /* 
     --color-primary-dark: #10316B;
     --color-primary-light: #DBE8FF;

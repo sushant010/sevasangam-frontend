@@ -1,26 +1,26 @@
 import { Link } from "react-router-dom";
-import img from "./../../assets/images/sevasangam-logo.jpg";
+import img from "./../../assets/images/sevasangam-logo.png";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useState } from "react";
 const Footer = () => {
-  const [subEmailLoading,setSubEmailLoading] = useState(false)
-  const handelSubmit = async(e)=>{
+  const [subEmailLoading, setSubEmailLoading] = useState(false)
+  const handelSubmit = async (e) => {
 
     e.preventDefault();
     const email = e.target[0].value;
-    if(email === "") return toast.error("Please Enter Email");
+    if (email === "") return toast.error("Please Enter Email");
     const backendUrl = import.meta.env.VITE_API_URL
     setSubEmailLoading(true)
     try {
-      
-      const response = await axios.post(`${backendUrl}/subscriptionEmail/subscribe`,{email});
-        toast.success("Subscribed Successfully");
+
+      const response = await axios.post(`${backendUrl}/subscriptionEmail/subscribe`, { email });
+      toast.success("Subscribed Successfully");
     } catch (error) {
       console.log(error.response.data.message)
-      if(error.response?.data?.message === "Email already subscribed") return toast.error("Email already subscribed")
+      if (error.response?.data?.message === "Email already subscribed") return toast.error("Email already subscribed")
       toast.error("Something went wrong please try again latter")
-    }finally{
+    } finally {
       setSubEmailLoading(false)
     }
 
@@ -41,7 +41,6 @@ const Footer = () => {
           <div className="about-and-social mt-4">
             <div>
               <img src={img}></img>
-              <span className=" mx-2 bold">Seva Sangam</span>
             </div>
             <div>
               <p className="text-sm">
@@ -113,24 +112,24 @@ const Footer = () => {
               <i className="fa-solid fa-phone"></i>
             </div>
             <div className="mx-2">
-              
+
               <p className="text-sm">
-              test@gmail.com | test2@gmail.com
+                test@gmail.com | test2@gmail.com
               </p>
             </div>
           </div>
           <div className="d-flex align-items-center">
             <div className="icon-wrapper static">
-            <i className="fa-solid fa-envelope"></i>
+              <i className="fa-solid fa-envelope"></i>
             </div>
             <div className="mx-2">
               <p className="text-sm">
-                 96325896325 | 9632587412
+                96325896325 | 9632587412
               </p>
             </div>
           </div>
         </div>
-        
+
       </footer>
     </div>
   );

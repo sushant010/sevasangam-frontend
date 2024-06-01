@@ -2,27 +2,17 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useAdminTemples } from '../../context/AdminTemples';
+import { toast } from 'react-toastify';
+import { useAdminTemples } from "../../context/AdminTemples";
+
 const ListingCardAdmin = ({ temple }) => {
 
   const [auth] = useAuth()
   const navigate = useNavigate();
-  const [removeTempleFromLocalStorage] = useAdminTemples()
+  const [adminTemples, setAdminTemples, removeTempleFromLocalStorage] = useAdminTemples();
 
   const createdBy = temple.createdBy?.name ? temple.createdBy?.name : 'ahsjh'[0].toUpperCase();
 
-  // const handleViewTemple = (id) => {
-
-  //   if (auth.user?.role == 1) {
-  //     navigate(`/admin/temple/${id}`)
-
-  //   } else {
-  //     navigate(`/superadmin/temple/${id}`)
-  //   }
-
-
-  // }
 
   const handleViewTemple = (id, e) => {
     e.stopPropagation();
@@ -36,7 +26,8 @@ const ListingCardAdmin = ({ temple }) => {
   }
 
 
-  const handleDeleteTemple = async (id) => {
+  const handleDeleteTemple = async (id, e) => {
+    e.stopPropagation();
     const api = import.meta.env.VITE_API_URL;
     try {
       const response = await axios.delete(`${api}/temple/delete-temple/${id}`);
@@ -63,7 +54,9 @@ const ListingCardAdmin = ({ temple }) => {
   return (
 
     <div className="listing admin" onClick={(e) => navigateToTemple(temple._id, e)}>
-      <div className="listing-img-wrapper">
+      <div style={{ position: "relative" }} className="listing-img-wrapper">
+        {temple.isVerified == 0 && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Unverified</span>)}
+        {temple.hasChangesToApprove == 1 && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Modified</span>)}
         <img
           src={temple.images.bannerImage ? temple.images.bannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 
@@ -116,7 +109,7 @@ const ListingCardAdmin = ({ temple }) => {
                     ></i>
                   </button>
                   {auth?.user?.role == 2 ? (<button title="Delete Temple"
-                    onClick={() => handleDeleteTemple(temple._id)}
+                    onClick={(e) => handleDeleteTemple(temple._id, e)}
 
                   >
                     <i

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import ListingCardAdmin from '../../components/listingCardAdmin/ListingCardAdmin';
