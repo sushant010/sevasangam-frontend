@@ -333,7 +333,7 @@ const Temple = () => {
             </h2>
             <p className="mb-2">
               <div className="fa-solid fa-location-dot mx-1"></div>{" "}
-              {`${temple.location.address}, ${temple.location.country}`}
+              {temple.location.address}
             </p>
             <div className=" mb-2 d-flex">
               <span className="feature bg-primary">Tax Benefit</span>

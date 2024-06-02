@@ -66,7 +66,7 @@ const ListingCardAdmin = ({ temple }) => {
       <div className="listing-content">
         <h2 className="listing-title fw-bold ">{temple.templeName.length > 20 ? `${temple.templeName.slice(0, 20)}...` : temple.templeName}</h2>
         <p className="listing-description text-grey-light text-sm">
-          {temple.location.address.length > 20 ? `${temple.location.address.slice(0, 20)}...` : temple.location.address}
+          {temple.location.city ? temple.location.city : 'City'}, {temple.location.state ? temple.location.state : 'State'}, {temple.location.country ? temple.location.country : 'Country'}
         </p>
         <div className="table-responsive">
           <table className='table table-light table-bordered table-striped' style={{ border: "1px solid #cecece", width: "100%" }}>

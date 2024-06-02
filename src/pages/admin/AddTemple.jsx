@@ -1,11 +1,88 @@
 import Layout from '../../components/layout/Layout';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
+import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
+
+
+
 
 const AddTemple = () => {
+
+    // for google map
+    const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
+    const libraries = ['places'];
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: google_map_api,
+        libraries: libraries
+    });
+
+
+
+
+    const [autocomplete, setAutocomplete] = useState(null);
+
+
+    const handleLocationChange = (place) => {
+
+
+        const address = place.formatted_address;
+        const components = place.address_components;
+        const locationDetails = {
+            address: address,
+            state: '',
+            zipCode: '',
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng(),
+            city: '',
+            country: '',
+        };
+
+        components.forEach(component => {
+            const types = component.types;
+            if (types.includes('administrative_area_level_1')) {
+                locationDetails.state = component.long_name;
+            } else if (types.includes('postal_code')) {
+                locationDetails.zipCode = component.long_name;
+            } else if (types.includes('locality')) {
+                locationDetails.city = component.long_name;
+            } else if (types.includes('country')) {
+                locationDetails.country = component.long_name;
+            }
+        });
+
+        setTemple(prevTemple => ({
+            ...prevTemple,
+            location: locationDetails,
+        }));
+    };
+
+
+    const onPlaceChanged = () => {
+        const place = autocomplete.getPlace();
+        handleLocationChange(place);
+    };
+
+    const onMarkerDragEnd = (event) => {
+
+        const newLat = event.latLng.lat();
+        const newLng = event.latLng.lng();
+
+        const place = {
+            formatted_address: '', // Update with your logic to get the address
+            geometry: {
+                location: { lat: newLat, lng: newLng }
+            },
+            address_components: [], // Update with your logic to get the address components
+        };
+
+        handleLocationChange(place);
+    };
+
+
+
     const [auth] = useAuth();
     const navigate = useNavigate();
 
@@ -60,7 +137,12 @@ const AddTemple = () => {
         },
         location: {
             address: '123 Main Street',
+            city: 'United States',
+            state: 'United States',
+            zipCode: 'United States',
             country: 'United States',
+            longitude: 77.01502627,
+            latitude: 10.99835602,
         },
         bankDetails: {
             bankName: 'Sample Bank',
@@ -173,6 +255,7 @@ const AddTemple = () => {
 
     return (
         <Layout>
+
             <section>
                 <form onSubmit={handleSubmit}>
                     <div className="row">
@@ -223,6 +306,41 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Location</h3>
                             </div>
                             <div className="mb-3">
+                                {isLoaded && (
+                                    <>
+                                        <Autocomplete
+                                            onLoad={(autocomplete) => setAutocomplete(autocomplete)}
+                                            onPlaceChanged={onPlaceChanged}
+                                        >
+                                            <input
+                                                type="text"
+                                                placeholder="Enter a location"
+                                                className="form-control"
+                                            />
+                                        </Autocomplete>
+                                    </>
+                                )}
+                                <LoadScript googleMapsApiKey={google_map_api} libraries={libraries}>
+                                    <GoogleMap
+                                        mapContainerStyle={{ height: "300px", width: "100%" }}
+                                        center={{
+                                            lat: temple.location.latitude || 10.99835602,
+                                            lng: temple.location.longitude || 77.01502627,
+                                        }}
+                                        zoom={11}
+                                    >
+                                        <Marker
+                                            position={{
+                                                lat: temple.location.latitude || 10.99835602,
+                                                lng: temple.location.longitude || 77.01502627,
+                                            }}
+                                            draggable={false}
+                                            onDragEnd={onMarkerDragEnd}
+                                        />
+                                    </GoogleMap>
+                                </LoadScript>
+                            </div>
+                            <div className="mb-3">
                                 <input
                                     placeholder="Location Address"
                                     type="text"
@@ -233,6 +351,40 @@ const AddTemple = () => {
                                     id="locationAddress"
                                 />
                             </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Location City"
+                                    type="text"
+                                    name="location.city"
+                                    onChange={handleChange}
+                                    value={temple.location.city}
+                                    className="form-control"
+                                    id="locationCountry"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Location State"
+                                    type="text"
+                                    name="location.state"
+                                    onChange={handleChange}
+                                    value={temple.location.state}
+                                    className="form-control"
+                                    id="locationCountry"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Zip Code"
+                                    type="text"
+                                    name="location.zipCode"
+                                    onChange={handleChange}
+                                    value={temple.location.zipCode}
+                                    className="form-control"
+                                    id="locationCountry"
+                                />
+                            </div>
+
                             <div className="mb-3">
                                 <input
                                     placeholder="Location Country"
@@ -310,7 +462,7 @@ const AddTemple = () => {
                             <div className="mb-3">
                                 <input
                                     placeholder="Contact Person Email"
-                                    type="email"
+                                    type="contactPersonEmail"
                                     name="contactPerson.email"
                                     onChange={handleChange}
                                     value={temple.contactPerson.email}
@@ -577,3 +729,20 @@ const AddTemple = () => {
 };
 
 export default AddTemple;
+const AnyReactComponent = ({ text }) => (
+    <div
+        style={{
+            color: 'white',
+            background: 'red',
+            padding: '5px 10px',
+            display: 'inline-flex',
+            textAlign: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '50%',
+            transform: 'translate(-50%, -50%)'
+        }}
+    >
+        {text}
+    </div>
+);

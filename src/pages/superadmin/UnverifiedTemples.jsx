@@ -136,7 +136,7 @@ const UnverifiedTemples = () => {
 
                                                 <td> {index + 1}</td>
                                                 <td>{temple.templeName}</td>
-                                                <td>{temple.location.address}, {temple.location.country} </td>
+                                                <td>{temple.location.address} </td>
                                                 <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
                                                 <td>{new Date(temple.createdOn).toLocaleDateString("en-GB")}</td>
                                                 <td>{temple.createdBy.name}</td>
@@ -187,7 +187,7 @@ const UnverifiedTemples = () => {
 
                                             <td> {index + 1}</td>
                                             <td>{temple.templeName}</td>
-                                            <td>{temple.location.address}, {temple.location.country} </td>
+                                            <td>{temple.location.address} </td>
                                             <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
                                             <td>{new Date(temple.createdOn).toLocaleDateString("en-GB")}</td>
                                             <td>{temple.createdBy.name}</td>

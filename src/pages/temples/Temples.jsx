@@ -216,7 +216,7 @@ const Temples = () => {
         </div>
       </section>
 
-      <section className="m-auto pt-0">
+      <section className=" pt-0">
         <div className="listing-container m-auto row">
           {temples && temples.length > 0 ? (
             temples.map((temple, index) => (

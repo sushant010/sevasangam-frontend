@@ -94,7 +94,7 @@ const ViewTemple = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <h1 className="section-heading  ">Name : {temple.templeName}</h1>
-                        <h2 className='text-grey-dark  my-3 fw-bold'>Location : {temple.location.address}, {temple.location.country}</h2>
+                        <h2 className='text-grey-dark  my-3 fw-bold'>Location : {temple.location.address}</h2>
                     </div>
                     <div className='col-md-8'>
 
@@ -126,7 +126,7 @@ const ViewTemple = () => {
                                     </tr>
                                     <tr>
                                         <td>Location</td>
-                                        <td>{temple.location.address}, {temple.location.country}</td>
+                                        <td>{temple.location.address}</td>
                                     </tr>
                                     <tr>
                                         <td>Logo</td>
