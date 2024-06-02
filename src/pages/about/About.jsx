@@ -1,13 +1,10 @@
 import Layout from '../../components/layout/Layout';
-import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner.jsx';
 import SectionImgWithText from '../../components/sectionImgWithTextDesc/SectionImgWithText.jsx';
 import SectionLinearBg from '../../components/sectionLinearBg/sectionLinearBg';
 import './about.css';
 const About = () => {
   return (
     <Layout>
-      <LoadingSpinner />
-
       <section className='banner'>
         <div className="banner-text">
           <h2 className="text-heading">About Us</h2>
