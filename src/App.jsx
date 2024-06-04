@@ -34,6 +34,7 @@ import ContactTicket from "./pages/superadmin/ContactTicket";
 import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
 import AllDonationsAdmin from "./pages/admin/AllDonationsAdmin";
 import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
+import Faq from "./pages/FAQ/Faq";
 
 
 function App() {
@@ -61,6 +62,8 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/update-profile" element={<UpdateProfile />} />
+          <Route path="/faq" element={<Faq />} />
+
 
 
 

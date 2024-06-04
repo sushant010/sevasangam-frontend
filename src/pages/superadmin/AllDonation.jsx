@@ -5,13 +5,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
+import SelectComponentWithSearch from '../../components/slectComponentWithSearch/SelectComponentWithSearch';
 
 
 const AllDonation = () => {
 
     const api = import.meta.env.VITE_API_URL;
 
-    const navigate = useNavigate();
     const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
@@ -37,12 +37,18 @@ const AllDonation = () => {
     const fetchAllDonation = async (reset = false) => {
         if (loading || (!hasMore && !reset)) return;
 
+
         setLoading(true);
         try {
             const res = await axios.post(`${api}/donation/fetch-all-donation`, {
                 count: 10, // Number of donations per page
                 skip: reset ? 0 : (page - 1) * 10,
-                ...filters,
+                temple: searchParams.get('temple') || '',
+                templeCreatedBy: searchParams.get('templeCreatedBy') || '',
+                donateUser: searchParams.get('donateUser') || '',
+                paymentMethod: searchParams.get('paymentMethod') || '',
+                dateFrom: searchParams.get('dateFrom') || '',
+                dateTo: searchParams.get('dateTo') || ''
             });
             if (res.data.success) {
                 if (reset) {
@@ -93,18 +99,50 @@ const AllDonation = () => {
 
     const handleFilterSubmit = (e) => {
         e.preventDefault();
+        //fetch inputs from form
+
+        const inputs = e.target.querySelectorAll('input');
+
+
+
+        
         const newSearchParams = new URLSearchParams();
         for (const key in filters) {
             if (filters[key]) {
                 newSearchParams.set(key, filters[key]);
             }
         }
+
+        inputs.forEach(input => {
+            const { name, value } = input;
+            
+            // if (value) {
+                newSearchParams.set(name, value);
+            // }
+            
+        });        
         setSearchParams(newSearchParams);
-        navigate({
-            search: newSearchParams.toString()
-        });
-        fetchAllDonation(true);
     };
+
+    useEffect(() => {
+
+        setFilters({
+            temple: searchParams.get('temple') || '',
+            payId: searchParams.get('payId') || '',
+            templeCreatedBy: searchParams.get('templeCreatedBy') || '',
+            donateUser: searchParams.get('donateUser') || '',
+            paymentMethod: searchParams.get('paymentMethod') || '',
+            dateFrom: searchParams.get('dateFrom') || '',
+            dateTo: searchParams.get('dateTo') || ''
+        });
+
+    //after its set then fetch data
+
+        fetchAllDonation(true);
+    
+
+
+    },[searchParams])
 
     const getUniqueObjects = (array, key) => {
         const uniqueKeys = new Set();
@@ -192,6 +230,7 @@ const AllDonation = () => {
         };
     });
 
+
     return (
         <Layout>
             <section>
@@ -201,19 +240,8 @@ const AllDonation = () => {
                 <div className="filter-container my-4">
                     <form className="row g-4" onSubmit={handleFilterSubmit}>
                         <div className="col-md-2">
-                            <select
-                                className="form-select"
-                                name="temple"
-                                value={filters.temple}
-                                onChange={handleFilterChange}
-                            >
-                                <option value="">Select Temple</option>
-                                {
-                                    temples.map((temple, index) => (
-                                        <option key={index} value={temple._id}>{temple.templeName}</option>
-                                    ))
-                                }
-                            </select>
+                            <SelectComponentWithSearch />
+
                         </div>
                         <div className="col-md-3">
                             <select
