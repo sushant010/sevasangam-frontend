@@ -349,7 +349,9 @@ const AddTemple = () => {
                                 </LoadScript>
                             </div>
                             <div className="mb-3">
+
                                 <label htmlFor="locationAddress">Location Address</label>
+
                                 <input
                                     placeholder="Location Address"
                                     type="text"
@@ -359,7 +361,7 @@ const AddTemple = () => {
                                     className="form-control"
                                     id="locationAddress"
                                 />
-                            </div>
+                            </div >
                             <div className="mb-3">
                                 <label htmlFor="locationCity">Location City</label>
                                 <input
@@ -399,6 +401,40 @@ const AddTemple = () => {
 
                             <div className="mb-3">
                                 <label htmlFor="locationCountry">Location Country</label>
+                                <input
+                                    placeholder="Location City"
+                                    type="text"
+                                    name="location.city"
+                                    onChange={handleChange}
+                                    value={temple.location.city}
+                                    className="form-control"
+                                    id="locationCountry"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Location State"
+                                    type="text"
+                                    name="location.state"
+                                    onChange={handleChange}
+                                    value={temple.location.state}
+                                    className="form-control"
+                                    id="locationCountry"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    placeholder="Zip Code"
+                                    type="text"
+                                    name="location.zipCode"
+                                    onChange={handleChange}
+                                    value={temple.location.zipCode}
+                                    className="form-control"
+                                    id="locationCountry"
+                                />
+                            </div>
+
+                            <div className="mb-3">
                                 <input
                                     placeholder="Location Country"
                                     type="text"
@@ -455,7 +491,7 @@ const AddTemple = () => {
                                     <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', width: 'auto', border: "3px solid #fff" }} />
                                 ))}
                             </div>
-                        </div>
+                        </div >
 
                         <div className="col-md-4">
                             <div className="mb-3">
@@ -836,28 +872,11 @@ const AddTemple = () => {
                                 Save
                             </button>
                         </div>
-                    </div>
-                </form>
-            </section>
-        </Layout>
+                    </div >
+                </form >
+            </section >
+        </Layout >
     );
 };
 
 export default AddTemple;
-const AnyReactComponent = ({ text }) => (
-    <div
-        style={{
-            color: 'white',
-            background: 'red',
-            padding: '5px 10px',
-            display: 'inline-flex',
-            textAlign: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '50%',
-            transform: 'translate(-50%, -50%)'
-        }}
-    >
-        {text}
-    </div>
-);
