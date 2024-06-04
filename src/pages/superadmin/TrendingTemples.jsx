@@ -180,7 +180,7 @@ const TrendingTemples = () => {
                         {temples.map((temple, index) => (
                             <tr key={index}>
                                 <td ><Link className='fw-bold text-decoration-underline text-primary' to={`/superadmin/temple/${temple._id}`}>{temple.templeName}</Link> </td>
-                                <td> {temple.location && temple.location.address}</td>
+                                <td> {temple.location.address}</td>
                                 <td>  {temple.images.bannerImage && (
                                     <img src={temple.images.bannerImage} alt="Banner Preview" className="mt-2" style={{ height: '80px', border: "3px solid #fff" }} />
                                 )}</td>

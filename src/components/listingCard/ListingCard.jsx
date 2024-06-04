@@ -27,7 +27,7 @@ const ListingCard = ({ temple }) => {
       <div className="listing-content">
         <h2 className="listing-title fw-bold">{templeName}</h2>
         <p className="listing-description text-grey-light text-sm">
-          {`${address}, ${country}`}
+          {temple.location.address.city ? temple.location.address.city : 'City'}, {temple.location.address.state ? temple.location.address.state : 'State'}, {temple.location.address.country ? temple.location.address.country : 'Country'}
         </p>
         <p className="text-grey-light fw-normal text-xs">
           ₹ {donation} Donated in last 30 days
