@@ -14,8 +14,7 @@ const AllAdmins = () => {
             const response = await axios.get(`${api}/auth/all-temple-admin`);
 
             if (response.data.success) {
-                console.log(response)
-                toast.success(response.data.message);
+
                 setTempleAdmins(response.data.users)
 
             } else {

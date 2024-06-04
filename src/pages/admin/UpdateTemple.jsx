@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 
 const UpdateTemple = () => {
     const [auth] = useAuth();
@@ -21,7 +22,12 @@ const UpdateTemple = () => {
         },
         location: {
             address: '',
-            country: ''
+            city: '',
+            state: '',
+            zipCode: '',
+            country: '',
+            longitude: 77.01502627,
+            latitude: 10.99835602,
         },
         images: {
             logo: '',
@@ -53,6 +59,75 @@ const UpdateTemple = () => {
             end: ''
         },
     });
+
+    // for google map
+    const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
+    const libraries = ['places'];
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: google_map_api,
+        libraries: libraries
+    });
+
+    const [autocomplete, setAutocomplete] = useState(null);
+
+
+    const handleLocationChange = (place) => {
+
+
+        const address = place.formatted_address;
+        const components = place.address_components;
+        const locationDetails = {
+            address: address,
+            state: '',
+            zipCode: '',
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng(),
+            city: '',
+            country: '',
+        };
+
+        components.forEach(component => {
+            const types = component.types;
+            if (types.includes('administrative_area_level_1')) {
+                locationDetails.state = component.long_name;
+            } else if (types.includes('postal_code')) {
+                locationDetails.zipCode = component.long_name;
+            } else if (types.includes('locality')) {
+                locationDetails.city = component.long_name;
+            } else if (types.includes('country')) {
+                locationDetails.country = component.long_name;
+            }
+        });
+
+        setTemple(prevTemple => ({
+            ...prevTemple,
+            location: locationDetails,
+        }));
+    };
+
+
+    const onPlaceChanged = () => {
+        const place = autocomplete.getPlace();
+        handleLocationChange(place);
+    };
+
+    const onMarkerDragEnd = (event) => {
+
+        const newLat = event.latLng.lat();
+        const newLng = event.latLng.lng();
+
+        const place = {
+            formatted_address: '', // Update with your logic to get the address
+            geometry: {
+                location: { lat: newLat, lng: newLng }
+            },
+            address_components: [], // Update with your logic to get the address components
+        };
+
+        handleLocationChange(place);
+    };
+
+
     const fetchTemple = async () => {
         try {
             const res = await axios.get(`${api}/temple/get-temple/${id}`);
@@ -163,7 +238,9 @@ const UpdateTemple = () => {
             });
             if (res.data.success) {
                 toast.success(res.data.message);
-                setTimeout(() => { navigate(`/admin/temples`); }, 2000);
+                setTimeout(() => {
+                    navigate(auth.user.role === 2 ? '/superadmin/temples' : '/admin/temples');
+                }, 2000);
             } else {
                 toast.error(res.data.message);
             }
@@ -189,6 +266,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Basic</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="templeName" className="form-label">Temple Name</label>
                                 <input
                                     placeholder="Temple Name"
                                     type="text"
@@ -200,6 +278,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="typeOfOrganization" className="form-label">Type of Organization</label>
                                 <input
                                     placeholder="Type of Organization"
                                     type="text"
@@ -211,6 +290,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="description" className="form-label">Description</label>
                                 <textarea
                                     placeholder="Description"
                                     name="description"
@@ -225,6 +305,42 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Location</h3>
                             </div>
                             <div className="mb-3">
+                                {isLoaded && (
+                                    <>
+                                        <Autocomplete
+                                            onLoad={(autocomplete) => setAutocomplete(autocomplete)}
+                                            onPlaceChanged={onPlaceChanged}
+                                        >
+                                            <input
+                                                type="text"
+                                                placeholder="Enter a location"
+                                                className="form-control"
+                                            />
+                                        </Autocomplete>
+                                    </>
+                                )}
+                                <LoadScript googleMapsApiKey={google_map_api} libraries={libraries}>
+                                    <GoogleMap
+                                        mapContainerStyle={{ height: "300px", width: "100%" }}
+                                        center={{
+                                            lat: temple.location.latitude || 10.99835602,
+                                            lng: temple.location.longitude || 77.01502627,
+                                        }}
+                                        zoom={11}
+                                    >
+                                        <Marker
+                                            position={{
+                                                lat: temple.location.latitude || 10.99835602,
+                                                lng: temple.location.longitude || 77.01502627,
+                                            }}
+                                            draggable={false}
+                                            onDragEnd={onMarkerDragEnd}
+                                        />
+                                    </GoogleMap>
+                                </LoadScript>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="locationAddress" className="form-label">Location Address</label>
                                 <input
                                     placeholder="Location Address"
                                     type="text"
@@ -236,6 +352,44 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="locationCity" className="form-label">Location City</label>
+                                <input
+                                    placeholder="Location City"
+                                    type="text"
+                                    name="location.city"
+                                    onChange={handleChange}
+                                    value={temple.location.city}
+                                    className="form-control"
+                                    id="locationCity"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="locationState" className="form-label">Location State</label>
+                                <input
+                                    placeholder="Location State"
+                                    type="text"
+                                    name="location.state"
+                                    onChange={handleChange}
+                                    value={temple.location.state}
+                                    className="form-control"
+                                    id="locationState"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="locationZipCode" className="form-label">Location Zip Code</label>
+                                <input
+                                    placeholder="Zip Code"
+                                    type="text"
+                                    name="location.zipCode"
+                                    onChange={handleChange}
+                                    value={temple.location.zipCode}
+                                    className="form-control"
+                                    id="locationZipCode"
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="locationCountry" className="form-label">Location Country</label>
                                 <input
                                     placeholder="Location Country"
                                     type="text"
@@ -299,6 +453,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Contact Person</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="contactPersonName" className="form-label">Contact Person Name</label>
                                 <input
                                     placeholder="Contact Person Name"
                                     type="text"
@@ -310,6 +465,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="contactPersonEmail" className="form-label">Contact Person Email</label>
                                 <input
                                     placeholder="Contact Person Email"
                                     type="email"
@@ -321,6 +477,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="contactPersonMobile" className="form-label">Contact Person Mobile</label>
                                 <input
                                     placeholder="Contact Person Mobile"
                                     type="text"
@@ -335,6 +492,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Tax Information</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="taxId" className="form-label">Tax ID</label>
                                 <input
                                     placeholder="Tax ID"
                                     type="text"
@@ -346,6 +504,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="ein" className="form-label">EIN</label>
                                 <input
                                     placeholder="EIN"
                                     type="text"
@@ -360,6 +519,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Bank Details</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="bankName" className="form-label">Bank Name</label>
                                 <input
                                     placeholder="Bank Name"
                                     type="text"
@@ -371,6 +531,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="branch" className="form-label">Branch</label>
                                 <input
                                     placeholder="Branch"
                                     type="text"
@@ -382,6 +543,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="accountHolderName" className="form-label">Account Holder Name</label>
                                 <input
                                     placeholder="Account Holder Name"
                                     type="text"
@@ -393,6 +555,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="accountNumber" className="form-label">Account Number</label>
                                 <input
                                     placeholder="Account Number"
                                     type="text"
@@ -404,6 +567,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="ifscCode" className="form-label">IFSC Code</label>
                                 <input
                                     placeholder="IFSC Code"
                                     type="text"
@@ -415,6 +579,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="routingNumber" className="form-label">Routing Number</label>
                                 <input
                                     placeholder="Routing Number"
                                     type="text"
@@ -426,6 +591,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="swiftBicCode" className="form-label">SWIFT/BIC Code</label>
                                 <input
                                     placeholder="SWIFT/BIC Code"
                                     type="text"
@@ -443,6 +609,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Social Media</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="website" className="form-label">Website</label>
                                 <input
                                     placeholder="Website"
                                     type="text"
@@ -454,6 +621,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="facebook" className="form-label">Facebook</label>
                                 <input
                                     placeholder="Facebook"
                                     type="text"
@@ -465,6 +633,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="twitter" className="form-label">Twitter</label>
                                 <input
                                     placeholder="Twitter"
                                     type="text"
@@ -476,6 +645,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="instagram" className="form-label">Instagram</label>
                                 <input
                                     placeholder="Instagram"
                                     type="text"
@@ -489,37 +659,7 @@ const UpdateTemple = () => {
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Upcoming Events</h3>
                             </div>
-                            {/* {temple.upcomingEvents.map((event, index) => (
-                                <div key={index} className="mb-3">
-                                    <input
-                                        placeholder={`Event Title ${index + 1}`}
-                                        type="text"
-                                        name={`upcomingEvents.${index}.title`}
-                                        onChange={handleChange}
-                                        value={event.title}
-                                        className="form-control"
-                                        id={`eventTitle${index}`}
-                                    />
-                                    <input
-                                        placeholder={`Event Date ${index + 1}`}
-                                        type="date"
-                                        name={`upcomingEvents.${index}.date`}
-                                        onChange={handleChange}
-                                        value={event.date}
-                                        className="form-control mt-2"
-                                        id={`eventDate${index}`}
-                                    />
-                                    <input
-                                        placeholder={`Event Location ${index + 1}`}
-                                        type="text"
-                                        name={`upcomingEvents.${index}.location`}
-                                        onChange={handleChange}
-                                        value={event.location}
-                                        className="form-control mt-2"
-                                        id={`eventLocation${index}`}
-                                    />
-                                </div>
-                            ))} */}
+
                             <div className="mb-3 d-flex justify-content-between">
                                 <button
                                     style={{ fontSize: '14px' }}

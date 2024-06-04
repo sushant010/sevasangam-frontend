@@ -84,3 +84,9 @@
     padding-right: 35px;
   }
 }
+
+label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-theme-text-grey);
+} 

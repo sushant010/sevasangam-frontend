@@ -1,5 +1,5 @@
 import Layout from '../../components/layout/Layout';
-import { useState, useCallback, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
@@ -18,9 +18,6 @@ const AddTemple = () => {
         googleMapsApiKey: google_map_api,
         libraries: libraries
     });
-
-
-
 
     const [autocomplete, setAutocomplete] = useState(null);
 
@@ -165,9 +162,17 @@ const AddTemple = () => {
         },
         upcomingEvents: [
             {
-                title: 'Event 1',
-                date: '2024-06-01',
-                location: 'Sample Location 1',
+                eventName: 'Event 1',
+                description: 'Lorem ipsum dolor sit amet...',
+                date: {
+                    start: '2022-12-31',
+                    end: '2022-12-31',
+                },
+                timing: {
+                    start: '2022-12-31',
+                    end: '2022-12-31',
+                },
+                images: []
             },
         ],
         timing: {
@@ -270,6 +275,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Basic</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="templeName">Temple name</label>
                                 <input
                                     placeholder="Temple Name"
                                     type="text"
@@ -281,6 +287,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="typeOfOrganization">Type of Organization</label>
                                 <input
                                     placeholder="Type of Organization"
                                     type="text"
@@ -292,6 +299,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="description">Description</label>
                                 <textarea
                                     placeholder="Description"
                                     name="description"
@@ -341,6 +349,7 @@ const AddTemple = () => {
                                 </LoadScript>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="locationAddress">Location Address</label>
                                 <input
                                     placeholder="Location Address"
                                     type="text"
@@ -352,6 +361,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="locationCity">Location City</label>
                                 <input
                                     placeholder="Location City"
                                     type="text"
@@ -359,10 +369,11 @@ const AddTemple = () => {
                                     onChange={handleChange}
                                     value={temple.location.city}
                                     className="form-control"
-                                    id="locationCountry"
+                                    id="locationCity"
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="locationState">Location State</label>
                                 <input
                                     placeholder="Location State"
                                     type="text"
@@ -370,10 +381,11 @@ const AddTemple = () => {
                                     onChange={handleChange}
                                     value={temple.location.state}
                                     className="form-control"
-                                    id="locationCountry"
+                                    id="locationState"
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="locationZipCode">Zip Code</label>
                                 <input
                                     placeholder="Zip Code"
                                     type="text"
@@ -381,11 +393,12 @@ const AddTemple = () => {
                                     onChange={handleChange}
                                     value={temple.location.zipCode}
                                     className="form-control"
-                                    id="locationCountry"
+                                    id="locationZipCode"
                                 />
                             </div>
 
                             <div className="mb-3">
+                                <label htmlFor="locationCountry">Location Country</label>
                                 <input
                                     placeholder="Location Country"
                                     type="text"
@@ -449,6 +462,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Contact Person</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="contactPersonName">Contact Person Name</label>
                                 <input
                                     placeholder="Contact Person Name"
                                     type="text"
@@ -460,6 +474,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="contactPersonEmail">Contact Person Email</label>
                                 <input
                                     placeholder="Contact Person Email"
                                     type="contactPersonEmail"
@@ -471,6 +486,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="contactPersonMobile">Contact Person Mobile</label>
                                 <input
                                     placeholder="Contact Person Mobile"
                                     type="text"
@@ -485,6 +501,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Tax Information</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="taxId">Tax ID</label>
                                 <input
                                     placeholder="Tax ID"
                                     type="text"
@@ -496,6 +513,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="ein">EIN</label>
                                 <input
                                     placeholder="EIN"
                                     type="text"
@@ -510,6 +528,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Bank Details</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="bankName">Bank Name</label>
                                 <input
                                     placeholder="Bank Name"
                                     type="text"
@@ -521,6 +540,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="branch">Branch</label>
                                 <input
                                     placeholder="Branch"
                                     type="text"
@@ -532,6 +552,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="accountHolderName">Account Holder Name</label>
                                 <input
                                     placeholder="Account Holder Name"
                                     type="text"
@@ -543,6 +564,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="accountNumber">Account Number</label>
                                 <input
                                     placeholder="Account Number"
                                     type="text"
@@ -554,6 +576,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="ifscCode">IFSC Code</label>
                                 <input
                                     placeholder="IFSC Code"
                                     type="text"
@@ -565,6 +588,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="routingNumber">Routing Number</label>
                                 <input
                                     placeholder="Routing Number"
                                     type="text"
@@ -576,6 +600,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="swiftBicCode">SWIFT/BIC Code</label>
                                 <input
                                     placeholder="SWIFT/BIC Code"
                                     type="text"
@@ -593,6 +618,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Social Media</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="website">Website</label>
                                 <input
                                     placeholder="Website"
                                     type="text"
@@ -604,6 +630,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="facebook">Facebook</label>
                                 <input
                                     placeholder="Facebook"
                                     type="text"
@@ -615,6 +642,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="twitter">Twitter</label>
                                 <input
                                     placeholder="Twitter"
                                     type="text"
@@ -626,6 +654,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="instagram">Instagram</label>
                                 <input
                                     placeholder="Instagram"
                                     type="text"
@@ -637,59 +666,10 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <h3 className='text-primary fw-bold text-md'>Upcoming Events</h3>
-                            </div>
-                            {temple.upcomingEvents.map((event, index) => (
-                                <div key={index} className="mb-3">
-                                    <input
-                                        placeholder={`Event Title ${index + 1}`}
-                                        type="text"
-                                        name={`upcomingEvents.${index}.title`}
-                                        onChange={handleChange}
-                                        value={event.title}
-                                        className="form-control"
-                                        id={`eventTitle${index}`}
-                                    />
-                                    <input
-                                        placeholder={`Event Date ${index + 1}`}
-                                        type="date"
-                                        name={`upcomingEvents.${index}.date`}
-                                        onChange={handleChange}
-                                        value={event.date}
-                                        className="form-control mt-2"
-                                        id={`eventDate${index}`}
-                                    />
-                                    <input
-                                        placeholder={`Event Location ${index + 1}`}
-                                        type="text"
-                                        name={`upcomingEvents.${index}.location`}
-                                        onChange={handleChange}
-                                        value={event.location}
-                                        className="form-control mt-2"
-                                        id={`eventLocation${index}`}
-                                    />
-                                </div>
-                            ))}
-                            <div className="mb-3 d-flex justify-content-between">
-                                <button
-                                    style={{ fontSize: "14px" }}
-                                    type="button"
-                                    className="btn btn-theme-primary-outline"
-                                    onClick={() => setTemple(prevTemple => ({
-                                        ...prevTemple,
-                                        upcomingEvents: [
-                                            ...prevTemple.upcomingEvents,
-                                            { title: '', date: '', location: '' },
-                                        ],
-                                    }))}
-                                >
-                                    Add More Event
-                                </button>
-                            </div>
-                            <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Timing</h3>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="startTime">Start Time</label>
                                 <input
                                     placeholder="Start Time"
                                     type="time"
@@ -701,6 +681,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="endTime">End Time</label>
                                 <input
                                     placeholder="End Time"
                                     type="time"
@@ -711,6 +692,140 @@ const AddTemple = () => {
                                     id="endTime"
                                 />
                             </div>
+                            <div className="mb-3">
+                                <h3 className='text-primary fw-bold text-md'>Upcoming Events</h3>
+                            </div>
+                            {temple.upcomingEvents.map((event, index) => (
+                                <div key={index} className="mb-3">
+                                    <hr></hr>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventName${index}`}>Event Name</label>
+                                        <input
+                                            placeholder={`Event Name ${index + 1}`}
+                                            type="text"
+                                            name={`upcomingEvents.${index}.eventName`}
+                                            onChange={handleChange}
+                                            value={event.eventName}
+                                            className="form-control"
+                                            id={`eventName${index}`}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventDescription${index}`}>Event Description</label>
+                                        <input
+                                            placeholder={`Event Description ${index + 1}`}
+                                            type="text"
+                                            name={`upcomingEvents.${index}.description`}
+                                            onChange={handleChange}
+                                            value={event.description}
+                                            className="form-control mt-2"
+                                            id={`eventDescription${index}`}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventStartDate${index}`}>Event Start Date</label>
+                                        <input
+                                            placeholder={`Event Start Date ${index + 1}`}
+                                            type="date"
+                                            name={`upcomingEvents.${index}.date.start`}
+                                            onChange={handleChange}
+                                            value={event.date.start}
+                                            className="form-control mt-2"
+                                            id={`eventStartDate${index}`}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventEndDate${index}`}>Event End Date</label>
+                                        <input
+                                            placeholder={`Event End Date ${index + 1}`}
+                                            type="date"
+                                            name={`upcomingEvents.${index}.date.end`}
+                                            onChange={handleChange}
+                                            value={event.date.end}
+                                            className="form-control mt-2"
+                                            id={`eventEndDate${index}`}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventStartTime${index}`}>Event Start Time</label>
+                                        <input
+                                            placeholder={`Event Start Time ${index + 1}`}
+                                            type="time"
+                                            name={`upcomingEvents.${index}.timing.start`}
+                                            onChange={handleChange}
+                                            value={event.timing.start}
+                                            className="form-control mt-2"
+                                            id={`eventStartTime${index}`}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventEndTime${index}`}>Event End Time</label>
+                                        <input
+                                            placeholder={`Event End Time ${index + 1}`}
+                                            type="time"
+                                            name={`upcomingEvents.${index}.timing.end`}
+                                            onChange={handleChange}
+                                            value={event.timing.end}
+                                            className="form-control mt-2"
+                                            id={`eventEndTime${index}`}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor={`eventImages${index}`}>Event Images</label>
+                                        <input
+                                            placeholder={`Event Images ${index + 1}`}
+                                            type="file"
+                                            name={`upcomingEvents.${index}.images`}
+                                            multiple
+                                            onChange={(e) => {
+                                                const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                                                setTemple((prevTemple) => {
+                                                    const newEvents = [...prevTemple.upcomingEvents];
+                                                    newEvents[index].images = files;
+                                                    return {
+                                                        ...prevTemple,
+                                                        upcomingEvents: newEvents,
+                                                    };
+                                                });
+                                            }}
+                                            className="form-control mt-2"
+                                            id={`eventImages${index}`}
+                                        />
+                                    </div>
+
+
+
+                                </div>
+                            ))}
+                            <div className="mb-3 d-flex justify-content-between">
+                                <button
+                                    style={{ fontSize: "14px" }}
+                                    type="button"
+                                    className="btn btn-theme-primary-outline"
+                                    onClick={() => setTemple((prevTemple) => ({
+                                        ...prevTemple,
+                                        upcomingEvents: [
+                                            ...prevTemple.upcomingEvents,
+                                            {
+                                                eventName: '',
+                                                description: '',
+                                                date: {
+                                                    start: '',
+                                                    end: '',
+                                                },
+                                                timing: {
+                                                    start: '',
+                                                    end: '',
+                                                },
+                                                images: [],
+                                            },
+                                        ],
+                                    }))}
+                                >
+                                    Add More Event
+                                </button>
+                            </div>
+
                         </div>
 
                         <div className="col-md-12">
