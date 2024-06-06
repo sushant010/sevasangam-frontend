@@ -64,8 +64,17 @@
   right: 0;
   top: 0;
   bottom: 0;
-  padding-left: 30px;
+  padding-left: 33px;
   border-radius: 30px;
+}
+
+.searchbar-container button {
+  border-radius: 49px;
+  margin: 1px;
+  margin-right: 2px;
+  height: 40px;
+  display: inline-block;
+  width: 40px;
 }
 
 .suggestions-list {

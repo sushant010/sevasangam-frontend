@@ -3,66 +3,66 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useSearch } from '../../context/SearchContect';
 
 const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const { searchParams, setSearchParams } = useSearch();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('templeName') || '');
   const [location, setLocation] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
   const api = import.meta.env.VITE_API_URL;
 
-  // Debounce function to limit the rate of API calls
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return (...args) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(null, args);
-      }, delay);
-    };
-  };
 
-  const fetchSuggestions = async (term) => {
-    if (term) {
-      try {
-        const res = await axios.get(`${api}/temple/search-temple-suggestions`, {
-          params: { search: term }
-        });
-        if (res.data.success) {
-          console.log(res.data.data)
-          setSuggestions(res.data.data);
-        }
-      } catch (error) {
-        console.error('Error fetching suggestions:', error);
-      }
-    } else {
-      setSuggestions([]);
-    }
-  };
+  // const fetchSuggestions = async (term) => {
+  //   if (term) {
+  //     try {
+  //       const res = await axios.get(`${api}/temple/search-temple-suggestions`, {
+  //         params: { search: term }
+  //       });
+  //       if (res.data.success) {
+  //         setSuggestions(res.data.data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching suggestions:', error);
+  //     }
+  //   } else {
+  //     setSuggestions([]);
+  //   }
+  // };
 
-  const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
-
-  const handleSearch = (e) => {
+  const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-    debouncedFetchSuggestions(term);
+    // fetchSuggestions(term);
   };
 
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
   };
 
-
   const handleSearchSubmit = (id) => {
     if (inHomepage && handleSearchSubmitOnHomepage) {
       handleSearchSubmitOnHomepage(id);
     } else {
       const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
-      const formattedLocation = location.toLowerCase().replace(/\s+/g, '+');
-      navigate(`/temple/${id}`);
+      const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
+      navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&location=${formattedLocation}` : ''}`);
+
     }
+    setSuggestions([]); // Clear suggestions after search
   };
 
+  // const handleSuggestionClick = (suggestion) => {
+  //   setSearchTerm(suggestion.templeName);
+  //   handleSearchSubmit(suggestion._id);
+  // };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit();
+    }
+  };
 
   const fetchLocation = () => {
     if ("geolocation" in navigator) {
@@ -83,7 +83,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
   };
 
   useEffect(() => {
-    // fetchLocation()
+    fetchLocation();
   }, []);
 
   return (
@@ -94,9 +94,11 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
           <input
             list="locations"
             name="locations"
+            placeholder="Location"
             id="locations"
             value={location}
             onChange={handleLocationChange}
+            onKeyPress={handleKeyPress}
           />
           <datalist id="locations">
             <option value="">All Locations</option>
@@ -106,35 +108,34 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
           </datalist>
         </div>
         <div className="search-input">
-          <i className="fa-solid fa-search"></i>
+          {/* <i className="fa-solid fa-gopuram"></i> */}
+          <i className="fa-solid fa-synagogue"></i>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Name"
             value={searchTerm}
-            onChange={handleSearch}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleSearchSubmit();
-              }
-            }}
+            onChange={handleSearchChange}
+            onKeyPress={handleKeyPress}
           />
-
-          {suggestions.length > 0 && (
+          {/* {suggestions.length > 0 && (
             <ul className="suggestions-list">
               {suggestions.map((suggestion, index) => (
-                <li key={index} onClick={() => handleSearchSubmit(suggestion._id)}>
+                <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
                   {suggestion.templeName.length > 15 ? suggestion.templeName.slice(0, 15) + '...' : suggestion.templeName}
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
         </div>
-
+        <button className="btn btn-theme-primary search-button" onClick={handleSearchSubmit}>
+          <i className="fa-solid fa-search"></i>
+        </button>
       </div>
       {/* Add your search results display here */}
     </div>
   );
 };
+
 SearchBar.propTypes = {
   inHomepage: PropTypes.bool,
   handleSearchSubmitOnHomepage: PropTypes.func

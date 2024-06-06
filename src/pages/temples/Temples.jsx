@@ -29,8 +29,6 @@ const Temples = () => {
     city: searchParams.get('city') || ''
   });
 
-
-
   const [sortOption, setSortOption] = useState(searchParams.get('sortOption') || '');
 
   const fetchTemples = async (reset = false) => {
@@ -61,10 +59,13 @@ const Temples = () => {
 
   // Function to handle scroll event
   const handleScroll = () => {
+    // setLoading(true);
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
     if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
+      // setLoading(false);
       fetchTemples(); // Fetch more temples when scrolled to the bottom
+
     }
   };
 
@@ -207,11 +208,11 @@ const Temples = () => {
                 {/* Add city options here */}
               </select>
             </div>
-            {/* <div className="col-md-1">
+            <div className="col-md-1">
               <div className="d-flex justify-content-end m-0 p-0">
                 <button type="submit" className="btn btn-theme-primary"><i className="fa-solid fa-filter"></i></button>
               </div>
-            </div> */}
+            </div>
           </form>
         </div>
       </section>
@@ -228,7 +229,7 @@ const Temples = () => {
 
         </div>
         {loading && (
-          <section className="d-flex m-auto">
+          <section className="d-flex justify-content-center m-auto">
             <HashLoader color={"#ff395c"} />
           </section>
         )}
