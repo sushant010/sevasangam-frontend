@@ -55,7 +55,7 @@ export default function SelectComponentWithSearchForTempleName() {
     <div>
       <input
         type="text"
-        placeholder="Enter 3 digits to search"
+        placeholder="Temple Name"
         onChange={inputChange}
         ref={inputRef}
         className="form-control position-relative"
@@ -64,7 +64,7 @@ export default function SelectComponentWithSearchForTempleName() {
 
       {(loading || errorMessage || (selectData && selectData.length > 0)) && (
         <ul className="position-absolute bg-white border border-1 border-dark mt-1" style={{
-          width:"fitContent"
+          width: "fitContent"
         }}>
           {loading && <li className="spinner-border" role="status"></li>}
           {errorMessage && <li>{errorMessage}</li>}
@@ -75,7 +75,7 @@ export default function SelectComponentWithSearchForTempleName() {
                 inputRef.current.value = data.templeName;
                 setSelectData([]);
               }}
-              className="cursor-pointer mt-1 p-1 border-bottom border-1 border-dark" 
+              className="cursor-pointer mt-1 p-1 border-bottom border-1 border-dark"
               role="button"
             >
               {data.templeName}

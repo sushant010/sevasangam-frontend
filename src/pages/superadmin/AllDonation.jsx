@@ -16,7 +16,7 @@ const AllDonation = () => {
     const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
-    const [paymentMethod] = useState([]);
+    const [paymentMethod, setPaymentMethod] = useState([]);
     const [templeCreator, setTempleCreator] = useState([]);
     const [file, setFile] = useState(null);
 
@@ -56,10 +56,15 @@ const AllDonation = () => {
                 if (reset) {
                     setRazorpayDonations(res.data.razorpayDonations);
                     setDonations(res.data.donations);
+
                 } else {
                     setRazorpayDonations(prev => [...prev, ...res.data.razorpayDonations]);
                     setDonations(prev => [...prev, ...res.data.donations]);
                 }
+                const methods = res.data.razorpayDonations && res.data.razorpayDonations.map(donation => donation.method);
+
+                setPaymentMethod(Array.from(new Set(methods)));
+
                 setPage(prev => prev + 1);
                 setHasMore(res.data.razorpayDonations.length === 10);
             } else {
@@ -120,7 +125,7 @@ const AllDonation = () => {
 
 
 
-        
+
         const newSearchParams = new URLSearchParams();
         for (const key in filters) {
             if (filters[key]) {
@@ -130,10 +135,10 @@ const AllDonation = () => {
 
         inputs.forEach(input => {
             const { name, value } = input;
-            
-                newSearchParams.set(name, value);
-            
-        });        
+
+            newSearchParams.set(name, value);
+
+        });
         setSearchParams(newSearchParams);
     };
 
@@ -152,13 +157,13 @@ const AllDonation = () => {
         });
 
 
-    //after its set then fetch data
+        //after its set then fetch data
 
         fetchAllDonation(true);
-    
 
 
-    },[searchParams])
+
+    }, [searchParams])
 
     const getUniqueObjects = (array, key) => {
         const uniqueKeys = new Set();
@@ -260,7 +265,7 @@ const AllDonation = () => {
 
                         </div>
                         <div className="col-md-3">
-                            < SelectComponentWithSearchForCreator templeName = {filters.temple} />
+                            < SelectComponentWithSearchForCreator templeName={filters.temple} />
                             {/* <select
                                 className="form-select"
                                 name="templeCreatedBy"
@@ -302,7 +307,7 @@ const AllDonation = () => {
                             >
                                 <option value="">Select Payment Method</option>
                                 {
-                                    paymentMethod.map((method, index) => (
+                                    paymentMethod.length > 0 && paymentMethod.map((method, index) => (
                                         <option key={index} value={method}>{method}</option>
                                     ))
                                 }
@@ -396,7 +401,7 @@ const AllDonation = () => {
                                                     <div className="fw-bold text-danger">Request Received Again</div>
                                                 </div>
                                             ) : (
-        
+
                                                 <div className="fw-bold text-danger">Request Received</div>
                                             )
                                         ) : (
