@@ -11,8 +11,7 @@ import Contact from "./pages/contact/Contact";
 import Temples from "./pages/temples/Temples";
 import Temple from "./pages/temple/Temple";
 import OurTeamAndJourney from "./pages/our-team-and-journey/OurTeamAndJourney";
-import PrivacyPolicy from "./pages/staticPages/privacy-policy/PrivacyPolicy";
-import TermsAndConditions from "./pages/terms-and-conditions/TermsAndConditions";
+
 import AddTemple from "./pages/admin/AddTemple";
 import IsSuperadmin from "./routes/IsSuperadmin";
 import IsTempleAdmin from "./routes/IsTempleAdmin";
@@ -35,6 +34,8 @@ import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
 import AllDonationsAdmin from "./pages/admin/AllDonationsAdmin";
 import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 import Faq from "./pages/staticPages/FAQ/Faq"
+import PrivacyPolicy from "./pages/staticPages/PrivacyPolicy";
+import TermsAndConditions from "./pages/staticPages/TermsAndConditions";
 
 
 function App() {

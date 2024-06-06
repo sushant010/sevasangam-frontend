@@ -319,6 +319,26 @@ section {
   }
 }
 
+/* static pages */
+.accordion-button,
+.accordion-collapse {
+  transition: all 0.3s;
+}
+
+.accordion-collapse {
+  background-color: #fdfdfd;
+  color: var(--text-color-grey-dark);
+  font-weight: 500;
+}
+.accordion-button:not(.collapsed),
+.accordion-button:hover {
+  color: #f5f5f5;
+  background-color: var(--color-theme-primary);
+  border: none;
+  border-radius: 0;
+  font-weight: 700;
+}
+
 @media screen and (max-width: 768px) {
   .text-xl {
     font-size: 1.6rem;

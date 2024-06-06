@@ -91,7 +91,7 @@ const Footer = () => {
             <Link to="/">How it works</Link>
             <Link to="/">Privacy Policy</Link>
             <Link to="/">Add a Temple</Link>
-            <Link to="/">FAQs</Link>
+            <Link to="/faq">FAQs</Link>
           </div>
         </div>
         <div className="d-flex flex-column">

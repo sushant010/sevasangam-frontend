@@ -1,22 +1,17 @@
-import Layout from "../../../components/layout/Layout"
+import Layout from "../../components/layout/Layout"
+
 
 
 
 const PrivacyPolicy = () => {
   return (
     <Layout>
-      <section className="banner">
-        <div className="banner-text">
-          <h2 className="text-heading">Privacy Policy</h2>
-          <p className="text-md fw-bold text-grey-dark">
-            SevaSangam is a platform that connects devotees with temples and
-            trusts. We aim to make temple donations transparent, easy, and
-            accessible to all.
-          </p>
-          <button className=" btn primary">Donate Now</button>
-        </div>
-      </section>
+
       <section>
+
+        <div className="section-heading">
+          Privacy policy
+        </div>
 
         <p>
           This Privacy Policy describes Our policies and procedures on the

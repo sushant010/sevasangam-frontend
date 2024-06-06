@@ -172,7 +172,7 @@ const TrendingTemples = () => {
                         <tr>
                             <th>Temple Name</th>
                             <th>Location</th>
-                            <th>Image</th>
+
                             <th>Action</th>
                         </tr>
                     </thead>
