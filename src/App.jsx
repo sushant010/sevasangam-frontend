@@ -11,7 +11,7 @@ import Contact from "./pages/contact/Contact";
 import Temples from "./pages/temples/Temples";
 import Temple from "./pages/temple/Temple";
 import OurTeamAndJourney from "./pages/our-team-and-journey/OurTeamAndJourney";
-import PrivacyPolicy from "./pages/privacy-policy/PrivacyPolicy";
+import PrivacyPolicy from "./pages/staticPages/privacy-policy/PrivacyPolicy";
 import TermsAndConditions from "./pages/terms-and-conditions/TermsAndConditions";
 import AddTemple from "./pages/admin/AddTemple";
 import IsSuperadmin from "./routes/IsSuperadmin";
@@ -34,6 +34,7 @@ import ContactTicket from "./pages/superadmin/ContactTicket";
 import SubscribedEmails from "./pages/superadmin/SubscibedEmails";
 import AllDonationsAdmin from "./pages/admin/AllDonationsAdmin";
 import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
+import Faq from "./pages/staticPages/FAQ/Faq"
 
 
 function App() {
@@ -61,6 +62,8 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/update-profile" element={<UpdateProfile />} />
+          <Route path="/faq" element={<Faq />} />
+
 
 
 
