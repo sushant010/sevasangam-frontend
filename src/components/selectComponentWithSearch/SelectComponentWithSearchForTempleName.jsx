@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
-export default function SelectComponentWithSearch() {
+export default function SelectComponentWithSearchForTempleName() {
   const [selectData, setSelectData] = useState([]);
   const [searchData, setSearchData] = useState("");
   const [errorMessage, setErrorMessage] = useState("");

@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
-import SelectComponentWithSearch from '../../components/slectComponentWithSearch/SelectComponentWithSearch';
+import SelectComponentWithSearchForTempleName from '../../components/selectComponentWithSearch/SelectComponentWithSearchForTempleName';
 
 
 const AllDonation = () => {
@@ -240,7 +240,7 @@ const AllDonation = () => {
                 <div className="filter-container my-4">
                     <form className="row g-4" onSubmit={handleFilterSubmit}>
                         <div className="col-md-2">
-                            <SelectComponentWithSearch />
+                            <SelectComponentWithSearchForTempleName />
 
                         </div>
                         <div className="col-md-3">
@@ -379,10 +379,7 @@ const AllDonation = () => {
                                                     <div className="fw-bold text-danger">Request Received Again</div>
                                                 </div>
                                             ) : (
-                                                // <div>
-                                                //     <input type="file" onChange={handleFileChange} />
-                                                //     <button onClick={() => handleUpload80GCertificate(customDonation._id)}>Upload</button>
-                                                // </div>
+        
                                                 <div className="fw-bold text-danger">Request Received</div>
                                             )
                                         ) : (
