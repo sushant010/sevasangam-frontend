@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
 import SelectComponentWithSearchForTempleName from '../../components/selectComponentWithSearch/SelectComponentWithSearchForTempleName';
+import SelectComponentWithSearchForCreator from '../../components/selectComponentWithSearch/selectComponentWithSearchForCreator';
 
 
 const AllDonation = () => {
@@ -44,6 +45,7 @@ const AllDonation = () => {
                 count: 10, // Number of donations per page
                 skip: reset ? 0 : (page - 1) * 10,
                 temple: searchParams.get('temple') || '',
+                payId: searchParams.get('payId') || '',
                 templeCreatedBy: searchParams.get('templeCreatedBy') || '',
                 donateUser: searchParams.get('donateUser') || '',
                 paymentMethod: searchParams.get('paymentMethod') || '',
@@ -52,7 +54,6 @@ const AllDonation = () => {
             });
             if (res.data.success) {
                 if (reset) {
-                    console.log(res.data.razorpayDonations)
                     setRazorpayDonations(res.data.razorpayDonations);
                     setDonations(res.data.donations);
                 } else {
@@ -95,13 +96,27 @@ const AllDonation = () => {
             ...prevFilters,
             [name]: value
         }));
+        //set search params
+        setSearchParams(
+            (prevSearchParams) => {
+                const newSearchParams = new URLSearchParams(prevSearchParams);
+                if (value) {
+                    newSearchParams.set(name, value);
+                } else {
+                    newSearchParams.delete(name);
+                }
+                return newSearchParams;
+            }
+        )
     };
 
     const handleFilterSubmit = (e) => {
         e.preventDefault();
         //fetch inputs from form
 
-        const inputs = e.target.querySelectorAll('input');
+        const inputs = e.target.querySelectorAll(
+            'input, select'
+        );
 
 
 
@@ -116,15 +131,15 @@ const AllDonation = () => {
         inputs.forEach(input => {
             const { name, value } = input;
             
-            // if (value) {
                 newSearchParams.set(name, value);
-            // }
             
         });        
         setSearchParams(newSearchParams);
     };
 
     useEffect(() => {
+
+
 
         setFilters({
             temple: searchParams.get('temple') || '',
@@ -135,6 +150,7 @@ const AllDonation = () => {
             dateFrom: searchParams.get('dateFrom') || '',
             dateTo: searchParams.get('dateTo') || ''
         });
+
 
     //after its set then fetch data
 
@@ -244,7 +260,8 @@ const AllDonation = () => {
 
                         </div>
                         <div className="col-md-3">
-                            <select
+                            < SelectComponentWithSearchForCreator templeName = {filters.temple} />
+                            {/* <select
                                 className="form-select"
                                 name="templeCreatedBy"
                                 value={filters.templeCreatedBy}
@@ -254,7 +271,7 @@ const AllDonation = () => {
                                 {templeCreator && templeCreator.map((creator, index) => (
                                     <option key={index} value={creator._id}>{creator.name}</option>
                                 ))}
-                            </select>
+                            </select> */}
                         </div>
                         <div className="col-md-2">
                             <input
