@@ -72,6 +72,10 @@ const LoginModal = () => {
         toast.success(res.data.message);
 
         setCredentials({ email: "", password: "" });
+
+
+        const expirationTime = Date.now() + 7 * 24 * 60 * 60 * 1000;
+        localStorage.setItem('tokenExpiration', expirationTime);
       } else {
         toast.error(res.data.error);
       }

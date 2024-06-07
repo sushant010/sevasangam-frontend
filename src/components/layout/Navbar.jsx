@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import img from './../../assets/images/sevasangam-logo.png'
 import SearchBar from '../searchBar/SearchBar'
 import { useAuth } from '../../context/Auth'
@@ -10,6 +10,7 @@ const Navbar = () => {
   const [auth] = useAuth();
 
   const toggleNavButton = useRef(null);
+  const navigate = useNavigate();
 
   const toggleNavbar = () => {
     const buttonElement = toggleNavButton.current;
@@ -22,18 +23,42 @@ const Navbar = () => {
 
   }
 
+
+
   const logout = () => {
 
     localStorage.removeItem('auth')
+    localStorage.removeItem('tokenExpiration');
     window.location.reload()
+    navigate('/')
 
   }
 
 
+  const checkTokenExpiration = () => {
+    const token = localStorage.getItem('token');
+    const expirationTime = localStorage.getItem('tokenExpiration');
+
+    if (token && expirationTime) {
+      const currentTime = Date.now();
+
+      if (currentTime > expirationTime) {
+        // Token is expired, log the user out
+        logout();
+      } else {
+        // Token is still valid, set a timeout to log out the user when it expires
+        setTimeout(logout, expirationTime - currentTime);
+      }
+    }
+  };
+
   useEffect(() => {
 
+    checkTokenExpiration();
 
-  })
+  }, []);
+
+
 
   return (
 
