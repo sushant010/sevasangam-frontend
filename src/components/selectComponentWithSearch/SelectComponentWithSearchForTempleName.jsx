@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
+// import "./selectStyle.css"
 
 export default function SelectComponentWithSearchForTempleName() {
   const [selectData, setSelectData] = useState([]);
@@ -63,8 +64,11 @@ export default function SelectComponentWithSearchForTempleName() {
       />
 
       {(loading || errorMessage || (selectData && selectData.length > 0)) && (
-        <ul className="position-absolute bg-white border border-1 border-dark mt-1" style={{
-          width: "fitContent"
+        <ul className="position-absolute bg-white mt-1 shadow py-2" style={{
+          width: "fitContent",
+          zIndex: 100,
+          backgroundColor: "white",
+          borderRadius: "5px",
         }}>
           {loading && <li className="spinner-border" role="status"></li>}
           {errorMessage && <li>{errorMessage}</li>}
@@ -75,8 +79,13 @@ export default function SelectComponentWithSearchForTempleName() {
                 inputRef.current.value = data.templeName;
                 setSelectData([]);
               }}
-              className="cursor-pointer mt-1 p-1 border-bottom border-1 border-dark"
+              className="cursor-pointer mt-1 p-1 "
+
               role="button"
+              style={{
+                backgroundColor: "#f5f5f5",
+                
+              }}
             >
               {data.templeName}
             </li>
