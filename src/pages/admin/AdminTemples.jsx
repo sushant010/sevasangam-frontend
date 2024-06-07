@@ -8,6 +8,8 @@ import { useAdminTemples } from "../../context/AdminTemples";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import SelectComponentWithSearchForTempleName from "../../components/selectComponentWithSearch/SelectComponentWithSearchForTempleName";
+import SelectComponentWithSearchForCreator from "../../components/selectComponentWithSearch/selectComponentWithSearchForCreator";
 
 const AdminTemples = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -60,12 +62,55 @@ const AdminTemples = () => {
     fetchTemplesByAdmin();
   }, []);
 
+  const filterSubmit = (e)=>{
+    e.preventDefault()
+  }
+
   return (
     <Layout>
       <section>
         <div className="section-heading">
           {auth.user.role == 2 ? "All Temples" : "Temples Added by you"}
         </div>
+      {/* Filter section */}
+      
+      <div className="filter-container my-4">
+        <form className="row g-4" onSubmit={filterSubmit}>
+          <div className="col-md-4">
+            <SelectComponentWithSearchForTempleName />
+          </div>
+          <div className="col-md-4">
+            <SelectComponentWithSearchForCreator />
+          </div>
+          {/* Verified or not */}
+          <div className="col-md-3">
+            <select className="form-select" name="verified" >
+              <option value="0">Verified</option>
+              <option value="1">Not Verified</option>
+            </select>
+          </div>
+          {/* Created after */}
+          <div className="col-md-3">
+            <label htmlFor="createdAfter" className="form-label"> Created After</label>
+            <input type="date" className="form-control" name="createdAfter" />
+          </div>
+          {/* Created before */}
+          <div className="col-md-3">
+            <label htmlFor="createdBefore" className="form-label"> Created Before</label>
+            <input type="date" className="form-control" name="createdBefore" />
+          </div>
+
+          <div className="col-md-3 flex-column align-items-center justify-content-center">
+            <button type="submit" className="btn btn-theme-primary">
+              Search
+            </button>
+          </div>
+
+
+
+        </form>
+
+      </div>
         {!adminTemples && <div className="loader"></div>}
         <div className="listing-container m-auto">
           {adminTemples &&

@@ -126,7 +126,7 @@ function Home() {
     <>
       <Layout>
 
-        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Indias Most Trusted and Transparent Temple Donation Platform" description="Join hands with us in upholding tradition, fostering inclusivity,
+        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Welcome to SevaSangam - Your Gateway to Spiritual Connection." description="Join hands with us in upholding tradition, fostering inclusivity,
         and spreading love and light to all. Make your mark on Temples
         journey today by giving from your heart to ours." />
 
@@ -159,26 +159,26 @@ function Home() {
           <div className="d-flex align-items-center">
             <div className="d-flex align-items-center gap-4">
               <div>
-                <div className="text-heading">6,453</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading">16,453</div>
+                <p className="text-medium">Volunteers in 2022</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">1,56,236</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading">56,236</div>
+                <p className="text-medium">Volunteers in 2023</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">6,453</div>
+                <div className="text-heading">1,26,538</div>
                 <p className="text-medium">Volunteers in 2024</p>
                 <hr></hr>
               </div>
             </div>
 
             <div className="d-flex flex-column gap-3">
-              <p className="text-md">
+              {/* <p className="text-md">
                 Join hands with us in upholding tradition, fostering inclusivity
-              </p>
+              </p> */}
               <h2 className="text-heading">
                 Lorem Ipsum has been the industrys standard dummy
               </h2>
