@@ -52,7 +52,10 @@ const VerifyTempleChanges = () => {
             const res = await axios.post(`${api}/temple/verify-temple/${id}`);
             if (res.data.success) {
                 toast.success(res.data.message);
-                setTimeout(() => { navigate('/superadmin/unverified-temples') }, 2000);
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    navigate('/superadmin/unverified-temples')
+                }, 2000);
             }
         } catch (error) {
             console.error('Error approving changes:', error);

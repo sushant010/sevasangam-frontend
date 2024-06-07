@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./temples.css";
 import HashLoader from "react-spinners/HashLoader";
+import { getQueryParams } from "../../utils/getQueryParams";
 
 const Temples = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -20,6 +21,7 @@ const Temples = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [statesOfTemple, setStatesOfTemple] = useState([]);
 
   const [filters, setFilters] = useState({
     templeName: searchParams.get('templeName') || '',
@@ -32,6 +34,7 @@ const Temples = () => {
   const [sortOption, setSortOption] = useState(searchParams.get('sortOption') || '');
 
   const fetchTemples = async (reset = false) => {
+
     if (loading || (!hasMore && !reset)) return; // Prevent additional fetches if already loading or no more temples
 
     setLoading(true); // Set loading to true before the API call
@@ -57,6 +60,11 @@ const Temples = () => {
     }
   };
 
+  const fetchStates = async () => {
+
+    const res = await axios.get(`${api}/temple/get-states-of-temples`);
+    setStatesOfTemple(res.data.data);
+  }
   // Function to handle scroll event
   const handleScroll = () => {
     // setLoading(true);
@@ -77,11 +85,33 @@ const Temples = () => {
 
   // Fetch temples when filters or sortOption change
   useEffect(() => {
+    fetchStates();
     fetchTemples(true);
   }, [filters, sortOption]);
 
+
+  useEffect(() => {
+    const queryParams = getQueryParams();
+    const filtersFromQuery = {
+      templeName: queryParams.get('templeName') || '',
+      typeOfOrganization: queryParams.get('typeOfOrganization') || '',
+      address: queryParams.get('address') || '',
+      state: queryParams.get('state') || '',
+      city: queryParams.get('city') || ''
+    };
+    const sortOptionFromQuery = queryParams.get('sortOption') || '';
+
+    setFilters(filtersFromQuery);
+    setSortOption(sortOptionFromQuery);
+
+
+    fetchTemples(true); // Fetch with reset = true
+
+  }, []);
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
+    setSearchParams({});
     setFilters(prevFilters => ({
       ...prevFilters,
       [name]: value
@@ -112,12 +142,14 @@ const Temples = () => {
       }
 
       setSearchParams(newSearchParams);
+      window.scrollTo(0, 0);
       navigate({
         search: newSearchParams.toString()
       });
     } else {
       // If neither filters nor sort option are set, clear the search parameters
       setSearchParams('');
+      window.scrollTo(0, 0);
       navigate({
         search: ''
       });
@@ -126,6 +158,7 @@ const Temples = () => {
 
   return (
     <Layout>
+
       <section className="banner p-4" style={{ minHeight: "200px" }}>
         <div className="banner-text">
           <h2 className="text-heading">Temples</h2>
@@ -140,7 +173,7 @@ const Temples = () => {
       <section>
         <div className="filter-container">
           <form className="row g-4" onSubmit={handleFilterSubmit}>
-            <div className="col-md-2">
+            <div className="col-md-5">
               <div className="sort-buttons d-flex align-items-center">
                 <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
                   className={`btn ${sortOption === 'mostPopular' ? 'btn-theme-primary' : 'btn-outline-theme-primary'}`}
@@ -153,6 +186,12 @@ const Temples = () => {
                   onClick={() => handleSortOption('recentlyAdded')}
                 >
                   Recently Added
+                </button>
+                <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                  className={`btn ${sortOption === 'trending' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
+                  onClick={() => handleSortOption('trending')}
+                >
+                  Trending Temples
                 </button>
               </div>
             </div>
@@ -194,10 +233,14 @@ const Temples = () => {
                 onChange={handleFilterChange}
               >
                 <option value="">Select State</option>
-                {/* Add state options here */}
+                {statesOfTemple && statesOfTemple.map((state, index) => (
+
+                  <option key={index} value={state}>{state}</option>
+                ))}
+
               </select>
             </div>
-            <div className="col-md-2">
+            {/* <div className="col-md-2">
               <select
                 className="form-select"
                 name="city"
@@ -205,14 +248,14 @@ const Temples = () => {
                 onChange={handleFilterChange}
               >
                 <option value="">Select City</option>
-                {/* Add city options here */}
+             
               </select>
-            </div>
-            <div className="col-md-1">
+            </div> */}
+            {/* <div className="col-md-1">
               <div className="d-flex justify-content-end m-0 p-0">
                 <button type="submit" className="btn btn-theme-primary"><i className="fa-solid fa-filter"></i></button>
               </div>
-            </div>
+            </div> */}
           </form>
         </div>
       </section>

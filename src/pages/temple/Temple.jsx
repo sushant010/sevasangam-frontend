@@ -13,6 +13,7 @@ import { useDonate } from "../../context/Donate";
 import currencyCodes from "currency-codes";
 import getSymbolFromCurrency from "currency-symbol-map";
 import ListingCard from "../../components/listingCard/ListingCard";
+import Carousel from "react-grid-carousel";
 
 const Temple = () => {
   //console all the currency code with symbols
@@ -94,6 +95,7 @@ const Temple = () => {
       "donate",
       JSON.stringify({ amount: amount, templeId: temple._id })
     );
+    window.scrollTo(0, 0);
     navigate({
       pathname: "/checkout",
       search: `?${createSearchParams({ currency: currency })}`,
@@ -117,7 +119,7 @@ const Temple = () => {
     try {
       const res = await axios.post(
         `${api}/temple/fetch-similar-temples/${id}`,
-        { limit: 4 }
+        { limit: 7 }
       );
       const { data } = res.data;
       setSimilarTemple(data.temples);
@@ -126,6 +128,11 @@ const Temple = () => {
       // Handle error, e.g., display a toast message
     }
   };
+
+  const handleViewAllSimilarTemples = () => {
+    window.scrollTo(0, 0);
+    navigate('/temples?sortOption=trending')
+  }
 
   useEffect(() => {
     fetchTemple();
@@ -478,12 +485,34 @@ const Temple = () => {
           </span>
         </div>
 
-        <div className="listing-container">
-          {similarTemple &&
-            similarTemple.length > 0 &&
-            similarTemple.map((temple, index) => (
-              <ListingCard key={index} temple={temple} />
+        <div className="listing-container row">
+          <Carousel cols={4} rows={1} gap={1} loop>
+            {similarTemple && similarTemple.map((temple, index) => (
+
+
+              <Carousel.Item key={index}>
+                <ListingCard
+                  key={index} temple={temple}
+                />
+              </Carousel.Item>
+
             ))}
+
+            {similarTemple.length > 8
+              && (
+                <Carousel.Item >
+                  <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+
+
+                    <button onClick={handleViewAllSimilarTemples} className="btn btn-theme-primary">View All Similar Temples</button>
+                  </div>
+                </Carousel.Item>
+              )}
+
+
+          </Carousel>
+
+
         </div>
       </section>
     </Layout>

@@ -30,6 +30,7 @@ const Navbar = () => {
     localStorage.removeItem('auth')
     localStorage.removeItem('tokenExpiration');
     window.location.reload()
+    window.scrollTo(0, 0);
     navigate('/')
 
   }

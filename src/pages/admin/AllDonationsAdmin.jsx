@@ -140,12 +140,14 @@ const AllDonationsAdmin = () => {
         }
       }
       setSearchParams(newSearchParams);
+      window.scrollTo(0, 0);
       navigate({
         search: newSearchParams.toString(),
       });
     } else {
       // If neither filters nor sort option are set, clear the search parameters
       setSearchParams("");
+      window.scrollTo(0, 0);
       navigate({
         search: "",
       });

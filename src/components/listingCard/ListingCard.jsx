@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const ListingCard = ({ temple }) => {
   const {
     templeName,
-    location: { address = '', country = '' } = {},
     donation,
     images: { logo } = {}
   } = temple;
@@ -12,6 +11,7 @@ const ListingCard = ({ temple }) => {
   const navigate = useNavigate();
 
   const navigateToTemple = (id) => () => {
+    window.scrollTo(0, 0);
     navigate('/temple/' + id)
   }
 
@@ -27,7 +27,7 @@ const ListingCard = ({ temple }) => {
       <div className="listing-content">
         <h2 className="listing-title fw-bold">{templeName}</h2>
         <p className="listing-description text-grey-light text-sm">
-          {temple.location.address.city ? temple.location.address.city : 'City'}, {temple.location.address.state ? temple.location.address.state : 'State'}, {temple.location.address.country ? temple.location.address.country : 'Country'}
+          {temple.location.city ? temple.location.city : 'City'}, {temple.location.state ? temple.location.state : 'State'}, {temple.location.country ? temple.location.country : 'Country'}
         </p>
         <p className="text-grey-light fw-normal text-xs">
           ₹ {donation} Donated in last 30 days
@@ -43,7 +43,9 @@ ListingCard.propTypes = {
     templeName: PropTypes.string.isRequired,
     location: PropTypes.shape({
       address: PropTypes.string,
-      country: PropTypes.string
+      country: PropTypes.string,
+      city: PropTypes.string,
+      state: PropTypes.string
     }),
     donation: PropTypes.number.isRequired,
     images: PropTypes.shape({

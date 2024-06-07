@@ -239,6 +239,7 @@ const UpdateTemple = () => {
             if (res.data.success) {
                 toast.success(res.data.message);
                 setTimeout(() => {
+                    window.scrollTo(0, 0);
                     navigate(auth.user.role === 2 ? '/superadmin/temples' : '/admin/temples');
                 }, 2000);
             } else {

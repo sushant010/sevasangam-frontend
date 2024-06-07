@@ -8,6 +8,8 @@ import ListingCard from "../../components/listingCard/ListingCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Carousel from 'react-grid-carousel'
+import { useNavigate } from "react-router-dom";
 
 function Home() {
 
@@ -19,6 +21,7 @@ function Home() {
   const [searchTemple, setSearchTemple] = useState({})
 
   const [trendingTemples, setTrendingTemples] = useState([])
+  const navigate = useNavigate();
 
 
 
@@ -29,7 +32,7 @@ function Home() {
 
   const fetchPopularTemples = async () => {
     try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 4 });
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 7 });
       if (response.data.success) {
         setPopularTemples(response.data.data.temples);
       } else {
@@ -42,7 +45,7 @@ function Home() {
 
   const fetchRecentlyCreatedTemples = async () => {
     try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded', limit: 4 });
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded', limit: 7 });
       if (response.data.success) {
         setRecentlyCreatedTemples(response.data.data.temples);
       } else {
@@ -67,6 +70,23 @@ function Home() {
     }
   };
 
+  const handleViewAllPopularTemples = () => {
+
+    window.scrollTo(0, 0);
+    navigate('/temples?sortOption=mostPopular')
+  }
+
+  const handleViewAllRecentCreatedTemples = () => {
+
+    window.scrollTo(0, 0);
+    navigate('/temples?sortOption=recentlyAdded')
+  }
+
+  const handleViewAllTrendingTemples = () => {
+    window.scrollTo(0, 0);
+    navigate('/temples?sortOption=trending')
+  }
+
   const handleSearchSubmitOnHomepage = async (id) => {
 
     try {
@@ -85,7 +105,7 @@ function Home() {
   const fetchTrendingTemples = async () => {
 
     try {
-      const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "4" } });
+      const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "7" } });
 
       if (res.data.success) {
         setTrendingTemples(res.data.data.temples)
@@ -312,13 +332,33 @@ function Home() {
               </span>
             </div>
 
-            <div className="listing-container">
-              {trendingTemples.map((temple, index) => (
-                <ListingCard
-                  key={index} temple={temple}
-                />
+            <div className="listing-container row">
 
-              ))}
+              <Carousel cols={4} rows={1} gap={1} loop>
+                {trendingTemples.map((temple, index) => (
+
+
+                  <Carousel.Item key={index}>
+                    <ListingCard
+                      key={index} temple={temple}
+                    />
+                  </Carousel.Item>
+
+                ))}
+
+                {trendingTemples.length > 8
+                  && (
+                    <Carousel.Item >
+                      <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+
+
+                        <button onClick={handleViewAllTrendingTemples} className="btn btn-theme-primary">View All Trending Temples</button>
+                      </div>
+                    </Carousel.Item>
+                  )}
+
+
+              </Carousel>
             </div>
           </section>
         )
@@ -334,13 +374,29 @@ function Home() {
               </span>
             </div>
 
-            <div className="listing-container">
-              {popularTemples.map((temple, index) => (
-                <ListingCard
-                  key={index} temple={temple}
-                />
+            <div className="listing-container row">
 
-              ))}
+              <Carousel cols={4} rows={1} gap={1} loop>
+                {popularTemples.map((temple, index) => (
+
+
+                  <Carousel.Item key={index}>
+                    <ListingCard
+                      key={index} temple={temple}
+                    />
+                  </Carousel.Item>
+
+                ))}
+
+                <Carousel.Item >
+                  <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+
+
+                    <button onClick={handleViewAllPopularTemples} className="btn btn-theme-primary">View All Popular Temples</button>
+                  </div>
+                </Carousel.Item>
+
+              </Carousel>
 
 
             </div>
@@ -356,13 +412,29 @@ function Home() {
               </span>
             </div>
 
-            <div className="listing-container">
-              {recentlyCreatedTemples && recentlyCreatedTemples.map((temple, index) => (
-                <ListingCard
-                  key={index} temple={temple}
-                />
+            <div className="listing-container row">
+              <Carousel cols={4} rows={1} gap={1} loop>
+                {recentlyCreatedTemples.map((temple, index) => (
 
-              ))}
+
+                  <Carousel.Item key={index}>
+                    <ListingCard
+                      key={index} temple={temple}
+                    />
+                  </Carousel.Item>
+
+                ))}
+
+                <Carousel.Item >
+                  <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+
+
+                    <button onClick={handleViewAllRecentCreatedTemples} className="btn btn-theme-primary">View All Recent Created Temples</button>
+                  </div>
+                </Carousel.Item>
+
+              </Carousel>
+
             </div>
           </section>
 
