@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 import propTypes from "prop-types";
+import "./selectStyle.css";
 
 SelectComponentWithSearchForCreator.propTypes = {
   templeName: propTypes.string,
@@ -34,14 +35,14 @@ export default function SelectComponentWithSearchForCreator({
 
   useEffect(() => {
     if (searchData === "" && templeNameState === false) {
-      return ;
+      return;
     }
     console.log("................");
     console.log(searchData, templeNameState);
     setErrorMessage("");
     const fetchTemples = async () => {
       setLoading(true);
-      console.log("fetching data")
+      console.log("fetching data");
       const api = import.meta.env.VITE_API_URL;
 
       try {
@@ -83,22 +84,28 @@ export default function SelectComponentWithSearchForCreator({
 
       {(loading || errorMessage || (selectData && selectData.length > 0)) && (
         <ul
-          className="position-absolute bg-white border border-1 border-dark mt-1"
+          className="position-absolute bg-white mt-1 shadow py-2 z-n1"
           style={{
             width: "fitContent",
+            zIndex: 100,
+            backgroundColor: "white",
+            borderRadius: "5px",
           }}
         >
           {loading && <li className="spinner-border" role="status"></li>}
           {errorMessage && <li>{errorMessage}</li>}
-          {selectData.map((data,i) => (
+          {selectData.map((data, i) => (
             <li
               key={i}
               onClick={() => {
                 inputRef.current.value = data.name;
                 setSelectData([]);
               }}
-              className="cursor-pointer mt-1 p-1 border-bottom border-1 border-dark"
+              className="cursor-pointer mt-1 p-1 "
               role="button"
+              style={{
+                backgroundColor: "#f5f5f5",
+              }}
             >
               {data.name}
             </li>
