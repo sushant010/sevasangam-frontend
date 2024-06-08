@@ -32,6 +32,7 @@ const ListingCard = ({ temple }) => {
         <p className="text-grey-light fw-normal text-xs">
           ₹ {donation} Donated in last 30 days
         </p>
+
       </div>
     </div>
   );

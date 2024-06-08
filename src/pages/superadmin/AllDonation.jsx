@@ -56,6 +56,7 @@ const AllDonation = () => {
                 if (reset) {
                     setRazorpayDonations(res.data.razorpayDonations);
                     setDonations(res.data.donations);
+                    console.log(res.data.donations)
 
                 } else {
                     setRazorpayDonations(prev => [...prev, ...res.data.razorpayDonations]);
@@ -241,7 +242,7 @@ const AllDonation = () => {
             Temple: temples.find((temp) => temp._id === donation.notes.temple)?.templeName,
             DateOfDonation: formattedDate,
             DonationByUser: donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous",
-            Amount: donation.currency !== 'INR' ? donation.currency : "₹" + donation.amount,
+            Amount: donation.currency !== 'INR' ? donation.currency : "₹" + donation.notes.amount,
             PaymentMethod: donation.method,
             Certificate: customDonation.is80CertificateRequested ? (
                 customDonation.certificate ? 'View Certificate' : 'Request Received Again'
@@ -383,7 +384,7 @@ const AllDonation = () => {
                                         <td>{temples.find((temp) => temp._id === donation.notes.temple)?.templeName}</td>
                                         <td>{formattedDate}</td>
                                         <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
-                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
+                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.notes.amount}</td>
                                         <td>{donation.method}</td>
                                         <td className={donation.status == 'failed' ? 'text-danger' : 'text-success'}>{donation.status.slice(0, 1).toUpperCase() + donation.status.slice(1).toLowerCase()}</td>
                                         <td>{customDonation.is80CertificateRequested ? (

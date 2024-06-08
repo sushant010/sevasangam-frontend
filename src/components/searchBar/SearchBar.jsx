@@ -43,12 +43,13 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
 
   const handleSearchSubmit = (id) => {
     if (inHomepage && handleSearchSubmitOnHomepage) {
-      handleSearchSubmitOnHomepage(id);
+
+      handleSearchSubmitOnHomepage(searchTerm, location);
     } else {
       const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
       const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
       window.scrollTo(0, 0);
-      navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&location=${formattedLocation}` : ''}`);
+      navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
 
     }
     setSuggestions([]); // Clear suggestions after search
@@ -71,8 +72,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          console.log("Latitude:", latitude);
-          console.log("Longitude:", longitude);
+
         },
         (error) => {
           console.error("Error getting location:", error);

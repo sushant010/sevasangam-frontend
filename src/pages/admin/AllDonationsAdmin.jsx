@@ -190,7 +190,7 @@ const AllDonationsAdmin = () => {
       "Temple": temple,
       "Date of Donation": formattedDate,
       "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
-      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
+      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.notes.amount}` : `₹ ${donation.notes.amount}`,
       "Payment Method": donation.method,
       "80G Certificate": customDonation.certificate ? "Available" : "Not Available"
     };
@@ -392,7 +392,7 @@ const AllDonationsAdmin = () => {
                       )}
                       <td>
                         {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
-                        {donation.amount}
+                        {donation.notes.amount}
                       </td>
                       <td>{donation.method}</td>
                       <td>

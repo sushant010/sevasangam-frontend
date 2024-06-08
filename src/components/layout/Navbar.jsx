@@ -158,6 +158,8 @@ const Navbar = () => {
                       </Link>
                     </li>
 
+
+
                   </>
                 ) : auth.user.role === 2 ? (
                   <>
@@ -190,6 +192,16 @@ const Navbar = () => {
                     <li>
                       <Link className="dropdown-item" to="/superadmin/trending-temples">
                         Trending Temples
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/superadmin/contact-ticket">
+                        Tickets
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/superadmin/update-subscribed-emails">
+                        Subscribed Emails
                       </Link>
                     </li>
 

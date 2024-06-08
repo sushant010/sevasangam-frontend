@@ -23,7 +23,7 @@ function Home() {
   
   const [popularTemples, setPopularTemples] = useState([])
   const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
-  const [searchTemple, setSearchTemple] = useState({})
+  const [searchTemple, setSearchTemple] = useState([])
 
   const [trendingTemples, setTrendingTemples] = useState([])
   const navigate = useNavigate();
@@ -64,8 +64,10 @@ function Home() {
 
   const fetchfilteredTemples = async () => {
     try {
-      const response = await axios.post(`${api}/temple/filter-temples`, filters);
+
+      const response = await axios.post(`${api}/temple/filter-temples`, { limit: 3 });
       if (response.data.success) {
+
         setSearchTemple(response.data.data.temples);
       } else {
         toast.error(response.data.message);
@@ -92,13 +94,17 @@ function Home() {
     navigate('/temples?sortOption=trending')
   }
 
-  const handleSearchSubmitOnHomepage = async (id) => {
+
+  const handleSearchSubmitOnHomepage = async (searchTerm, location) => {
 
     try {
-      const res = await axios.get(`${api}/temple/get-temple/${id}`);
+      const res = await axios.post(`${api}/temple/filter-temples`, {
+        templeName: searchTerm,
+        address: location
+      }, { limit: 3 });
       const { data } = res.data;
       console.log(data)
-      setSearchTemple(data);
+      setSearchTemple(data.temples);
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
@@ -106,6 +112,10 @@ function Home() {
 
 
   }
+
+  // useEffect(() => {
+  //   handleSearchSubmitOnHomepage()
+  // }, [searchTemple])
 
   const fetchTrendingTemples = async () => {
 
@@ -165,12 +175,14 @@ function Home() {
           </div>
 
           <div className="listing-container center">
-            {searchTemple.templeName ? (
-              <ListingCard
-                temple={searchTemple}
-              />
+            {searchTemple.length > 0 ? (
+              searchTemple.map((temple) => (
+                <ListingCard
+                  key={temple._id} temple={temple}
+                />
+              ))
             ) : (
-              popularTemples.map((temple) => (
+              popularTemples.slice(0, 3).map((temple) => (
                 <ListingCard
                   key={temple._id} temple={temple}
                 />

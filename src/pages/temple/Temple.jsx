@@ -67,6 +67,7 @@ const Temple = () => {
   const [currency, setCurrency] = useState("INR");
   const [currencySymbol, setCurrencySymbol] = useState("₹");
   const [tip, setTip] = useState(0);
+  const [events, setEvents] = useState([]);
 
   const [similarTemple, setSimilarTemple] = useState([]);
 
@@ -115,6 +116,17 @@ const Temple = () => {
     }
   };
 
+  const fetchEventsOfTemple = async () => {
+    try {
+      const res = await axios.post(`${api}/temple/event/get-all-events-by-temple/${id}`);
+      const { data } = res.data;
+      setEvents(data);
+    } catch (error) {
+      console.error(error);
+      // Handle error, e.g., display a toast message
+    }
+  };
+
   const fetchSimilarTemples = async () => {
     try {
       const res = await axios.post(
@@ -137,6 +149,7 @@ const Temple = () => {
   useEffect(() => {
     fetchTemple();
     fetchSimilarTemples();
+    fetchEventsOfTemple()
   }, []);
 
   return (
@@ -332,6 +345,58 @@ const Temple = () => {
                 animi vel nostrum esse cum accusantium, doloribus labore a
                 dicta. Excepturi nemo earum pariatur assumenda.
               </p>
+
+
+              {events.length > 0 ? (
+                <div className="row">
+                  <div className="col-md-12">
+                    <div style={{ fontSize: "34px" }} className="section-heading line my-3">Upcoming Events</div>
+                  </div>
+                  <Carousel cols={3} rows={1} gap={20} loop>
+                    {events && events.map((event, index) => (
+
+
+                      <Carousel.Item key={index}>
+                        <div style={{ margin: "10px 0", padding: "20px", border: "1px solid #ddd", borderRadius: "8px", boxShadow: " rgba(0, 0, 0, 0.1) 0px 4px 12px" }} key={index} className="card-body d-flex flex-column">
+                          <h5 className="text-primary card-title">{event.name}</h5>
+                          <div style={{ width: "100%", height: "300px" }}>
+                            <img style={{ objectFit: "cover", width: "100%", height: "100%" }} src={event.images.length > 0 ? event.images[0] : "https://plus.unsplash.com/premium_photo-1678294329028-58d80618cac6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} />
+                          </div>
+
+                          <p className="card-text mt-2"><strong>Temple : </strong>{event.temple.templeName}</p>
+                          <p style={{ flex: 1 }} className="card-text"><strong>Description : </strong>{event.description.length < 100 ? event.description : event.description.slice(0, 100) + "..."}</p>
+                          <p className="card-text">
+                            <strong>Date:</strong> {new Date(event.date.start).toLocaleDateString()} - {new Date(event.date.end).toLocaleDateString()} <br />
+
+                          </p>
+                          <p className="card-text">
+                            <strong>Time:</strong> {event.timing.start} - {event.timing.end}<br />
+
+                          </p>
+
+                        </div>
+                      </Carousel.Item>
+
+                    ))}
+
+                    {/* {similarTemple.length > 8
+                      && (
+                        <Carousel.Item >
+                          <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+
+
+                            <button onClick={handleViewAllSimilarTemples} className="btn btn-theme-primary">View All Similar Temples</button>
+                          </div>
+                        </Carousel.Item>
+                      )} */}
+
+
+                  </Carousel>
+
+                </div>
+              ) : null}
+
+
             </div>
           </div>
           <div className="donate-card">
@@ -474,8 +539,6 @@ const Temple = () => {
         </div>
 
 
-
-        =
       </section>
       <section className="listings">
         <div className="section-heading line">
@@ -515,7 +578,7 @@ const Temple = () => {
 
         </div>
       </section>
-    </Layout>
+    </Layout >
   );
 };
 

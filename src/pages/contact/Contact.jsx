@@ -10,6 +10,8 @@ const Contact = () => {
     message: '',
     email: ''
   });
+
+  const api = import.meta.env.VITE_API_URL;
   const [contactFormLoading, setContactFormLoading] = useState(false)
 
   const handleChange = (e) => {
@@ -20,14 +22,11 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here, such as sending data to the server
-    console.log(formData);
-    // Reset form fields after submission
-
     setContactFormLoading(true)
     try {
-      const api = import.meta.env.VITE_API_URL;
-      await axios.post(`${api}/contact/contact-form`, {
-        tittle: formData.title,
+
+      await axios.post(`${api}/contact/create-contact-form`, {
+        title: formData.title,
         message: formData.message,
         email: formData.email
       });
