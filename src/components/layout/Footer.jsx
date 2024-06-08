@@ -103,7 +103,7 @@ const Footer = () => {
             <div className="mx-2">
               <p className="fw-bold">Office Address</p>
               <p className="text-sm">
-                5th Main Rd, Sector 6, HSR Layout, Bangalore, Karnataka, 560102
+                <a target='_blank' href='https://maps.app.goo.gl/fxp9d26ArG8NbFrS9'>    23A, Shanbough Krinshappa Ln, Upparahalli, Mavalli, Bengaluru, Karnataka 560004</a>
               </p>
             </div>
           </div>
@@ -114,7 +114,9 @@ const Footer = () => {
             <div className="mx-2">
 
               <p className="text-sm">
-                test@gmail.com | test2@gmail.com
+
+                <a rel="tel" href="+919521133652">9521133652</a> | <a rel="tel" href="+919602672516">9602672516</a>
+
               </p>
             </div>
           </div>
@@ -124,7 +126,9 @@ const Footer = () => {
             </div>
             <div className="mx-2">
               <p className="text-sm">
-                96325896325 | 9632587412
+
+                <a rel="noopener noreferrer" href="mailto:support@sevasangam.com">support@sevasangam.com</a> | <a rel="noopener noreferrer" href="mailto:contact.sevasangam@gmail.com">contact.sevasangam@gmail.com</a>
+
               </p>
             </div>
           </div>

@@ -63,7 +63,9 @@ const Contact = () => {
               <div className="mx-2">
                 <p className="fw-bold">Office Address</p>
                 <p className="text-sm">
-                  5th Main Rd, Sector 6, HSR Layout, Bangalore, Karnataka, 560102
+
+                  <a target='_blank' href='https://maps.app.goo.gl/fxp9d26ArG8NbFrS9'>    23A, Shanbough Krinshappa Ln, Upparahalli, Mavalli, Bengaluru, Karnataka 560004</a>
+
                 </p>
               </div>
             </div>
@@ -74,7 +76,9 @@ const Contact = () => {
               <div className="mx-2">
 
                 <p className="text-sm">
-                  test@gmail.com | test2@gmail.com
+
+                  <a rel="tel" href="+919521133652">9521133652</a> | <a rel="tel" href="+919602672516">9602672516</a>
+
                 </p>
               </div>
             </div>
@@ -84,7 +88,7 @@ const Contact = () => {
               </div>
               <div className="mx-2">
                 <p className="text-sm">
-                  96325896325 | 9632587412
+                  <a rel="noopener noreferrer" href="mailto:support@sevasangam.com">support@sevasangam.com</a> | <a rel="noopener noreferrer" href="mailto:contact.sevasangam@gmail.com">contact.sevasangam@gmail.com</a>
                 </p>
               </div>
             </div>
@@ -134,7 +138,7 @@ const Contact = () => {
       </section>
 
       <section>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d112057.40065448315!2d77.12502679309405!3d28.635942376461674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x390cfd4517ab8d91%3A0x82e70eda7b1b1443!2sDAV%20PUBLIC%20SCHOOL%2C%20RamaKrishna%20Ashram%20Marg%2C%20Sector%203%2C%20Block%20D%2C%20DIZ%20Area%2C%20Gole%20Market%2C%20New%20Delhi%2C%20Delhi%20110001!3m2!1d28.635967299999997!2d77.2074282!5e0!3m2!1sen!2sin!4v1714278561533!5m2!1sen!2sin" width={'100%'} height={450} style={{ border: 0 }} allowFullScreen loading="lazy" />
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.3283163428573!2d77.57890541060644!3d12.950830915280683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15e973abff83%3A0x79f8f2a247b5c8b8!2s23%2C%20Shanbough%20Krinshappa%20Ln%2C%20Upparahalli%2C%20Mavalli%2C%20Bengaluru%2C%20Karnataka%20560004!5e0!3m2!1sen!2sin!4v1717845116067!5m2!1sen!2sin" width={'100%'} height={450} style={{ border: 0 }} allowFullScreen loading="lazy" />
       </section>
 
 
