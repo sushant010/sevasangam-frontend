@@ -8,96 +8,57 @@ import { useAdminTemples } from "../../context/AdminTemples";
 
 import axios from "axios";
 import { toast } from "react-toastify";
-import SelectComponentWithSearchForTempleName from "../../components/selectComponentWithSearch/SelectComponentWithSearchForTempleName";
-import SelectComponentWithSearchForCreator from "../../components/selectComponentWithSearch/selectComponentWithSearchForCreator";
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 
 const AdminTemples = () => {
   const api = import.meta.env.VITE_API_URL;
   const [auth] = useAuth();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const [adminTemples, setAdminTemples] = useAdminTemples();
 
-  const [filters, setFilters] = useState({
+  const fetchTemplesByAdmin = async () => {
+    localStorage.removeItem("adminTemples");
+    if (auth.user.role == 1) {
+      const userId = auth?.user?._id;
+      try {
+        const response = await axios.post(
+          `${api}/temple/get-temples-by-admin`,
+          { userId: userId }
+        );
 
-    temple: searchParams.get("temple") || "",
-    templeCreatedBy: searchParams.get("templeCreatedBy") || "",
-    verified: searchParams.get("verified") || "",
-  });
+        if (response.data.success) {
+          setAdminTemples(response.data.data.temples);
+          localStorage.setItem(
+            "adminTemples",
+            JSON.stringify(response.data.data.temples)
+          );
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error creating temple:", error);
+      }
+    } else {
+      try {
+        const response = await axios.get(`${api}/temple/get-temples`);
 
-
+        if (response.data.success) {
+          setAdminTemples(response.data.data.temples);
+          localStorage.setItem(
+            "adminTemples",
+            JSON.stringify(response.data.data.temples)
+          );
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error creating temple:", error);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchTemplesByAdmin = async () => {
-      localStorage.removeItem("adminTemples");
-      if (auth.user.role == 1) {
-        try {
-          const response = await axios.post(
-            `${api}/temple/get-temples-by-admin`,
-            { 
-              templeName: filters.temple,
-              verified: filters.verified,
-             },
-            {
-              headers: {
-                Authorization: `Bearer ${auth.token}`,
-              },
-            }
-          );
-  
-          if (response.data.success) {
-            setAdminTemples(response.data.data.temples);
-            localStorage.setItem(
-              "adminTemples",
-              JSON.stringify(response.data.data.temples)
-            );
-          } else {
-            toast.error(response.data.message);
-          }
-        } catch (error) {
-          console.error("Error creating temple:", error);
-        }
-      } else {
-        try {
-          const response = await axios.get(`${api}/temple/get-temples`,{
-            params: {
-            
-              templeName: filters.temple,
-              templeCreatedBy: filters.templeCreatedBy,
-              verified: filters.verified,
-            }
-          });
-  
-          if (response.data.success) {
-            setAdminTemples(response.data.data.temples);
-            localStorage.setItem(
-              "adminTemples",
-              JSON.stringify(response.data.data.temples)
-            );
-          } else {
-            toast.error(response.data.message);
-          }
-        } catch (error) {
-          console.error("Error creating temple:", error);
-        }
-      }
-    };
     fetchTemplesByAdmin();
-  }, [filters, setAdminTemples]);
-
-  const filterSubmit = (e)=>{
-    e.preventDefault()
-    const form = e.target
-    const formData = new FormData(form)
-    const data = {}
-    formData.forEach((value, key) => {
-      data[key] = value
-    })
-    setFilters(data)
-    setSearchParams(new URLSearchParams(data))
-  }
+  }, []);
 
   return (
     <Layout>
@@ -105,43 +66,6 @@ const AdminTemples = () => {
         <div className="section-heading">
           {auth.user.role == 2 ? "All Temples" : "Temples Added by you"}
         </div>
-      {/* Filter section */}
-      
-      <div className="filter-container my-4">
-        <form className="row g-4" onSubmit={filterSubmit}>
-          <div className="col-md-4">
-            <SelectComponentWithSearchForTempleName />
-          </div>
-          {/* <div className="col-md-4">
-            <SelectComponentWithSearchForCreator />
-          </div> */}
-          {
-            auth.user.role == 2 && (
-              <div className="col-md-4">
-                <SelectComponentWithSearchForCreator />
-              </div>
-            )
-          }
-          {/* Verified or not */}
-          <div className="col-md-3">
-            <select className="form-select" name="verified" >
-              <option value="1">Verified</option>
-              <option value="0">Not Verified</option>
-              <option value={""}>All</option>
-            </select>
-          </div>
-
-          <div className="col-md-3 flex-column align-items-center justify-content-center">
-            <button type="submit" className="btn btn-theme-primary">
-              Search
-            </button>
-          </div>
-
-
-
-        </form>
-
-      </div>
         {!adminTemples && <div className="loader"></div>}
         <div className="listing-container m-auto">
           {adminTemples &&
