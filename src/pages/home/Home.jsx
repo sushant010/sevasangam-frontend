@@ -11,11 +11,16 @@ import { toast } from "react-toastify";
 import Carousel from 'react-grid-carousel'
 import { useNavigate } from "react-router-dom";
 
+import { devoteeSteps, templeAdminSteps } from "./steps";
+
 function Home() {
 
   const api = import.meta.env.VITE_API_URL;
 
+  const [showSteps, setShowSteps] = useState("devotee")
 
+
+  
   const [popularTemples, setPopularTemples] = useState([])
   const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
   const [searchTemple, setSearchTemple] = useState([])
@@ -156,7 +161,7 @@ function Home() {
     <>
       <Layout>
 
-        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Indias Most Trusted and Transparent Temple Donation Platform" description="Join hands with us in upholding tradition, fostering inclusivity,
+        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Welcome to SevaSangam - Your Gateway to Spiritual Connection." description="Join hands with us in upholding tradition, fostering inclusivity,
         and spreading love and light to all. Make your mark on Temples
         journey today by giving from your heart to ours." />
 
@@ -191,49 +196,38 @@ function Home() {
           <div className="d-flex align-items-center">
             <div className="d-flex align-items-center gap-4">
               <div>
-                <div className="text-heading">6,453</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading">10,000+</div>
+                <p className="text-medium">Devotees Connected</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">1,56,236</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading">500+</div>
+                <p className="text-medium">Temples Connected</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">6,453</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading">1 million+</div>
+                <p className="text-medium">Donation Proceed</p>
+                <hr></hr>
+              </div>
+              <div>
+                <div className="text-heading">99.9% </div>
+                <p className="text-medium">Transaction Success Rate</p>
                 <hr></hr>
               </div>
             </div>
 
             <div className="d-flex flex-column gap-3">
-              <p className="text-md">
+              {/* <p className="text-md">
                 Join hands with us in upholding tradition, fostering inclusivity
-              </p>
+              </p> */}
               <h2 className="text-heading">
-                Lorem Ipsum has been the industrys standard dummy
+                How we evolve with time and tradition
               </h2>
               <p className="text-md">
-                Lorem Ipsum has been the industry s standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived
-                not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing
-                Lorem Ipsum passages, and more recently with desktop publishing
-                software like Aldus PageMaker including versions of Lorem Ipsum.
+                At SevaSangam, our mission and vision stem from recognizing the evolving needs of our society and the timeless significance of spiritual connection. We saw a unique opportunity to bridge tradition and technology, addressing the challenges devotees face in making donations and payments to temples, especially when physical presence is not feasible. In today’s fast-paced world, the need for convenient and secure methods of supporting religious institutions is crucial. Temples are vital in preserving our cultural and spiritual heritage, yet many struggle with financial stability and connecting with the tech-savvy younger generation. Devotees seek meaningful ways to contribute without geographic or time constraints. Seva Sangam addresses these needs by providing an accessible, convenient, and transparent platform for donations, ensuring that temples receive the support they need for upkeep, activities, and community services. This digital solution also engages younger generations, making it easier for them to stay connected to their heritage. Through Seva Sangam, we harness technology to uphold and enhance spiritual traditions, ensuring the cultural and religious fabric of our society remains strong and vibrant for future generations.
               </p>
-              <p className="text-md">
-                Lorem Ipsum has been the industry s standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived
-                not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing
-                Lorem Ipsum passages, and more recently with desktop publishing
-                software like Aldus PageMaker including versions of Lorem Ipsum.
-              </p>
+              
               <div className="btns d-flex gap-4">
                 <Button size="medium" type="primary" text="About Us" />
               </div>
@@ -244,95 +238,134 @@ function Home() {
           <div className="section-heading line">How it Works</div>
 
           <div className="d-flex align-items-center flex-wrap">
-            <div className="w-100">
-              <div className="tab-btns-container d-flex justify-content-center m-auto mt-4">
-                <div
-                  className="tab-btns btn primary"
-                  style={{
-                    borderTopRightRadius: "0px",
-                    borderBottomRightRadius: "0px",
-                    flex: "1",
-                  }}
-                >
-                  For Donors
+            <div className="capsuleContainer">
+              <div className="capsule">
+                <button onClick={
+                  () => setShowSteps("devotee")
+                }>Devotees</button>
+                <button onClick={
+                  ()=> setShowSteps("admin")
+                }>Admins</button>
+                <div className={
+
+                  showSteps === "devotee" ? "capsuleBack left" : "capsuleBack right"
+                }>
                 </div>
-                <div
-                  className=" tab-btns btn primary"
-                  style={{
-                    borderTopLeftRadius: "0px",
-                    borderBottomLeftRadius: "0px",
-                    borderColor: "white",
-                    flex: "1",
-                  }}
-                >
-                  For Temple Owners
-                </div>
+
               </div>
+              
+              
             </div>
-            <div className="card-container">
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
+            <div className="procedure mt-4">
+              {/* style using bootstrap */}
+              <div className="procedureContent">
+                <div className="procedureText d-flex flex-column gap-5">
+
+                  {showSteps === "devotee" ? devoteeSteps.map((step, index) => (
+                    <div key={index} className="procedureStep d-flex gap-3 align-items-start">
+                      <div className="procedureStepNumber d-flex align-items-center justify-content-center" style={
+                        {
+                          width:"50px",
+                          height:"50px",
+                          backgroundColor: "var(--color-theme-primary)",
+                          borderRadius: "50%",
+                          flexShrink:0,
+                          color:"white"
+                        }
+                      }>{index + 1}</div>
+                      <div className="procedureStepText">
+                        <h3 className=" h4 ">{step.title}</h3>
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  )) : templeAdminSteps.map((step, index) => (
+                    <div key={index} className="procedureStep d-flex gap-3 align-items-start">
+                    <div className="procedureStepNumber d-flex align-items-center justify-content-center" style={
+                      {
+                        width:"50px",
+                        height:"50px",
+                        backgroundColor: "var(--color-theme-primary)",
+                        borderRadius: "50%",
+                        flexShrink:0,
+                        color:"white"
+                      }
+                    }>{index + 1}</div>
+                    <div className="procedureStepText">
+                      <h3 className=" h4 ">{step.title}</h3>
+                      <p>{step.description}</p>
+                    </div>
+                  </div>
+                  ))}
                 </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
                 </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
             </div>
+            {/* Content not provided */}
+
+            {/* <div className="card-container">
+              <div className="card">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Card Image"
+                  className="card-image"
+                />
+                <div className="card-content">
+                  <h2 className="card-title">Fill the Form</h2>
+                  <p className="card-description">
+                    Lorem Ipsum has been the industrys standard dummy{" "}
+                  </p>
+                </div>
+              </div>
+              <div className="card">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Card Image"
+                  className="card-image"
+                />
+                <div className="card-content">
+                  <h2 className="card-title">Fill the Form</h2>
+                  <p className="card-description">
+                    Lorem Ipsum has been the industrys standard dummy{" "}
+                  </p>
+                </div>
+              </div>
+              <div className="card">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Card Image"
+                  className="card-image"
+                />
+                <div className="card-content">
+                  <h2 className="card-title">Fill the Form</h2>
+                  <p className="card-description">
+                    Lorem Ipsum has been the industrys standard dummy{" "}
+                  </p>
+                </div>
+              </div>
+              <div className="card">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Card Image"
+                  className="card-image"
+                />
+                <div className="card-content">
+                  <h2 className="card-title">Fill the Form</h2>
+                  <p className="card-description">
+                    Lorem Ipsum has been the industrys standard dummy{" "}
+                  </p>
+                </div>
+              </div>
+            </div> */}
           </div>
         </section>
-        <SectionImgWithText
+        {/* Content not provided */}
+        {/* <SectionImgWithText
           title="Our Donators"
           img1="https://plus.unsplash.com/premium_photo-1678693021499-c6c5111bbc74?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           img2="https://images.unsplash.com/photo-1620766182966-c6eb5ed2b788?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           img3="https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           sectionTitle="Lorem Ipsum has been the industrys standard dummy"
           sectionDesc="Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        />
+        /> */}
 
 
         {trendingTemples && trendingTemples.length > 0 && (
@@ -455,124 +488,103 @@ function Home() {
 
 
         <section className="review-container">
-          <div className="review">
+          <div className="review top">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat soluta voluptate expedita sunt! Incidunt nisi ut
-              error perspiciatis!
+              SevaSangam has truly transformed my spiritual journey. Being able to make donations to my favorite      temples with just a few clicks has made it so much more convenient for me. I feel connected to my faith in a whole new way, thanks to SevaSangam!
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Devotee</span>
               </div>
             </div>
           </div>
-          <div className="review-heading">
+          <div className="review-heading top">
             <h2 className="section-heading">
               Here&rsquo;s what people say about us
             </h2>
           </div>
-          <div className="review">
+          <div className="review top">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat soluta voluptate expedita sunt! Incidunt nisi ut
-              error perspiciatis!
+            As a temple administrator, I can't thank SevaSangam enough for the support they provide. Their platform has helped us streamline our donation process and increase transparency. With SevaSangam, we can focus more on serving our community and less on administrative tasks."
+            
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous </span>
+                <span className="text-sm">Temple Administrator</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+            Our family has been using SevaSangam for a while now, and we're impressed by how easy it is to use. It's not just about making donations; it's about feeling connected to our culture and traditions. SevaSangam has made it possible for us to pass on these values to our children.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Family</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+              SevaSangam has become an integral part of our community's efforts to support our local temples. The platform's user-friendly interface and transparent transactions have instilled trust among our members. With SevaSangam, we're able to come together and make a meaningful impact on our religious institutions.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Community Leader</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+              SevaSangam has been a blessing in my life. As a devotee living far away from my hometown, I often felt disconnected from my roots and my beloved temple. However, ever since I discovered SevaSangam, that sense of distance has diminished.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Devotee</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+            SevaSangam has made it possible for me to uphold my traditions and express my devotion in a meaningful way, regardless of where I am physically. For that, I am deeply grateful.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Devotee</span>
               </div>
             </div>
           </div>
