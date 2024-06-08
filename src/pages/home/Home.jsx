@@ -25,10 +25,10 @@ function Home() {
 
 
 
-  const [filters, setFilters] = useState({
-    templeName: '',
-    address: ''
-  });
+  // const [filters, setFilters] = useState({
+  //   templeName: '',
+  //   address: ''
+  // });
 
   const fetchPopularTemples = async () => {
     try {
@@ -327,7 +327,7 @@ function Home() {
           img3="https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           sectionTitle="About Sevasangam"
           sectionDesc="At SevaSangam, we are more than just a donation platform; we are a community united by a shared reverence for tradition and a desire to make a lasting impact. With a user-friendly interface, secure transactions, and transparent processes, we invite you to join us on this journey of devotion, connection, and empowerment.
-Together, let's uphold the legacy of our cultural heritage, support the sanctity of temples, and nurture the spiritual fabric of society. Welcome to SevaSangam, where every offering is a testament to the power of Seva (service) and the strength of our collective devotion.
+Together, let&apos;s uphold the legacy of our cultural heritage, support the sanctity of temples, and nurture the spiritual fabric of society. Welcome to SevaSangam, where every offering is a testament to the power of Seva (service) and the strength of our collective devotion.
 "
         />
 

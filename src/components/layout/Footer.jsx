@@ -14,7 +14,8 @@ const Footer = () => {
     setSubEmailLoading(true)
     try {
 
-      const response = await axios.post(`${backendUrl}/subscriptionEmail/subscribe`, { email });
+      await axios.post(`${backendUrl}/subscriptionEmail/subscribe`, { email });
+
       toast.success("Subscribed Successfully");
     } catch (error) {
       console.log(error.response.data.message)

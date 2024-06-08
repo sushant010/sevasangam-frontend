@@ -20,7 +20,7 @@ const SectionImgWithText = ({ title, img1, img2, img3, alt1, alt2, alt3, section
         </div>
         <div className="d-flex flex-column gap-3 text-container">
           <p className="text-md">
-            From Clicks to Blessings, SevaSangam's Vision of Empowering Believers and Enriching Temples
+            From Clicks to Blessings, SevaSangam&apos;s Vision of Empowering Believers and Enriching Temples
           </p>
           <h2 className="text-heading">
             {sectionTitle}
