@@ -7,17 +7,21 @@ import { useNavigate } from 'react-router-dom';
 import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 
 
-
+const libraries = ['places'];
 
 const AddTemple = () => {
 
     // for google map
     const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
-    const libraries = ['places'];
-    const { isLoaded } = useJsApiLoader({
+
+
+    const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: google_map_api,
         libraries: libraries
     });
+
+
+
 
     const [autocomplete, setAutocomplete] = useState(null);
 
@@ -58,8 +62,16 @@ const AddTemple = () => {
 
 
     const onPlaceChanged = () => {
-        const place = autocomplete.getPlace();
-        handleLocationChange(place);
+        if (autocomplete) {
+            const place = autocomplete.getPlace();
+            if (place) {
+                handleLocationChange(place);
+            } else {
+                toast.error("Place not found");
+            }
+        } else {
+            toast.error("Autocomplete is not initialized");
+        }
     };
 
     const onMarkerDragEnd = (event) => {
@@ -126,7 +138,7 @@ const AddTemple = () => {
         templeName: 'Sample Temple',
         typeOfOrganization: 'Non-Profit',
         description: 'Lorem ipsum dolor sit amet...',
-        createdBy: '', // Sample user ID
+        createdBy: 'user_id', // Replace with actual user ID
         contactPerson: {
             name: 'John Doe',
             email: 'johndoe@example.com',
@@ -134,9 +146,9 @@ const AddTemple = () => {
         },
         location: {
             address: '123 Main Street',
-            city: 'United States',
-            state: 'United States',
-            zipCode: 'United States',
+            city: 'New York',
+            state: 'NY',
+            zipCode: '10001',
             country: 'United States',
             longitude: 77.01502627,
             latitude: 10.99835602,
@@ -160,26 +172,15 @@ const AddTemple = () => {
             twitter: 'https://twitter.com/sampletemple',
             instagram: 'https://www.instagram.com/sampletemple',
         },
-        upcomingEvents: [
-            {
-                eventName: 'Event 1',
-                description: 'Lorem ipsum dolor sit amet...',
-                date: {
-                    start: '2022-12-31',
-                    end: '2022-12-31',
-                },
-                timing: {
-                    start: '2022-12-31',
-                    end: '2022-12-31',
-                },
-                images: []
-            },
-        ],
+
         timing: {
             start: '08:00',
             end: '17:00',
         },
     };
+
+
+
 
     const [temple, setTemple] = useState(initialState);
 
@@ -191,6 +192,28 @@ const AddTemple = () => {
             setTemple(prevTemple => ({
                 ...prevTemple,
                 [name]: value,
+            }));
+        } else if (keys.length === 3 && keys[0] === 'upcomingEvents') {
+            const [arrayKey, index, field] = keys;
+            setTemple(prevTemple => ({
+                ...prevTemple,
+                [arrayKey]: prevTemple[arrayKey].map((item, idx) =>
+                    idx === parseInt(index) ? { ...item, [field]: value } : item
+                )
+            }));
+        } else if (keys.length === 4 && keys[0] === 'upcomingEvents') {
+            const [arrayKey, index, subkey, field] = keys;
+            setTemple(prevTemple => ({
+                ...prevTemple,
+                [arrayKey]: prevTemple[arrayKey].map((item, idx) =>
+                    idx === parseInt(index) ? {
+                        ...item,
+                        [subkey]: {
+                            ...item[subkey],
+                            [field]: value,
+                        },
+                    } : item
+                )
             }));
         } else {
             const [key, subkey] = keys;
@@ -204,16 +227,29 @@ const AddTemple = () => {
         }
     };
 
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const formData = new FormData();
 
             // Adding text fields to formData
-            Object.keys(temple).forEach(key => {
+            Object.keys(temple).forEach((key) => {
                 if (typeof temple[key] === 'object' && temple[key] !== null && !Array.isArray(temple[key])) {
-                    Object.keys(temple[key]).forEach(subKey => {
-                        formData.append(`${key}.${subKey}`, temple[key][subKey]);
+                    Object.keys(temple[key]).forEach((subKey) => {
+                        if (subKey === 'upcomingEvents') {
+                            // Handle upcomingEvents separately
+                            temple[key][subKey].forEach((event, index) => {
+                                Object.keys(event).forEach((eventKey) => {
+                                    const eventFieldName = `upcomingEvents[${index}].${eventKey}`;
+                                    formData.append(eventFieldName, event[eventKey]);
+                                });
+                            });
+                        } else {
+                            formData.append(`${key}.${subKey}`, temple[key][subKey]);
+                        }
                     });
                 } else {
                     if (key === 'createdBy') {
@@ -229,7 +265,7 @@ const AddTemple = () => {
             // Adding image fields to formData
             if (templeLogoImage) formData.append('logo', templeLogoImage);
             if (templeBannerImage) formData.append('bannerImage', templeBannerImage);
-            templeImagesArray.forEach(image => formData.append('otherImages', image));
+            templeImagesArray.forEach((image) => formData.append('otherImages', image));
 
             const res = await axios.post(`${api}/temple/create-temple`, formData, {
                 headers: {
@@ -242,7 +278,10 @@ const AddTemple = () => {
 
                 setTimeout(() => {
                     window.scrollTo(0, 0);
-                    navigate('/admin/temples');
+                    auth.user.role == 1 ?
+                        navigate('/admin/temples') :
+                        navigate('/superadmin/temples');
+
                 }, 2000);
                 setTemple(initialState);
                 setImagePreviews({
@@ -329,25 +368,8 @@ const AddTemple = () => {
                                         </Autocomplete>
                                     </>
                                 )}
-                                <LoadScript googleMapsApiKey={google_map_api} libraries={libraries}>
-                                    <GoogleMap
-                                        mapContainerStyle={{ height: "300px", width: "100%" }}
-                                        center={{
-                                            lat: temple.location.latitude || 10.99835602,
-                                            lng: temple.location.longitude || 77.01502627,
-                                        }}
-                                        zoom={11}
-                                    >
-                                        <Marker
-                                            position={{
-                                                lat: temple.location.latitude || 10.99835602,
-                                                lng: temple.location.longitude || 77.01502627,
-                                            }}
-                                            draggable={false}
-                                            onDragEnd={onMarkerDragEnd}
-                                        />
-                                    </GoogleMap>
-                                </LoadScript>
+
+
                             </div>
                             <div className="mb-3">
 
@@ -705,163 +727,35 @@ const AddTemple = () => {
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Timing</h3>
                             </div>
-                            <div className="mb-3">
-                                <label htmlFor="startTime">Start Time</label>
-                                <input
-                                    placeholder="Start Time"
-                                    type="time"
-                                    name="timing.start"
-                                    onChange={handleChange}
-                                    value={temple.timing.start}
-                                    className="form-control"
-                                    id="startTime"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="endTime">End Time</label>
-                                <input
-                                    placeholder="End Time"
-                                    type="time"
-                                    name="timing.end"
-                                    onChange={handleChange}
-                                    value={temple.timing.end}
-                                    className="form-control"
-                                    id="endTime"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <h3 className='text-primary fw-bold text-md'>Upcoming Events</h3>
-                            </div>
-                            {temple.upcomingEvents.map((event, index) => (
-                                <div key={index} className="mb-3">
-                                    <hr></hr>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventName${index}`}>Event Name</label>
-                                        <input
-                                            placeholder={`Event Name ${index + 1}`}
-                                            type="text"
-                                            name={`upcomingEvents.${index}.eventName`}
-                                            onChange={handleChange}
-                                            value={event.eventName}
-                                            className="form-control"
-                                            id={`eventName${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventDescription${index}`}>Event Description</label>
-                                        <input
-                                            placeholder={`Event Description ${index + 1}`}
-                                            type="text"
-                                            name={`upcomingEvents.${index}.description`}
-                                            onChange={handleChange}
-                                            value={event.description}
-                                            className="form-control mt-2"
-                                            id={`eventDescription${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventStartDate${index}`}>Event Start Date</label>
-                                        <input
-                                            placeholder={`Event Start Date ${index + 1}`}
-                                            type="date"
-                                            name={`upcomingEvents.${index}.date.start`}
-                                            onChange={handleChange}
-                                            value={event.date.start}
-                                            className="form-control mt-2"
-                                            id={`eventStartDate${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventEndDate${index}`}>Event End Date</label>
-                                        <input
-                                            placeholder={`Event End Date ${index + 1}`}
-                                            type="date"
-                                            name={`upcomingEvents.${index}.date.end`}
-                                            onChange={handleChange}
-                                            value={event.date.end}
-                                            className="form-control mt-2"
-                                            id={`eventEndDate${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventStartTime${index}`}>Event Start Time</label>
-                                        <input
-                                            placeholder={`Event Start Time ${index + 1}`}
-                                            type="time"
-                                            name={`upcomingEvents.${index}.timing.start`}
-                                            onChange={handleChange}
-                                            value={event.timing.start}
-                                            className="form-control mt-2"
-                                            id={`eventStartTime${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventEndTime${index}`}>Event End Time</label>
-                                        <input
-                                            placeholder={`Event End Time ${index + 1}`}
-                                            type="time"
-                                            name={`upcomingEvents.${index}.timing.end`}
-                                            onChange={handleChange}
-                                            value={event.timing.end}
-                                            className="form-control mt-2"
-                                            id={`eventEndTime${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventImages${index}`}>Event Images</label>
-                                        <input
-                                            placeholder={`Event Images ${index + 1}`}
-                                            type="file"
-                                            name={`upcomingEvents.${index}.images`}
-                                            multiple
-                                            onChange={(e) => {
-                                                const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
-                                                setTemple((prevTemple) => {
-                                                    const newEvents = [...prevTemple.upcomingEvents];
-                                                    newEvents[index].images = files;
-                                                    return {
-                                                        ...prevTemple,
-                                                        upcomingEvents: newEvents,
-                                                    };
-                                                });
-                                            }}
-                                            className="form-control mt-2"
-                                            id={`eventImages${index}`}
-                                        />
-                                    </div>
+                            <div className="d-flex mb-3">
 
-
-
+                                <div style={{ flex: 1 }}>
+                                    <label htmlFor="startTime">Start Time</label>
+                                    <input
+                                        placeholder="Start Time"
+                                        type="time"
+                                        name="timing.start"
+                                        onChange={handleChange}
+                                        value={temple.timing.start}
+                                        className="form-control"
+                                        id="startTime"
+                                    />
                                 </div>
-                            ))}
-                            <div className="mb-3 d-flex justify-content-between">
-                                <button
-                                    style={{ fontSize: "14px" }}
-                                    type="button"
-                                    className="btn btn-theme-primary-outline"
-                                    onClick={() => setTemple((prevTemple) => ({
-                                        ...prevTemple,
-                                        upcomingEvents: [
-                                            ...prevTemple.upcomingEvents,
-                                            {
-                                                eventName: '',
-                                                description: '',
-                                                date: {
-                                                    start: '',
-                                                    end: '',
-                                                },
-                                                timing: {
-                                                    start: '',
-                                                    end: '',
-                                                },
-                                                images: [],
-                                            },
-                                        ],
-                                    }))}
-                                >
-                                    Add More Event
-                                </button>
+                                <div style={{ flex: 1 }}>
+                                    <label htmlFor="endTime">End Time</label>
+                                    <input
+                                        placeholder="End Time"
+                                        type="time"
+                                        name="timing.end"
+                                        onChange={handleChange}
+                                        value={temple.timing.end}
+                                        className="form-control"
+                                        id="endTime"
+                                    />
+                                </div>
+
                             </div>
+
 
                         </div>
 
@@ -876,6 +770,8 @@ const AddTemple = () => {
                     </div >
                 </form >
             </section >
+
+
         </Layout >
     );
 };

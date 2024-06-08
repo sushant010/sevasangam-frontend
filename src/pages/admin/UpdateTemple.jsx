@@ -230,7 +230,7 @@ const UpdateTemple = () => {
                     formData.append(key, value);
                 }
             });
-
+            formData.append("userUpdating", auth.user.role);
             const res = await axios.put(`${api}/temple/update-temple/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -320,25 +320,7 @@ const UpdateTemple = () => {
                                         </Autocomplete>
                                     </>
                                 )}
-                                <LoadScript googleMapsApiKey={google_map_api} libraries={libraries}>
-                                    <GoogleMap
-                                        mapContainerStyle={{ height: "300px", width: "100%" }}
-                                        center={{
-                                            lat: temple.location.latitude || 10.99835602,
-                                            lng: temple.location.longitude || 77.01502627,
-                                        }}
-                                        zoom={11}
-                                    >
-                                        <Marker
-                                            position={{
-                                                lat: temple.location.latitude || 10.99835602,
-                                                lng: temple.location.longitude || 77.01502627,
-                                            }}
-                                            draggable={false}
-                                            onDragEnd={onMarkerDragEnd}
-                                        />
-                                    </GoogleMap>
-                                </LoadScript>
+
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="locationAddress" className="form-label">Location Address</label>
