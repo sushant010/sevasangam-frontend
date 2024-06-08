@@ -45,10 +45,7 @@ const Footer = () => {
             </div>
             <div>
               <p className="text-sm">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specium.
+                SevaSangam is a visionary platform dedicated to facilitating spiritual connections and supporting temples through seamless digital solutions. Founded with a deep commitment to preserving cultural heritage and fostering devotion, SevaSangam bridges tradition with technology to empower individuals and communities worldwide.
               </p>
             </div>
             <div className="icon-container">
@@ -76,23 +73,19 @@ const Footer = () => {
           <div className="links-wrapper">
             <span className="text-lg">Discover</span>
             <Link to="/">Home</Link>
+            <Link to="/temples">Temples</Link>
             <Link to="/about">About Us</Link>
             <Link to="/contact">Contact Us</Link>
-            <Link to="/temples">Temples</Link>
-            <Link to="/privacy-policy">Privacy Policy</Link>
-            <Link to="/terms-and-conditions">Terms and Conditions</Link>
+            <Link to="/faq">FAQs</Link>
             {/* <Link to="/">Add a Temple</Link>
             <Link to="/">FAQs</Link> */}
           </div>
           <div className="links-wrapper ">
-            <span className="text-lg">Discover</span>
-            <Link to="/">Home</Link>
-            <Link to="/">Contact Us</Link>
-            <Link to="/">About Us</Link>
-            <Link to="/">How it works</Link>
-            <Link to="/">Privacy Policy</Link>
-            <Link to="/">Add a Temple</Link>
-            <Link to="/faq">FAQs</Link>
+            <span className="text-lg">Policies</span>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/terms-and-conditions">Terms and Conditions</Link>
+
+
           </div>
         </div>
         <div className="d-flex flex-column">
