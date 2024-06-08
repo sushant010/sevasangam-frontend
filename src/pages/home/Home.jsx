@@ -239,85 +239,71 @@ function Home() {
           <div className="section-heading line">How it Works</div>
 
           <div className="d-flex align-items-center flex-wrap">
-            <div className="w-100">
-              <div className="tab-btns-container d-flex justify-content-center m-auto mt-4">
-                <div
-                  className="tab-btns btn primary"
-                  style={{
-                    borderTopRightRadius: "0px",
-                    borderBottomRightRadius: "0px",
-                    flex: "1",
-                  }}
-                >
-                  For Donors
+            <div className="capsuleContainer">
+              <div className="capsule">
+                <button onClick={
+                  () => setShowSteps("devotee")
+                }
+                className={showSteps === "devotee" ? "active" : ""}
+                >Devotees</button>
+                <button onClick={
+                  ()=> setShowSteps("admin")
+                }
+                className={showSteps === "admin" ? "active" : ""}
+                >Admins</button>
+                <div className={
+
+                  showSteps === "devotee" ? "capsuleBack left" : "capsuleBack right"
+                }>
                 </div>
-                <div
-                  className=" tab-btns btn primary"
-                  style={{
-                    borderTopLeftRadius: "0px",
-                    borderBottomLeftRadius: "0px",
-                    borderColor: "white",
-                    flex: "1",
-                  }}
-                >
-                  For Temple Owners
-                </div>
+
               </div>
+              
+              
             </div>
-            <div className="card-container">
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
+            <div className="mt-4">
+              {/* style using bootstrap */}
+              <Carousel cols={4} rows={1} gap= "30px" loop>
+                {
+                  showSteps === "devotee" ? devoteeSteps.map((step, index) => (
+                    <Carousel.Item key={index}>
+
+                      <div className="card">
+                        <img 
+                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image"
+                        className="card-image"
+                        />
+                        <div className="card-content">
+                          <h2 className="card-title">{step.title}</h2>
+                          <p className="card-description">{step.description}</p>
+                          </div>
+
+                      </div>
+                    </Carousel.Item>
+                  )) : templeAdminSteps.map((step, index) => (
+                    <Carousel.Item key={index}>
+                      
+                      <div className="card">
+                        <img
+                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image"
+                        className="card-image"
+                        />
+                        <div className="card-content">
+                          <h2 className="card-title">{step.title}</h2>
+                          <p className="card-description">{step.description}</p>
+                        </div>
+                      </div>
+
+                      
+
+                    </Carousel.Item>
+                  ))
+                }
+              </Carousel>
             </div>
+            {/* Content not provided */}
           </div>
         </section>
         <SectionImgWithText

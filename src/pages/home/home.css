@@ -45,14 +45,14 @@
 }
 
 .card {
-  width: 260px;
+  /* width: 260px;
   max-width: 100%;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: var(--shadow-light);
   overflow: hidden;
   flex: 1;
-  margin: 15px;
+  margin: 15px; */
 }
 
 .card-image {
@@ -116,6 +116,7 @@
 }
 .review-author {
   display: flex;
+  /* align */
 }
 .review-author > div {
   display: flex;
@@ -325,7 +326,7 @@
     flex: none !important;
   }
   .card-container {
-    flex-direction: column;
+    /* flex-direction: column; */
   }
   .search-section .listing-container {
     padding: 0 6px;
@@ -342,4 +343,57 @@
     margin: 0;
     padding: 0;
   }
+}
+
+
+.capsuleContainer{
+  
+  padding: 10px;
+  width: 100%;
+}
+.capsuleContainer>.capsule{
+
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  /* gap: 10px; */
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  width: 400px;
+  background-color: white;
+
+
+}
+
+.capsuleContainer > .capsule > .capsuleBack{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--color-theme-primary);
+  z-index: -1;
+  border-radius: 20px;
+  transition: all .25s ease;
+}
+
+.capsuleContainer > .capsule > .right{
+  /* right: 0; */
+  left: 50% ;
+}
+
+.capsuleContainer > .capsule > button{
+  width: 50%;
+  /* filter: invert(1);
+  mix-blend-mode: difference; */
+  color: black;
+}
+
+.capsuleContainer > .capsule > .active{
+  color: white;
 }
