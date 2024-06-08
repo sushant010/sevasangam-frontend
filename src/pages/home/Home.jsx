@@ -185,24 +185,24 @@ function Home() {
             <div className="d-flex align-items-center gap-4">
               <div>
                 <div className="text-heading">10,000+</div>
-                <p className="text-medium">Devotees Connected</p>
+                <p className="text-medium">Volunteers in 2022</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">500+</div>
-                <p className="text-medium">Temples Connected</p>
+                <div className="text-heading">60,000+</div>
+                <p className="text-medium">Volunteers in 2023</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">1 million+</div>
-                <p className="text-medium">Donation Proceed</p>
+                <div className="text-heading">1,00,000+</div>
+                <p className="text-medium">Volunteers 2024</p>
                 <hr></hr>
               </div>
-              <div>
+              {/* <div>
                 <div className="text-heading">99.9% </div>
                 <p className="text-medium">Transaction Success Rate</p>
                 <hr></hr>
-              </div>
+              </div> */}
             </div>
 
             <div className="d-flex flex-column gap-3">
@@ -244,105 +244,49 @@ function Home() {
               
               
             </div>
-            <div className="procedure mt-4">
+            <div className="mt-4">
               {/* style using bootstrap */}
-              <div className="procedureContent">
-                <div className="procedureText d-flex flex-column gap-5">
+              <Carousel cols={4} rows={1} gap= "30px" loop>
+                {
+                  showSteps === "devotee" ? devoteeSteps.map((step, index) => (
+                    <Carousel.Item key={index}>
 
-                  {showSteps === "devotee" ? devoteeSteps.map((step, index) => (
-                    <div key={index} className="procedureStep d-flex gap-3 align-items-start">
-                      <div className="procedureStepNumber d-flex align-items-center justify-content-center" style={
-                        {
-                          width:"50px",
-                          height:"50px",
-                          backgroundColor: "var(--color-theme-primary)",
-                          borderRadius: "50%",
-                          flexShrink:0,
-                          color:"white"
-                        }
-                      }>{index + 1}</div>
-                      <div className="procedureStepText">
-                        <h3 className=" h4 ">{step.title}</h3>
-                        <p>{step.description}</p>
+                      <div className="card">
+                        <img 
+                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image"
+                        className="card-image"
+                        />
+                        <div className="card-content">
+                          <h2 className="card-title">{step.title}</h2>
+                          <p className="card-description">{step.description}</p>
+                          </div>
+
                       </div>
-                    </div>
+                    </Carousel.Item>
                   )) : templeAdminSteps.map((step, index) => (
-                    <div key={index} className="procedureStep d-flex gap-3 align-items-start">
-                    <div className="procedureStepNumber d-flex align-items-center justify-content-center" style={
-                      {
-                        width:"50px",
-                        height:"50px",
-                        backgroundColor: "var(--color-theme-primary)",
-                        borderRadius: "50%",
-                        flexShrink:0,
-                        color:"white"
-                      }
-                    }>{index + 1}</div>
-                    <div className="procedureStepText">
-                      <h3 className=" h4 ">{step.title}</h3>
-                      <p>{step.description}</p>
-                    </div>
-                  </div>
-                  ))}
-                </div>
-                </div>
+                    <Carousel.Item key={index}>
+                      
+                      <div className="card">
+                        <img
+                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image"
+                        className="card-image"
+                        />
+                        <div className="card-content">
+                          <h2 className="card-title">{step.title}</h2>
+                          <p className="card-description">{step.description}</p>
+                        </div>
+                      </div>
+
+                      
+
+                    </Carousel.Item>
+                  ))
+                }
+              </Carousel>
             </div>
             {/* Content not provided */}
-
-            {/* <div className="card-container">
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Card Image"
-                  className="card-image"
-                />
-                <div className="card-content">
-                  <h2 className="card-title">Fill the Form</h2>
-                  <p className="card-description">
-                    Lorem Ipsum has been the industrys standard dummy{" "}
-                  </p>
-                </div>
-              </div>
-            </div> */}
           </div>
         </section>
         {/* Content not provided */}

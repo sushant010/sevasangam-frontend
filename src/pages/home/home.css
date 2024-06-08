@@ -38,14 +38,14 @@
 }
 
 .card {
-  width: 260px;
+  /* width: 260px;
   max-width: 100%;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: var(--shadow-light);
   overflow: hidden;
   flex: 1;
-  margin: 15px;
+  margin: 15px; */
 }
 
 .card-image {
@@ -123,7 +123,7 @@
 }
 .review-author {
   display: flex;
-  align
+  /* align */
 }
 .review-author > div {
   display: flex;
@@ -356,7 +356,7 @@
     flex: none !important;
   }
   .card-container {
-    flex-direction: column;
+    /* flex-direction: column; */
   }
   .search-section .listing-container {
     padding: 0 6px;
@@ -409,7 +409,7 @@
   background-color: var(--color-theme-primary);
   z-index: -1;
   border-radius: 20px;
-  transition: all 1s ease;
+  transition: all .25s ease;
 }
 
 .capsuleContainer > .capsule > .right{
