@@ -39,6 +39,7 @@ const AdminTemples = () => {
             { 
               templeName: filters.temple,
               verified: filters.verified,
+              userId: auth.user._id
              },
             {
               headers: {
