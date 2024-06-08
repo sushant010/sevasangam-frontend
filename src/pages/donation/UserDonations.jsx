@@ -145,7 +145,7 @@ const UserDonations = () => {
                 </div>
 
                 {loading && (
-                    <section className="d-flex m-auto">
+                    <section className="d-flex m-auto justify-content-center">
                         <HashLoader color={"#ff395c"} />
                     </section>
                 )}

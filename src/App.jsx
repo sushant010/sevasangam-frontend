@@ -38,12 +38,14 @@ import PrivacyPolicy from "./pages/staticPages/PrivacyPolicy";
 import TermsAndConditions from "./pages/staticPages/TermsAndConditions";
 import AddEvent from "./pages/admin/AddEvent";
 import UpdateEvent from "./pages/admin/UpdateEvent";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
 
