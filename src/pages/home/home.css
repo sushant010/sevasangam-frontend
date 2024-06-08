@@ -419,7 +419,11 @@
 
 .capsuleContainer > .capsule > button{
   width: 50%;
-  filter: invert(1);
-  mix-blend-mode: difference;
+  /* filter: invert(1);
+  mix-blend-mode: difference; */
   color: black;
+}
+
+.capsuleContainer > .capsule > .active{
+  color: white;
 }

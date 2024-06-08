@@ -242,10 +242,14 @@ function Home() {
               <div className="capsule">
                 <button onClick={
                   () => setShowSteps("devotee")
-                }>Devotees</button>
+                }
+                className={showSteps === "devotee" ? "active" : ""}
+                >Devotees</button>
                 <button onClick={
                   ()=> setShowSteps("admin")
-                }>Admins</button>
+                }
+                className={showSteps === "admin" ? "active" : ""}
+                >Admins</button>
                 <div className={
 
                   showSteps === "devotee" ? "capsuleBack left" : "capsuleBack right"
