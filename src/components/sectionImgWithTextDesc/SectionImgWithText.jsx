@@ -19,9 +19,9 @@ const SectionImgWithText = ({title ,img1,img2,img3,alt1,alt2,alt3,sectionTitle,s
          </div>
        </div>
        <div className="d-flex flex-column gap-3 text-container">
-         {/* <p className="text-md">
+         <p className="text-md">
            Join hands with us in upholding tradition, fostering inclusivity
-         </p> */}
+         </p>
          <h2 className="text-heading">
            {sectionTitle}
          </h2>

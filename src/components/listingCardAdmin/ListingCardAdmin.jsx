@@ -71,7 +71,6 @@ const ListingCardAdmin = ({ temple }) => {
 
     <div className="listing admin" onClick={(e) => navigateToTemple(temple._id, e)}>
       <div style={{ position: "relative" }} className="listing-img-wrapper">
-
         {temple.isVerified == 0 && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Unverified</span>)}
         {(temple.hasChangesToApprove == 1 && temple.isVerified == 1) && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Modified</span>)}
         <img

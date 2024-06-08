@@ -46,7 +46,8 @@ const Contact = () => {
         <div className="banner-text">
           <h2 className="text-heading">Contact Us</h2>
           <p className="text-md fw-bold text-grey-dark">
-            We are here to help you. Feel free to contact us. We will get back to you as soon as possible.
+            Call us at +917738714428, email on test@sevasangam.com submit a ticket, and our team will get back shortly.
+
           </p>
           <Button />
         </div>
@@ -62,7 +63,7 @@ const Contact = () => {
               <div className="mx-2">
                 <p className="fw-bold">Office Address</p>
                 <p className="text-sm">
-                  23A, Shanbough Krinshappa Ln, Upparahalli, Mavalli, Bengaluru, Karnataka 560004
+                  5th Main Rd, Sector 6, HSR Layout, Bangalore, Karnataka, 560102
                 </p>
               </div>
             </div>
@@ -73,8 +74,7 @@ const Contact = () => {
               <div className="mx-2">
 
                 <p className="text-sm">
-                9521133652 | 9602672516
-                  
+                  test@gmail.com | test2@gmail.com
                 </p>
               </div>
             </div>
@@ -84,7 +84,7 @@ const Contact = () => {
               </div>
               <div className="mx-2">
                 <p className="text-sm">
-                  support@sevasangam.com, contact.sevasangam@gmail.com
+                  96325896325 | 9632587412
                 </p>
               </div>
             </div>
