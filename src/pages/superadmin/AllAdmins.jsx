@@ -27,7 +27,28 @@ const AllAdmins = () => {
 
 
     }
+    const [donationTotals, setDonationTotals] = useState({});
+    useEffect(() => {
+        const fetchDonationTotals = async () => {
+            try {
+                const totals = {};
+                for (let admin of templeAdmins) {
+                    const response = await axios.get(`${api}/auth/total-donation-by-admin/${admin._id}`);
+                    if (response.data.success) {
+                        totals[admin._id] = response.data.totalDonation;
+                    } else {
+                        toast.error(response.data.message);
+                    }
+                }
+                setDonationTotals(totals);
+            } catch (error) {
+                console.error('Error fetching total donation:', error);
+                toast.error('Error fetching total donation');
+            }
+        };
 
+        fetchDonationTotals();
+    }, [templeAdmins]);
 
     useEffect(() => {
 
@@ -64,7 +85,7 @@ const AllAdmins = () => {
                                     <td>{admin.email}</td>
                                     <td>{admin.phone}</td>
                                     <td>{admin.totalTempleCreated}</td>
-                                    <td></td>
+                                    <td>{donationTotals[admin._id] !== undefined ? donationTotals[admin._id] : 'Loading...'}</td>
                                     <td><Link to={`/superadmin/temples-listed/${admin._id}`} className='btn btn-theme-primary'>View Temples</Link></td>
 
                                 </tr>

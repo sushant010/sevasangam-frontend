@@ -172,21 +172,7 @@ const AddTemple = () => {
             twitter: 'https://twitter.com/sampletemple',
             instagram: 'https://www.instagram.com/sampletemple',
         },
-        upcomingEvents: [
-            {
-                eventName: 'Event 1',
-                description: 'Lorem ipsum dolor sit amet...',
-                date: {
-                    start: '2022-12-31',
-                    end: '2022-12-31',
-                },
-                timing: {
-                    start: '08:00',
-                    end: '17:00',
-                },
-                images: [],
-            },
-        ],
+
         timing: {
             start: '08:00',
             end: '17:00',
@@ -292,7 +278,10 @@ const AddTemple = () => {
 
                 setTimeout(() => {
                     window.scrollTo(0, 0);
-                    navigate('/admin/temples');
+                    auth.user.role == 1 ?
+                        navigate('/admin/temples') :
+                        navigate('/superadmin/temples');
+
                 }, 2000);
                 setTemple(initialState);
                 setImagePreviews({
@@ -379,26 +368,7 @@ const AddTemple = () => {
                                         </Autocomplete>
                                     </>
                                 )}
-                                {(isLoaded && !loadError) && <LoadScript googleMapsApiKey={google_map_api} libraries={libraries}>
-                                    <GoogleMap
-                                        mapContainerStyle={{ height: "300px", width: "100%" }}
-                                        center={{
-                                            lat: temple.location.latitude || 10.99835602,
-                                            lng: temple.location.longitude || 77.01502627,
-                                        }}
-                                        zoom={11}
-                                    >
-                                        <Marker
-                                            position={{
-                                                lat: temple.location.latitude || 10.99835602,
-                                                lng: temple.location.longitude || 77.01502627,
-                                            }}
-                                            draggable={false}
-                                            onDragEnd={onMarkerDragEnd}
-                                        />
-                                    </GoogleMap>
-                                </LoadScript>}
-                                {loadError && <p className="text-danger mt-1">An error occurred while loading the map.</p>}
+
 
                             </div>
                             <div className="mb-3">
@@ -786,119 +756,6 @@ const AddTemple = () => {
 
                             </div>
 
-                            <div className="mb-3">
-                                <h3 className='text-primary fw-bold text-md'>Upcoming Events</h3>
-                            </div>
-                            {temple.upcomingEvents && temple.upcomingEvents.map((event, index) => (
-                                <div key={index} className="mb-3">
-                                    <hr />
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventName${index}`}>Event Name</label>
-                                        <input
-                                            placeholder={`Event Name ${index + 1}`}
-                                            type="text"
-                                            name={`upcomingEvents.${index}.eventName`}
-                                            onChange={handleChange}
-                                            value={event.eventName}
-                                            className="form-control"
-                                            id={`eventName${index}`}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor={`eventDescription${index}`}>Event Description</label>
-                                        <input
-                                            placeholder={`Event Description ${index + 1}`}
-                                            type="text"
-                                            name={`upcomingEvents.${index}.description`}
-                                            onChange={handleChange}
-                                            value={event.description}
-                                            className="form-control mt-2"
-                                            id={`eventDescription${index}`}
-                                        />
-                                    </div>
-                                    <div className="d-flex mb-3">
-                                        <div style={{ flex: 1 }}>
-                                            <label htmlFor={`eventStartDate${index}`}>Event Start Date</label>
-                                            <input
-                                                placeholder={`Event Start Date ${index + 1}`}
-                                                type="date"
-                                                name={`upcomingEvents.${index}.date.start`}
-                                                onChange={handleChange}
-                                                value={event.date.start}
-                                                className="form-control mt-2"
-                                                id={`eventStartDate${index}`}
-                                            />
-                                        </div>
-                                        <div style={{ flex: 1 }}>
-                                            <label htmlFor={`eventEndDate${index}`}>Event End Date</label>
-                                            <input
-                                                placeholder={`Event End Date ${index + 1}`}
-                                                type="date"
-                                                name={`upcomingEvents.${index}.date.end`}
-                                                onChange={handleChange}
-                                                value={event.date.end}
-                                                className="form-control mt-2"
-                                                id={`eventEndDate${index}`}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="d-flex mb-3">
-                                        <div style={{ flex: 1 }}>
-                                            <label htmlFor={`eventStartTime${index}`}>Event Start Time</label>
-                                            <input
-                                                placeholder={`Event Start Time ${index + 1}`}
-                                                type="time"
-                                                name={`upcomingEvents.${index}.timing.start`}
-                                                onChange={handleChange}
-                                                value={event.timing.start}
-                                                className="form-control mt-2"
-                                                id={`eventStartTime${index}`}
-                                            />
-                                        </div>
-                                        <div style={{ flex: 1 }}>
-                                            <label htmlFor={`eventEndTime${index}`}>Event End Time</label>
-                                            <input
-                                                placeholder={`Event End Time ${index + 1}`}
-                                                type="time"
-                                                name={`upcomingEvents.${index}.timing.end`}
-                                                onChange={handleChange}
-                                                value={event.timing.end}
-                                                className="form-control mt-2"
-                                                id={`eventEndTime${index}`}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-
-                            <div className="mb-3 d-flex justify-content-between">
-                                <button
-                                    style={{ fontSize: "14px" }}
-                                    type="button"
-                                    className="btn btn-theme-primary-outline"
-                                    onClick={() => setTemple((prevTemple) => ({
-                                        ...prevTemple,
-                                        upcomingEvents: [
-                                            ...prevTemple.upcomingEvents,
-                                            {
-                                                eventName: '',
-                                                description: '',
-                                                date: {
-                                                    start: '',
-                                                    end: '',
-                                                },
-                                                timing: {
-                                                    start: '',
-                                                    end: '',
-                                                },
-                                                images: [],
-                                            },
-                                        ],
-                                    }))}
-                                >
-                                    Add More Event
-                                </button>
-                            </div>
 
                         </div>
 

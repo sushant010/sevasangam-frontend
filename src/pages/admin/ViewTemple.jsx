@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import defaultLogo from '../../assets/images/sevasangam-logo.png';
 import { useAuth } from '../../context/Auth';
+import Carousel from "react-grid-carousel";
+import { toast } from 'react-toastify';
 
 const ViewTemple = () => {
 
@@ -54,6 +56,7 @@ const ViewTemple = () => {
     const navigate = useNavigate();
     const api = import.meta.env.VITE_API_URL;
     const [temple, setTemple] = useState(initialState);
+    const [events, setEvents] = useState([]);
 
 
 
@@ -63,12 +66,31 @@ const ViewTemple = () => {
         window.scrollTo(0, 0);
         navigate(`/admin/update-temple/${id}`)
 
-    }
-
-    const handleDeleteTemple = (id) => {
 
 
     }
+
+    const handleUpdateEvent = (id) => {
+        window.scrollTo(0, 0);
+        auth?.user?.role == 1 ?
+            navigate(`/admin/update-event/${id}`) :
+            navigate(`/superadmin/update-event/${id}`);
+    }
+
+
+
+    const handleDeleteEvent = (id) => {
+        axios.delete(`${api}/temple/event/delete-event/${id}`)
+            .then(res => {
+                if (res.data.success) {
+                    setEvents(events.filter(event => event._id !== id));
+                    toast.success(res.data.message);
+                }
+            })
+            .catch(err => console.error(err));
+    }
+
+
 
     const fetchTemple = async () => {
         try {
@@ -81,10 +103,23 @@ const ViewTemple = () => {
             // Handle error, e.g., display a toast message
         }
     };
+
+    const fetchEventsOfTemple = async () => {
+        try {
+            const res = await axios.post(`${api}/temple/event/get-all-events-by-temple/${id}`);
+            const { data } = res.data;
+            setEvents(data);
+        } catch (error) {
+            console.error(error);
+            // Handle error, e.g., display a toast message
+        }
+    };
+
     useEffect(() => {
 
 
         fetchTemple();
+        fetchEventsOfTemple();
     }, []);
 
 
@@ -325,6 +360,79 @@ const ViewTemple = () => {
                         </div>
 
 
+                    </div>
+                    <div className="col-md-12">
+                        {events.length > 0 ? (
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div style={{ fontSize: "34px" }} className="section-heading line my-3">Upcoming Events</div>
+                                </div>
+                                <Carousel cols={3} rows={1} gap={20} loop>
+                                    {events && events.map((event, index) => (
+
+
+                                        <Carousel.Item key={index}>
+                                            <div style={{ margin: "10px 0", padding: "20px", border: "1px solid #ddd", borderRadius: "8px", boxShadow: " rgba(0, 0, 0, 0.1) 0px 4px 12px" }} key={index} className="card-body d-flex flex-column">
+                                                <h5 className="text-primary card-title">{event.name}</h5>
+                                                <div style={{ width: "100%", height: "300px" }}>
+                                                    <img style={{ objectFit: "cover", width: "100%", height: "100%" }} src={event.images.length > 0 ? event.images[0] : "https://plus.unsplash.com/premium_photo-1678294329028-58d80618cac6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} />
+                                                </div>
+
+                                                <p className="card-text mt-2"><strong>Temple : </strong>{event.temple.templeName}</p>
+                                                <p style={{ flex: 1 }} className="card-text"><strong>Description : </strong>{event.description.length < 100 ? event.description : event.description.slice(0, 100) + "..."}</p>
+                                                <p className="card-text">
+                                                    <strong>Date:</strong> {new Date(event.date.start).toLocaleDateString()} - {new Date(event.date.end).toLocaleDateString()} <br />
+
+                                                </p>
+                                                <p className="card-text">
+                                                    <strong>Time:</strong> {event.timing.start} - {event.timing.end}<br />
+
+                                                </p>
+                                                <p className="card-text">
+                                                    <strong>Actions:</strong>    <button className='mx-2'
+                                                        title="Update Event"
+                                                        onClick={() => handleUpdateEvent(event._id)}
+
+                                                    >
+                                                        <i
+                                                            className="fa-solid fa-pen-to-square"
+                                                            style={{ color: "var(--color-theme-primary)" }}
+                                                        ></i>
+                                                    </button>
+                                                    <button className='mx-2' title="Delete Event"
+                                                        onClick={() => handleDeleteEvent(event._id)}
+
+                                                    >
+                                                        <i
+                                                            className="fa-solid fa-trash-can"
+                                                            style={{ color: "#D83F31" }}
+                                                        ></i>
+                                                    </button>
+
+                                                </p>
+
+
+                                            </div>
+                                        </Carousel.Item>
+
+                                    ))}
+
+                                    {/* {similarTemple.length > 8
+                      && (
+                        <Carousel.Item >
+                          <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+
+
+                            <button onClick={handleViewAllSimilarTemples} className="btn btn-theme-primary">View All Similar Temples</button>
+                          </div>
+                        </Carousel.Item>
+                      )} */}
+
+
+                                </Carousel>
+
+                            </div>
+                        ) : null}
                     </div>
 
 

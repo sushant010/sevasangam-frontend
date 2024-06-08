@@ -33,6 +33,7 @@ const UnverifiedTemples = () => {
             const res = await axios.get(`${api}/temple/unverified-updated-by-admin-temples`);
 
             if (res.data.success) {
+                console.log(res.data.data.temples)
                 setUpdatedByAdminUnverifiedTemples(res.data.data.temples)
 
             } else {

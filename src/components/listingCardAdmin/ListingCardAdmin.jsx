@@ -49,6 +49,13 @@ const ListingCardAdmin = ({ temple }) => {
     }
   };
 
+  const handleAddUpcomingEvent = (id, e) => {
+    e.stopPropagation();
+    window.scrollTo(0, 0)
+    auth?.user?.role == 1 ?
+      navigate(`/admin/add-event/${id}`) :
+      navigate(`/superadmin/add-event/${id}`);
+  }
 
   const navigateToTemple = (id, e) => () => {
     e.stopPropagation();
@@ -65,7 +72,7 @@ const ListingCardAdmin = ({ temple }) => {
     <div className="listing admin" onClick={(e) => navigateToTemple(temple._id, e)}>
       <div style={{ position: "relative" }} className="listing-img-wrapper">
         {temple.isVerified == 0 && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Unverified</span>)}
-        {temple.hasChangesToApprove == 1 && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Modified</span>)}
+        {(temple.hasChangesToApprove == 1 && temple.isVerified == 1) && (<span style={{ position: "absolute", right: "0", backgroundColor: "var(--color-theme-error)", color: "white", padding: "2px 4px", fontSize: "13px", borderRadius: "6px", margin: "4px " }}>Modified</span>)}
         <img
           src={temple.images.bannerImage ? temple.images.bannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 
@@ -82,7 +89,7 @@ const ListingCardAdmin = ({ temple }) => {
             <tbody>
               <tr>
                 <td className="listing-donation  text-sm">Donation : </td>
-                <td className="listing-donation text-grey-dark text-sm">{temple.donation}</td>
+                <td className="listing-donation text-grey-dark text-sm"> {temple.donation}</td>
               </tr>
               {auth?.user?.role == 2 ? (
 
@@ -114,6 +121,16 @@ const ListingCardAdmin = ({ temple }) => {
                   >
                     <i
                       className="fa-solid fa-pen-to-square"
+                      style={{ color: "var(--color-theme-primary)" }}
+                    ></i>
+                  </button>
+                  <button
+                    title="Add Upcoming Temple"
+                    onClick={(e) => handleAddUpcomingEvent(temple._id, e)}
+
+                  >
+                    <i
+                      className="fa-solid fa-plus-square"
                       style={{ color: "var(--color-theme-primary)" }}
                     ></i>
                   </button>

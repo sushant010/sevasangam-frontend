@@ -36,6 +36,8 @@ import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 import Faq from "./pages/staticPages/FAQ/Faq"
 import PrivacyPolicy from "./pages/staticPages/PrivacyPolicy";
 import TermsAndConditions from "./pages/staticPages/TermsAndConditions";
+import AddEvent from "./pages/admin/AddEvent";
+import UpdateEvent from "./pages/admin/UpdateEvent";
 
 
 function App() {
@@ -80,6 +82,8 @@ function App() {
             <Route path="temples" element={<AdminTemples />} />
             <Route path="temple/:id" element={<ViewTemple />} />
             <Route path="donations" element={<AllDonationsAdmin />} />
+            <Route path="add-event/:id" element={<AddEvent />} />
+            <Route path="update-event/:id" element={<UpdateEvent />} />
           </Route>
 
           <Route path="/superadmin" element={<IsSuperadmin />} >
@@ -97,6 +101,9 @@ function App() {
             <Route path="update-subscribed-emails" element={<SubscribedEmails />} />
 
             <Route path="trending-temples" element={<TrendingTemples />} />
+
+            <Route path="add-event/:id" element={<AddEvent />} />
+            <Route path="update-event/:id" element={<UpdateEvent />} />
 
           </Route>
 
