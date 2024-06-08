@@ -60,6 +60,7 @@ const ViewTemple = () => {
 
 
     const handleUpdateTemple = (id) => {
+        window.scrollTo(0, 0);
         navigate(`/admin/update-temple/${id}`)
 
     }

@@ -104,6 +104,10 @@ const SignupModal = () => {
 
         setAuth({ ...auth, user: res.data.user, token: res.data.token });
         localStorage.setItem('auth', JSON.stringify(res.data));
+
+        const expirationTime = Date.now() + 7 * 24 * 60 * 60 * 1000;
+        localStorage.setItem('tokenExpiration', expirationTime);
+
       } else {
         toast.error(res.data.error);
       }

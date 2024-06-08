@@ -21,6 +21,7 @@
     "react": "^18.2.0",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-grid-carousel": "^1.0.1",
     "react-loader-spinner": "^6.1.6",
     "react-phone-number-input": "^3.4.2",
     "react-router-dom": "^6.23.0",

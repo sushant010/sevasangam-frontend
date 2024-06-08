@@ -16,12 +16,18 @@ const ListingCardAdmin = ({ temple }) => {
 
   const handleViewTemple = (id, e) => {
     e.stopPropagation();
-    auth.user?.role === 1 ? navigate(`/admin/temple/${id}`) : navigate(`/superadmin/temple/${id}`);
+    window.scrollTo(0, 0)
+    auth.user?.role === 1 ?
+      navigate(`/admin/temple/${id}`) :
+      navigate(`/superadmin/temple/${id}`);
   };
 
   const handleUpdateTemple = (id, e) => {
     e.stopPropagation();
-    auth?.user?.role == 1 ? navigate(`/admin/update-temple/${id}`) : navigate(`/superadmin/update-temple/${id}`);
+    window.scrollTo(0, 0)
+    auth?.user?.role == 1 ?
+      navigate(`/admin/update-temple/${id}`) :
+      navigate(`/superadmin/update-temple/${id}`);
 
   }
 
@@ -46,7 +52,10 @@ const ListingCardAdmin = ({ temple }) => {
 
   const navigateToTemple = (id, e) => () => {
     e.stopPropagation();
-    auth.user?.role === 1 ? navigate('/admin/temple/' + id) : navigate('/superadmin/temple/' + id);
+    window.scrollTo(0, 0)
+    auth.user?.role === 1 ?
+      navigate('/admin/temple/' + id) :
+      navigate('/superadmin/temple/' + id);
   }
 
 

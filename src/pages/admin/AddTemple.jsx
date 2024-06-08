@@ -241,6 +241,7 @@ const AddTemple = () => {
                 toast.success(res.data.message);
 
                 setTimeout(() => {
+                    window.scrollTo(0, 0);
                     navigate('/admin/temples');
                 }, 2000);
                 setTemple(initialState);

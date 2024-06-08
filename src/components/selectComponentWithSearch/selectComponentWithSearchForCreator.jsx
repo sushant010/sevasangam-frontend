@@ -71,7 +71,7 @@ export default function SelectComponentWithSearchForCreator({
   }, [searchData, templeNameState]);
 
   return (
-    <div>
+    <div className="position-relative">
       <input
         type="text"
         placeholder="Created By"
@@ -84,9 +84,9 @@ export default function SelectComponentWithSearchForCreator({
 
       {(loading || errorMessage || (selectData && selectData.length > 0)) && (
         <ul
-          className="position-absolute bg-white mt-1 shadow py-2 z-n1"
+          className="position-absolute bg-white shadow"
           style={{
-            width: "fitContent",
+            width: "100%",
             zIndex: 100,
             backgroundColor: "white",
             borderRadius: "5px",
@@ -101,10 +101,14 @@ export default function SelectComponentWithSearchForCreator({
                 inputRef.current.value = data.name;
                 setSelectData([]);
               }}
-              className="cursor-pointer mt-1 p-1 "
+              className="cursor-pointer px-2 py-1"
               role="button"
               style={{
                 backgroundColor: "#f5f5f5",
+                fontSize: "14px",
+                borderBottom: "1px solid #ccc",
+                width: "100%",
+
               }}
             >
               {data.name}

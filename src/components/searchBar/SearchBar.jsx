@@ -47,6 +47,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
     } else {
       const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
       const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
+      window.scrollTo(0, 0);
       navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&location=${formattedLocation}` : ''}`);
 
     }

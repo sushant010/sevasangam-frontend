@@ -42,6 +42,10 @@ const OauthGoogle = ({ closeLoginModal, setLoading }) => {
                 setLoading(false)
 
                 setAuth({ ...auth, user: res.data.user, token: res.data.token });
+
+                const expirationTime = Date.now() + 7 * 24 * 60 * 60 * 1000;
+                localStorage.setItem('tokenExpiration', expirationTime);
+
                 localStorage.setItem("auth", JSON.stringify(res.data));
                 toast.success(res.data.message);
                 // window.location.reload()
