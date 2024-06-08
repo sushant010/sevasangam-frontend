@@ -10,10 +10,13 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Carousel from 'react-grid-carousel'
 import { useNavigate } from "react-router-dom";
+import { devoteeSteps, templeAdminSteps } from "./steps";
 
 function Home() {
 
   const api = import.meta.env.VITE_API_URL;
+
+  const [showSteps, setShowSteps] = useState("devotee")
 
 
   const [popularTemples, setPopularTemples] = useState([])
@@ -438,124 +441,103 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
 
 
         <section className="review-container">
-          <div className="review">
+        <div className="review top">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat soluta voluptate expedita sunt! Incidunt nisi ut
-              error perspiciatis!
+              SevaSangam has truly transformed my spiritual journey. Being able to make donations to my favorite      temples with just a few clicks has made it so much more convenient for me. I feel connected to my faith in a whole new way, thanks to SevaSangam!
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Devotee</span>
               </div>
             </div>
           </div>
-          <div className="review-heading">
+          <div className="review-heading top">
             <h2 className="section-heading">
               Here&rsquo;s what people say about us
             </h2>
           </div>
-          <div className="review">
+          <div className="review top">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat soluta voluptate expedita sunt! Incidunt nisi ut
-              error perspiciatis!
+            As a temple administrator, I can't thank SevaSangam enough for the support they provide. Their platform has helped us streamline our donation process and increase transparency. With SevaSangam, we can focus more on serving our community and less on administrative tasks."
+            
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous </span>
+                <span className="text-sm">Temple Administrator</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+            Our family has been using SevaSangam for a while now, and we're impressed by how easy it is to use. It's not just about making donations; it's about feeling connected to our culture and traditions. SevaSangam has made it possible for us to pass on these values to our children.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Family</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+              SevaSangam has become an integral part of our community's efforts to support our local temples. The platform's user-friendly interface and transparent transactions have instilled trust among our members. With SevaSangam, we're able to come together and make a meaningful impact on our religious institutions.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Community Leader</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+              SevaSangam has been a blessing in my life. As a devotee living far away from my hometown, I often felt disconnected from my roots and my beloved temple. However, ever since I discovered SevaSangam, that sense of distance has diminished.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Devotee</span>
               </div>
             </div>
           </div>
-          <div className="review">
+          <div className="review bottom">
             <div className="review-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              quia, error repudiandae fuga nisi quo doloribus hic dolore dolores
-              corporis, fugiat solutasum dolor sit amet consectetur adipisicing
-              elit. Ipsa quia, error repudiandae fuga nisi quo doloribus hic
-              dolore dolores corporis, fugiat sol voluptate expedita sunt!
-              Incidunt nisi ut error perspiciatis!
+            SevaSangam has made it possible for me to uphold my traditions and express my devotion in a meaningful way, regardless of where I am physically. For that, I am deeply grateful.
             </div>
             <div className="review-author">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+
                 alt=""
               />
               <div className="d-flex">
-                <span className="text-sm">Anjali Singh</span>
-                <span className="text-sm">Fullstack Developer</span>
+                <span className="text-sm">Anonymous</span>
+                <span className="text-sm">Devotee</span>
               </div>
             </div>
           </div>
