@@ -156,9 +156,7 @@ function Home() {
     <>
       <Layout>
 
-        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Indias Most Trusted and Transparent Temple Donation Platform" description="Join hands with us in upholding tradition, fostering inclusivity,
-        and spreading love and light to all. Make your mark on Temples
-        journey today by giving from your heart to ours." />
+        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Welcome to SevaSangam - Your Gateway to Spiritual Connection" description="From Clicks to Blessings, SevaSangam's Vision of Empowering Believers and Enriching Temples." />
 
         <section style={{ marginTop: "-130px" }} id="searchTempleToDonate" className="search-section">
           <h2 className=" text-center m-auto text-primary text-xl fw-bold mb-4">
@@ -191,18 +189,29 @@ function Home() {
           <div className="d-flex align-items-center">
             <div className="d-flex align-items-center gap-4">
               <div>
-                <div className="text-heading">6,453</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading numbers">10,000+</div>
+                <p className="text-medium">Devotees Connected</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">1,56,236</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading numbers">500+</div>
+                <p className="text-medium">Temples Supported</p>
                 <hr></hr>
               </div>
               <div>
-                <div className="text-heading">6,453</div>
-                <p className="text-medium">Volunteers in 2024</p>
+                <div className="text-heading numbers">24/7 </div>
+                <p className="text-medium">Support Availability</p>
+                <hr></hr>
+              </div>
+              <div>
+                <div className="text-heading numbers">99.9%</div>
+                <p className="text-medium">Transaction Success Rate</p>
+                <hr></hr>
+              </div>
+              <div>
+                <div className="text-heading numbers">1 Million+</div>
+                <p className="text-medium"> Donations Processed
+                </p>
                 <hr></hr>
               </div>
             </div>
@@ -211,28 +220,14 @@ function Home() {
               <p className="text-md">
                 Join hands with us in upholding tradition, fostering inclusivity
               </p>
-              <h2 className="text-heading">
-                Lorem Ipsum has been the industrys standard dummy
+              <h2 className="text-heading text-primary">
+                How we evolved
               </h2>
               <p className="text-md">
-                Lorem Ipsum has been the industry s standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived
-                not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing
-                Lorem Ipsum passages, and more recently with desktop publishing
-                software like Aldus PageMaker including versions of Lorem Ipsum.
+                At SevaSangam, our mission and vision stem from recognizing the evolving needs of our society and the timeless significance of spiritual connection. We saw a unique opportunity to bridge tradition and technology, addressing the challenges devotees face in making donations and payments to temples, especially when physical presence is not feasible.
               </p>
               <p className="text-md">
-                Lorem Ipsum has been the industry s standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived
-                not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing
-                Lorem Ipsum passages, and more recently with desktop publishing
-                software like Aldus PageMaker including versions of Lorem Ipsum.
+                In today’s fast-paced world, the need for convenient and secure methods of supporting religious institutions is crucial. Temples are vital in preserving our cultural and spiritual heritage, yet many struggle with financial stability and connecting with the tech-savvy younger generation. Devotees seek meaningful ways to contribute without geographic or time constraints. Seva Sangam addresses these needs by providing an accessible, convenient, and transparent platform for donations, ensuring that temples receive the support they need for upkeep, activities, and community services. This digital solution also engages younger generations, making it easier for them to stay connected to their heritage. Through Seva Sangam, we harness technology to uphold and enhance spiritual traditions, ensuring the cultural and religious fabric of our society remains strong and vibrant for future generations.
               </p>
               <div className="btns d-flex gap-4">
                 <Button size="medium" type="primary" text="About Us" />
@@ -330,8 +325,10 @@ function Home() {
           img1="https://plus.unsplash.com/premium_photo-1678693021499-c6c5111bbc74?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           img2="https://images.unsplash.com/photo-1620766182966-c6eb5ed2b788?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           img3="https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          sectionTitle="Lorem Ipsum has been the industrys standard dummy"
-          sectionDesc="Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+          sectionTitle="About Sevasangam"
+          sectionDesc="At SevaSangam, we are more than just a donation platform; we are a community united by a shared reverence for tradition and a desire to make a lasting impact. With a user-friendly interface, secure transactions, and transparent processes, we invite you to join us on this journey of devotion, connection, and empowerment.
+Together, let's uphold the legacy of our cultural heritage, support the sanctity of temples, and nurture the spiritual fabric of society. Welcome to SevaSangam, where every offering is a testament to the power of Seva (service) and the strength of our collective devotion.
+"
         />
 
 

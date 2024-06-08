@@ -48,6 +48,9 @@ table td a {
 .text-xl {
   font-size: 2.4rem;
 }
+.text-heading.numbers {
+  font-size: 2rem;
+}
 
 .text-heading {
   font-size: 3rem;

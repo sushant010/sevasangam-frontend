@@ -26,7 +26,14 @@
   flex-basis: 70%;
 }
 .numbers > div > div:nth-of-type(1) {
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  justify-content: end;
+  padding: 1rem;
+  & div {
+    min-width: 40%;
+    flex: 1;
+  }
 }
 
 .card-container {
