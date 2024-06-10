@@ -45,14 +45,14 @@
 }
 
 .card {
-  width: 260px;
+  /* width: 260px;
   max-width: 100%;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: var(--shadow-light);
   overflow: hidden;
   flex: 1;
-  margin: 15px;
+  margin: 15px; */
 }
 
 .card-image {
@@ -76,33 +76,47 @@
 }
 
 .review-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 2rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  grid-template-rows: repeat(2, 1fr); 
+  gap: 1rem;
+}
+.top{
+  grid-row: 1;
+}
+.bottom{
+  grid-row: 2;
+}
+
+.review-heading{
+  grid-column-start: 2;
+  grid-column-end: 4;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  height: fit-content;
 }
 
 .review,
 .review-heading {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: var(--shadow-light);
-  margin: 15px;
-  flex: 1;
   padding: 1rem;
-  min-width: 20%;
-  max-width: 400px;
+}
+.review{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 .review-heading {
   box-shadow: none;
   border: none;
   text-align: center;
   min-width: 40%;
+  margin: auto;
 }
 .review-text {
   margin-bottom: 1rem;
@@ -116,6 +130,7 @@
 }
 .review-author {
   display: flex;
+  /* align */
 }
 .review-author > div {
   display: flex;
@@ -125,6 +140,8 @@
   font-weight: 500;
   color: var(--color-grey-light-2);
 }
+
+
 
 .listing-container {
   display: flex;
@@ -325,7 +342,7 @@
     flex: none !important;
   }
   .card-container {
-    flex-direction: column;
+    /* flex-direction: column; */
   }
   .search-section .listing-container {
     padding: 0 6px;
@@ -342,4 +359,57 @@
     margin: 0;
     padding: 0;
   }
+}
+
+
+.capsuleContainer{
+  
+  padding: 10px;
+  width: 100%;
+}
+.capsuleContainer>.capsule{
+
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  /* gap: 10px; */
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  width: 400px;
+  background-color: white;
+
+
+}
+
+.capsuleContainer > .capsule > .capsuleBack{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--color-theme-primary);
+  z-index: -1;
+  border-radius: 20px;
+  transition: all .25s ease;
+}
+
+.capsuleContainer > .capsule > .right{
+  /* right: 0; */
+  left: 50% ;
+}
+
+.capsuleContainer > .capsule > button{
+  width: 50%;
+  /* filter: invert(1);
+  mix-blend-mode: difference; */
+  color: black;
+}
+
+.capsuleContainer > .capsule > .active{
+  color: white;
 }
