@@ -20,28 +20,26 @@
       object-fit: cover;
     }
   }
-
-  & 
 }
 .social-media {
-    display: flex;
+  display: flex;
 
-    & div {
-      padding: 2px;
-      border-radius: 50%;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-      width: 50px;
-      height: 50px;
-      overflow: hidden;
-      background-color: #f5f5f5;
-      /* border: 1px solid var(--color-theme-primary); */
-      & img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+  & div {
+    padding: 2px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    /* border: 1px solid var(--color-theme-primary); */
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
+}
 .feature {
   padding: 4px 6px;
   border-radius: 4px;
@@ -89,4 +87,21 @@ label {
   font-size: 13px;
   font-weight: 700;
   color: var(--color-theme-text-grey);
-} 
+}
+
+@media screen and (max-width: 768px) {
+  .temple-donation > div:first-of-type {
+    flex-wrap: wrap;
+    & input {
+      flex: none !important;
+      flex-basis: 200px !important;
+      & ~ .currency-select {
+        flex: 1;
+      }
+    }
+  }
+  .donate-card {
+    min-width: 300px;
+    max-width: 100% !important;
+  }
+}
