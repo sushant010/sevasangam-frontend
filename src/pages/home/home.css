@@ -77,18 +77,18 @@
 
 .review-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  grid-template-rows: repeat(2, 1fr); 
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 1rem;
 }
-.top{
+.top {
   grid-row: 1;
 }
-.bottom{
+.bottom {
   grid-row: 2;
 }
 
-.review-heading{
+.review-heading {
   grid-column-start: 2;
   grid-column-end: 4;
   text-align: center;
@@ -105,11 +105,10 @@
   box-shadow: var(--shadow-light);
   padding: 1rem;
 }
-.review{
+.review {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
 }
 .review-heading {
   box-shadow: none;
@@ -140,8 +139,6 @@
   font-weight: 500;
   color: var(--color-grey-light-2);
 }
-
-
 
 .listing-container {
   display: flex;
@@ -269,6 +266,17 @@
 }
 
 @media screen and (max-width: 768px) {
+  section#searchTempleToDonate {
+    margin-top: 0px !important;
+    & > h2 {
+      font-size: 30px;
+    }
+  }
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
   .tab-btns-container {
     max-width: fit-content;
   }
@@ -361,14 +369,11 @@
   }
 }
 
-
-.capsuleContainer{
-  
+.capsuleContainer {
   padding: 10px;
   width: 100%;
 }
-.capsuleContainer>.capsule{
-
+.capsuleContainer > .capsule {
   width: fit-content;
   margin: auto;
   display: flex;
@@ -381,11 +386,9 @@
   overflow: hidden;
   width: 400px;
   background-color: white;
-
-
 }
 
-.capsuleContainer > .capsule > .capsuleBack{
+.capsuleContainer > .capsule > .capsuleBack {
   position: absolute;
   top: 0;
   left: 0;
@@ -395,21 +398,21 @@
   background-color: var(--color-theme-primary);
   z-index: -1;
   border-radius: 20px;
-  transition: all .25s ease;
+  transition: all 0.25s ease;
 }
 
-.capsuleContainer > .capsule > .right{
+.capsuleContainer > .capsule > .right {
   /* right: 0; */
-  left: 50% ;
+  left: 50%;
 }
 
-.capsuleContainer > .capsule > button{
+.capsuleContainer > .capsule > button {
   width: 50%;
   /* filter: invert(1);
   mix-blend-mode: difference; */
   color: black;
 }
 
-.capsuleContainer > .capsule > .active{
+.capsuleContainer > .capsule > .active {
   color: white;
 }
