@@ -241,73 +241,73 @@ function Home() {
         <section className="linear-bg">
           <div className="section-heading line">How it Works</div>
 
-          <div className="d-flex align-items-center flex-wrap">
-            <div className="capsuleContainer">
-              <div className="capsule">
-                <button onClick={
-                  () => setShowSteps("devotee")
-                }
+
+          <div className="capsuleContainer">
+            <div className="capsule">
+              <button onClick={
+                () => setShowSteps("devotee")
+              }
                 className={showSteps === "devotee" ? "active" : ""}
-                >Devotees</button>
-                <button onClick={
-                  ()=> setShowSteps("admin")
-                }
+              >Devotees</button>
+              <button onClick={
+                () => setShowSteps("admin")
+              }
                 className={showSteps === "admin" ? "active" : ""}
-                >Admins</button>
-                <div className={
+              >Admins</button>
+              <div className={
 
-                  showSteps === "devotee" ? "capsuleBack left" : "capsuleBack right"
-                }>
-                </div>
-
+                showSteps === "devotee" ? "capsuleBack left" : "capsuleBack right"
+              }>
               </div>
-              
-              
+
             </div>
-            <div className="mt-4">
-              {/* style using bootstrap */}
-              <Carousel cols={4} rows={1} gap= "30px" loop>
-                {
-                  showSteps === "devotee" ? devoteeSteps.map((step, index) => (
-                    <Carousel.Item key={index}>
 
-                      <div className="card">
-                        <img 
-                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Card Image"
-                        className="card-image"
-                        />
-                        <div className="card-content">
-                          <h2 className="card-title">{step.title}</h2>
-                          <p className="card-description">{step.description}</p>
-                          </div>
 
-                      </div>
-                    </Carousel.Item>
-                  )) : templeAdminSteps.map((step, index) => (
-                    <Carousel.Item key={index}>
-                      
-                      <div className="card">
-                        <img
-                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Card Image"
-                        className="card-image"
-                        />
-                        <div className="card-content">
-                          <h2 className="card-title">{step.title}</h2>
-                          <p className="card-description">{step.description}</p>
-                        </div>
-                      </div>
-
-                      
-
-                    </Carousel.Item>
-                  ))
-                }
-              </Carousel>
-            </div>
-            {/* Content not provided */}
           </div>
+
+          <div className="mt-4 row">
+            <Carousel cols={4} rows={1} gap="30px" loop>
+              {
+                showSteps === "devotee" ? devoteeSteps.map((step, index) => (
+                  <Carousel.Item key={index}>
+
+                    <div className="card">
+                      <img
+                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image"
+                        className="card-image"
+                      />
+                      <div className="card-content">
+                        <h2 className="card-title">{step.title}</h2>
+                        <p className="card-description">{step.description}</p>
+                      </div>
+
+                    </div>
+                  </Carousel.Item>
+                )) : templeAdminSteps.map((step, index) => (
+                  <Carousel.Item key={index}>
+
+                    <div className="card">
+                      <img
+                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image"
+                        className="card-image"
+                      />
+                      <div className="card-content">
+                        <h2 className="card-title">{step.title}</h2>
+                        <p className="card-description">{step.description}</p>
+                      </div>
+                    </div>
+
+
+
+                  </Carousel.Item>
+                ))
+              }
+            </Carousel>
+          </div>
+          {/* Content not provided */}
+
         </section>
         <SectionImgWithText
           title="Our Donators"
@@ -441,7 +441,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
 
 
         <section className="review-container">
-        <div className="review top">
+          <div className="review top">
             <div className="review-text">
               SevaSangam has truly transformed my spiritual journey. Being able to make donations to my favorite      temples with just a few clicks has made it so much more convenient for me. I feel connected to my faith in a whole new way, thanks to SevaSangam!
             </div>
@@ -463,8 +463,8 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
           </div>
           <div className="review top">
             <div className="review-text">
-            As a temple administrator, I can't thank SevaSangam enough for the support they provide. Their platform has helped us streamline our donation process and increase transparency. With SevaSangam, we can focus more on serving our community and less on administrative tasks."
-            
+              As a temple administrator, I can't thank SevaSangam enough for the support they provide. Their platform has helped us streamline our donation process and increase transparency. With SevaSangam, we can focus more on serving our community and less on administrative tasks."
+
             </div>
             <div className="review-author">
               <img
@@ -479,7 +479,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
           </div>
           <div className="review bottom">
             <div className="review-text">
-            Our family has been using SevaSangam for a while now, and we're impressed by how easy it is to use. It's not just about making donations; it's about feeling connected to our culture and traditions. SevaSangam has made it possible for us to pass on these values to our children.
+              Our family has been using SevaSangam for a while now, and we're impressed by how easy it is to use. It's not just about making donations; it's about feeling connected to our culture and traditions. SevaSangam has made it possible for us to pass on these values to our children.
             </div>
             <div className="review-author">
               <img
@@ -527,7 +527,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
           </div>
           <div className="review bottom">
             <div className="review-text">
-            SevaSangam has made it possible for me to uphold my traditions and express my devotion in a meaningful way, regardless of where I am physically. For that, I am deeply grateful.
+              SevaSangam has made it possible for me to uphold my traditions and express my devotion in a meaningful way, regardless of where I am physically. For that, I am deeply grateful.
             </div>
             <div className="review-author">
               <img
