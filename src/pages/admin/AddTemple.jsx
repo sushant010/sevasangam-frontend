@@ -276,14 +276,20 @@ const AddTemple = () => {
             if (res.data.success) {
                 toast.success(res.data.message);
 
+                const authData = localStorage.getItem('auth');
+                const auth = JSON.parse(authData);
+                auth.user.role = 1;
+                localStorage.setItem('auth', JSON.stringify(auth));
+
+
+
                 setTimeout(() => {
                     window.scrollTo(0, 0);
                     if (auth.user.role == 1) {
                         navigate('/admin/temples')
-                    } else if (auth.user.role == 2) {
-                        navigate('/superadmin/temples');
+                        window.location.reload();
                     } else {
-                        navigate('/');
+                        navigate('/superadmin/temples');
                     }
 
                 }, 2000);
