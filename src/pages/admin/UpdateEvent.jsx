@@ -3,6 +3,7 @@ import Layout from '../../components/layout/Layout'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/Auth';
 
 const UpdateEvent = () => {
 
@@ -10,6 +11,8 @@ const UpdateEvent = () => {
     const { id } = useParams();
     const api = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
+    const [auth] = useAuth();
+
 
     const [temple, setTemple] = useState({});
     const [eventName, setEventName] = useState('');
@@ -18,18 +21,19 @@ const UpdateEvent = () => {
     const [eventEndDate, setEventEndDate] = useState('');
     const [eventStartTime, setEventStartTime] = useState('');
     const [eventEndTime, setEventEndTime] = useState('');
-
+    const [eventTemple, setEventTemple] = useState('');
 
     useEffect(() => {
-        fetchTemple();
+
         fetchCurrentEvent();
+        if (eventTemple) { fetchTemple(); }
 
 
-    }, []);
+    }, [id]);
 
     const fetchTemple = async () => {
         try {
-            const res = await axios.get(`${api}/temple/get-temple/${id}`);
+            const res = await axios.get(`${api}/temple/get-temple/${eventTemple}`);
             const { data } = res.data;
             setTemple(data);
         } catch (error) {
@@ -41,18 +45,19 @@ const UpdateEvent = () => {
     const fetchCurrentEvent = async () => {
         try {
             const res = await axios.get(`${api}/temple/event/fetch-event/${id}`);
-            const { data } = res.data;
+            const { event } = res.data;
 
-            setEventName(data.name);
-            setEventDescription(data.description);
-            setEventStartDate(new Date(data.date.start).toISOString().split('T')[0]); // Format the date to YYYY-MM-DD
-            setEventEndDate(new Date(data.date.end).toISOString().split('T')[0]);
-            setEventStartTime(data.timing.start.slice(0, 5));
-            setEventEndTime(data.timing.end.slice(0, 5));
+            setEventName(event.name);
+            setEventDescription(event.description);
+            setEventStartDate(new Date(event.date.start).toISOString().split('T')[0]); // Format the date to YYYY-MM-DD
+            setEventEndDate(new Date(event.date.end).toISOString().split('T')[0]);
+            setEventStartTime(event.timing.start.slice(0, 5));
+            setEventEndTime(event.timing.end.slice(0, 5));
+            setEventTemple(event.temple._id);
 
         } catch (error) {
             console.error(error);
-            toast.error('Failed to update event');
+            // toast.error('Failed to update event');
         }
     };
 
@@ -88,10 +93,10 @@ const UpdateEvent = () => {
                 // Optionally, display success message
                 toast.success(res.data.message);
                 window.scrollTo(0, 0);
-                if (temple.createdBy.role === 1) {
-                    navigate('/admin/temples')
+                if (auth.user._id === 1) {
+                    navigate(`/admin/temple/${eventTemple}`)
                 } else {
-                    navigate('/superadmin/temples')
+                    navigate(`/superadmin/temple/${eventTemple}`)
                 }
 
             } else {
@@ -99,7 +104,6 @@ const UpdateEvent = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error('Failed to update event');
         }
     };
 

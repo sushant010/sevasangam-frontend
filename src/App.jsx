@@ -39,6 +39,7 @@ import TermsAndConditions from "./pages/staticPages/TermsAndConditions";
 import AddEvent from "./pages/admin/AddEvent";
 import UpdateEvent from "./pages/admin/UpdateEvent";
 import ScrollToTop from "./components/ScrollToTop";
+import Event from "./pages/temple/Event";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/temples" element={<Temples />} />
           <Route path="/temple/:id" element={<Temple />} />
+          <Route path="/temple/:id/:eventId" element={<Event />} />
           <Route path="/our-team-and-journey" element={<OurTeamAndJourney />} />
 
 
