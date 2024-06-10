@@ -36,18 +36,13 @@ const AdminTemples = () => {
         try {
           const response = await axios.post(
             `${api}/temple/get-temples-by-admin`,
-            { 
+            {
               templeName: filters.temple,
               verified: filters.verified,
               userId: auth.user._id
-             },
-            {
-              headers: {
-                Authorization: `Bearer ${auth.token}`,
-              },
-            }
+            },
           );
-  
+
           if (response.data.success) {
             setAdminTemples(response.data.data.temples);
             localStorage.setItem(
@@ -62,15 +57,15 @@ const AdminTemples = () => {
         }
       } else {
         try {
-          const response = await axios.get(`${api}/temple/get-temples`,{
+          const response = await axios.get(`${api}/temple/get-temples`, {
             params: {
-            
+
               templeName: filters.temple,
               templeCreatedBy: filters.templeCreatedBy,
               verified: filters.verified,
             }
           });
-  
+
           if (response.data.success) {
             setAdminTemples(response.data.data.temples);
             localStorage.setItem(
@@ -88,7 +83,7 @@ const AdminTemples = () => {
     fetchTemplesByAdmin();
   }, [filters, setAdminTemples]);
 
-  const filterSubmit = (e)=>{
+  const filterSubmit = (e) => {
     e.preventDefault()
     const form = e.target
     const formData = new FormData(form)
@@ -106,43 +101,43 @@ const AdminTemples = () => {
         <div className="section-heading">
           {auth.user.role == 2 ? "All Temples" : "Temples Added by you"}
         </div>
-      {/* Filter section */}
-      
-      <div className="filter-container my-4">
-        <form className="row g-4" onSubmit={filterSubmit}>
-          <div className="col-md-4">
-            <SelectComponentWithSearchForTempleName />
-          </div>
-          {/* <div className="col-md-4">
+        {/* Filter section */}
+
+        <div className="filter-container my-4">
+          <form className="row g-4" onSubmit={filterSubmit}>
+            <div className="col-md-4">
+              <SelectComponentWithSearchForTempleName />
+            </div>
+            {/* <div className="col-md-4">
             <SelectComponentWithSearchForCreator />
           </div> */}
-          {
-            auth.user.role == 2 && (
-              <div className="col-md-4">
-                <SelectComponentWithSearchForCreator />
-              </div>
-            )
-          }
-          {/* Verified or not */}
-          <div className="col-md-3">
-            <select className="form-select" name="verified" >
-              <option value="1">Verified</option>
-              <option value="0">Not Verified</option>
-              <option value={""}>All</option>
-            </select>
-          </div>
+            {
+              auth.user.role == 2 && (
+                <div className="col-md-4">
+                  <SelectComponentWithSearchForCreator />
+                </div>
+              )
+            }
+            {/* Verified or not */}
+            <div className="col-md-2">
+              <select className="form-select" name="verified" >
+                <option value="1">Verified</option>
+                <option value="0">Not Verified</option>
+                <option value={""}>All</option>
+              </select>
+            </div>
 
-          <div className="col-md-3 flex-column align-items-center justify-content-center">
-            <button type="submit" className="btn btn-theme-primary">
-              Search
-            </button>
-          </div>
+            <div className="col-md-1 flex-column align-items-center justify-content-center">
+              <button type="submit" className="btn btn-theme-primary">
+                <i className="fa-solid fa-filter"></i>
+              </button>
+            </div>
 
 
 
-        </form>
+          </form>
 
-      </div>
+        </div>
         {!adminTemples && <div className="loader"></div>}
         <div className="listing-container m-auto">
           {adminTemples &&
