@@ -278,9 +278,13 @@ const AddTemple = () => {
 
                 setTimeout(() => {
                     window.scrollTo(0, 0);
-                    auth.user.role == 1 ?
-                        navigate('/admin/temples') :
+                    if (auth.user.role == 1) {
+                        navigate('/admin/temples')
+                    } else if (auth.user.role == 2) {
                         navigate('/superadmin/temples');
+                    } else {
+                        navigate('/');
+                    }
 
                 }, 2000);
                 setTemple(initialState);

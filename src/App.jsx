@@ -80,6 +80,8 @@ function App() {
           </Route>
           <Route path="loading" element={<LoadingSpinner />} />
 
+          <Route path="/add-temple" element={<AddTemple />} />
+
           <Route path="/admin" element={<IsTempleAdmin />} >
             <Route path="add-temple" element={<AddTemple />} />
             <Route path="update-temple/:id" element={<UpdateTemple />} />

@@ -259,15 +259,17 @@ const AllDonation = () => {
                 <div className="section-heading">
                     All Donations
                 </div>
-                <div className="filter-container my-4">
-                    <form className="row g-4" onSubmit={handleFilterSubmit}>
-                        <div className="col-md-2">
-                            <SelectComponentWithSearchForTempleName />
+                {razorpayDonations.length > 0 ? (
+                    <>
+                        <div className="filter-container my-4">
+                            <form className="row g-4" onSubmit={handleFilterSubmit}>
+                                <div className="col-md-2">
+                                    <SelectComponentWithSearchForTempleName />
 
-                        </div>
-                        <div className="col-md-3">
-                            < SelectComponentWithSearchForCreator templeName={filters.temple} />
-                            {/* <select
+                                </div>
+                                <div className="col-md-3">
+                                    < SelectComponentWithSearchForCreator templeName={filters.temple} />
+                                    {/* <select
                                 className="form-select"
                                 name="templeCreatedBy"
                                 value={filters.templeCreatedBy}
@@ -278,155 +280,157 @@ const AllDonation = () => {
                                     <option key={index} value={creator._id}>{creator.name}</option>
                                 ))}
                             </select> */}
+                                </div>
+                                <div className="col-md-2">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="donateUser"
+                                        placeholder="Donate User"
+                                        value={filters.donateUser}
+                                        onChange={handleFilterChange}
+                                    />
+                                </div>
+                                <div className="col-md-2">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="payId"
+                                        placeholder="Payment Id"
+                                        value={filters.payId}
+                                        onChange={handleFilterChange}
+                                    />
+                                </div>
+                                <div className="col-md-2">
+                                    <select
+                                        className="form-select"
+                                        name="paymentMethod"
+                                        value={filters.paymentMethod}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="">Select Payment Method</option>
+                                        {
+                                            paymentMethod.length > 0 && paymentMethod.map((method, index) => (
+                                                <option key={index} value={method}>{method}</option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+                                <div className="col-md-2">
+                                    <label className='mx-2'>Date From</label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        name="dateFrom"
+                                        placeholder="Date From"
+                                        value={filters.dateFrom}
+                                        onChange={handleFilterChange}
+                                    />
+                                </div>
+                                <div className="col-md-2">
+                                    <label className='mx-2'>Date To</label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        name="dateTo"
+                                        placeholder="Date To"
+                                        value={filters.dateTo}
+                                        onChange={handleFilterChange}
+                                    />
+                                </div>
+                                <div className="col-md-1">
+                                    <div className="d-flex justify-content-end m-0 p-0">
+                                        <button type="submit" className="btn btn-theme-primary"><i className="fa-solid fa-filter"></i></button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div className="col-md-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="donateUser"
-                                placeholder="Donate User"
-                                value={filters.donateUser}
-                                onChange={handleFilterChange}
-                            />
-                        </div>
-                        <div className="col-md-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="payId"
-                                placeholder="Payment Id"
-                                value={filters.payId}
-                                onChange={handleFilterChange}
-                            />
-                        </div>
-                        <div className="col-md-2">
-                            <select
-                                className="form-select"
-                                name="paymentMethod"
-                                value={filters.paymentMethod}
-                                onChange={handleFilterChange}
+                        <div className="d-flex justify-content-end">
+                            <CSVLink
+                                data={csvData}
+                                filename={"donations.csv"}
+                                className="btn btn-theme-primary mb-3"
                             >
-                                <option value="">Select Payment Method</option>
-                                {
-                                    paymentMethod.length > 0 && paymentMethod.map((method, index) => (
-                                        <option key={index} value={method}>{method}</option>
-                                    ))
-                                }
-                            </select>
+                                <i className="fa-solid fa-file-excel"></i> Download as CSV
+                            </CSVLink>
                         </div>
-                        <div className="col-md-2">
-                            <label className='mx-2'>Date From</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                name="dateFrom"
-                                placeholder="Date From"
-                                value={filters.dateFrom}
-                                onChange={handleFilterChange}
-                            />
-                        </div>
-                        <div className="col-md-2">
-                            <label className='mx-2'>Date To</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                name="dateTo"
-                                placeholder="Date To"
-                                value={filters.dateTo}
-                                onChange={handleFilterChange}
-                            />
-                        </div>
-                        <div className="col-md-1">
-                            <div className="d-flex justify-content-end m-0 p-0">
-                                <button type="submit" className="btn btn-theme-primary"><i className="fa-solid fa-filter"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div className="d-flex justify-content-end">
-                    <CSVLink
-                        data={csvData}
-                        filename={"donations.csv"}
-                        className="btn btn-theme-primary mb-3"
-                    >
-                        <i className="fa-solid fa-file-excel"></i> Download as CSV
-                    </CSVLink>
-                </div>
 
-                <div className="table-responsive">
-                    <table id="donationsTable" className="table table-light table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <td><p className='fw-bold text-primary'>S. No</p></td>
-                                <td><p className='fw-bold text-primary'>Payment Id</p></td>
-                                <td><p className='fw-bold text-primary'>Temple</p></td>
-                                <td><p className='fw-bold text-primary'>Date of Donation</p></td>
-                                <td><p className='fw-bold text-primary'>Donation by User</p></td>
-                                <td><p className='fw-bold text-primary'>Amount</p></td>
-                                <td><p className='fw-bold text-primary'>Payment Method</p></td>
-                                <td><p className='fw-bold text-primary'>Payment Status</p></td>
-                                <td><p className='fw-bold text-primary'>80G Certificate</p></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {razorpayDonations && razorpayDonations.length > 0 && razorpayDonations.map((donation, index) => {
-                                const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-GB');
-                                const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : {};
-                                const customDonation =
-                                    donations.find(
-                                        (don) => don.razorpay_payment_id === donation.id
-                                    ) || {};
 
-                                return (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{donation.id}</td>
-                                        <td>{temples.find((temp) => temp._id === donation.notes.temple)?.templeName}</td>
-                                        <td>{formattedDate}</td>
-                                        <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
-                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.notes.amount}</td>
-                                        <td>{donation.method}</td>
-                                        <td className={donation.status == 'failed' ? 'text-danger' : 'text-success'}>{donation.status.slice(0, 1).toUpperCase() + donation.status.slice(1).toLowerCase()}</td>
-                                        <td>{customDonation.is80CertificateRequested ? (
-                                            customDonation.certificate ? (
-                                                <div>
-                                                    <a
-                                                        className="fw-bold"
-                                                        style={{ color: "green", textDecoration: "underline" }}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        href={customDonation.certificate}
-                                                    >
-                                                        View Certificate
-                                                    </a>
-                                                    <div className="fw-bold text-danger">Request Received Again</div>
-                                                </div>
-                                            ) : (
-
-                                                <div className="fw-bold text-danger">Request Received</div>
-                                            )
-                                        ) : (
-                                            customDonation.certificate ? (
-                                                <a
-                                                    className="fw-bold"
-                                                    style={{ color: "green", textDecoration: "underline" }}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    href={customDonation.certificate}
-                                                >
-                                                    View Certificate
-                                                </a>
-                                            ) : (
-                                                "No request"
-                                            )
-                                        )}
-                                        </td>
+                        <div className="table-responsive">
+                            <table id="donationsTable" className="table table-light table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <td><p className='fw-bold text-primary'>S. No</p></td>
+                                        <td><p className='fw-bold text-primary'>Payment Id</p></td>
+                                        <td><p className='fw-bold text-primary'>Temple</p></td>
+                                        <td><p className='fw-bold text-primary'>Date of Donation</p></td>
+                                        <td><p className='fw-bold text-primary'>Donation by User</p></td>
+                                        <td><p className='fw-bold text-primary'>Amount</p></td>
+                                        <td><p className='fw-bold text-primary'>Payment Method</p></td>
+                                        <td><p className='fw-bold text-primary'>Payment Status</p></td>
+                                        <td><p className='fw-bold text-primary'>80G Certificate</p></td>
                                     </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                                </thead>
+                                <tbody>
+                                    {razorpayDonations && razorpayDonations.length > 0 && razorpayDonations.map((donation, index) => {
+                                        const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-GB');
+                                        const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : {};
+                                        const customDonation =
+                                            donations.find(
+                                                (don) => don.razorpay_payment_id === donation.id
+                                            ) || {};
+
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{donation.id}</td>
+                                                <td>{temples.find((temp) => temp._id === donation.notes.temple)?.templeName}</td>
+                                                <td>{formattedDate}</td>
+                                                <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
+                                                <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.notes.amount}</td>
+                                                <td>{donation.method}</td>
+                                                <td className={donation.status == 'failed' ? 'text-danger' : 'text-success'}>{donation.status.slice(0, 1).toUpperCase() + donation.status.slice(1).toLowerCase()}</td>
+                                                <td>{customDonation.is80CertificateRequested ? (
+                                                    customDonation.certificate ? (
+                                                        <div>
+                                                            <a
+                                                                className="fw-bold"
+                                                                style={{ color: "green", textDecoration: "underline" }}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                href={customDonation.certificate}
+                                                            >
+                                                                View Certificate
+                                                            </a>
+                                                            <div className="fw-bold text-danger">Request Received Again</div>
+                                                        </div>
+                                                    ) : (
+
+                                                        <div className="fw-bold text-danger">Request Received</div>
+                                                    )
+                                                ) : (
+                                                    customDonation.certificate ? (
+                                                        <a
+                                                            className="fw-bold"
+                                                            style={{ color: "green", textDecoration: "underline" }}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            href={customDonation.certificate}
+                                                        >
+                                                            View Certificate
+                                                        </a>
+                                                    ) : (
+                                                        "No request"
+                                                    )
+                                                )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>) : <>No Donation found</>}
             </section>
             {loading && (
                 <section className="d-flex m-auto">
