@@ -416,3 +416,9 @@
 .capsuleContainer > .capsule > .active {
   color: white;
 }
+
+@media screen and (max-width: 768px) {
+  .capsuleContainer > .capsule {
+    max-width: 100%;
+  }
+}
