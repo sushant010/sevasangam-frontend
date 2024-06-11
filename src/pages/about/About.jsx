@@ -100,7 +100,7 @@ const About = () => {
       </section>
 
 
-      <section className='awards-section'>
+      {/* <section className='awards-section'>
         <div className="section-heading line">
           Awards and Achievement
         </div>
@@ -159,7 +159,7 @@ const About = () => {
           </div>
         </div>
 
-      </section>
+      </section> */}
 
       <SectionLinearBg background="https://images.unsplash.com/photo-1559967861-dcec8e280633?q=80&w=1889&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
         <div className='d-flex w-100 justify-content-end auto'>
@@ -176,7 +176,7 @@ const About = () => {
           </div>
 
         </div></SectionLinearBg>
-      <section>
+      {/* <section>
 
         <h3 className='section-heading line'> Our Collaborators</h3>
         <div className="collaborators">
@@ -193,7 +193,7 @@ const About = () => {
             <img src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
           </div>
         </div>
-      </section>
+      </section> */}
 
 
 
