@@ -4,6 +4,7 @@ import Layout from '../../components/layout/Layout';
 import './contact.css';
 import axios from "axios"
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 const Contact = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -49,7 +50,7 @@ const Contact = () => {
             Contact us by below details or submit a ticket, and our team will get back shortly.
 
           </p>
-          <Button />
+          <Link to="/temples" className="btn btn-theme-primary">Donate Now</Link>
         </div>
       </section>
       <section className="contact-main">

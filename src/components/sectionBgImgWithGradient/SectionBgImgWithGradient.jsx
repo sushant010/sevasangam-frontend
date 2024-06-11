@@ -37,7 +37,7 @@ SectionBgImgWithGradient.propTypes = {
 
 };
 SectionBgImgWithGradient.defaultProps = {
-  btn1Link: "/",
+  btn1Link: "/temples",
   btn2Link: "/contact",
   btn1Text: "Donate Now",
   btn2Text: "Contact Us",

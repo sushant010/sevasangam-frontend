@@ -9,7 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Carousel from 'react-grid-carousel'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { devoteeSteps, templeAdminSteps } from "./steps";
 
 function Home() {
@@ -233,7 +233,7 @@ function Home() {
                 In today’s fast-paced world, the need for convenient and secure methods of supporting religious institutions is crucial. Temples are vital in preserving our cultural and spiritual heritage, yet many struggle with financial stability and connecting with the tech-savvy younger generation. Devotees seek meaningful ways to contribute without geographic or time constraints. Seva Sangam addresses these needs by providing an accessible, convenient, and transparent platform for donations, ensuring that temples receive the support they need for upkeep, activities, and community services. This digital solution also engages younger generations, making it easier for them to stay connected to their heritage. Through Seva Sangam, we harness technology to uphold and enhance spiritual traditions, ensuring the cultural and religious fabric of our society remains strong and vibrant for future generations.
               </p>
               <div className="btns d-flex gap-4">
-                <Button size="medium" type="primary" text="About Us" />
+                <Link className="btn btn-theme-primary" to="/about">About us</Link>
               </div>
             </div>
           </div>

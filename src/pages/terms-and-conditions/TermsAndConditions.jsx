@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Layout from "../../components/layout/Layout"
 
 
@@ -12,7 +13,7 @@ const TermsAndConditions = () => {
             trusts. We aim to make temple donations transparent, easy, and
             accessible to all.
           </p>
-          <button className=" btn primary">Donate Now</button>
+          <Link to="/terms-and-conditions" className=" btn btn-theme-primary">Donate Now</Link>
         </div>
       </section>
       <section>

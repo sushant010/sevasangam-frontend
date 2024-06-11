@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import SectionImgWithText from '../../components/sectionImgWithTextDesc/SectionImgWithText.jsx';
 import SectionLinearBg from '../../components/sectionLinearBg/sectionLinearBg';
@@ -12,7 +13,7 @@ const About = () => {
             SevaSangam is a visionary platform dedicated to facilitating spiritual connections and supporting temples through seamless digital solutions. Founded with a deep commitment to preserving cultural heritage and fostering devotion, SevaSangam bridges tradition with technology to empower individuals and communities worldwide.
 
           </p>
-          <button className=" btn primary">Donate Now</button>
+          <Link to="/temples" className="btn btn-theme-primary">Donate Now</Link>
         </div>
       </section>
       <SectionImgWithText

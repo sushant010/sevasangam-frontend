@@ -16,7 +16,7 @@
 
 .team-section {
   background-color: var(--color-theme-accent);
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
 
   & .team-container {
     width: 100%;
