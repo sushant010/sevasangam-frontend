@@ -267,6 +267,9 @@
 }
 
 @media screen and (max-width: 768px) {
+  .search-section .search-bar-wrapper {
+    max-width: 93%;
+  }
   section#searchTempleToDonate {
     margin-top: 0px !important;
     & > h2 {
@@ -290,8 +293,12 @@
     min-width: 200px;
     width: 100% !important;
     max-width: 100% !important;
-    padding: 0px;
-    margin: 0px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 8px 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-color: #eee;
+    background-color: #fff;
   }
   .hero-section {
     padding: 2rem 1rem;
@@ -323,28 +330,6 @@
 
   .numbers > div > div:nth-of-type(2) {
     flex-basis: 100%;
-  }
-
-  .styled-img-container {
-    width: 100%;
-    height: 440px;
-  }
-
-  .styled-img-container .styled-img:nth-of-type(1) {
-    width: 160px;
-    height: 190px;
-    right: 200px;
-  }
-  .styled-img-container .styled-img:nth-of-type(2) {
-    width: 180px;
-    height: 320px;
-    right: 0;
-  }
-  .styled-img-container .styled-img:nth-of-type(3) {
-    width: 160px;
-    height: 160px;
-    right: 200px;
-    top: 240px;
   }
 
   .search-section .box {
