@@ -99,7 +99,7 @@ const UserDonations = () => {
                         <tbody>
                             {razorpayDonations && razorpayDonations.map((donation, index) => {
 
-                                const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-US');
+                                const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-GB');
                                 const customDonation = donations.find((don) => don.razorpay_payment_id === donation.id)
 
                                 return (
@@ -112,11 +112,11 @@ const UserDonations = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
 
-                                            {customDonation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="Request 80 Certificate">
+                                            {customDonation && customDonation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="Request 80 Certificate">
                                                 Request 80 Certificate
                                             </button></> : <>
 
-                                                {customDonation.certificate ? <>
+                                                {customDonation && customDonation.certificate ? <>
                                                     <div style={{ gap: "6px" }} className='d-flex flex-wrap'>
                                                         <div className="file-preview">
                                                             <a className='btn btn-theme-primary' rel="noopener noreferrer" target="_blank" href={customDonation.certificate}><i className="fa-solid fa-eye"></i> View</a>

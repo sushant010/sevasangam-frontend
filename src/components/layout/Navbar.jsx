@@ -81,6 +81,93 @@ const Navbar = () => {
             <Link to="/contact">Contact Us</Link>
           </div>
 
+          {!auth && (
+
+            <>
+              <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
+                <Link to="/temples">Donate</Link>
+              </div>
+
+              <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
+                <button type="button" className="btn btn-theme-primary" data-bs-toggle="modal" data-bs-target="#loginBackdrop">
+                  Sign Up / Login
+                </button>
+              </div>
+
+            </>
+          )}
+
+          {auth && auth.user && auth.user.role == 0 && (
+            <>
+              <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
+              <div className={`nav-item ${location.pathname === '/user/donations' ? 'active' : ''}`}>
+                <Link to="/user/donations">Past Donations</Link>
+              </div>
+
+
+            </>
+          )}
+
+          {auth && auth.user && auth.user.role == 1 && (
+
+            <>
+
+              <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
+              <div className={`nav-item ${location.pathname === '/update-profile' ? 'active' : ''}`}>
+                <Link to="/update-profile">Profile</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/admin/temples' ? 'active' : ''}`}>
+                <Link to="/admin/temples">  All Temples</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/admin/add-temple' ? 'active' : ''}`}>
+                <Link to="/admin/add-temple">Add Temple</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/admin/donations' ? 'active' : ''}`}>
+                <Link to="/admin/donations"> All Donations</Link>
+              </div>
+            </>
+          )}
+
+
+          {auth && auth.user && auth.user.role == 2 && (
+
+            <>
+
+              <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
+              <div className={`nav-item ${location.pathname === '/update-profile' ? 'active' : ''}`}>
+                <Link to="/update-profile">Profile</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/temples' ? 'active' : ''}`}>
+                <Link to="/superadmin/temples">Temples</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/add-temple' ? 'active' : ''}`}>
+                <Link to="/superadmin/add-temple">Add New Temple</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/temple-listers' ? 'active' : ''}`}>
+                <Link to="/superadmin/temple-listers">Temple Admins</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/donations' ? 'active' : ''}`}>
+                <Link to="/superadmin/donations">Donations</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/unverified-temples' ? 'active' : ''}`}>
+                <Link to="/superadmin/unverified-temples">Unverified Temples</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/trending-temples' ? 'active' : ''}`}>
+                <Link to="/superadmin/trending-temples">Trending Temples</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/contact-ticket' ? 'active' : ''}`}>
+                <Link to="/superadmin/contact-ticket">Tickets</Link>
+              </div>
+              <div className={`nav-item ${location.pathname === '/superadmin/update-subscribed-emails' ? 'active' : ''}`}>
+                <Link to="/superadmin/update-subscribed-emails">Subscribed Emails</Link>
+              </div>
+            </>
+          )}
+          <div className={`nav-item`}>
+            <div className='logout'> <span onClick={logout}><i className=" fa-solid fa-right-from-bracket"></i> Logout</span></div>
+          </div>
+
+
         </div>
         <div className="nav-left">
           <div className="logo-container">
@@ -176,7 +263,7 @@ const Navbar = () => {
 
                     <li>
                       <Link className="dropdown-item" to="/superadmin/temple-listers">
-                        Users
+                        Temple Admins
                       </Link>
                     </li>
                     <li>
@@ -235,8 +322,8 @@ const Navbar = () => {
           ) : null
           }
         </div>
-      </nav>
-    </div>
+      </nav >
+    </div >
   )
 }
 

@@ -161,7 +161,7 @@ export default function ContactTicket() {
           </div>
         </form>
         {tickets.length > 0 ? (
-          <div className="responsive-table">
+          <div className="table-responsive">
             <table className=" table table-light table-bordered table-striped">
               <thead>
                 <tr>

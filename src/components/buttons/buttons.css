@@ -1,54 +1,56 @@
 /* to all buttons */
-button{
-    border-radius: 8px;
-    transition: .3s all;
-    font-weight: 500;
+button {
+  border-radius: 8px;
+  transition: 0.3s all;
+  font-weight: 500;
 }
 
-button.btn:hover,button.btn:active{
-    filter:brightness(.9) !important;
+button.btn:hover,
+button.btn:active {
+  filter: brightness(0.9) !important;
 }
-
 
 /* theme buttons */
 
-.primary,.primary:hover,.btn-theme-primary,button.btn-theme-primary:active{
-    background-color: var(--color-theme-primary) !important;
-    border: 1px solid var(--color-theme-primary) !important;
-    color: var(--color-white) !important;
+.primary,
+.primary:hover,
+.btn-theme-primary,
+button.btn-theme-primary:active {
+  background-color: var(--color-theme-primary) !important;
+  border: 1px solid var(--color-theme-primary) !important;
+  color: var(--color-white) !important;
 }
 
-
-.grey,.grey:hover{
-    color: var(--color-theme-primary);
-    background-color: var(--color-white);
-    border: 1px solid var(--color-white);
+.grey,
+.grey:hover {
+  color: var(--color-theme-primary);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-white);
 }
 
-.btn-theme-accent{
-    color: var(--color-theme-primary) !important;
-    border: 1px solid var(--color-theme-primary) !important;
-    background-color: var(--color-white) !important;
+.btn-theme-accent {
+  color: var(--color-theme-primary) !important;
+  border: 1px solid var(--color-theme-primary) !important;
+  background-color: var(--color-white) !important;
 }
 
-
-.btn-theme-error{
-    background-color: var(--color-theme-error) !important;
-    border: 1px solid var(--color-theme-error) !important;
-    color: var(--color-white) !important;
+.btn-theme-error {
+  background-color: var(--color-theme-error) !important;
+  border: 1px solid var(--color-theme-error) !important;
+  color: var(--color-white) !important;
 }
 
-
-.btn-md{
-    padding: 8px 14px;
-    font-size: 1rem;
+.btn-md {
+  padding: 8px 14px;
+  font-size: 1rem;
 }
 
+@media screen and (max-width: 768px) {
+  .btn-lg {
+    font-size: 1.1rem;
+  }
 
-
-@media screen and (max-width: 768px){
-    .btn-lg{
-      
-        font-size: 1.1rem;   
-    }
+  .btn-theme-primary {
+    font-size: 14px;
+  }
 }

@@ -62,7 +62,7 @@ export default function SubscribedEmails() {
 
         {errorMessage && <div>{errorMessage}</div>}
         {emails.length > 0 ? (
-          <div className="responsive-table">
+          <div className="table-responsive">
             <table className=" table table-light table-bordered table-striped">
               <thead>
                 <tr>

@@ -15,6 +15,12 @@ const Temples = () => {
 
   const [temples, setTemples] = useState([]);
 
+  const [showFilters, setShowFilters] = useState(false);
+
+
+  const toggleFilters = () => {
+    showFilters ? setShowFilters(false) : setShowFilters(true);
+  }
 
   // for searching and filtering 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -172,40 +178,44 @@ const Temples = () => {
 
       <section>
         <div className="filter-container">
-          <form className="row g-4" onSubmit={handleFilterSubmit}>
-            <div className="col-md-5">
-              <div className="sort-buttons d-flex align-items-center">
-                <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
-                  className={`btn ${sortOption === 'mostPopular' ? 'btn-theme-primary' : 'btn-outline-theme-primary'}`}
-                  onClick={() => handleSortOption('mostPopular')}
-                >
-                  Most Popular
-                </button>
-                <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
-                  className={`btn ${sortOption === 'recentlyAdded' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
-                  onClick={() => handleSortOption('recentlyAdded')}
-                >
-                  Recently Added
-                </button>
-                <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
-                  className={`btn ${sortOption === 'trending' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
-                  onClick={() => handleSortOption('trending')}
-                >
-                  Trending Temples
-                </button>
+          <div className="d-flex justify-content-end">
+            <button type="button" onClick={toggleFilters} className={`btn btn-theme-primary ${showFilters ? 'mb-3' : 'm-0'}`}>{showFilters ? 'Hide Filters' : 'Show Filters'}</button>
+          </div>
+          {(
+            <form className={showFilters == true ? ' block row g-4' : ' d-none row g-4'} onSubmit={handleFilterSubmit}>
+              <div className="col-md-5">
+                <div className="sort-buttons d-flex align-items-center">
+                  <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                    className={`btn ${sortOption === 'mostPopular' ? 'btn-theme-primary' : 'btn-outline-theme-primary'}`}
+                    onClick={() => handleSortOption('mostPopular')}
+                  >
+                    Most Popular
+                  </button>
+                  <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                    className={`btn ${sortOption === 'recentlyAdded' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
+                    onClick={() => handleSortOption('recentlyAdded')}
+                  >
+                    Recently Added
+                  </button>
+                  <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                    className={`btn ${sortOption === 'trending' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
+                    onClick={() => handleSortOption('trending')}
+                  >
+                    Trending Temples
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="col-md-2">
-              <input
-                type="text"
-                className="form-control"
-                name="templeName"
-                placeholder="Temple Name"
-                value={filters.templeName}
-                onChange={handleFilterChange}
-              />
-            </div>
-            {/* <div className="col-md-2">
+              <div className="col-md-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="templeName"
+                  placeholder="Temple Name"
+                  value={filters.templeName}
+                  onChange={handleFilterChange}
+                />
+              </div>
+              {/* <div className="col-md-2">
               <input
                 type="text"
                 className="form-control"
@@ -215,32 +225,32 @@ const Temples = () => {
                 onChange={handleFilterChange}
               />
             </div> */}
-            <div className="col-md-2">
-              <input
-                type="text"
-                className="form-control"
-                name="address"
-                placeholder="Address"
-                value={filters.address}
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className="col-md-2">
-              <select
-                className="form-select"
-                name="state"
-                value={filters.state}
-                onChange={handleFilterChange}
-              >
-                <option value="">Select State</option>
-                {statesOfTemple && statesOfTemple.map((state, index) => (
+              <div className="col-md-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="address"
+                  placeholder="Address"
+                  value={filters.address}
+                  onChange={handleFilterChange}
+                />
+              </div>
+              <div className="col-md-2">
+                <select
+                  className="form-select"
+                  name="state"
+                  value={filters.state}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">Select State</option>
+                  {statesOfTemple && statesOfTemple.map((state, index) => (
 
-                  <option key={index} value={state}>{state}</option>
-                ))}
+                    <option key={index} value={state}>{state}</option>
+                  ))}
 
-              </select>
-            </div>
-            {/* <div className="col-md-2">
+                </select>
+              </div>
+              {/* <div className="col-md-2">
               <select
                 className="form-select"
                 name="city"
@@ -251,12 +261,13 @@ const Temples = () => {
              
               </select>
             </div> */}
-            {/* <div className="col-md-1">
+              {/* <div className="col-md-1">
               <div className="d-flex justify-content-end m-0 p-0">
                 <button type="submit" className="btn btn-theme-primary"><i className="fa-solid fa-filter"></i></button>
               </div>
             </div> */}
-          </form>
+            </form>)}
+
         </div>
       </section>
 
@@ -278,7 +289,7 @@ const Temples = () => {
         )}
 
       </section>
-    </Layout>
+    </Layout >
   );
 };
 

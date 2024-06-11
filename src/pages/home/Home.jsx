@@ -223,7 +223,7 @@ function Home() {
               <p className="text-md">
                 Join hands with us in upholding tradition, fostering inclusivity
               </p>
-              <h2 className="text-heading text-primary">
+              <h2 className="section-heading text-primary">
                 How we evolved
               </h2>
               <p className="text-md">
@@ -332,7 +332,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
 
             <div className="listing-container row">
 
-              <Carousel cols={4} rows={1} gap={1} loop>
+              <Carousel cols={4} rows={1} gap={10} loop>
                 {trendingTemples.map((temple, index) => (
 
 
@@ -374,7 +374,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
 
             <div className="listing-container row">
 
-              <Carousel cols={4} rows={1} gap={1} loop>
+              <Carousel cols={4} rows={1} gap={10} loop>
                 {popularTemples.map((temple, index) => (
 
 
@@ -411,7 +411,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
             </div>
 
             <div className="listing-container row">
-              <Carousel cols={4} rows={1} gap={1} loop>
+              <Carousel cols={4} rows={1} gap={10} loop>
                 {recentlyCreatedTemples.map((temple, index) => (
 
 
