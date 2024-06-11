@@ -81,7 +81,7 @@ const Navbar = () => {
             <Link to="/contact">Contact Us</Link>
           </div>
 
-          {!auth && (
+          {!auth.user && (
 
             <>
               <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
@@ -163,9 +163,12 @@ const Navbar = () => {
               </div>
             </>
           )}
-          <div className={`nav-item`}>
-            <div className='logout'> <span onClick={logout}><i className=" fa-solid fa-right-from-bracket"></i> Logout</span></div>
-          </div>
+          {auth && auth.user && (
+            <div className={`nav-item`}>
+              <div className='logout'> <span onClick={logout}><i className=" fa-solid fa-right-from-bracket"></i> Logout</span></div>
+            </div>
+          )}
+
 
 
         </div>
