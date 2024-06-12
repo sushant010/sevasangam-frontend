@@ -210,6 +210,7 @@ const SignupModal = () => {
                     {cpasswordError && <p className="text-danger mt-1">{cpasswordError}</p>}
                   </div>
                   <div className="mb-3">
+                    <label htmlFor="avatar" className="form-label">Avatar Image</label>
                     <input type="file" name="avatar" onChange={handleFileChange} className="form-control" />
                   </div>
                 </>

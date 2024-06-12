@@ -68,10 +68,26 @@
   transform: translate(-50%, -50%);
 }
 
-.CurrencyContainer{
+.CurrencyContainer {
   display: flex;
   justify-content: right;
 }
-.CurrencyContainer > .currency-select > .form-select{
+.CurrencyContainer > .currency-select > .form-select {
   padding-right: 35px;
+}
+
+@media (max-width: 1400px) {
+}
+
+@media (max-width: 768px) {
+  .payment-options {
+    justify-content: center;
+  }
+  .payment-options div {
+    width: 70px;
+    height: 70px;
+  }
+  .amount {
+    font-size: 12px;
+  }
 }

@@ -1,0 +1,121 @@
+.listing-container {
+  display: flex;
+  justify-content: flex-start;
+  /* align-items: center; */
+  width: 100%;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+
+  &.center {
+    justify-content: center;
+  }
+}
+
+.listing {
+  padding: 6px;
+  border-radius: 8px;
+  transition: 0.3s all;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 15px 10px;
+  flex: 1;
+  /* padding: 1rem; */
+  min-width: 330px;
+  width: 100%;
+  border: 1px solid transparent;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-color: #eee;
+  }
+
+  &.admin {
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+      rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    padding: 10px;
+    border-radius: 8px;
+    & table {
+      /* background-color: #eee; */
+      & tr:not(last-of-type) {
+        border-bottom: 1px solid #ccc;
+        & td {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+& td button {
+  margin-right: 20px;
+  transition: 0.3s all !important;
+
+  &:hover {
+    scale: 1.3;
+  }
+  & i {
+    font-size: 20px;
+    color: var(--color-theme-primary);
+  }
+}
+.listing-img-wrapper {
+  width: 100%;
+  border: 1px solid #ccc;
+  box-shadow: var(--shadow-dark);
+  height: 260px;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.listing-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.listing-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.6rem;
+  width: 100%;
+}
+
+.temples-page {
+  & .listing {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+
+    & .listing-img-wrapper {
+      /* width: 200px;
+      height: 200px; */
+    }
+  }
+
+  & .listing-content {
+    gap: 0.5rem;
+  }
+}
+@media screen and (max-width: 1250px) {
+  .listing {
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: 950px) {
+  .listing {
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .temples-page {
+    & .listing {
+      & .listing-img-wrapper {
+        width: 100%;
+        height: 200px;
+      }
+    }
+  }
+}

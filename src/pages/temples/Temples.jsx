@@ -272,10 +272,10 @@ const Temples = () => {
       </section>
 
       <section className=" pt-0">
-        <div className="listing-container m-auto row">
+        <div className="temples-page m-auto row">
           {temples && temples.length > 0 ? (
             temples.map((temple, index) => (
-              <div className="col-md-3 mb-4" key={index}>
+              <div className="col-lg-3 col-md-4 mb-4" key={index}>
                 <ListingCard temple={temple} />
               </div>
             ))

@@ -45,6 +45,7 @@ nav .nav-right {
 nav .nav-item {
   gap: 1rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 nav .nav-item {
   gap: 1rem;
@@ -130,6 +131,7 @@ footer > div:nth-of-type(2n) {
 .about-and-social img {
   height: 60px;
   width: auto;
+  max-width: 100%;
 }
 
 .links-wrapper {
@@ -137,8 +139,13 @@ footer > div:nth-of-type(2n) {
   gap: 1rem;
   flex-direction: column;
 }
-
-@media screen and (max-width: 768px) {
+.avatar-sm {
+  display: none;
+}
+@media screen and (max-width: 1100px) {
+  .avatar-sm {
+    display: block;
+  }
   .nav-wrapper,
   .footer-wrapper {
     padding: 0.4rem 1rem;
@@ -221,7 +228,7 @@ main {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1100px) {
   .nav-wrapper,
   .footer-wrapper {
     padding: 0.4rem 1rem;
@@ -255,7 +262,7 @@ main {
   }
 
   footer > div {
-    flex-basis: 100%;
+    width: 100%;
     justify-content: flex-start;
   }
 

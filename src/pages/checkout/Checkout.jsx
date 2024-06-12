@@ -72,7 +72,6 @@ const Checkout = () => {
     };
 
     const handletempleToDonateMonthlyChange = (e) => {
-        console.log("Fired")
         setDonate({ ...donate, templeId: e.target.value })
         localStorage.setItem('donate', JSON.stringify({ amount: donate.amount, templeId: e.target.value }))
         const newTemple = fetchTempleById(e.target.value)
@@ -285,14 +284,18 @@ const Checkout = () => {
 
     const handleUpdateAddDonation = () => {
         // Parse the custom amount as an integer
+
+
         const customAmount = parseInt(document.getElementById('addCustomAmount').value);
 
         // Ensure donate.amount is treated as a number
         const newAmount = Number(donate.amount) + customAmount;
 
-        // Debugging alert
-        alert(newAmount);
-
+        console.log(newAmount)
+        if (newAmount < 1 || isNaN(newAmount)) {
+            toast.error('Please enter a valid amount');
+            return;
+        }
         // Update the state and localStorage
         setDonate({ ...donate, amount: newAmount, templeId: temple._id });
         localStorage.setItem('donate', JSON.stringify({ amount: newAmount, templeId: temple._id }));
@@ -316,22 +319,23 @@ const Checkout = () => {
         <Layout>
             <section>
                 <Tabs />
-                <div className='CurrencyContainer'>
-                    <div className="currency-select">
-                        <select className="form-select" defaultValue={currency} onChange={currencySelectChange}>
-                            {
-                                currencyCodes.codes().map((code) => {
-                                    return <option key={code} value={code}>{code}</option>
-                                })
 
-                            }
-                        </select>
-                    </div>
-                </div>
                 <div className='donate-once'>
                     <div className="row">
                         <div className="col-md-4">
                             <h3 style={{ fontSize: "20px" }} className='section-heading'>Add on Donation Amount</h3>
+                            <div className='CurrencyContainer'>
+                                <div className="currency-select">
+                                    <select className="form-select" defaultValue={currency} onChange={currencySelectChange}>
+                                        {
+                                            currencyCodes.codes().map((code) => {
+                                                return <option key={code} value={code}>{code}</option>
+                                            })
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                             <div className='temple-donation' style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" }}>
                                 <div style={{ gap: "10px" }} className='mt-2 my-4 d-flex flex-wrap align-items-center'>
                                     <span onClick={handleAddtoDonation} className='amount'>+ 500</span> <span onClick={handleAddtoDonation} className='amount'>+ 1000</span> <span onClick={handleAddtoDonation} className='amount'>+ 1500</span><span onClick={handleAddtoDonation} className='amount'>+ 2000</span>
@@ -341,8 +345,8 @@ const Checkout = () => {
                                 <input onChange={handleUpdateDonation} value={donate.amount} style={{ fontSize: "14px", flex: "1", padding: "4px", width: "100%", height: "40px" }} placeholder='Enter Amount' className='mb-4 form-control' />
 
                                 {temple ?
-                                    (<div className='d-flex' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
-                                        <div style={{ flexShrink: 0, borderRadius: "8px", overflow: "hidden", width: "50%", height: '200px' }} className="img-wrapper">
+                                    (<div className='d-flex flex-wrap' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
+                                        <div style={{ flexShrink: 0, borderRadius: "8px", overflow: "hidden", aspectRatio: "1/1", width: "50%", height: '200px' }} className="img-wrapper">
                                             <img
                                                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
                                                 src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
@@ -384,8 +388,8 @@ const Checkout = () => {
                         </div>
                         <div className="col-md-8">
                             <div className='mb-4 p-2' style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
-                                <div className="d-flex align-items-center justify-content-center">
-                                    <div style={{ borderRadius: "8px", overflow: "hidden", width: "160px", height: '100%' }} className="img-wrapper">
+                                <div className="d-flex align-items-center justify-content-center flex-wrap">
+                                    <div style={{ borderRadius: "8px", overflow: "hidden", aspectRatio: "1/1", width: "160px", height: '100%' }} className="img-wrapper">
                                         <img style={{ width: "100%", height: "100%", objectFit: "contain" }} src={defaultLogo} alt="temple" />
                                     </div>
                                     <div className='p-3'>
@@ -458,7 +462,7 @@ const Checkout = () => {
                                         </div>
                                     </div>
                                 </form>
-                                <div style={{ gap: "16px" }} className='d-flex align-items-center justify-content-center'>
+                                <div style={{ gap: "16px" }} className='d-flex align-items-center justify-content-center flex-wrap'>
                                     <div className="form-check d-flex justify-content-center align-items-center">
                                         <input className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault2" />
                                         <label style={{ fontSize: "13.5px", color: "darkgrey" }} className="form-check-label" htmlFor="flexCheckDefault2">
@@ -474,7 +478,7 @@ const Checkout = () => {
                                 </div>
                             </div>
                             <p style={{ fontSize: "13.5px", color: "darkgrey" }} className='mt-4 text-center'>By Continuing you are agreeing to <Link to='/terms-and-conditions'>Terms</Link> of use and <Link to='/privacy-policy'>Privacy Policy</Link></p>
-                            <button onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'>Checkout ({currencySymbol} {donate.amount})</button>
+                            <button disabled={donate.amount <= 0} onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'> {donate.amount > 0 ? `Checkout (${currencySymbol} ${donate.amount})` : `Please add amount to Donate`}</button>
                         </div>
                     </div>
                 </div>
@@ -482,10 +486,22 @@ const Checkout = () => {
                     <div className="row">
 
                         <div className="col-md-8 mx-auto">
-                            <div style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
+                            <div className='CurrencyContainer mb-2'>
+                                <div className="currency-select">
+                                    <select className="form-select" defaultValue={currency} onChange={currencySelectChange}>
+                                        {
+                                            currencyCodes.codes().map((code) => {
+                                                return <option key={code} value={code}>{code}</option>
+                                            })
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='mb-4' style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
                                 {temple ?
-                                    (<div className='d-flex mb-3' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
-                                        <div style={{ flexShrink: "0", borderRadius: "8px", overflow: "hidden", width: "200px", height: '100px' }} className="img-wrapper">
+                                    (<div className='d-flex flex-wrap mb-3' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
+                                        <div style={{ flexShrink: "0", borderRadius: "8px", overflow: "hidden", width: "200px", aspectRatio: '1/1' }} className="img-wrapper">
                                             <img
                                                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
                                                 src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
@@ -555,7 +571,7 @@ const Checkout = () => {
                                         </div>
                                     </div>
                                 </form>
-                                <div style={{ gap: "16px" }} className='d-flex align-items-center justify-content-center'>
+                                <div style={{ gap: "16px" }} className='d-flex align-items-center justify-content-center flex-wrap'>
                                     <div className="form-check d-flex justify-content-center align-items-center">
                                         <input className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault2" />
                                         <label style={{ fontSize: "13.5px", color: "darkgrey" }} className="form-check-label" htmlFor="flexCheckDefault2">
@@ -572,7 +588,9 @@ const Checkout = () => {
                             </div>
 
                             <p style={{ fontSize: "13.5px", color: "darkgrey" }} className='mt-4 text-center'>By Continuing you are agreeing to <Link to='/terms-and-conditions'>Terms</Link> of use and <Link to='/privacy-policy'>Privacy Policy</Link></p>
-                            <button onClick={handleDonateMonthly} className='btn btn-theme-primary m-3 w-100'>Checkout (₹ {donate.amount})</button>
+
+
+                            <button disabled={donate.amount <= 0} onClick={handleDonateMonthly} className='btn btn-theme-primary m-3 w-100'> {donate.amount > 0 ? `Checkout (${currencySymbol} ${donate.amount})` : `Please add amount to Donate`}</button>
                         </div>
 
 

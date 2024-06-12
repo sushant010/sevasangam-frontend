@@ -2,7 +2,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import img from './../../assets/images/sevasangam-logo.png'
 import SearchBar from '../searchBar/SearchBar'
 import { useAuth } from '../../context/Auth'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 
 const Navbar = () => {
@@ -12,13 +13,17 @@ const Navbar = () => {
   const toggleNavButton = useRef(null);
   const navigate = useNavigate();
 
+
+
   const toggleNavbar = () => {
     const buttonElement = toggleNavButton.current;
     if (!buttonElement.classList.contains('active')) {
       buttonElement.classList.add('active');
+
     } else {
       // If it's already active, remove the 'active' class
       buttonElement.classList.remove('active');
+
     }
 
   }
@@ -29,10 +34,12 @@ const Navbar = () => {
 
     localStorage.removeItem('auth')
     localStorage.removeItem('tokenExpiration');
-    window.location.reload()
-    window.scrollTo(0, 0);
-    navigate('/')
-
+    toast.success('Logged out successfully');
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      navigate('/')
+      window.location.reload();
+    }, 2000);
   }
 
 
@@ -192,6 +199,11 @@ const Navbar = () => {
           </div>
         </div>
         <div className="nav-right">
+
+          <div className="avatar-sm avatar-wrapper" style={{ marginRight: "8px" }} >
+            <img src={auth?.user?.avatar ? auth.user.avatar : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar' />
+          </div>
+
           <div className="toggle-nav">
             <button onClick={toggleNavbar}>
               <i className="fa-solid fa-bars"></i>

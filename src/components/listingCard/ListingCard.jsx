@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import './listing-card.css';
 
 const ListingCard = ({ temple }) => {
   const {

@@ -90,6 +90,7 @@ const UpdateProfileModal = () => {
               <input placeholder="Password" type="password" name="password" onChange={handleChange} value={credentials.password} className="form-control" id="password" />
             </div>
             <div className="mb-3">
+              <label htmlFor="avatar" className="form-label">Avatar Image</label>
               <input type="file" name="avatar" onChange={handleFileChange} className="form-control" id="avatar" />
             </div>
           </div>
