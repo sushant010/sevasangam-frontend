@@ -229,6 +229,7 @@ const Checkout = () => {
                 }
 
             });
+            // const currentDomain = 
 
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -236,7 +237,8 @@ const Checkout = () => {
                 name: "Seva Sangam",
                 description: `Subscription for ${temple.templeName}`,
                 image: defaultLogo,
-                callback_url: `${api}/subscription/payment-verification`,
+                redirect:true,
+                callback_url: `${api}/donation/payment-verification`,
                 prefill: {
                     name: donateUser.name,
                     email: donateUser.email,
