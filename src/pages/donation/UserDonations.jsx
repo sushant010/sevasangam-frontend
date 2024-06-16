@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/Auth';
 import { toast } from 'react-toastify';
 import HashLoader from "react-spinners/HashLoader";
+import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 const UserDonations = () => {
 
     const api = import.meta.env.VITE_API_URL;
@@ -11,6 +12,7 @@ const UserDonations = () => {
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [requestCertificateLoading, setRequestCertificateLoading] = useState(false)
     const [isCertificateRequestedAgain, setIsCertificateRequestedAgain] = useState(false)
 
     const [auth] = useAuth();
@@ -29,11 +31,12 @@ const UserDonations = () => {
     };
 
     const handleRequestCertificate = async (id) => {
+        setRequestCertificateLoading(true)
         try {
             const res = await axios.post(`${api}/donation/request-80-certificate`, { id });
 
             if (res.data.success) {
-
+                setRequestCertificateLoading(false)
                 toast.success(res.data.message);
                 fetchAllDonationOfUser();
             }
@@ -80,6 +83,7 @@ const UserDonations = () => {
 
     return (
         <Layout>
+            {requestCertificateLoading && <LoadingSpinner />}
             <section>
                 <div className="section-heading">
                     Past Donations
@@ -101,6 +105,8 @@ const UserDonations = () => {
 
                                 const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-GB');
                                 const customDonation = donations.find((don) => don.razorpay_payment_id === donation.id)
+                                console.log(donation)
+                                console.log(customDonation)
 
                                 return (
                                     <tr key={index}>
@@ -109,7 +115,7 @@ const UserDonations = () => {
                                         <td>{temples.find((temp) => temp._id === donation.notes.temple)?.templeName}</td>
 
                                         <td>{formattedDate}</td>
-                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
+                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.notes.amount}</td>
                                         <td>
 
                                             {customDonation && customDonation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="Request 80 Certificate">
@@ -133,7 +139,7 @@ const UserDonations = () => {
 
 
                                                     </div>
-                                                </> : <button>Request submitted for 80G Certificate</button>}
+                                                </> : <p>Request submitted for 80G Certificate</p>}
                                             </>}
                                         </td>
                                     </tr>

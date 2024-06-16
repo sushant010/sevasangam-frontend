@@ -13,8 +13,10 @@ import currencyCodes from 'currency-codes';
 
 // import $ from 'jquery';
 import { toast } from 'react-toastify';
+import { type } from 'jquery';
 const Checkout = () => {
     const api = import.meta.env.VITE_API_URL;
+    const website_url = import.meta.env.VITE_WEBSITE_URL;
     const [donate, setDonate] = useDonate();
     const [temple, setTemple] = useState({});
 
@@ -164,7 +166,7 @@ const Checkout = () => {
                 description: `Donation for ${temple.templeName}`,
                 image: defaultLogo,
                 order_id: order.id,
-                callback_url: `${api}/donation/payment-verification`,
+                callback_url: `${website_url}/temples`,
                 prefill: {
                     name: donateUser.name,
                     email: donateUser.email,
@@ -173,7 +175,8 @@ const Checkout = () => {
                 notes: {
                     amount: donate.amount,
                     temple: donate.templeId,
-                    donateUser: JSON.stringify(donateUser) // Store as a string
+                    donateUser: JSON.stringify(donateUser), // Store as a string
+                    type: 'once'
                 },
                 theme: {
                     "color": "var(--color-primary-color)"
@@ -189,8 +192,6 @@ const Checkout = () => {
 
     const handleDonateMonthly = async (e) => {
         e.preventDefault();
-
-        console.log("fires")
 
         if (!donateUser.name) {
             toast.error('Name is required');
@@ -219,10 +220,16 @@ const Checkout = () => {
 
         try {
             // Create a subscription on the server
-            const { data: { subscription } } = await axios.post(`${api}/donation/subscription`, {
+            const { data: { subscription } } = await axios.post(`${api}/subscription/create-subscription`, {
                 amount: donate.amount,
                 currency: currency,
-
+                donationType: 'monthly',
+                temple: donate.templeId,
+                donateUser: {
+                    name: donateUser.name,
+                    email: donateUser.email,
+                    phone: donateUser.phone,
+                }
             }, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
@@ -237,7 +244,7 @@ const Checkout = () => {
                 name: "Seva Sangam",
                 description: `Subscription for ${temple.templeName}`,
                 image: defaultLogo,
-                redirect:true,
+                redirect: true,
                 callback_url: `${api}/donation/payment-verification`,
                 prefill: {
                     name: donateUser.name,
@@ -245,7 +252,9 @@ const Checkout = () => {
                     contact: donateUser.phone
                 },
                 notes: {
-                    "address": "Razorpay Corporate Office"
+                    amount: donate.amount,
+                    temple: donate.templeId,
+                    donateUser: JSON.stringify(donateUser), // Store as a string
                 },
                 theme: {
                     "color": "var(--color-primary-color)"

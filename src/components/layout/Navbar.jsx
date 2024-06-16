@@ -104,7 +104,7 @@ const Navbar = () => {
             </>
           )}
 
-          {auth && auth.user && auth.user.role == 0 && (
+          {(auth?.user?.role == 0 || auth?.user?.role == 1) && (
             <>
               <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
               <div className={`nav-item ${location.pathname === '/user/donations' ? 'active' : ''}`}>
@@ -201,7 +201,7 @@ const Navbar = () => {
         <div className="nav-right">
 
           <div className="avatar-sm avatar-wrapper" style={{ marginRight: "8px" }} >
-            <img src={auth?.user?.avatar ? auth.user.avatar : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar' />
+            <img src={auth?.user?.avatar ? auth.user.avatar : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar'></img>
           </div>
 
           <div className="toggle-nav">
@@ -231,7 +231,7 @@ const Navbar = () => {
               <button data-bs-toggle="dropdown" aria-expanded="false">
                 <div className="d-flex align-items-center">
                   <div style={{ marginRight: "8px" }} className='avatar-wrapper'>
-                    <img src={auth.user.avatar ? auth.user.avatar : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"} alt='avatar' />
+                    <img alt='avatar' src={auth?.user?.avatar ? auth.user.avatar : "https://i.pinimg.com/1200x/49/da/b2/49dab2d4d9be840f6aae7d575353cb48.jpg"}></img>
                   </div>
                   <span><small>{(auth.user.name).toUpperCase()}</small></span>
                 </div>
@@ -259,6 +259,16 @@ const Navbar = () => {
                         All Donations
                       </Link>
                     </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin/subscriptions">
+                        All Subscriptions
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/user/donations">
+                        Past Donations
+                      </Link>
+                    </li>
 
 
 
@@ -284,6 +294,11 @@ const Navbar = () => {
                     <li>
                       <Link className="dropdown-item" to="/superadmin/donations">
                         Donations
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/superadmin/subscriptions">
+                        Subscriptions
                       </Link>
                     </li>
                     <li>

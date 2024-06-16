@@ -7,13 +7,13 @@ import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
 import SelectComponentWithSearchForTempleName from '../../components/selectComponentWithSearch/SelectComponentWithSearchForTempleName';
 import SelectComponentWithSearchForCreator from '../../components/selectComponentWithSearch/selectComponentWithSearchForCreator';
+import { set } from 'zod';
 
 
 const AllDonation = () => {
 
     const api = import.meta.env.VITE_API_URL;
 
-    const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
     const [paymentMethod, setPaymentMethod] = useState([]);
@@ -26,7 +26,7 @@ const AllDonation = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const [filters, setFilters] = useState({
-        temple: searchParams.get('temple') || '',
+        templeName: searchParams.get('templeName') || '',
         payId: searchParams.get('payId') || '',
         templeCreatedBy: searchParams.get('templeCreatedBy') || '',
         donateUser: searchParams.get('donateUser') || '',
@@ -34,6 +34,11 @@ const AllDonation = () => {
         dateFrom: searchParams.get('dateFrom') || '',
         dateTo: searchParams.get('dateTo') || ''
     });
+
+    const handleResetFilters = () => {
+        setSearchParams(new URLSearchParams());
+        fetchAllDonation()
+    }
 
     const fetchAllDonation = async (reset = false) => {
         if (loading || (!hasMore && !reset)) return;
@@ -44,7 +49,7 @@ const AllDonation = () => {
             const res = await axios.post(`${api}/donation/fetch-all-donation`, {
                 count: 10, // Number of donations per page
                 skip: reset ? 0 : (page - 1) * 10,
-                temple: searchParams.get('temple') || '',
+                templeName: searchParams.get('templeName') || '',
                 payId: searchParams.get('payId') || '',
                 templeCreatedBy: searchParams.get('templeCreatedBy') || '',
                 donateUser: searchParams.get('donateUser') || '',
@@ -54,20 +59,19 @@ const AllDonation = () => {
             });
             if (res.data.success) {
                 if (reset) {
-                    setRazorpayDonations(res.data.razorpayDonations);
                     setDonations(res.data.donations);
                     console.log(res.data.donations)
 
                 } else {
-                    setRazorpayDonations(prev => [...prev, ...res.data.razorpayDonations]);
+
                     setDonations(prev => [...prev, ...res.data.donations]);
                 }
-                const methods = res.data.razorpayDonations && res.data.razorpayDonations.map(donation => donation.method);
 
-                setPaymentMethod(Array.from(new Set(methods)));
+
+                setPaymentMethod(Array.from(new Set(donations.methods)));
 
                 setPage(prev => prev + 1);
-                setHasMore(res.data.razorpayDonations.length === 10);
+                setHasMore(res.data.donations.length === 10);
             } else {
                 toast.error(res.data.message);
                 setHasMore(false);
@@ -148,7 +152,7 @@ const AllDonation = () => {
 
 
         setFilters({
-            temple: searchParams.get('temple') || '',
+            templeName: searchParams.get('templeName') || '',
             payId: searchParams.get('payId') || '',
             templeCreatedBy: searchParams.get('templeCreatedBy') || '',
             donateUser: searchParams.get('donateUser') || '',
@@ -232,22 +236,21 @@ const AllDonation = () => {
     };
 
     // Prepare CSV data
-    const csvData = razorpayDonations.map((donation, index) => {
-        const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-US');
-        const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : {};
-        const customDonation = donations.find((don) => don.razorpay_payment_id === donation.id) || {};
+    const csvData = donations.map((donation, index) => {
+        const formattedDate = new Date(donation.date).toLocaleDateString('en-GB');
+        const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : {};
         return {
             SNo: index + 1,
             PaymentId: donation.id,
-            Temple: temples.find((temp) => temp._id === donation.notes.temple)?.templeName,
+            Temple: temples.find((temp) => temp._id === donation.temple)?.templeName,
             DateOfDonation: formattedDate,
             DonationByUser: donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous",
-            Amount: donation.currency !== 'INR' ? donation.currency : "₹" + donation.notes.amount,
+            Amount: donation.currency !== 'INR' ? donation.currency : "₹" + donation.amount,
             PaymentMethod: donation.method,
-            Certificate: customDonation.is80CertificateRequested ? (
-                customDonation.certificate ? 'View Certificate' : 'Request Received Again'
+            Certificate: donations.is80CertificateRequested ? (
+                donations.certificate ? 'View Certificate' : 'Request Received Again'
             ) : (
-                customDonation.certificate ? 'View Certificate' : 'No request'
+                donations.certificate ? 'View Certificate' : 'No request'
             )
         };
     });
@@ -256,10 +259,14 @@ const AllDonation = () => {
     return (
         <Layout>
             <section>
-                <div className="section-heading">
-                    All Donations
+
+                <div className='d-flex justify-content-between align-items-center'>
+                    <div className="section-heading">
+                        All Donations
+                    </div>
+                    <button onClick={handleResetFilters} className="btn btn-theme-primary">Reset filters</button>
                 </div>
-                {razorpayDonations.length > 0 ? (
+                {donations.length > 0 ? (
                     <>
                         <div className="filter-container my-4">
                             <form className="row g-4" onSubmit={handleFilterSubmit}>
@@ -372,33 +379,30 @@ const AllDonation = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {razorpayDonations && razorpayDonations.length > 0 && razorpayDonations.map((donation, index) => {
-                                        const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-GB');
-                                        const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : {};
-                                        const customDonation =
-                                            donations.find(
-                                                (don) => don.razorpay_payment_id === donation.id
-                                            ) || {};
+                                    {donations && donations.length > 0 && donations.map((donation, index) => {
+                                        const formattedDate = new Date(donation.date).toLocaleDateString('en-GB');
+                                        const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : {};
+
 
                                         return (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
-                                                <td>{donation.id}</td>
-                                                <td>{temples.find((temp) => temp._id === donation.notes.temple)?.templeName}</td>
+                                                <td>{donation.razorpay_payment_id}</td>
+                                                <td>{temples.find((temp) => temp._id === donation.temple)?.templeName}</td>
                                                 <td>{formattedDate}</td>
                                                 <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
-                                                <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.notes.amount}</td>
+                                                <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                                 <td>{donation.method}</td>
                                                 <td className={donation.status == 'failed' ? 'text-danger' : 'text-success'}>{donation.status.slice(0, 1).toUpperCase() + donation.status.slice(1).toLowerCase()}</td>
-                                                <td>{customDonation.is80CertificateRequested ? (
-                                                    customDonation.certificate ? (
+                                                <td>{donations.is80CertificateRequested ? (
+                                                    donations.certificate ? (
                                                         <div>
                                                             <a
                                                                 className="fw-bold"
                                                                 style={{ color: "green", textDecoration: "underline" }}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
-                                                                href={customDonation.certificate}
+                                                                href={donations.certificate}
                                                             >
                                                                 View Certificate
                                                             </a>
@@ -409,13 +413,13 @@ const AllDonation = () => {
                                                         <div className="fw-bold text-danger">Request Received</div>
                                                     )
                                                 ) : (
-                                                    customDonation.certificate ? (
+                                                    donations.certificate ? (
                                                         <a
                                                             className="fw-bold"
                                                             style={{ color: "green", textDecoration: "underline" }}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            href={customDonation.certificate}
+                                                            href={donations.certificate}
                                                         >
                                                             View Certificate
                                                         </a>
@@ -430,7 +434,7 @@ const AllDonation = () => {
                                 </tbody>
                             </table>
                         </div>
-                    </>) : <>No Donation found</>}
+                    </>) : <> {!loading && <>No Donation found</>} </>}
             </section>
             {loading && (
                 <section className="d-flex m-auto">

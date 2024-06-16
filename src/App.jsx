@@ -40,6 +40,7 @@ import AddEvent from "./pages/admin/AddEvent";
 import UpdateEvent from "./pages/admin/UpdateEvent";
 import ScrollToTop from "./components/ScrollToTop";
 import Event from "./pages/temple/Event";
+import AllSubscriptionsAdmin from "./pages/admin/AllSubscriptionAdmin";
 
 
 function App() {
@@ -88,8 +89,10 @@ function App() {
             <Route path="temples" element={<AdminTemples />} />
             <Route path="temple/:id" element={<ViewTemple />} />
             <Route path="donations" element={<AllDonationsAdmin />} />
+            <Route path="subscriptions" element={< AllSubscriptionsAdmin />} />
             <Route path="add-event/:id" element={<AddEvent />} />
             <Route path="update-event/:id" element={<UpdateEvent />} />
+
           </Route>
 
           <Route path="/superadmin" element={<IsSuperadmin />} >
@@ -99,7 +102,7 @@ function App() {
             <Route path="temple/:id" element={<ViewTemple />} />
             <Route path="temple-listers" element={<AllAdmins />} />
             <Route path="temples-listed/:id" element={<TemplesBySingleAdmin />} />
-
+            <Route path="subscriptions" element={< AllSubscriptionsAdmin />} />
             <Route path="verify-temple-changes/:id" element={<VerifyTempleChanges />} />
             <Route path="donations" element={<AllDonation />} />
             <Route path="unverified-temples" element={<UnverifiedTemples />} />

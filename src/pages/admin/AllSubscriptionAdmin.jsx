@@ -7,13 +7,12 @@ import { useAuth } from "../../context/Auth";
 import { CSVLink } from 'react-csv';
 import HashLoader from "react-spinners/HashLoader";
 
-const AllDonationsAdmin = () => {
+const AllSubscriptionsAdmin = () => {
   const api = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
   const [auth] = useAuth();
-  const [razorpayDonations, setRazorpayDonations] = useState([]);
-  const [donations, setDonations] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
 
   const [temples, setTemples] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState([]);
@@ -40,17 +39,31 @@ const AllDonationsAdmin = () => {
   const resetFilters = () => {
     setFilters(null)
   }
-  const fetchAllDonationsAdmin = async () => {
-    try {
-      const res = await axios.post(`${api}/donation/fetch-donations-by-admin`, {
-        id: auth.user._id,
-      });
-      console.log(res);
-      setRazorpayDonations(res.data.razorpayDonations);
-      setDonations(res.data.donations);
-    } catch (error) {
-      console.error(error);
-      // Handle error, e.g., display a toast message
+
+  const fetchAllSubscriptionsAdmin = async () => {
+
+    if (auth.user.role == 1) {
+      try {
+        const res = await axios.post(`${api}/subscription/fetch-all-subscription-by-admin`, {
+          id: auth.user._id,
+        });
+
+        setSubscriptions(res.data.subscriptions);
+        // console.log(res.data.subscriptions)
+      } catch (error) {
+        console.error(error);
+        // Handle error, e.g., display a toast message
+      }
+    } else {
+      try {
+        const res = await axios.get(`${api}/subscription/fetch-all-subscription`);
+
+        setSubscriptions(res.data.subscriptions);
+        // console.log(res.data.subscriptions)
+      } catch (error) {
+        console.error(error);
+        // Handle error, e.g., display a toast message
+      }
     }
   };
 
@@ -61,12 +74,12 @@ const AllDonationsAdmin = () => {
       formData.append("certificate", file);
       formData.append("id", id);
       const res = await axios.post(
-        `${api}/donation/upload-80-certificate`,
+        `${api}/subscription/upload-80-certificate`,
         formData
       );
       if (res.data.success) {
         toast.success(res.data.message);
-        fetchAllDonationsAdmin();
+        fetchAllSubscriptionsAdmin();
       }
     } catch (error) {
       console.error(error);
@@ -80,13 +93,13 @@ const AllDonationsAdmin = () => {
       formData.append("certificate", file);
       formData.append("id", id);
       const res = await axios.put(
-        `${api}/donation/update-80-certificate`,
+        `${api}/subscription/update-80-certificate`,
         formData
       );
 
       if (res.data.success) {
         toast.success(res.data.message);
-        fetchAllDonationsAdmin();
+        fetchAllSubscriptionsAdmin();
       }
     } catch (error) {
       console.error(error);
@@ -103,7 +116,7 @@ const AllDonationsAdmin = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
     if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
-      fetchAllDonationsAdmin(); // Fetch more temples when scrolled to the bottom
+      fetchAllSubscriptionsAdmin(); // Fetch more temples when scrolled to the bottom
     }
   };
 
@@ -115,7 +128,7 @@ const AllDonationsAdmin = () => {
 
   // Fetch temples when filters or sortOption change
   useEffect(() => {
-    fetchAllDonationsAdmin(true);
+    fetchAllSubscriptionsAdmin(true);
   }, [filters]);
 
   const handleFilterChange = (e) => {
@@ -169,6 +182,7 @@ const AllDonationsAdmin = () => {
       return false;
     });
   };
+
   const fetchAllTemples = async () => {
     try {
       const res = await axios.get(`${api}/temple/get-temples`);
@@ -183,27 +197,27 @@ const AllDonationsAdmin = () => {
   };
 
   // CSV Data Preparation
-  const csvData = razorpayDonations.map((donation, index) => {
-    const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString("en-GB");
-    const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : { name: "Anonymous", email: "", phone: "" };
-    const temple = temples.find(temp => temp._id === donation.notes.temple)?.templeName || "Unknown";
-    const customDonation = donations.find(don => don.razorpay_payment_id === donation.id) || {};
+  const csvData = subscriptions.map((subscription, index) => {
+    const formattedDate = new Date(subscription.date).toLocaleDateString("en-GB");
+    const donateUser = subscription.donateUser ? JSON.parse(subscription.donateUser) : { name: "Anonymous", email: "", phone: "" };
+    const temple = temples.find(temp => temp._id === subscription.temple)?.templeName || "Unknown";
+    const customSubscription = subscriptions.find(don => don.razorpay_payment_id === subscription.id) || {};
     return {
       "S. No": index + 1,
-      "Payment Id": donation.id,
+      "Subscription Id": subscription.subscription_id,
+      "Plan Id": subscription.plan_id,
       "Temple": temple,
-      "Date of Donation": formattedDate,
-      "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
-      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.notes.amount}` : `₹ ${donation.notes.amount}`,
-      "Payment Method": donation.method,
-      "80G Certificate": customDonation.certificate ? "Available" : "Not Available"
+      "Date of Subscription": formattedDate,
+      "Subscription by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
+      "Amount": subscription.currency !== "INR" ? `${subscription.currency} ${subscription.amount}` : `₹ ${subscription.amount}`,
+      "80G Certificate": customSubscription.certificate ? "Available" : "Not Available"
     };
   });
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      await fetchAllDonationsAdmin();
+      await fetchAllSubscriptionsAdmin();
       await fetchAllTemples();
     } catch (error) {
       console.log(error);
@@ -219,8 +233,8 @@ const AllDonationsAdmin = () => {
   return (
     <Layout>
       <section>
-        <div className="section-heading">All Donations</div>
-        <div className="filter-container my-4">
+        <div className="section-heading">All Subscriptions</div>
+        {/* <div className="filter-container my-4">
           <form className="row g-4" onSubmit={handleFilterSubmit}>
             <div className="col-md-2">
               <select
@@ -320,11 +334,11 @@ const AllDonationsAdmin = () => {
               </div>
             </div>
           </form>
-        </div>
+        </div> */}
         <div className="d-flex justify-content-end">
           <CSVLink
             data={csvData}
-            filename={"donations.csv"}
+            filename={"subscriptions.csv"}
             className="btn btn-theme-primary mb-3"
           >
             <i className="fa-solid fa-file-excel"></i> Download as CSV
@@ -339,51 +353,53 @@ const AllDonationsAdmin = () => {
                   <p className="fw-bold text-primary">S. No</p>
                 </td>
                 <td>
-                  <p className="fw-bold text-primary">Payment Id</p>
+                  <p className="fw-bold text-primary">Subsciption Id</p>
+                </td>
+                <td>
+                  <p className="fw-bold text-primary">Plan Id</p>
                 </td>
                 <td>
                   <p className="fw-bold text-primary">Temple</p>
                 </td>
 
                 <td>
-                  <p className="fw-bold text-primary">Date of Donation</p>
+                  <p className="fw-bold text-primary">Date of Subscription</p>
                 </td>
                 <td>
-                  <p className="fw-bold text-primary">Donation by User</p>
+                  <p className="fw-bold text-primary">Subscription by User</p>
                 </td>
                 <td>
                   <p className="fw-bold text-primary">Amount</p>
                 </td>
-                <td>
-                  <p className="fw-bold text-primary">Payment Method</p>
-                </td>
+
                 <td>
                   <p className="fw-bold text-primary">80G Certificate</p>
                 </td>
               </tr>
             </thead>
             <tbody>
-              {razorpayDonations &&
-                razorpayDonations.map((donation, index) => {
+              {subscriptions &&
+                subscriptions.map((subscription, index) => {
                   const formattedDate = new Date(
-                    donation.created_at * 1000
+                    subscription.date
                   ).toLocaleDateString("en-GB");
-                  const donateUser = donation.notes.donateUser
-                    ? JSON.parse(donation.notes.donateUser)
+                  const donateUser = subscription.donateUser
+                    ? JSON.parse(subscription.donateUser)
                     : null;
-                  const customDonation =
-                    donations.find(
-                      (don) => don.razorpay_payment_id === donation.id
+                  const customSubscription =
+                    subscriptions.find(
+                      (don) => don.razorpay_payment_id === subscription.id
                     ) || {};
 
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{donation.id}</td>
+                      <td>{subscription.subscription_id}</td>
+                      <td>{subscription.plan_id}</td>
                       <td>
                         {
                           temples.find(
-                            (temp) => temp._id === donation.notes.temple
+                            (temp) => temp._id === subscription.temple
                           )?.templeName
                         }
                       </td>
@@ -395,14 +411,14 @@ const AllDonationsAdmin = () => {
                         <td>Anonymous</td>
                       )}
                       <td>
-                        {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
-                        {donation.notes.amount}
+                        {subscription.currency !== "INR" ? subscription.currency : "₹"}{" "}
+                        {subscription.amount}
                       </td>
-                      <td>{donation.method}</td>
+
                       <td>
-                        {customDonation.is80CertificateRequested ? (
+                        {customSubscription.is80CertificateRequested ? (
                           <>
-                            {customDonation.certificate ? (
+                            {customSubscription.certificate ? (
                               <>
                                 <div className="file-preview">
                                   <a
@@ -410,14 +426,14 @@ const AllDonationsAdmin = () => {
                                     style={{ color: "green", textDecoration: "underline" }}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href={customDonation.certificate}
+                                    href={customSubscription.certificate}
                                   >
                                     View Certificate
                                   </a>
                                 </div>
                                 <div className="fw-bold text-danger">Request Received Again</div>
                                 <form
-                                  onSubmit={(e) => handleUpdate80GCertificate(donation.id, e)}
+                                  onSubmit={(e) => handleUpdate80GCertificate(subscription.id, e)}
                                 >
                                   <input
                                     onChange={handleFileChange}
@@ -449,7 +465,7 @@ const AllDonationsAdmin = () => {
                             ) : (
                               <>
                                 <form
-                                  onSubmit={(e) => handleUpload80GCertificate(donation.id, e)}
+                                  onSubmit={(e) => handleUpload80GCertificate(subscription.id, e)}
                                 >
                                   <label className="mb-2" style={{ color: "red" }}>
                                     80G Certificate Requested:
@@ -484,14 +500,14 @@ const AllDonationsAdmin = () => {
                           </>
                         ) : (
                           <>
-                            {customDonation.certificate ? (
+                            {customSubscription.certificate ? (
                               <div className="file-preview">
                                 <a
                                   className="fw-bold"
                                   style={{ color: "green", textDecoration: "underline" }}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  href={customDonation.certificate}
+                                  href={customSubscription.certificate}
                                 >
                                   View Certificate
                                 </a>
@@ -522,4 +538,4 @@ const AllDonationsAdmin = () => {
   );
 };
 
-export default AllDonationsAdmin;
+export default AllSubscriptionsAdmin;

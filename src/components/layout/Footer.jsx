@@ -5,17 +5,18 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 const Footer = () => {
   const [subEmailLoading, setSubEmailLoading] = useState(false)
-  const handelSubmit = async (e) => {
+
+
+  const handleSubmit = async (e) => {
+
 
     e.preventDefault();
     const email = e.target[0].value;
     if (email === "") return toast.error("Please Enter Email");
-    const backendUrl = import.meta.env.VITE_API_URL
+    const api = import.meta.env.VITE_API_URL
     setSubEmailLoading(true)
     try {
-
-      await axios.post(`${backendUrl}/subscriptionEmail/subscribe`, { email });
-
+      await axios.post(`${api}/subscriptionEmail/subscribe`, { email });
       toast.success("Subscribed Successfully");
     } catch (error) {
       console.log(error.response.data.message)
@@ -32,8 +33,8 @@ const Footer = () => {
         <div>
           <div className="subscribe-box">
             <p className="text-lg my-2">Subscribe Us for Updates</p>
-            <form className="d-flex" onSubmit={handelSubmit}>
-              <input placeholder="Email id"></input>
+            <form className="d-flex" onSubmit={handleSubmit}>
+              <input type="email" placeholder="Email id"></input>
               <button className="btn primary" type="submit">
                 {subEmailLoading ? "Subscribing..." : "Subscribe"}
               </button>
