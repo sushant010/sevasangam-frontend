@@ -8,38 +8,85 @@ import { useSearch } from '../../context/SearchContext';
 const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
   const { searchParams, setSearchParams } = useSearch();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('templeName') || '');
+  const [locationSearchTerm, setLocationSearchTerm] = useState(searchParams.get('address') || '');
   const [location, setLocation] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [statesOfTemple, setStatesOfTemple] = useState([]);
+  const [citiesOfTemple, setCitiesOfTemple] = useState([]);
+  const [locationSuggestion, setLocationSuggestion] = useState([]);
   const navigate = useNavigate();
   const api = import.meta.env.VITE_API_URL;
 
 
-  // const fetchSuggestions = async (term) => {
-  //   if (term) {
-  //     try {
-  //       const res = await axios.get(`${api}/temple/search-temple-suggestions`, {
-  //         params: { search: term }
-  //       });
-  //       if (res.data.success) {
-  //         setSuggestions(res.data.data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching suggestions:', error);
-  //     }
-  //   } else {
-  //     setSuggestions([]);
-  //   }
-  // };
+  const fetchSuggestions = async (term) => {
+    if (term) {
+      try {
+        const res = await axios.get(`${api}/temple/search-temple-suggestions`, {
+          params: { search: term }
+        });
+        if (res.data.success) {
+          setSuggestions(res.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+      }
+    } else {
+      setSuggestions([]);
+    }
+  };
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-    // fetchSuggestions(term);
+    fetchSuggestions(term);
   };
 
+
   const handleLocationChange = (e) => {
-    setLocation(e.target.value);
+    const selectedLocation = e.target.value;
+    setLocation(selectedLocation);
+    console.log(selectedLocation);
+
+    if (statesOfTemple?.length > 0) {
+      const suggestionsStates = statesOfTemple.filter((state) => {
+        console.log(state);
+        return state.toLowerCase().includes(selectedLocation.toLowerCase());
+      });
+      const suggestionsCities = citiesOfTemple.filter((state) => {
+        console.log(state);
+        return state.toLowerCase().includes(selectedLocation.toLowerCase());
+      });
+
+      const set = new Set([...suggestionsStates, ...suggestionsCities]);
+      const suggestions = [...set];
+      setLocationSuggestion(suggestions);
+      console.log('Suggestions:', suggestions);
+    } else {
+      setLocationSuggestion([]);
+      console.log('No states found.');
+    }
   };
+
+  const handleLocationSuggestionClick = (location) => {
+    const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
+    navigate(`/temples?templeName=${searchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
+  }
+
+  const fetchStates = async () => {
+    const res = await axios.get(`${api}/temple/get-states-of-temples`);
+    setStatesOfTemple(res.data.data);
+  };
+
+  const fetchCities = async () => {
+    const res = await axios.get(`${api}/temple/get-cities-of-temples`);
+    setCitiesOfTemple(res.data.data);
+  };
+
+
+  useEffect(() => {
+    fetchStates();
+    fetchCities()
+  }, []);
 
   const handleSearchSubmit = (id) => {
     if (inHomepage && handleSearchSubmitOnHomepage) {
@@ -57,10 +104,12 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
     setSuggestions([]); // Clear suggestions after search
   };
 
-  // const handleSuggestionClick = (suggestion) => {
-  //   setSearchTerm(suggestion.templeName);
-  //   handleSearchSubmit(suggestion._id);
-  // };
+  const handleSuggestionClick = (suggestion) => {
+    setSearchTerm(suggestion.templeName);
+    handleSearchSubmit(suggestion._id);
+  };
+
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -103,12 +152,17 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
             onChange={handleLocationChange}
             onKeyPress={handleKeyPress}
           />
-          <datalist id="locations">
-            <option value="">All Locations</option>
-            <option value="Location 1">Location 1</option>
-            <option value="Location 2">Location 2</option>
-            {/* Add more location options if needed */}
-          </datalist>
+          {location && locationSuggestion && locationSuggestion.length > 0 && (
+            <ul className="suggestions-list">
+
+              {locationSuggestion.map((suggestion, index) => (
+                <li key={index} onClick={() => handleLocationSuggestionClick(suggestion)}>
+                  <p>{suggestion}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+
         </div>
         <div className="search-input">
           {/* <i className="fa-solid fa-gopuram"></i> */}
@@ -120,15 +174,24 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}
           />
-          {/* {suggestions.length > 0 && (
+
+          {searchTerm && searchTerm.length > 0 && (
             <ul className="suggestions-list">
-              {suggestions.map((suggestion, index) => (
-                <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                  {suggestion.templeName.length > 15 ? suggestion.templeName.slice(0, 15) + '...' : suggestion.templeName}
+              <li className='d-flex justify-content-between' onClick={handleSearchSubmit}>
+                <p>Show All Results with &quot;{searchTerm}&quot; </p>
+              </li>
+              {suggestions && suggestions.length > 0 && suggestions.map((suggestion, index) => (
+                <li className='d-flex justify-content-between' style={{ gap: "6px" }} key={index} onClick={() => handleSuggestionClick(suggestion)}>
+
+                  <p>{suggestion.templeName.length > 15 ? suggestion.templeName.slice(0, 15) + '...' : suggestion.templeName}</p>
+                  <p style={{ color: "#BEBEBE", fontSize: "12px" }}>{suggestion.location.city}, {suggestion.location.state}</p>
                 </li>
               ))}
             </ul>
-          )} */}
+          )}
+
+
+
         </div>
         <button className="btn btn-theme-primary search-button" onClick={handleSearchSubmit}>
           <i className="fa-solid fa-search"></i>

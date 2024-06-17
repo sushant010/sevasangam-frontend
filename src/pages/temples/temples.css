@@ -26,14 +26,21 @@
   justify-content: center;
   margin: auto;
 }
-.btn-filter-toggle {
-  width: 100%;
+.filter-container form div:last-of-type {
+  display: flex;
+
+  align-items: center;
+  & button {
+    /* font-size: 14px; */
+    padding: 0.5rem;
+    margin: 0 0.1rem;
+    white-space: nowrap;
+  }
 }
 @media (max-width: 768px) {
   .btn-filter-toggle {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    width: 100%;
   }
   .temples-page {
     & .listing {

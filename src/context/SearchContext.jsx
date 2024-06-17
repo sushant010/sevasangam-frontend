@@ -6,9 +6,13 @@ const SearchContext = createContext();
 const SearchProvider = ({ children }) => {
     const [searchParams, setSearchParams] = useState(new URLSearchParams());
 
+    const resetFilters = () => {
+        setSearchParams(new URLSearchParams());
+    }
+
 
     return (
-        <SearchContext.Provider value={{ searchParams, setSearchParams }}>
+        <SearchContext.Provider value={{ searchParams, setSearchParams, resetFilters }}>
             {children}
         </SearchContext.Provider>
     )

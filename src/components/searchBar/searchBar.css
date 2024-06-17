@@ -22,7 +22,7 @@
 
 .location-select {
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .search-input {
   min-width: 200px;
@@ -41,7 +41,7 @@
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   min-height: 40px;
 }
 
@@ -82,19 +82,41 @@
   background-color: #fff;
   top: 46px;
   left: 0px;
-  min-width: 200px;
+  min-width: 240px;
+  max-width: 300px;
   border-radius: 4px;
   border: 1px solid #d3d3d3;
+  max-height: 204px;
+  overflow-y: hidden;
   & li {
-    font-size: 13.5px;
+    font-size: 13.5px !important;
     padding: 4px 10px;
     border-bottom: 1px solid #d3d3d3;
     cursor: pointer;
 
+    & p {
+      font-size: 13.5px;
+    }
+
     &:hover {
       background-color: #eee;
       color: var(--color-theme-primary);
+      & p {
+        background-color: #eee;
+        color: var(--color-theme-primary);
+      }
     }
+  }
+}
+
+.location-select input:focus {
+  & .suggestions-list {
+    display: block;
+  }
+}
+.search-input input:focus {
+  & .suggestions-list {
+    background-color: red;
   }
 }
 

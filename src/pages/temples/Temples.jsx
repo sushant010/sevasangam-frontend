@@ -7,10 +7,13 @@ import { toast } from "react-toastify";
 import "./temples.css";
 import HashLoader from "react-spinners/HashLoader";
 import { getQueryParams } from "../../utils/getQueryParams";
+import { useSearch } from "../../context/SearchContext";
 
 const Temples = () => {
   const api = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
+
+  const { resetFilters } = useSearch();
 
 
   const [temples, setTemples] = useState([]);
@@ -90,6 +93,7 @@ const Temples = () => {
     const res = await axios.get(`${api}/temple/get-states-of-temples`);
     setStatesOfTemple(res.data.data);
   }
+
   // Function to handle scroll event
   const handleScroll = () => {
     // setLoading(true);
@@ -301,6 +305,14 @@ const Temples = () => {
 
               <div className="col-md-2">
                 <button type="button" onClick={toggleFilters} className={`btn-filter-toggle btn-md btn-theme-primary`}> <i className="fa fa-filter"></i>  {showFilters ? 'Hide Filters' : 'Show Filters'}</button>
+                {showFilters && (
+
+                  <>
+                    <button type="button" onClick={resetFilters} className={`btn-filter-toggle btn-md btn-theme-primary`}> <i className="fa-solid fa-rotate-left"></i> Reset </button></>
+
+                )}
+
+
               </div>
               {/* <div className="col-md-2">
               <select
@@ -325,9 +337,14 @@ const Temples = () => {
 
       <section className=" pt-0">
         <div className="temples-page m-auto row">
-          {searchParams.get('templeName' && temples.length > 0) ? (
-            <p className="text-muted"> Search results for &quot;<strong>{searchParams.get('templeName')}</strong>&quot;</p>
-          ) : (<p className="text-muted"> No results for &quot;{searchParams.get('templeName')}&quot; | Donate to <strong>Most Popular Temples</strong> below <i className="fa-solid fa-arrow-down"></i></p>)}
+          {searchParams.get('templeName') && (
+            (temples.length > 0) ? (
+              <p className="text-muted"> Search results for &quot;<strong>{searchParams.get('templeName')}</strong>&quot;</p>
+            ) : (<p className="text-muted"> No results for &quot;{searchParams.get('templeName')}&quot; | Donate to <strong>Most Popular Temples</strong> below <i className="fa-solid fa-arrow-down"></i></p>)
+          )
+
+          }
+
 
           {temples && temples.length > 0 ?
             <>
