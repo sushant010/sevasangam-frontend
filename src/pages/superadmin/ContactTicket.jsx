@@ -194,9 +194,25 @@ export default function ContactTicket() {
                     <td>{index + 1} </td>
                     <td>{ticket.email} </td>
                     <td> <a href={`mailto:${ticket.email}`}><i style={{ cursor: "pointer" }} title="reply" className="text-primary fa-solid fa-reply"></i></a></td>
-                    <td>{ticket.title}</td>
-                    <td>{ticket.message}</td>
                     <td>
+                      {ticket.title === "donation-related-query" ? (
+                        <span>Donation Related Query</span>
+                      ) : ticket.title === "temple-related-query" ? (
+                        <span>Temple Related Query</span>
+                      ) : ticket.title === "80g-certificate" ? (
+                        <span>80g Certificate Related Query</span>
+                      ) : ticket.title === "work-with-us" ? (
+                        <span>Work with us</span>
+                      ) : ticket.title === "feedback" ? (
+                        <span>Feedback</span>
+                      ) : (
+                        <span>Others</span>
+                      )}
+                    </td>
+
+
+                    <td>{ticket.message}</td>
+                    <td style={{ minWidth: "100px" }}>
                       <select
                         value={ticket.status}
                         onChange={(e) =>
@@ -207,7 +223,7 @@ export default function ContactTicket() {
                         <option value="closed">Closed</option>
                       </select>
                     </td>
-                    <td>{new Date(ticket.createdAt).toDateString()}</td>
+                    <td style={{ minWidth: "150px" }}>{new Date(ticket.createdAt).toDateString()}</td>
                   </tr>
                 ))}
               </tbody>

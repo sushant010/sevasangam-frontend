@@ -17,6 +17,7 @@ const SearchProvider = ({ children }) => {
 SearchProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
+
 const useSearch = () => useContext(SearchContext)
 
 export { useSearch, SearchProvider };

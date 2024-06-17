@@ -26,3 +26,18 @@
   justify-content: center;
   margin: auto;
 }
+.btn-filter-toggle {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .btn-filter-toggle {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  .temples-page {
+    & .listing {
+      margin: 0px;
+    }
+  }
+}

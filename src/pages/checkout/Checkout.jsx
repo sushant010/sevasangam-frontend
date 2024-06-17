@@ -147,7 +147,6 @@ const Checkout = () => {
             const orderResponse = await axios.post(`${api}/donation/checkout`, {
                 amount: donate.amount,
                 currency: currency,
-                donationType: 'once',
                 temple: donate.templeId,
                 donateUser: {
                     name: donateUser.name,
@@ -162,11 +161,12 @@ const Checkout = () => {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: donate.amount * 100, // Corrected amount calculation
                 currency: currency,
-                name: "Seva Sangam",
+                name: "SevaSangam",
                 description: `Donation for ${temple.templeName}`,
                 image: defaultLogo,
                 order_id: order.id,
-                callback_url: `${website_url}/temples`,
+                redirect: true,
+                callback_url: `${api}/donation/payment-verification`,
                 prefill: {
                     name: donateUser.name,
                     email: donateUser.email,
@@ -176,7 +176,6 @@ const Checkout = () => {
                     amount: donate.amount,
                     temple: donate.templeId,
                     donateUser: JSON.stringify(donateUser), // Store as a string
-                    type: 'once'
                 },
                 theme: {
                     "color": "var(--color-primary-color)"
@@ -241,11 +240,11 @@ const Checkout = () => {
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 subscription_id: subscription.id,
-                name: "Seva Sangam",
+                name: "SevaSangam",
                 description: `Subscription for ${temple.templeName}`,
                 image: defaultLogo,
-                redirect: true,
-                callback_url: `${api}/donation/payment-verification`,
+                redirect: false,
+                callback_url: `${website_url}/temples`,
                 prefill: {
                     name: donateUser.name,
                     email: donateUser.email,

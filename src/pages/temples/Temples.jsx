@@ -14,6 +14,8 @@ const Temples = () => {
 
 
   const [temples, setTemples] = useState([]);
+  const [popularTemples, setPopularTemples] = useState([])
+  const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
 
   const [showFilters, setShowFilters] = useState(false);
 
@@ -21,6 +23,7 @@ const Temples = () => {
   const toggleFilters = () => {
     showFilters ? setShowFilters(false) : setShowFilters(true);
   }
+
 
   // for searching and filtering 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -66,6 +69,22 @@ const Temples = () => {
     }
   };
 
+  useEffect(() => {
+    const queryParams = getQueryParams();
+    const filtersFromQuery = {
+      templeName: queryParams.get('templeName') || '',
+      typeOfOrganization: queryParams.get('typeOfOrganization') || '',
+      address: queryParams.get('address') || '',
+      state: queryParams.get('state') || '',
+      city: queryParams.get('city') || ''
+    };
+    const sortOptionFromQuery = queryParams.get('sortOption') || '';
+
+    setFilters(filtersFromQuery);
+    setSortOption(sortOptionFromQuery);
+  }, [searchParams]);
+
+
   const fetchStates = async () => {
 
     const res = await axios.get(`${api}/temple/get-states-of-temples`);
@@ -80,6 +99,33 @@ const Temples = () => {
       // setLoading(false);
       fetchTemples(); // Fetch more temples when scrolled to the bottom
 
+    }
+  };
+
+
+  const fetchPopularTemples = async () => {
+    try {
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular' });
+      if (response.data.success) {
+        setPopularTemples(response.data.data.temples);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching filtered temples:', error);
+    }
+  };
+
+  const fetchRecentlyCreatedTemples = async () => {
+    try {
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded' });
+      if (response.data.success) {
+        setRecentlyCreatedTemples(response.data.data.temples);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching filtered temples:', error);
     }
   };
 
@@ -109,10 +155,13 @@ const Temples = () => {
 
     setFilters(filtersFromQuery);
     setSortOption(sortOptionFromQuery);
-
-
     fetchTemples(true); // Fetch with reset = true
 
+  }, []);
+
+  useEffect(() => {
+    fetchPopularTemples();
+    fetchRecentlyCreatedTemples();
   }, []);
 
   const handleFilterChange = (e) => {
@@ -176,79 +225,82 @@ const Temples = () => {
         </div>
       </section>
 
-      <section>
+
+
+
+      <section className="py-0 pt-4">
         <div className="filter-container">
-          <div className="d-flex justify-content-end">
+          {/* <div className="d-flex justify-content-end">
             <button type="button" onClick={toggleFilters} className={`btn btn-theme-primary ${showFilters ? 'mb-3' : 'm-0'}`}>{showFilters ? 'Hide Filters' : 'Show Filters'}</button>
-          </div>
+          </div> */}
           {(
-            <form className={showFilters == true ? ' block row g-4' : ' d-none row g-4'} onSubmit={handleFilterSubmit}>
-              <div className="col-md-5">
-                <div className="sort-buttons d-flex align-items-center">
-                  <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
-                    className={`btn ${sortOption === 'mostPopular' ? 'btn-theme-primary' : 'btn-outline-theme-primary'}`}
-                    onClick={() => handleSortOption('mostPopular')}
-                  >
-                    Most Popular
-                  </button>
-                  <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
-                    className={`btn ${sortOption === 'recentlyAdded' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
-                    onClick={() => handleSortOption('recentlyAdded')}
-                  >
-                    Recently Added
-                  </button>
-                  <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
-                    className={`btn ${sortOption === 'trending' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
-                    onClick={() => handleSortOption('trending')}
-                  >
-                    Trending Temples
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-2">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="templeName"
-                  placeholder="Temple Name"
-                  value={filters.templeName}
-                  onChange={handleFilterChange}
-                />
-              </div>
-              {/* <div className="col-md-2">
-              <input
-                type="text"
-                className="form-control"
-                name="typeOfOrganization"
-                placeholder="Type of Organization"
-                value={filters.typeOfOrganization}
-                onChange={handleFilterChange}
-              />
-            </div> */}
-              <div className="col-md-2">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="address"
-                  placeholder="Address"
-                  value={filters.address}
-                  onChange={handleFilterChange}
-                />
-              </div>
-              <div className="col-md-2">
-                <select
-                  className="form-select"
-                  name="state"
-                  value={filters.state}
-                  onChange={handleFilterChange}
-                >
-                  <option value="">Select State</option>
-                  {statesOfTemple && statesOfTemple.map((state, index) => (
+            <form className="row justify-content-end g-4" onSubmit={handleFilterSubmit}>
+              {showFilters == true &&
+                <>
 
-                    <option key={index} value={state}>{state}</option>
-                  ))}
+                  <div className="col-md-4">
+                    <div className="sort-buttons d-flex align-items-center">
+                      <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                        className={`btn ${sortOption === 'mostPopular' ? 'btn-theme-primary' : 'btn-outline-theme-primary'}`}
+                        onClick={() => handleSortOption('mostPopular')}
+                      >
+                        Most Popular
+                      </button>
+                      <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                        className={`btn ${sortOption === 'recentlyAdded' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
+                        onClick={() => handleSortOption('recentlyAdded')}
+                      >
+                        Recently Added
+                      </button>
+                      <button type="button" style={{ fontSize: "14px", border: "1px solid var(--color-theme-primary)" }}
+                        className={`btn ${sortOption === 'trending' ? 'btn-theme-primary' : 'btn-outline-theme-primary'} ms-2`}
+                        onClick={() => handleSortOption('trending')}
+                      >
+                        Trending Temples
+                      </button>
+                    </div>
+                  </div>
+                  <div className="col-md-2">
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="templeName"
+                      placeholder="Temple Name"
+                      value={filters.templeName}
+                      onChange={handleFilterChange}
+                    />
+                  </div>
+                  <div className="col-md-2">
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="address"
+                      placeholder="Address"
+                      value={filters.address}
+                      onChange={handleFilterChange}
+                    />
+                  </div>
+                  <div className="col-md-2">
+                    <select
+                      className="form-select"
+                      name="state"
+                      value={filters.state}
+                      onChange={handleFilterChange}
+                    >
+                      <option value="">Select State</option>
+                      {statesOfTemple && statesOfTemple.map((state, index) => (
 
-                </select>
+                        <option key={index} value={state}>{state}</option>
+                      ))}
+
+                    </select>
+                  </div>
+                </>
+
+              }
+
+              <div className="col-md-2">
+                <button type="button" onClick={toggleFilters} className={`btn-filter-toggle btn-md btn-theme-primary`}> <i className="fa fa-filter"></i>  {showFilters ? 'Hide Filters' : 'Show Filters'}</button>
               </div>
               {/* <div className="col-md-2">
               <select
@@ -273,13 +325,30 @@ const Temples = () => {
 
       <section className=" pt-0">
         <div className="temples-page m-auto row">
-          {temples && temples.length > 0 ? (
-            temples.map((temple, index) => (
-              <div className="col-lg-3 col-md-4 mb-4" key={index}>
-                <ListingCard temple={temple} />
-              </div>
-            ))
-          ) : null}
+          {searchParams.get('templeName' && temples.length > 0) ? (
+            <p className="text-muted"> Search results for &quot;<strong>{searchParams.get('templeName')}</strong>&quot;</p>
+          ) : (<p className="text-muted"> No results for &quot;{searchParams.get('templeName')}&quot; | Donate to <strong>Most Popular Temples</strong> below <i className="fa-solid fa-arrow-down"></i></p>)}
+
+          {temples && temples.length > 0 ?
+            <>
+              {temples.map((temple, index) => (
+                <div className="col-lg-3 col-md-4 mb-4" key={index}>
+                  <ListingCard temple={temple} />
+                </div>
+              ))}
+
+            </>
+            :
+            <>
+
+              {popularTemples?.map((temple, index) => (
+                <div className="col-lg-3 col-md-4 mb-4" key={index}>
+                  <ListingCard temple={temple} />
+                </div>
+              ))}
+
+            </>
+          }
 
         </div>
         {loading && (

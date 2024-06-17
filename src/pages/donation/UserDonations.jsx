@@ -8,7 +8,6 @@ import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 const UserDonations = () => {
 
     const api = import.meta.env.VITE_API_URL;
-    const [razorpayDonations, setRazorpayDonations] = useState([]);
     const [donations, setDonations] = useState([]);
     const [temples, setTemples] = useState([]);
     const [loading, setLoading] = useState(false)
@@ -22,7 +21,6 @@ const UserDonations = () => {
             const email = auth.user.email;
             const res = await axios.post(`${api}/donation/fetch-donations-by-user`, { email });
             console.log(res)
-            setRazorpayDonations(res.data.razorpayDonations)
             setDonations(res.data.donations)
         } catch (error) {
             console.error(error);
@@ -101,9 +99,9 @@ const UserDonations = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {razorpayDonations && razorpayDonations.map((donation, index) => {
+                            {donations && donations.map((donation, index) => {
 
-                                const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString('en-GB');
+                                const formattedDate = new Date(donation.date).toDateString();
                                 const customDonation = donations.find((don) => don.razorpay_payment_id === donation.id)
                                 console.log(donation)
                                 console.log(customDonation)
@@ -112,10 +110,10 @@ const UserDonations = () => {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
 
-                                        <td>{temples.find((temp) => temp._id === donation.notes.temple)?.templeName}</td>
+                                        <td>{temples.find((temp) => temp._id === donation.temple)?.templeName}</td>
 
                                         <td>{formattedDate}</td>
-                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.notes.amount}</td>
+                                        <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
 
                                             {customDonation && customDonation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="Request 80 Certificate">

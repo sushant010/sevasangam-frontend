@@ -107,7 +107,7 @@ function App() {
             <Route path="donations" element={<AllDonation />} />
             <Route path="unverified-temples" element={<UnverifiedTemples />} />
             <Route path="contact-ticket" element={<ContactTicket />} />
-            <Route path="update-subscribed-emails" element={<SubscribedEmails />} />
+            <Route path="subscribed-emails" element={<SubscribedEmails />} />
 
             <Route path="trending-temples" element={<TrendingTemples />} />
 

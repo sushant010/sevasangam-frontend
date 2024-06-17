@@ -165,8 +165,8 @@ const Navbar = () => {
               <div className={`nav-item ${location.pathname === '/superadmin/contact-ticket' ? 'active' : ''}`}>
                 <Link to="/superadmin/contact-ticket">Tickets</Link>
               </div>
-              <div className={`nav-item ${location.pathname === '/superadmin/update-subscribed-emails' ? 'active' : ''}`}>
-                <Link to="/superadmin/update-subscribed-emails">Subscribed Emails</Link>
+              <div className={`nav-item ${location.pathname === '/superadmin/subscribed-emails' ? 'active' : ''}`}>
+                <Link to="/superadmin/subscribed-emails">Subscribed Emails</Link>
               </div>
             </>
           )}
@@ -317,7 +317,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/superadmin/update-subscribed-emails">
+                      <Link className="dropdown-item" to="/superadmin/subscribed-emails">
                         Subscribed Emails
                       </Link>
                     </li>

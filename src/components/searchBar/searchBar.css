@@ -25,7 +25,7 @@
   overflow: hidden;
 }
 .search-input {
-  min-width: 150px;
+  min-width: 200px;
   border-right: 0px;
   border-radius: 30px;
   border-top-left-radius: 0px;
@@ -35,7 +35,7 @@
   min-height: 40px;
 }
 .location-select {
-  min-width: 150px;
+  min-width: 120px;
   border-left: 0px;
   border-radius: 30px;
   border-top-right-radius: 0px;

@@ -12,12 +12,10 @@ const AllDonationsAdmin = () => {
 
   const navigate = useNavigate();
   const [auth] = useAuth();
-  const [razorpayDonations, setRazorpayDonations] = useState([]);
   const [donations, setDonations] = useState([]);
 
   const [temples, setTemples] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState([]);
-  const [templeCreator, setTempleCreator] = useState([]);
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
 
@@ -43,10 +41,9 @@ const AllDonationsAdmin = () => {
   const fetchAllDonationsAdmin = async () => {
     try {
       const res = await axios.post(`${api}/donation/fetch-donations-by-admin`, {
-        id: auth.user._id,
+        user_id: auth.user._id,
       });
       console.log(res);
-      setRazorpayDonations(res.data.razorpayDonations);
       setDonations(res.data.donations);
     } catch (error) {
       console.error(error);
@@ -173,9 +170,9 @@ const AllDonationsAdmin = () => {
     try {
       const res = await axios.get(`${api}/temple/get-temples`);
       setTemples(res.data.data.temples);
-      const creators = temples.map((temple) => temple.createdBy);
-      const uniqueCreators = getUniqueObjects(creators, "_id");
-      setTempleCreator(uniqueCreators);
+      // const creators = temples.map((temple) => temple.createdBy);
+      // const uniqueCreators = getUniqueObjects(creators, "_id");
+      // setTempleCreator(uniqueCreators);
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
@@ -183,10 +180,10 @@ const AllDonationsAdmin = () => {
   };
 
   // CSV Data Preparation
-  const csvData = razorpayDonations.map((donation, index) => {
+  const csvData = donations.map((donation, index) => {
     const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString("en-GB");
-    const donateUser = donation.notes.donateUser ? JSON.parse(donation.notes.donateUser) : { name: "Anonymous", email: "", phone: "" };
-    const temple = temples.find(temp => temp._id === donation.notes.temple)?.templeName || "Unknown";
+    const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : { name: "Anonymous", email: "", phone: "" };
+    const temple = temples.find(temp => temp._id === donation.temple)?.templeName || "Unknown";
     const customDonation = donations.find(don => don.razorpay_payment_id === donation.id) || {};
     return {
       "S. No": index + 1,
@@ -194,7 +191,7 @@ const AllDonationsAdmin = () => {
       "Temple": temple,
       "Date of Donation": formattedDate,
       "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
-      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.notes.amount}` : `₹ ${donation.notes.amount}`,
+      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
       "Payment Method": donation.method,
       "80G Certificate": customDonation.certificate ? "Available" : "Not Available"
     };
@@ -237,7 +234,7 @@ const AllDonationsAdmin = () => {
                 ))}
               </select>
             </div>
-            <div className="col-md-3">
+            {/* <div className="col-md-3">
               <select
                 className="form-select"
                 name="temple"
@@ -252,7 +249,7 @@ const AllDonationsAdmin = () => {
                     </option>
                   ))}
               </select>
-            </div>
+            </div> */}
 
             <div className="col-md-2">
               <input
@@ -363,13 +360,13 @@ const AllDonationsAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {razorpayDonations &&
-                razorpayDonations.map((donation, index) => {
+              {donations &&
+                donations.map((donation, index) => {
                   const formattedDate = new Date(
                     donation.created_at * 1000
                   ).toLocaleDateString("en-GB");
-                  const donateUser = donation.notes.donateUser
-                    ? JSON.parse(donation.notes.donateUser)
+                  const donateUser = donation.donateUser
+                    ? JSON.parse(donation.donateUser)
                     : null;
                   const customDonation =
                     donations.find(
@@ -379,16 +376,16 @@ const AllDonationsAdmin = () => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{donation.id}</td>
+                      <td>{donation.razorpay_payment_id}</td>
                       <td>
                         {
                           temples.find(
-                            (temp) => temp._id === donation.notes.temple
+                            (temp) => temp._id === donation.temple
                           )?.templeName
                         }
                       </td>
 
-                      <td>{formattedDate}</td>
+                      <td>{new Date(donation.date).toDateString()}</td>
                       {donateUser !== null ? (
                         <td>{`${donateUser.name} (${donateUser.email}, ${donateUser.phone}) `}</td>
                       ) : (
@@ -396,7 +393,7 @@ const AllDonationsAdmin = () => {
                       )}
                       <td>
                         {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
-                        {donation.notes.amount}
+                        {donation.amount}
                       </td>
                       <td>{donation.method}</td>
                       <td>

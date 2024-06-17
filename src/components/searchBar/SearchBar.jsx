@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useSearch } from '../../context/SearchContect';
+import { useSearch } from '../../context/SearchContext';
 
 const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
   const { searchParams, setSearchParams } = useSearch();
@@ -43,14 +43,16 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
 
   const handleSearchSubmit = (id) => {
     if (inHomepage && handleSearchSubmitOnHomepage) {
-
       handleSearchSubmitOnHomepage(searchTerm, location);
     } else {
+      // if (window.location.pathname === '/temples') {
+      //   window.location.reload();
+      // } else {
       const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
       const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
       window.scrollTo(0, 0);
       navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
-
+      // }
     }
     setSuggestions([]); // Clear suggestions after search
   };

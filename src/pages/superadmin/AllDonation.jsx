@@ -393,7 +393,7 @@ const AllDonation = () => {
                                                 <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
                                                 <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                                 <td>{donation.method}</td>
-                                                <td className={donation.status == 'failed' ? 'text-danger' : 'text-success'}>{donation.status.slice(0, 1).toUpperCase() + donation.status.slice(1).toLowerCase()}</td>
+                                                <td className={donation?.status == 'failed' ? 'text-danger' : 'text-success'}>{donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : ""}</td>
                                                 <td>{donations.is80CertificateRequested ? (
                                                     donations.certificate ? (
                                                         <div>

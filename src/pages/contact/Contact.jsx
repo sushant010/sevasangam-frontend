@@ -32,6 +32,11 @@ const Contact = () => {
         email: formData.email
       });
       toast.success('Your message has been sent successfully.');
+      setFormData({
+        title: '',
+        message: '',
+        email: ''
+      });
 
     } catch (error) {
       toast.error('Something went wrong, please try again later.');
@@ -100,14 +105,16 @@ const Contact = () => {
           <form onSubmit={handleSubmit}>
             <div className='mb-4'>
               <label htmlFor="title">Title:</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-              />
+
+              <select name="title" id="title" value={formData.title} onChange={handleChange} required>
+                <option value="">Select</option>
+                <option value="donation-related-query">Donation Related Query</option>
+                <option value="temple-related-query">Temple Related Query</option>
+                <option value="80g-certificate">80g Certificate Related Query</option>
+                <option value="work-with-us">Work with us</option>
+                <option value="feedback">Feedback</option>
+                <option value="Others">Others</option>
+              </select>
             </div>
             <div className='mb-4'>
               <label htmlFor="message">Message:</label>
