@@ -20,3 +20,19 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .donation-tabs {
+    padding: 1rem !important;
+  }
+  .tab {
+    padding: 0;
+    & .tab-item {
+      padding: 6px 8px;
+    }
+  }
+  .donate-once form ~ div,
+  .donate-monthly form ~ div {
+    justify-content: start !important;
+  }
+}

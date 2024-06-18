@@ -53,7 +53,8 @@ const UpdateTemple = () => {
             twitter: '',
             instagram: ''
         },
-        upcomingEvents: [],
+        aboutTemple1: '',
+        aboutTemple2: '',
         timing: {
             start: '',
             end: ''
@@ -267,7 +268,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Basic</h3>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="templeName" className="form-label">Temple Name</label>
+                                <label htmlFor="templeName" className="form-label">Temple Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Temple Name"
                                     type="text"
@@ -279,7 +280,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="typeOfOrganization" className="form-label">Type of Organization</label>
+                                <label htmlFor="typeOfOrganization" className="form-label">Type of Organization <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Type of Organization"
                                     type="text"
@@ -291,7 +292,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="description" className="form-label">Description</label>
+                                <label htmlFor="description" className="form-label">Description <i className="fa fa-asterisk"></i></label>
                                 <textarea
                                     placeholder="Description"
                                     name="description"
@@ -323,7 +324,7 @@ const UpdateTemple = () => {
 
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="locationAddress" className="form-label">Location Address</label>
+                                <label htmlFor="locationAddress" className="form-label">Location Address <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Location Address"
                                     type="text"
@@ -387,7 +388,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Images</h3>
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
-                                <label htmlFor="templeLogo" className="form-label">Temple Logo</label>
+                                <label htmlFor="templeLogo" className="form-label">Temple Logo <i className="fa fa-asterisk"></i></label>
                                 <input
                                     type="file"
                                     name="templeLogo"
@@ -415,7 +416,7 @@ const UpdateTemple = () => {
                                 )}
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
-                                <label htmlFor="templeImages" className="form-label">Temple Images</label>
+                                <label htmlFor="templeImages" className="form-label">Temple Images <i className="fa fa-asterisk"></i></label>
                                 <input
                                     type="file"
                                     name="templeImages"
@@ -436,7 +437,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Contact Person</h3>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="contactPersonName" className="form-label">Contact Person Name</label>
+                                <label htmlFor="contactPersonName" className="form-label">Contact Person Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Contact Person Name"
                                     type="text"
@@ -448,7 +449,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="contactPersonEmail" className="form-label">Contact Person Email</label>
+                                <label htmlFor="contactPersonEmail" className="form-label">Contact Person Email <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Contact Person Email"
                                     type="email"
@@ -460,7 +461,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="contactPersonMobile" className="form-label">Contact Person Mobile</label>
+                                <label htmlFor="contactPersonMobile" className="form-label">Contact Person Mobile <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Contact Person Mobile"
                                     type="text"
@@ -502,7 +503,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Bank Details</h3>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="bankName" className="form-label">Bank Name</label>
+                                <label htmlFor="bankName" className="form-label">Bank Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Bank Name"
                                     type="text"
@@ -514,7 +515,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="branch" className="form-label">Branch</label>
+                                <label htmlFor="branch" className="form-label">Branch <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Branch"
                                     type="text"
@@ -526,7 +527,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="accountHolderName" className="form-label">Account Holder Name</label>
+                                <label htmlFor="accountHolderName" className="form-label">Account Holder Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Account Holder Name"
                                     type="text"
@@ -538,7 +539,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="accountNumber" className="form-label">Account Number</label>
+                                <label htmlFor="accountNumber" className="form-label">Account Number <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Account Number"
                                     type="text"
@@ -550,7 +551,7 @@ const UpdateTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="ifscCode" className="form-label">IFSC Code</label>
+                                <label htmlFor="ifscCode" className="form-label">IFSC Code <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="IFSC Code"
                                     type="text"
@@ -639,53 +640,68 @@ const UpdateTemple = () => {
                                     id="instagram"
                                 />
                             </div>
-                            <div className="mb-3">
-                                <h3 className='text-primary fw-bold text-md'>Upcoming Events</h3>
-                            </div>
 
-                            <div className="mb-3 d-flex justify-content-between">
-                                <button
-                                    style={{ fontSize: '14px' }}
-                                    type="button"
-                                    className="btn btn-theme-primary-outline"
-                                    onClick={() =>
-                                        setTemple(prevTemple => ({
-                                            ...prevTemple,
-                                            upcomingEvents: [
-                                                ...prevTemple.upcomingEvents,
-                                                { title: '', date: '', location: '' },
-                                            ],
-                                        }))
-                                    }
-                                >
-                                    Add More Event
-                                </button>
-                            </div>
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Timing</h3>
                             </div>
+                            <div className="d-flex mb-3">
+
+                                <div style={{ flex: 1 }}>
+                                    <label htmlFor="startTime">Start Time (Default: 08:00)</label>
+                                    <input
+                                        placeholder="Start Time "
+                                        type="time"
+                                        name="timing.start"
+                                        onChange={handleChange}
+                                        value={temple.timing.start}
+                                        className="form-control"
+                                        id="startTime"
+                                    />
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                    <label htmlFor="endTime">End Time (Default: 17:00)</label>
+                                    <input
+                                        placeholder="End Time "
+                                        type="time"
+                                        name="timing.end"
+                                        onChange={handleChange}
+                                        value={temple.timing.end}
+                                        className="form-control"
+                                        id="endTime"
+                                    />
+                                </div>
+
+                            </div>
                             <div className="mb-3">
-                                <input
-                                    placeholder="Start Time"
-                                    type="time"
-                                    name="timing.start"
+                                <h3 className='text-primary fw-bold text-md'>About Temple (Will be visible on Temple page)</h3>
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="aboutTemple1">About Temple</label>
+                                <textarea
+                                    placeholder="About Temple"
+                                    name="aboutTemple1"
                                     onChange={handleChange}
-                                    value={temple?.timing?.start}
+                                    value={temple.aboutTemple1}
                                     className="form-control"
-                                    id="startTime"
+                                    id="aboutTemple1"
+                                    style={{ height: '250px' }}
                                 />
                             </div>
                             <div className="mb-3">
-                                <input
-                                    placeholder="End Time"
-                                    type="time"
-                                    name="timing.end"
+                                <label htmlFor="aboutTemple2">About Temple History / Legacy</label>
+                                <textarea
+                                    placeholder="About Temple History / Legacy"
+                                    name="aboutTemple2"
                                     onChange={handleChange}
-                                    value={temple?.timing?.end}
+                                    value={temple.aboutTemple2}
                                     className="form-control"
-                                    id="endTime"
+                                    id="aboutTemple2"
+                                    style={{ height: '250px' }}
                                 />
                             </div>
+
+
                         </div>
 
                         <div className="col-md-12">
@@ -696,7 +712,7 @@ const UpdateTemple = () => {
                     </div>
                 </form>
             </section>
-        </Layout>
+        </Layout >
     );
 };
 

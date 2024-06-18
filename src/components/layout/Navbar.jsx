@@ -106,10 +106,10 @@ const Navbar = () => {
 
           {(auth?.user?.role == 0 || auth?.user?.role == 1) && (
             <>
-              <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
+              {/* <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
               <div className={`nav-item ${location.pathname === '/user/donations' ? 'active' : ''}`}>
                 <Link to="/user/donations">Past Donations</Link>
-              </div>
+              </div> */}
 
 
             </>
@@ -264,11 +264,11 @@ const Navbar = () => {
                         All Subscriptions
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link className="dropdown-item" to="/user/donations">
                         Past Donations
                       </Link>
-                    </li>
+                    </li> */}
 
 
 
@@ -327,11 +327,11 @@ const Navbar = () => {
                   // Default case, assuming auth.user.role === 0 
                   <>
 
-                    <li>
+                    {/* <li>
                       <Link className="dropdown-item" to="/user/donations">
                         Past Donations
                       </Link>
-                    </li>
+                    </li> */}
                     {/* <li>
                       <Link className="dropdown-item" to="/view-update-temples">
                         80G Certificates

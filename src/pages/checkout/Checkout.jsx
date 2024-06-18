@@ -355,32 +355,39 @@ const Checkout = () => {
                                 <input onChange={handleUpdateDonation} value={donate.amount} style={{ fontSize: "14px", flex: "1", padding: "4px", width: "100%", height: "40px" }} placeholder='Enter Amount' className='mb-4 form-control' />
 
                                 {temple ?
-                                    (<div className='d-flex flex-wrap' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
-                                        <div style={{ flexShrink: 0, borderRadius: "8px", overflow: "hidden", aspectRatio: "1/1", width: "50%", height: '200px' }} className="img-wrapper">
-                                            <img
-                                                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                                                src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
-                                                alt="temple"
-                                            />
+                                    (
+
+                                        <div className='selected-temple'>
+                                            <div className="img-wrapper">
+                                                <img
+                                                    src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
+                                                    alt="temple"
+                                                />
+                                            </div>
+                                            <div className='content'>
+                                                <h3 className='section-heading'>
+                                                    {temple?.templeName}
+                                                </h3>
+                                                <div className="d-flex ">
+                                                    <p> <i className='px-1 text-primary fa-solid fa-location-dot'></i></p>
+                                                    <p>
+                                                        {temple?.location?.address}, {temple?.location?.country}
+                                                    </p>
+                                                </div>
+
+                                                {/* <p>
+                                                    {temple?.description?.length > 80 ? temple?.description.slice(0, 80) + '...' : temple?.description}
+                                                </p> */}
+                                            </div>
                                         </div>
-                                        <div className='px-2'>
-                                            <h3 style={{ fontSize: "20px" }} className='mt-2 section-heading'>
-                                                {temple?.templeName}
-                                            </h3>
-                                            <p style={{ fontSize: "14px", }} className='my-2'>
-                                                {temple?.location?.address}, {temple?.location?.country}
-                                            </p>
-                                            <p style={{ fontSize: "14px", }} className='my-2'>
-                                                {temple?.description?.length > 80 ? temple?.description.slice(0, 80) + '...' : temple?.description}
-                                            </p>
-                                        </div>
-                                    </div>) : null
+
+                                    ) : null
 
 
                                 }
 
 
-                                <p className='fw-bold text-primary'>Donate to Some other temple</p>
+                                <p className='fw-bold text-primary mt-2'>Donate to Some other temple</p>
                                 <select
                                     style={{ fontSize: "14px", backgroundColor: "#fff" }}
                                     className="form-select"
@@ -397,24 +404,24 @@ const Checkout = () => {
                             </div>
                         </div>
                         <div className="col-md-8">
-                            <div className='mb-4 p-2' style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
-                                <div className="d-flex align-items-center justify-content-center flex-wrap">
-                                    <div style={{ borderRadius: "8px", overflow: "hidden", aspectRatio: "1/1", width: "160px", height: '100%' }} className="img-wrapper">
-                                        <img style={{ width: "100%", height: "100%", objectFit: "contain" }} src={defaultLogo} alt="temple" />
+                            <div className='about'>
+                                <h4 style={{ fontSize: "20px" }} className='section-heading'>About SevaSangam</h4>
+                                <div className="container">
+                                    <div className="img-wrapper" >
+                                        <img src={defaultLogo} alt="temple" />
                                     </div>
-                                    <div className='p-3'>
+                                    <div className='content'>
                                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt accusantium asperiores placeat culpa optio repudiandae esse enim ducimus dicta voluptatum.</p>
-                                        <p className='mt-1 fw-bold'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt accusantium asperiores placeat culpa optio repudiandae esse enim ducimus dicta voluptatum.</p>
+                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt accusantium asperiores placeat culpa optio repudiandae esse enim ducimus dicta voluptatum.</p>
                                     </div>
                                 </div>
-                                <div className="d-flex align-items-center justify-content-between">
+                                <div className="support">
                                     <p>Support us by:</p>
                                     <div>
                                         <select
                                             value={selectedPercentage}
                                             onChange={handleSelectChange}
                                             className="form-select"
-                                            style={{ marginRight: '10px', width: '160px', backgroundColor: "#fff", fontSize: "13.5px" }}
                                         >
                                             <option value="16">16% ({currencySymbol} {Math.round(donate.amount * 0.16)})</option>
                                             <option value="14">14% ({currencySymbol} {Math.round(donate.amount * 0.14)})</option>
@@ -422,33 +429,33 @@ const Checkout = () => {
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
-                                            <div style={{ position: "relative", display: "inline-block", width: "160px" }}>
+                                            <div className="custom-percentage">
                                                 <input
                                                     type="number"
                                                     value={customPercentage}
                                                     onChange={handleCustomChange}
                                                     placeholder="%"
                                                     className="form-control"
-                                                    style={{ fontSize: "13.5px", width: '100%', paddingRight: '20px' }}
                                                 />
-                                                <span style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}>%</span>
+                                                <span>%</span>
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 {selectedPercentage == 'other' && customPercentage == 0 && (
                                     <div className='contribution'>
-                                        <p className='mt-2 fw-bold'>By supporting Us, you are helping us reach out to more campaigns like this and scale our impact.</p>
-                                        <div className='d-flex align-items-center' style={{ gap: "16px" }}>
+                                        <p>By supporting Us, you are helping us reach out to more campaigns like this and scale our impact.</p>
+                                        <div className='checkbox-container'>
                                             <div>Deduct 7% towards covering Sevasangams expenses (optional)</div>
-                                            <div className="form-check d-flex justify-content-center align-items-center">
+                                            <div className="form-check">
                                                 <input defaultChecked className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault1" />
-                                                <label style={{ fontSize: "13.5px", color: "darkgrey" }} className="form-check-label" htmlFor="flexCheckDefault1"></label>
+                                                <label className="form-check-label" htmlFor="flexCheckDefault1"></label>
                                             </div>
                                         </div>
                                     </div>
                                 )}
                             </div>
+
                             <div style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
                                 <form>
                                     <h3 style={{ fontSize: "20px" }} className='mb-2 section-heading'>Please fill your Details</h3>
@@ -488,7 +495,7 @@ const Checkout = () => {
                                 </div>
                             </div>
                             <p style={{ fontSize: "13.5px", color: "darkgrey" }} className='mt-4 text-center'>By Continuing you are agreeing to <Link to='/terms-and-conditions'>Terms</Link> of use and <Link to='/privacy-policy'>Privacy Policy</Link></p>
-                            <button disabled={donate.amount <= 0} onClick={handleDonate} className='btn btn-theme-primary m-3 w-100'> {donate.amount > 0 ? `Checkout (${currencySymbol} ${donate.amount})` : `Please add amount to Donate`}</button>
+                            <button disabled={donate.amount <= 0} onClick={handleDonate} className='donate-btn btn btn-theme-primary my-3 w-100'> {donate.amount > 0 ? `Checkout (${currencySymbol} ${donate.amount})` : `Please add amount to Donate`}</button>
                         </div>
                     </div>
                 </div>
@@ -510,30 +517,51 @@ const Checkout = () => {
                             </div>
                             <div className='mb-4' style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
                                 {temple ?
-                                    (<div className='d-flex flex-wrap mb-3' style={{ background: "#eee", padding: '10px', borderRadius: "8px" }}>
-                                        <div style={{ flexShrink: "0", borderRadius: "8px", overflow: "hidden", width: "200px", aspectRatio: '1/1' }} className="img-wrapper">
-                                            <img
-                                                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                                                src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
-                                                alt="temple"
-                                            />
+                                    (
+
+                                        <div className='selected-temple'>
+                                            <div style={{ height: "150px" }} className="img-wrapper">
+                                                <img
+                                                    src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
+                                                    alt="temple"
+                                                />
+                                            </div>
+                                            <div className='content'>
+                                                <h3 className='section-heading'>
+                                                    {temple?.templeName}
+                                                </h3>
+                                                <div className="d-flex ">
+                                                    <p> <i className='px-1 text-primary fa-solid fa-location-dot'></i></p>
+                                                    <p>
+                                                        {temple?.location?.address}, {temple?.location?.country}
+                                                    </p>
+                                                </div>
+
+                                                {/* <p>
+                                                    {temple?.description?.length > 80 ? temple?.description.slice(0, 80) + '...' : temple?.description}
+                                                </p> */}
+                                            </div>
                                         </div>
-                                        <div className='px-4'>
-                                            <h3 style={{ fontSize: "20px" }} className='mt-2 section-heading'>
-                                                {temple?.templeName}
-                                            </h3>
-                                            <p className='my-2'>
-                                                {temple?.location?.address}, {temple?.location?.country}
-                                            </p>
-                                            <p className='my-2'>
-                                                {temple?.description}
-                                            </p>
-                                        </div>
-                                    </div>) : null
+
+                                    ) : null
+
 
 
                                 }
 
+                                <p className='fw-bold text-primary mt-2'>Donate to Some other temple</p>
+                                <select
+                                    style={{ fontSize: "14px", backgroundColor: "#fff" }}
+                                    className="form-select"
+                                    name="templeName"
+
+                                    onChange={handletempleToDonateMonthlyChange} // Assuming this function updates donate.templeId
+                                >
+                                    <option value="">Select Temple</option>
+                                    {temples.map((temple) => (
+                                        <option key={temple._id} value={temple._id}>{temple.templeName}</option>
+                                    ))}
+                                </select>
                                 {/* <div className="col-md-12">
                                     <select
                                         style={{ fontSize: "14px", backgroundColor: "#fff" }}
@@ -600,7 +628,7 @@ const Checkout = () => {
                             <p style={{ fontSize: "13.5px", color: "darkgrey" }} className='mt-4 text-center'>By Continuing you are agreeing to <Link to='/terms-and-conditions'>Terms</Link> of use and <Link to='/privacy-policy'>Privacy Policy</Link></p>
 
 
-                            <button disabled={donate.amount <= 0} onClick={handleDonateMonthly} className='btn btn-theme-primary m-3 w-100'> {donate.amount > 0 ? `Checkout (${currencySymbol} ${donate.amount})` : `Please add amount to Donate`}</button>
+                            <button disabled={donate.amount <= 0} onClick={handleDonateMonthly} className='donate-btn btn btn-theme-primary my-3 w-100'> {donate.amount > 0 ? `Checkout (${currencySymbol} ${donate.amount})` : `Please add amount to Donate`}</button>
                         </div>
 
 

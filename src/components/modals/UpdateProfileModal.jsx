@@ -86,8 +86,21 @@ const UpdateProfileModal = () => {
             <div className="mb-3">
               <PhoneInput placeholder='Mobile' value={credentials.phone} onChange={phoneNumChange} defaultCountry="IN" className="form-control input-form-control" international />
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <input placeholder="Password" type="password" name="password" onChange={handleChange} value={credentials.password} className="form-control" id="password" />
+            </div> */}
+            <div className="mb-3">
+              <a
+                style={{
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "var(--color-theme-primary)",
+                }}
+                data-bs-toggle="modal"
+                data-bs-target="#forgotPasswordBackdrop"
+              >
+                Change Password
+              </a>
             </div>
             <div className="mb-3">
               <label htmlFor="avatar" className="form-label">Avatar Image</label>

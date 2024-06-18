@@ -16,7 +16,7 @@ const TemplesBySingleAdmin = () => {
             const response = await axios.post(`${api}/temple/get-temples-by-admin`, { userId: id });
 
             if (response.data.success) {
-                toast.success(response.data.message);
+                // toast.success(response.data.message);
                 setTemples(response.data.data.temples)
 
             } else {

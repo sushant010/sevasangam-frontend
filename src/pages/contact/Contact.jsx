@@ -51,7 +51,7 @@ const Contact = () => {
 
         <div className="banner-text">
           <h2 className="text-heading">Contact Us</h2>
-          <p className="text-md fw-bold text-grey-dark">
+          <p className="text-md  text-grey-dark">
             Contact us by below details or submit a ticket, and our team will get back shortly.
 
           </p>

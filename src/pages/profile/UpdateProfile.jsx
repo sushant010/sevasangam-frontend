@@ -1,5 +1,7 @@
+import TrendingPopularRecentlyCreatedTemples from '../../components/TrendingPopularRecentlyCreatedTemples';
 import Layout from '../../components/layout/Layout';
 import { useAuth } from '../../context/Auth';
+import UserDonations from '../donation/UserDonations';
 import './profile.css';
 
 const UpdateProfile = () => {
@@ -63,6 +65,8 @@ const UpdateProfile = () => {
                     Update Profile
                 </button>
             </section>
+            <UserDonations></UserDonations>
+            <TrendingPopularRecentlyCreatedTemples></TrendingPopularRecentlyCreatedTemples>
         </Layout>
     );
 };

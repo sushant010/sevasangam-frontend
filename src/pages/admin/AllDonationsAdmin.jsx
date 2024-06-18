@@ -184,7 +184,6 @@ const AllDonationsAdmin = () => {
     const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString("en-GB");
     const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : { name: "Anonymous", email: "", phone: "" };
     const temple = temples.find(temp => temp._id === donation.temple)?.templeName || "Unknown";
-    const customDonation = donations.find(don => don.razorpay_payment_id === donation.id) || {};
     return {
       "S. No": index + 1,
       "Payment Id": donation.id,
@@ -193,7 +192,7 @@ const AllDonationsAdmin = () => {
       "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
       "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
       "Payment Method": donation.method,
-      "80G Certificate": customDonation.certificate ? "Available" : "Not Available"
+      "80G Certificate": donation.certificate ? "Available" : "Not Available"
     };
   });
 
@@ -362,16 +361,13 @@ const AllDonationsAdmin = () => {
             <tbody>
               {donations &&
                 donations.map((donation, index) => {
-                  const formattedDate = new Date(
-                    donation.created_at * 1000
-                  ).toLocaleDateString("en-GB");
+                  // const formattedDate = new Date(
+                  //   donation.created_at * 1000
+                  // ).toLocaleDateString("en-GB");
                   const donateUser = donation.donateUser
                     ? JSON.parse(donation.donateUser)
                     : null;
-                  const customDonation =
-                    donations.find(
-                      (don) => don.razorpay_payment_id === donation.id
-                    ) || {};
+
 
                   return (
                     <tr key={index}>
@@ -397,9 +393,9 @@ const AllDonationsAdmin = () => {
                       </td>
                       <td>{donation.method}</td>
                       <td>
-                        {customDonation.is80CertificateRequested ? (
+                        {donation.is80CertificateRequested ? (
                           <>
-                            {customDonation.certificate ? (
+                            {donation.certificate ? (
                               <>
                                 <div className="file-preview">
                                   <a
@@ -407,7 +403,7 @@ const AllDonationsAdmin = () => {
                                     style={{ color: "green", textDecoration: "underline" }}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href={customDonation.certificate}
+                                    href={donation.certificate}
                                   >
                                     View Certificate
                                   </a>
@@ -481,14 +477,14 @@ const AllDonationsAdmin = () => {
                           </>
                         ) : (
                           <>
-                            {customDonation.certificate ? (
+                            {donation.certificate ? (
                               <div className="file-preview">
                                 <a
                                   className="fw-bold"
                                   style={{ color: "green", textDecoration: "underline" }}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  href={customDonation.certificate}
+                                  href={donation.certificate}
                                 >
                                   View Certificate
                                 </a>

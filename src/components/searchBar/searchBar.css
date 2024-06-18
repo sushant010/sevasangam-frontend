@@ -36,6 +36,7 @@
 }
 .location-select {
   min-width: 120px;
+  max-width: 200px;
   border-left: 0px;
   border-radius: 30px;
   border-top-right-radius: 0px;

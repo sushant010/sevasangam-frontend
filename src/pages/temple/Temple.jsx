@@ -15,6 +15,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import ListingCard from "../../components/listingCard/ListingCard";
 import Carousel from "react-grid-carousel";
 import EventCard from "../../components/eventCard/EventCard";
+import defaultLogo from '../../assets/images/sevasangam-logo.png';
 
 const Temple = () => {
   //console all the currency code with symbols
@@ -304,50 +305,19 @@ const Temple = () => {
                 About {temple.templeName}
               </h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                eveniet doloremque facilis placeat sint nam. Dicta, minus sint.
-                In officia sunt dignissimos quae totam id odio reiciendis nemo!
-                Doloribus, nesciunt. Enim obcaecati optio laborum repellendus
-                animi vel nostrum esse cum accusantium, doloribus labore a
-                dicta. Excepturi nemo earum pariatur assumenda.
+                {temple.aboutTemple1}
               </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                eveniet doloremque facilis placeat sint nam. Dicta, minus sint.
-                In officia sunt dignissimos quae totam id odio reiciendis nemo!
-                Doloribus, nesciunt. Enim obcaecati optio laborum repellendus
-                animi vel nostrum esse cum accusantium, doloribus labore a
-                dicta. Excepturi nemo earum pariatur assumenda.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                eveniet doloremque facilis placeat sint nam. Dicta, minus sint.
-                In officia sunt dignissimos quae totam id odio reiciendis nemo!
-                Doloribus, nesciunt. Enim obcaecati optio laborum repellendus
-                animi vel nostrum esse cum accusantium, doloribus labore a
-                dicta. Excepturi nemo earum pariatur assumenda.
-              </p>
+
               <div className="img-wrapper">
                 <img
-                  src="https://source.unsplash.com/1600x900/?temple-indian"
+                  src={temple.images?.logo || "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                   alt="temple"
                 />
               </div>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                eveniet doloremque facilis placeat sint nam. Dicta, minus sint.
-                In officia sunt dignissimos quae totam id odio reiciendis nemo!
-                Doloribus, nesciunt. Enim obcaecati optio laborum repellendus
-                animi vel nostrum esse cum accusantium, doloribus labore a
-                dicta. Excepturi nemo earum pariatur assumenda.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                eveniet doloremque facilis placeat sint nam. Dicta, minus sint.
-                In officia sunt dignissimos quae totam id odio reiciendis nemo!
-                Doloribus, nesciunt. Enim obcaecati optio laborum repellendus
-                animi vel nostrum esse cum accusantium, doloribus labore a
-                dicta. Excepturi nemo earum pariatur assumenda.
+                <p>
+                  {temple.aboutTemple2}
+                </p>
               </p>
 
 
@@ -458,7 +428,7 @@ const Temple = () => {
                     </div>
                   </div>
                   <div className="mb-2">
-                    <div className="d-flex justify-content-between">
+                    {/* <div className="d-flex justify-content-between">
                       <div>Donation :</div>
                       <div style={{ fontWeight: "500" }}>
                         {currencySymbol} {Math.round(amount * 0.84)}
@@ -469,10 +439,10 @@ const Temple = () => {
                       <div style={{ fontWeight: "500" }}>
                         {currencySymbol} {Math.round(amount * 0.16)}
                       </div>
-                    </div>
+                    </div> */}
                     <hr style={{ margin: "8px 0" }}></hr>
                     <div className="d-flex justify-content-between">
-                      <div>Total Donation :</div>
+                      <div>Donation :</div>
                       <div style={{ fontWeight: "500" }}>
                         {currencySymbol} {Math.round(amount)}
                       </div>
@@ -515,7 +485,7 @@ const Temple = () => {
 
                   <button
                     onClick={handleDonation}
-                    className="my-2 w-100 btn btn-theme-primary"
+                    className="donate-btn my-2 w-100 btn btn-theme-primary"
                   >
                     Donate Now
                   </button>

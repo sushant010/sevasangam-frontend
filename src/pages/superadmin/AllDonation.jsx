@@ -394,15 +394,15 @@ const AllDonation = () => {
                                                 <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                                 <td>{donation.method}</td>
                                                 <td className={donation?.status == 'failed' ? 'text-danger' : 'text-success'}>{donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : ""}</td>
-                                                <td>{donations.is80CertificateRequested ? (
-                                                    donations.certificate ? (
+                                                <td>{donation.is80CertificateRequested ? (
+                                                    donation.certificate ? (
                                                         <div>
                                                             <a
                                                                 className="fw-bold"
                                                                 style={{ color: "green", textDecoration: "underline" }}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
-                                                                href={donations.certificate}
+                                                                href={donation.certificate}
                                                             >
                                                                 View Certificate
                                                             </a>
@@ -413,13 +413,13 @@ const AllDonation = () => {
                                                         <div className="fw-bold text-danger">Request Received</div>
                                                     )
                                                 ) : (
-                                                    donations.certificate ? (
+                                                    donation.certificate ? (
                                                         <a
                                                             className="fw-bold"
                                                             style={{ color: "green", textDecoration: "underline" }}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            href={donations.certificate}
+                                                            href={donation.certificate}
                                                         >
                                                             View Certificate
                                                         </a>

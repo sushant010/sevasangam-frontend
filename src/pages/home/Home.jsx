@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import Carousel from 'react-grid-carousel'
 import { Link, useNavigate } from "react-router-dom";
 import { devoteeSteps, templeAdminSteps } from "./steps";
+import TrendingPopularRecentlyCreatedTemples from "../../components/TrendingPopularRecentlyCreatedTemples";
 
 function Home() {
 
@@ -18,12 +19,12 @@ function Home() {
 
   const [showSteps, setShowSteps] = useState("devotee")
 
-
+  const [trendingTemples, setTrendingTemples] = useState([])
   const [popularTemples, setPopularTemples] = useState([])
   const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
   const [searchTemple, setSearchTemple] = useState([])
 
-  const [trendingTemples, setTrendingTemples] = useState([])
+
   const navigate = useNavigate();
 
 
@@ -33,31 +34,6 @@ function Home() {
   //   address: ''
   // });
 
-  const fetchPopularTemples = async () => {
-    try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 7 });
-      if (response.data.success) {
-        setPopularTemples(response.data.data.temples);
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching filtered temples:', error);
-    }
-  };
-
-  const fetchRecentlyCreatedTemples = async () => {
-    try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded', limit: 7 });
-      if (response.data.success) {
-        setRecentlyCreatedTemples(response.data.data.temples);
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching filtered temples:', error);
-    }
-  };
 
 
   const fetchfilteredTemples = async () => {
@@ -115,30 +91,12 @@ function Home() {
   //   handleSearchSubmitOnHomepage()
   // }, [searchTemple])
 
-  const fetchTrendingTemples = async () => {
 
-    try {
-      const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "7" } });
-
-      if (res.data.success) {
-        setTrendingTemples(res.data.data.temples)
-
-      } else {
-        toast.error(res.data.message);
-      }
-
-    } catch (error) {
-      console.error('Error creating temple:', error);
-    }
-
-
-  }
 
   useEffect(() => {
-    fetchPopularTemples();
-    fetchRecentlyCreatedTemples();
+
     fetchfilteredTemples();
-    fetchTrendingTemples()
+
   }, []);
 
   // const handleFilterChange = (e) => {
@@ -186,6 +144,9 @@ function Home() {
             )}
           </div>
         </section>
+
+        <TrendingPopularRecentlyCreatedTemples></TrendingPopularRecentlyCreatedTemples>
+
         <section className="numbers">
           <h2 className="section-heading line mb-4">Our Numbers</h2>
 
@@ -321,122 +282,6 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
         />
 
 
-        {trendingTemples && trendingTemples.length > 0 && (
-          <section className="listings">
-            <div className="section-heading line">
-              Trending Temples
-              <span className="text-sm d-block mx-2 fw-light text-grey-light">
-                Donate to the trending temples
-              </span>
-            </div>
-
-            <div className="listing-container row">
-
-              <Carousel cols={4} rows={1} gap={10} loop>
-                {trendingTemples.map((temple, index) => (
-
-
-                  <Carousel.Item key={index}>
-                    <ListingCard
-                      key={index} temple={temple}
-                    />
-                  </Carousel.Item>
-
-                ))}
-
-                {trendingTemples.length > 8
-                  && (
-                    <Carousel.Item >
-                      <div className="h-100 d-flex justify-content-center align-items-center flex-column">
-
-
-                        <button onClick={handleViewAllTrendingTemples} className="btn btn-theme-primary">View All Trending Temples</button>
-                      </div>
-                    </Carousel.Item>
-                  )}
-
-
-              </Carousel>
-            </div>
-          </section>
-        )
-
-        }
-
-        {popularTemples && popularTemples.length > 0 && (
-          <section className="listings">
-            <div className="section-heading line">
-              Based on Popularity
-              <span className="text-sm d-block mx-2 fw-light text-grey-light">
-                Donate to the temples based on popularity
-              </span>
-            </div>
-
-            <div className="listing-container row">
-
-              <Carousel cols={4} rows={1} gap={10} loop>
-                {popularTemples.map((temple, index) => (
-
-
-                  <Carousel.Item key={index}>
-                    <ListingCard
-                      key={index} temple={temple}
-                    />
-                  </Carousel.Item>
-
-                ))}
-
-                <Carousel.Item >
-                  <div className="h-100 d-flex justify-content-center align-items-center flex-column">
-
-
-                    <button onClick={handleViewAllPopularTemples} className="btn btn-theme-primary">View All Popular Temples</button>
-                  </div>
-                </Carousel.Item>
-
-              </Carousel>
-
-
-            </div>
-          </section>
-        )}
-
-        {recentlyCreatedTemples && recentlyCreatedTemples.length > 0 && (
-          <section className="listings">
-            <div className="section-heading line">
-              Recently Created
-              <span className="text-sm d-block mx-2 fw-light text-grey-light">
-                Donate to the recently added temples
-              </span>
-            </div>
-
-            <div className="listing-container row">
-              <Carousel cols={4} rows={1} gap={10} loop>
-                {recentlyCreatedTemples.map((temple, index) => (
-
-
-                  <Carousel.Item key={index}>
-                    <ListingCard
-                      key={index} temple={temple}
-                    />
-                  </Carousel.Item>
-
-                ))}
-
-                <Carousel.Item >
-                  <div className="h-100 d-flex justify-content-center align-items-center flex-column">
-
-
-                    <button onClick={handleViewAllRecentCreatedTemples} className="btn btn-theme-primary">View All Recent Created Temples</button>
-                  </div>
-                </Carousel.Item>
-
-              </Carousel>
-
-            </div>
-          </section>
-
-        )}
 
 
 

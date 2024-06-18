@@ -37,14 +37,13 @@
     white-space: nowrap;
   }
 }
-@media (max-width: 768px) {
-  .btn-filter-toggle {
-    margin-top: 1rem;
+@media (max-width: 1200px) {
+  .filter-container {
     margin-bottom: 1rem;
   }
-  .temples-page {
-    & .listing {
-      margin: 0px;
-    }
+  .filter-container .sort-buttons .btn {
+    font-size: 13px !important;
+    padding: 8px 0.2rem;
+    font-weight: 500;
   }
 }

@@ -222,11 +222,11 @@ section {
   background: url("https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
     no-repeat center center;
   background-size: cover;
-  min-height: 500px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8rem 3rem;
+  padding: 1.5rem;
   position: relative;
 }
 .banner:after {
@@ -409,4 +409,11 @@ nav .logout {
     top: 256px;
     left: 0;
   } */
+}
+
+.fa-asterisk {
+  color: rgb(228, 5, 5);
+  font-size: 8px;
+  margin-left: 2px;
+  font-weight: 500;
 }

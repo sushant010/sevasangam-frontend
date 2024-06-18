@@ -9,7 +9,7 @@ const About = () => {
       <section className='banner'>
         <div className="banner-text">
           <h2 className="text-heading">About Us</h2>
-          <p className="text-md fw-bold text-grey-dark">
+          <p className="text-md text-grey-dark">
             SevaSangam is a visionary platform dedicated to facilitating spiritual connections and supporting temples through seamless digital solutions. Founded with a deep commitment to preserving cultural heritage and fostering devotion, SevaSangam bridges tradition with technology to empower individuals and communities worldwide.
 
           </p>
@@ -51,14 +51,14 @@ const About = () => {
         <div className="quote mb-4">
 
           <h3 className="fw-light">Our Core Value</h3>
-          <blockquote>
+          <blockquote style={{ fontSize: "16px" }}>
             Driven by a passion for service and a belief in the transformative power of collective action, SevaSangam strives to make temple offerings accessible, transparent, and meaningful for all. Our platform serves as a catalyst for positive change, empowering devotees to make a tangible difference in the upkeep and development of sacred spaces.
           </blockquote>
 
         </div>
       </section>
 
-      <section className='team-section'>
+      {/* <section className='team-section'>
 
         <h3 className="section-heading text-center">Our Team</h3>
         <p className="text-center">Meet the minds shaping our direction.</p>
@@ -98,7 +98,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
 
       {/* <section className='awards-section'>

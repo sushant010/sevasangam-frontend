@@ -1,19 +1,23 @@
 import axios from "axios";
 import Layout from "../../components/layout/Layout";
 import ListingCard from "../../components/listingCard/ListingCard";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./temples.css";
 import HashLoader from "react-spinners/HashLoader";
 import { getQueryParams } from "../../utils/getQueryParams";
 import { useSearch } from "../../context/SearchContext";
+import { set } from "zod";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import { debounce } from 'lodash';
 
 const Temples = () => {
   const api = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
 
-  const { resetFilters } = useSearch();
+
+
 
 
   const [temples, setTemples] = useState([]);
@@ -31,6 +35,7 @@ const Temples = () => {
   // for searching and filtering 
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
+  // const [fullLoading, setFullLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [statesOfTemple, setStatesOfTemple] = useState([]);
@@ -50,6 +55,8 @@ const Temples = () => {
     if (loading || (!hasMore && !reset)) return; // Prevent additional fetches if already loading or no more temples
 
     setLoading(true); // Set loading to true before the API call
+    // setFullLoading(true);
+
     try {
       const response = await axios.post(`${api}/temple/filter-temples`, {
         page: reset ? 1 : page,
@@ -69,8 +76,25 @@ const Temples = () => {
       setHasMore(false); // Stop trying to fetch if there's an error
     } finally {
       setLoading(false); // Set loading to false after the API call
+      // setFullLoading(false);
     }
   };
+
+  // const fetchTemples = useCallback(debounce(fetchTemplesFunction, 2000), [filters, sortOption]);
+
+
+  const resetFilters = () => {
+    setSearchParams(new URLSearchParams());
+    setFilters({
+      templeName: '',
+      typeOfOrganization: '',
+      address: '',
+      state: '',
+      city: ''
+    });
+
+  }
+
 
   useEffect(() => {
     const queryParams = getQueryParams();
@@ -101,7 +125,7 @@ const Temples = () => {
 
     if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
       // setLoading(false);
-      fetchTemples(); // Fetch more temples when scrolled to the bottom
+      fetchTemples();
 
     }
   };
@@ -142,30 +166,45 @@ const Temples = () => {
   // Fetch temples when filters or sortOption change
   useEffect(() => {
     fetchStates();
-    fetchTemples(true);
+    fetchTemples(true); // Fetch with reset = true
   }, [filters, sortOption]);
 
 
-  useEffect(() => {
-    const queryParams = getQueryParams();
-    const filtersFromQuery = {
-      templeName: queryParams.get('templeName') || '',
-      typeOfOrganization: queryParams.get('typeOfOrganization') || '',
-      address: queryParams.get('address') || '',
-      state: queryParams.get('state') || '',
-      city: queryParams.get('city') || ''
-    };
-    const sortOptionFromQuery = queryParams.get('sortOption') || '';
+  // useEffect(() => {
+  //   const queryParams = getQueryParams();
+  //   const filtersFromQuery = {
+  //     templeName: queryParams.get('templeName') || '',
+  //     typeOfOrganization: queryParams.get('typeOfOrganization') || '',
+  //     address: queryParams.get('address') || '',
+  //     state: queryParams.get('state') || '',
+  //     city: queryParams.get('city') || ''
+  //   };
+  //   const sortOptionFromQuery = queryParams.get('sortOption') || '';
 
-    setFilters(filtersFromQuery);
-    setSortOption(sortOptionFromQuery);
-    fetchTemples(true); // Fetch with reset = true
+  //   setFilters(filtersFromQuery);
+  //   setSortOption(sortOptionFromQuery);
+  //   fetchTemples(true); // Fetch with reset = true
 
-  }, []);
+  // }, []);
 
   useEffect(() => {
     fetchPopularTemples();
     fetchRecentlyCreatedTemples();
+
+  }, []);
+
+  const handleWindowResize = () => {
+    if (window.innerWidth > 1200) {
+      setShowFilters(true);
+    } else {
+      setShowFilters(false);
+    }
+  };
+
+  useEffect(() => {
+    handleWindowResize(); // Check initial window width
+    window.addEventListener('resize', handleWindowResize); // Add event listener for window resize
+    return () => window.removeEventListener('resize', handleWindowResize); // Remove event listener on unmount
   }, []);
 
   const handleFilterChange = (e) => {
@@ -218,10 +257,10 @@ const Temples = () => {
   return (
     <Layout>
 
-      <section className="banner p-4" style={{ minHeight: "200px" }}>
+      <section className="banner p-4" >
         <div className="banner-text">
           <h2 className="text-heading">Temples</h2>
-          <p className="text-md fw-bold text-grey-dark">
+          <p className="text-md text-grey-dark">
             SevaSangam is a platform that connects devotees with temples and
             trusts. We aim to make temple donations transparent, easy, and
             accessible to all.
@@ -339,8 +378,8 @@ const Temples = () => {
         <div className="temples-page m-auto row">
           {searchParams.get('templeName') && (
             (temples.length > 0) ? (
-              <p className="text-muted"> Search results for &quot;<strong>{searchParams.get('templeName')}</strong>&quot;</p>
-            ) : (<p className="text-muted"> No results for &quot;{searchParams.get('templeName')}&quot; | Donate to <strong>Most Popular Temples</strong> below <i className="fa-solid fa-arrow-down"></i></p>)
+              <p className="text-muted mt-2"> Search results for &quot;<strong>{searchParams.get('templeName')}</strong>&quot;</p>
+            ) : (<p className="text-muted mt-2"> No results for &quot;{searchParams.get('templeName')}&quot; | Donate to <strong>Most Popular Temples</strong> below <i className="fa-solid fa-arrow-down"></i></p>)
           )
 
           }
@@ -374,7 +413,11 @@ const Temples = () => {
           </section>
         )}
 
+
+
+
       </section>
+      {/* {fullLoading && <LoadingSpinner />} */}
     </Layout >
   );
 };

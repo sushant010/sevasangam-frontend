@@ -24,6 +24,7 @@
   min-width: 330px;
   width: 100%;
   border: 1px solid transparent;
+  max-width: 400px;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -112,10 +113,29 @@
 @media screen and (max-width: 768px) {
   .temples-page {
     & .listing {
+      margin: 0px !important;
       & .listing-img-wrapper {
         width: 100%;
         height: 200px;
       }
     }
+  }
+}
+.listings {
+  margin: 0px 0px 20px 0px;
+  z-index: -1;
+  &.listing {
+    width: 100% !important;
+    margin: 0px;
+  }
+}
+
+.carousel-item-spacing {
+  margin: 0 10px; /* Adjust the margin as needed */
+}
+
+@media (max-width: 768px) {
+  .carousel-item-spacing {
+    margin: 20px !important; /* Adjust the margin for mobile view */
   }
 }

@@ -22,7 +22,7 @@ const Tabs = () => {
 
     return (
         <>
-            <section className='mb-3' style={{ padding: "1rem 3rem" }}>
+            <section className='mb-3 donation-tabs' style={{ padding: "1rem 3rem" }}>
                 <div className='m-auto'>
                     <div onClick={handleChangeTab} className="d-flex tab align-items-center justify-content-center m-auto">
                         <div className='tab-item active'>

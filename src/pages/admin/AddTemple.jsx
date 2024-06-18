@@ -134,50 +134,99 @@ const AddTemple = () => {
 
     const api = import.meta.env.VITE_API_URL;
 
+    // const initialState = {
+    //     templeName: 'Sample Temple',
+    //     typeOfOrganization: 'Non-Profit',
+    //     description: 'Lorem ipsum dolor sit amet...',
+    //     createdBy: '', // Replace with actual user ID
+    //     contactPerson: {
+    //         name: 'John Doe',
+    //         email: 'johndoe@example.com',
+    //         mobile: '+1234567890',
+    //     },
+    //     location: {
+    //         address: '123 Main Street',
+    //         city: 'New York',
+    //         state: 'NY',
+    //         zipCode: '10001',
+    //         country: 'United States',
+    //         longitude: 77.01502627,
+    //         latitude: 10.99835602,
+    //     },
+    //     bankDetails: {
+    //         bankName: 'Sample Bank',
+    //         branch: 'Main Branch',
+    //         accountHolderName: 'John Doe',
+    //         accountNumber: '1234567890',
+    //         ifscCode: 'SAMPLEIFSC123',
+    //         routingNumber: '',
+    //         swiftBicCode: '',
+    //     },
+    //     taxInformation: {
+    //         taxId: '',
+    //         ein: '',
+    //     },
+    //     website: '',
+    //     socialMedia: {
+    //         facebook: '',
+    //         twitter: '',
+    //         instagram: '',
+    //     },
+
+    //     timing: {
+    //         start: '',
+    //         end: '',
+    //     },
+    //     aboutTemple1: '',
+    //     aboutTemple2: '',
+    // };
+
     const initialState = {
-        templeName: 'Sample Temple',
-        typeOfOrganization: 'Non-Profit',
-        description: 'Lorem ipsum dolor sit amet...',
-        createdBy: 'user_id', // Replace with actual user ID
+        templeName: '',
+        typeOfOrganization: '',
+        description: '',
+        createdBy: '', // Replace with actual user ID
         contactPerson: {
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            mobile: '+1234567890',
+            name: '',
+            email: '',
+            mobile: '',
         },
         location: {
-            address: '123 Main Street',
-            city: 'New York',
-            state: 'NY',
-            zipCode: '10001',
-            country: 'United States',
-            longitude: 77.01502627,
-            latitude: 10.99835602,
+            address: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            country: '',
+            longitude: null,
+            latitude: null,
         },
         bankDetails: {
-            bankName: 'Sample Bank',
-            branch: 'Main Branch',
-            accountHolderName: 'John Doe',
-            accountNumber: '1234567890',
-            ifscCode: 'SAMPLEIFSC123',
-            routingNumber: 'SAMPLE123456',
-            swiftBicCode: 'SWIFTBICCODE',
+            bankName: '',
+            branch: '',
+            accountHolderName: '',
+            accountNumber: '',
+            ifscCode: '',
+            routingNumber: '',
+            swiftBicCode: '',
         },
         taxInformation: {
-            taxId: '123456789',
-            ein: 'EIN123456789',
+            taxId: '',
+            ein: '',
         },
-        website: 'https://sampletemple.com',
+        website: '',
         socialMedia: {
-            facebook: 'https://www.facebook.com/sampletemple',
-            twitter: 'https://twitter.com/sampletemple',
-            instagram: 'https://www.instagram.com/sampletemple',
+            facebook: '',
+            twitter: '',
+            instagram: '',
         },
-
         timing: {
-            start: '08:00',
-            end: '17:00',
+            start: '',
+            end: '',
         },
+        aboutTemple1: '',
+        aboutTemple2: '',
     };
+
 
 
 
@@ -232,6 +281,7 @@ const AddTemple = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const formData = new FormData();
 
@@ -239,17 +289,7 @@ const AddTemple = () => {
             Object.keys(temple).forEach((key) => {
                 if (typeof temple[key] === 'object' && temple[key] !== null && !Array.isArray(temple[key])) {
                     Object.keys(temple[key]).forEach((subKey) => {
-                        if (subKey === 'upcomingEvents') {
-                            // Handle upcomingEvents separately
-                            temple[key][subKey].forEach((event, index) => {
-                                Object.keys(event).forEach((eventKey) => {
-                                    const eventFieldName = `upcomingEvents[${index}].${eventKey}`;
-                                    formData.append(eventFieldName, event[eventKey]);
-                                });
-                            });
-                        } else {
-                            formData.append(`${key}.${subKey}`, temple[key][subKey]);
-                        }
+                        formData.append(`${key}.${subKey}`, temple[key][subKey]);
                     });
                 } else {
                     if (key === 'createdBy') {
@@ -304,7 +344,7 @@ const AddTemple = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error('An error occurred while creating the temple.');
+            toast.error(error);
         }
     };
 
@@ -325,7 +365,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Basic</h3>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="templeName">Temple name</label>
+                                <label htmlFor="templeName">Temple name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Temple Name"
                                     type="text"
@@ -337,7 +377,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="typeOfOrganization">Type of Organization</label>
+                                <label htmlFor="typeOfOrganization">Type of Organization <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Type of Organization"
                                     type="text"
@@ -349,7 +389,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="description">Description</label>
+                                <label htmlFor="description">Description <i className="fa fa-asterisk"></i></label>
                                 <textarea
                                     placeholder="Description"
                                     name="description"
@@ -361,7 +401,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <h3 className='text-primary fw-bold text-md'>Location</h3>
+                                <h3 className='text-primary fw-bold text-md'>Location </h3>
                             </div>
                             <div className="mb-3">
                                 {isLoaded && (
@@ -383,7 +423,7 @@ const AddTemple = () => {
                             </div>
                             <div className="mb-3">
 
-                                <label htmlFor="locationAddress">Location Address</label>
+                                <label htmlFor="locationAddress">Location Address <i className="fa fa-asterisk"></i></label>
 
                                 <input
                                     placeholder="Location Address"
@@ -444,45 +484,12 @@ const AddTemple = () => {
                                     id="locationCountry"
                                 />
                             </div>
-                            <div className="mb-3">
-                                <input
-                                    placeholder="Location State"
-                                    type="text"
-                                    name="location.state"
-                                    onChange={handleChange}
-                                    value={temple.location.state}
-                                    className="form-control"
-                                    id="locationCountry"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <input
-                                    placeholder="Zip Code"
-                                    type="text"
-                                    name="location.zipCode"
-                                    onChange={handleChange}
-                                    value={temple.location.zipCode}
-                                    className="form-control"
-                                    id="locationCountry"
-                                />
-                            </div>
 
-                            <div className="mb-3">
-                                <input
-                                    placeholder="Location Country"
-                                    type="text"
-                                    name="location.country"
-                                    onChange={handleChange}
-                                    value={temple.location.country}
-                                    className="form-control"
-                                    id="locationCountry"
-                                />
-                            </div>
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Images</h3>
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
-                                <label htmlFor="templeLogo" className="form-label">Temple Logo</label>
+                                <label htmlFor="templeLogo" className="form-label">Temple Logo <i className="fa fa-asterisk"></i></label>
                                 <input
                                     type="file"
                                     name="templeLogo"
@@ -510,7 +517,7 @@ const AddTemple = () => {
                                 )}
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
-                                <label htmlFor="templeImages" className="form-label">Temple Images</label>
+                                <label htmlFor="templeImages" className="form-label">Temple Images <i className="fa fa-asterisk"></i></label>
                                 <input
                                     type="file"
                                     name="templeImages"
@@ -531,7 +538,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Contact Person</h3>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="contactPersonName">Contact Person Name</label>
+                                <label htmlFor="contactPersonName">Contact Person Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Contact Person Name"
                                     type="text"
@@ -543,10 +550,10 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="contactPersonEmail">Contact Person Email</label>
+                                <label htmlFor="contactPersonEmail">Contact Person Email <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Contact Person Email"
-                                    type="contactPersonEmail"
+                                    type="email"
                                     name="contactPerson.email"
                                     onChange={handleChange}
                                     value={temple.contactPerson.email}
@@ -555,10 +562,11 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="contactPersonMobile">Contact Person Mobile</label>
+                                <label htmlFor="contactPersonMobile">Contact Person Mobile <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Contact Person Mobile"
-                                    type="text"
+                                    type="tel"
+                                    pattern="[0-9]{10}"
                                     name="contactPerson.mobile"
                                     onChange={handleChange}
                                     value={temple.contactPerson.mobile}
@@ -597,7 +605,7 @@ const AddTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Bank Details</h3>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="bankName">Bank Name</label>
+                                <label htmlFor="bankName">Bank Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Bank Name"
                                     type="text"
@@ -609,7 +617,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="branch">Branch</label>
+                                <label htmlFor="branch">Branch <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Branch"
                                     type="text"
@@ -621,7 +629,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="accountHolderName">Account Holder Name</label>
+                                <label htmlFor="accountHolderName">Account Holder Name <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Account Holder Name"
                                     type="text"
@@ -633,7 +641,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="accountNumber">Account Number</label>
+                                <label htmlFor="accountNumber">Account Number <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="Account Number"
                                     type="text"
@@ -645,7 +653,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="ifscCode">IFSC Code</label>
+                                <label htmlFor="ifscCode">IFSC Code <i className="fa fa-asterisk"></i></label>
                                 <input
                                     placeholder="IFSC Code"
                                     type="text"
@@ -740,9 +748,9 @@ const AddTemple = () => {
                             <div className="d-flex mb-3">
 
                                 <div style={{ flex: 1 }}>
-                                    <label htmlFor="startTime">Start Time</label>
+                                    <label htmlFor="startTime">Start Time (Default: 08:00)</label>
                                     <input
-                                        placeholder="Start Time"
+                                        placeholder="Start Time "
                                         type="time"
                                         name="timing.start"
                                         onChange={handleChange}
@@ -752,9 +760,9 @@ const AddTemple = () => {
                                     />
                                 </div>
                                 <div style={{ flex: 1 }}>
-                                    <label htmlFor="endTime">End Time</label>
+                                    <label htmlFor="endTime">End Time (Default: 17:00)</label>
                                     <input
-                                        placeholder="End Time"
+                                        placeholder="End Time "
                                         type="time"
                                         name="timing.end"
                                         onChange={handleChange}
@@ -765,7 +773,34 @@ const AddTemple = () => {
                                 </div>
 
                             </div>
+                            <div className="mb-3">
+                                <h3 className='text-primary fw-bold text-md'>About Temple (Will be visible on Temple page)</h3>
+                            </div>
 
+                            <div className="mb-3">
+                                <label htmlFor="aboutTemple1">About Temple</label>
+                                <textarea
+                                    placeholder="About Temple"
+                                    name="aboutTemple1"
+                                    onChange={handleChange}
+                                    value={temple.aboutTemple1}
+                                    className="form-control"
+                                    id="aboutTemple1"
+                                    style={{ height: '150px' }}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="aboutTemple2">About Temple History / Legacy</label>
+                                <textarea
+                                    placeholder="About Temple History / Legacy"
+                                    name="aboutTemple2"
+                                    onChange={handleChange}
+                                    value={temple.aboutTemple2}
+                                    className="form-control"
+                                    id="aboutTemple2"
+                                    style={{ height: '150px' }}
+                                />
+                            </div>
 
                         </div>
 
@@ -774,7 +809,7 @@ const AddTemple = () => {
                                 type="submit"
                                 className="btn btn-theme-primary w-100"
                             >
-                                Save
+                                Add Temple
                             </button>
                         </div>
                     </div >

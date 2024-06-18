@@ -13,14 +13,13 @@ const UserDonations = () => {
     const [loading, setLoading] = useState(false)
     const [requestCertificateLoading, setRequestCertificateLoading] = useState(false)
     const [isCertificateRequestedAgain, setIsCertificateRequestedAgain] = useState(false)
-
     const [auth] = useAuth();
 
     const fetchAllDonationOfUser = async () => {
         try {
-            const email = auth.user.email;
+            const email = auth?.user?.email;
+            console.log(auth?.user?.email)
             const res = await axios.post(`${api}/donation/fetch-donations-by-user`, { email });
-            console.log(res)
             setDonations(res.data.donations)
         } catch (error) {
             console.error(error);
@@ -56,37 +55,23 @@ const UserDonations = () => {
         }
     };
 
-    const fetchData = async () => {
-        setLoading(true);
 
-        try {
-            await fetchAllDonationOfUser();
-            await fetchAllTemples();
-
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false);
-        }
-    }
 
 
     useEffect(() => {
-        // fetchAllDonationOfUser();
-        // fetchAllTemples()
-
-        fetchData();
-    }, []);
+        fetchAllDonationOfUser();
+        fetchAllTemples();
+    }, [auth]);
 
 
     return (
-        <Layout>
+        <>
             {requestCertificateLoading && <LoadingSpinner />}
             <section>
                 <div className="section-heading">
                     Past Donations
                 </div>
-                <div className="table-responsive">
+                {(auth?.user && donations?.length == 0) ? <p className='text-muted'>No donations found , Please Donate to a Temple Below <i className=" text-primary fa-solid fa-arrow-down"></i></p> : <div className="table-responsive">
                     <table className=" table table-light table-bordered table-striped">
                         <thead>
                             <tr>
@@ -102,9 +87,8 @@ const UserDonations = () => {
                             {donations && donations.map((donation, index) => {
 
                                 const formattedDate = new Date(donation.date).toDateString();
-                                const customDonation = donations.find((don) => don.razorpay_payment_id === donation.id)
-                                console.log(donation)
-                                console.log(customDonation)
+
+
 
                                 return (
                                     <tr key={index}>
@@ -116,20 +100,20 @@ const UserDonations = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
 
-                                            {customDonation && customDonation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation.id)} className='btn btn-theme-primary' title="Request 80 Certificate">
+                                            {donation && donation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation._id)} className='btn btn-theme-primary' title="Request 80 Certificate">
                                                 Request 80 Certificate
                                             </button></> : <>
 
-                                                {customDonation && customDonation.certificate ? <>
+                                                {donation && donation.certificate ? <>
                                                     <div style={{ gap: "6px" }} className='d-flex flex-wrap'>
                                                         <div className="file-preview">
-                                                            <a className='btn btn-theme-primary' rel="noopener noreferrer" target="_blank" href={customDonation.certificate}><i className="fa-solid fa-eye"></i> View</a>
+                                                            <a className='btn btn-theme-primary' rel="noopener noreferrer" target="_blank" href={donation.certificate}><i className="fa-solid fa-eye"></i> View</a>
                                                         </div>
                                                         <div className="file-preview">
-                                                            <a className='btn btn-theme-primary' target="_blank" href={customDonation.certificate} download><i className="fa-solid fa-download"></i> Download</a>
+                                                            <a className='btn btn-theme-primary' target="_blank" href={donation.certificate} download><i className="fa-solid fa-download"></i> Download</a>
                                                         </div>
 
-                                                        {customDonation.is80CertificateRequested && customDonation.certificate ? <><p className='mt-1 text-danger'>Certificate Requested again</p></> : <button onClick={() => {
+                                                        {donation.is80CertificateRequested && donation.certificate ? <><p className='mt-1 text-danger'>Certificate Requested again</p></> : <button onClick={() => {
                                                             handleRequestCertificate(donation.id); setIsCertificateRequestedAgain(true)
                                                         }} className='btn btn-theme-primary' title="Request 80 Certificate">
                                                             Request 80 Certificate Again
@@ -146,7 +130,8 @@ const UserDonations = () => {
 
                         </tbody>
                     </table>
-                </div>
+                </div>}
+
 
                 {loading && (
                     <section className="d-flex m-auto justify-content-center">
@@ -155,7 +140,7 @@ const UserDonations = () => {
                 )}
 
             </section>
-        </Layout >
+        </ >
     );
 }
 

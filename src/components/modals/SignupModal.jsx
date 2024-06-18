@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import zod from 'zod';
+import zod, { set } from 'zod';
 import { useAuth } from "../../context/Auth";
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
@@ -33,9 +33,16 @@ const SignupModal = () => {
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
   const modalRef = useRef();
+  const [allInputValid, setAllInputValid] = useState(false);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    if (
+      nameError === '' && emailError === '' && phoneError === '' && passwordError === '' && cpasswordError === '' && otpError === '' && e.target.value !== ''
+    ) {
+      setAllInputValid(true);
+    }
+
   };
 
   const handleFileChange = (e) => {
@@ -43,13 +50,13 @@ const SignupModal = () => {
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
     setNameError('');
     setEmailError('');
     setPhoneError('');
     setPasswordError('');
     setCpasswordError('');
+    setOtpError('');
 
     try {
       schema.parse(credentials);
@@ -77,6 +84,7 @@ const SignupModal = () => {
     }
 
     setFormSubmitLoading(true);
+    setLoading(true);
 
     const formData = new FormData();
     formData.append('name', credentials.name);
@@ -115,6 +123,8 @@ const SignupModal = () => {
       toast.error('Registration failed');
     } finally {
       setFormSubmitLoading(false);
+      setLoading(false);
+      closeSignupModal()
     }
   };
 
