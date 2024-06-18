@@ -456,7 +456,7 @@ const Temple = () => {
                     >
                       Donate Via
                     </h3>
-                    <div className="payment-options d-flex align-items-center">
+                    <div className="payment-options d-flex align-items-center" style={{ cursor: "pointer" }} onClick={handleDonation}>
                       <div>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV3CdqG89NHRkD8A7h5evGqC9BkhvPfI3ss2dqK-998A&s"></img>
                       </div>

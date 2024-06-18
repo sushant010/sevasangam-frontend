@@ -120,10 +120,13 @@
       }
     }
   }
+  /* .listings {
+    z-index: 1;
+  } */
 }
 .listings {
   margin: 0px 0px 20px 0px;
-  z-index: -1;
+
   &.listing {
     width: 100% !important;
     margin: 0px;
