@@ -43,7 +43,7 @@ const EventCard = ({ event, showActions = false, handleDeleteEvent }) => {
 
             <div className="card-text">
                 {
-                    ((auth.user.role == 1 || auth.user.role == 2) && showActions) && (
+                    ((auth?.user?.role == 1 || auth?.user?.role == 2) && showActions) && (
                         <>
                             <hr className='my-1'></hr>
                             <div className='d-flex' style={{ gap: "8px" }}>

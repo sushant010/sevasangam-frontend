@@ -26,7 +26,7 @@ const ListingCard = ({ temple }) => {
   };
 
   useEffect(() => {
-    fetchDonationInLast30Days();
+    // fetchDonationInLast30Days();
   }, []);
 
   const navigateToTemple = (id) => () => {
