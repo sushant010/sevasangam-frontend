@@ -7,6 +7,7 @@ import { useAuth } from '../../context/Auth';
 import Carousel from "react-grid-carousel";
 import { toast } from 'react-toastify';
 import EventCard from '../../components/eventCard/EventCard';
+import { HashLoader } from 'react-spinners';
 
 const ViewTemple = () => {
 
@@ -58,6 +59,7 @@ const ViewTemple = () => {
     const api = import.meta.env.VITE_API_URL;
     const [temple, setTemple] = useState(initialState);
     const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -65,7 +67,12 @@ const ViewTemple = () => {
 
     const handleUpdateTemple = (id) => {
         window.scrollTo(0, 0);
-        navigate(`/admin/update-temple/${id}`)
+
+        if (auth?.user?.role == 2) navigate(`/superadmin/update-temple/${id}`)
+        else {
+            navigate(`/admin/update-temple/${id}`)
+        }
+
 
 
 
@@ -125,25 +132,33 @@ const ViewTemple = () => {
             .catch(err => console.error(err));
     }
 
+
+    const fetchData = async () => {
+        setLoading(true);
+        await fetchTemple();
+        await fetchEventsOfTemple();
+        setLoading(false);
+    }
+
     useEffect(() => {
+        fetchData()
 
-
-        fetchTemple();
-        fetchEventsOfTemple();
-    }, []);
+    }, [id]);
 
 
 
     return (
         <Layout>
-            <section>
+            {!loading && temple && (<section>
                 <div className="row">
                     <div className="col-md-12">
-                        <h1 className="section-heading  ">Name : {temple.templeName}</h1>
-                        <h2 className='text-grey-dark  my-3 fw-bold'>Location : {temple.location.address}</h2>
+
                     </div>
                     <div className='col-md-8'>
-
+                        <div>
+                            <h1 className="section-heading  ">Name : {temple.templeName}</h1>
+                            <h2 className='text-grey-dark  my-3 fw-bold'>Location : {temple.location.address}</h2>
+                        </div>
                         <div className="table-responsive">
                             <table className="table table-light table-bordered table-striped">
                                 <thead>
@@ -171,8 +186,8 @@ const ViewTemple = () => {
                                         <td>{temple.contactPerson.name} ({temple.contactPerson.email}, {temple.contactPerson.mobile})</td>
                                     </tr>
                                     <tr>
-                                        <td>Location</td>
-                                        <td>{temple.location.address}</td>
+                                        <td>Created By Admin</td>
+                                        <td>{temple.createdBy.name} ({temple?.createdBy?.phone && temple.createdBy.phone} {temple.createdBy.email})</td>
                                     </tr>
                                     <tr>
                                         <td>Logo</td>
@@ -236,7 +251,7 @@ const ViewTemple = () => {
                         </div>
                     </div>
                     <div className="col-md-4  mb-4 ">
-                        <div title="Banner Image" className='' style={{ width: "auto", height: '100%', border: '' }}>
+                        <div title="Banner Image" className='' style={{ width: "auto", aspectRatio: '1/1', border: '' }}>
                             <img src={temple.images.bannerImage !== null ? temple.images.bannerImage : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="Temple Banner" style={{ width: '100%', height: '100%', objectFit: "cover" }} />
 
                         </div>
@@ -344,8 +359,6 @@ const ViewTemple = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-
-
                                             <tr>
                                                 <td>Website</td>
                                                 <td><a href={temple.website}>{temple.website}</a></td>
@@ -362,7 +375,6 @@ const ViewTemple = () => {
                                                 <td>Instagram</td>
                                                 <td><a href={temple.socialMedia.instagram}>{temple.socialMedia.instagram}</a></td>
                                             </tr>
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -418,7 +430,13 @@ const ViewTemple = () => {
 
 
 
-            </section>
+            </section>)}
+
+            {loading && (
+                <section className="d-flex m-auto">
+                    <HashLoader color={"#ff395c"} />
+                </section>
+            )}
         </Layout>
     );
 }

@@ -57,7 +57,7 @@ const Event = () => {
                     {event.name}
                 </h1>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                         <div className="event-details">
                             <p className='text-primary'><strong>Temple:</strong> {temple.templeName}</p>
                             <p><strong>Description:</strong> {event.description}</p>
@@ -66,14 +66,23 @@ const Event = () => {
                             <p><strong>Timing:</strong> {event.timing?.start} - {event.timing?.end}</p>
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        {event.images && event.images.length > 0 && (
-                            <div className="event-images">
-                                {event.images.map((image, index) => (
-                                    <img key={index} src={image} alt={`Event Image ${index + 1}`} />
-                                ))}
-                            </div>
-                        )}
+                    <div className="col-md-7">
+                        <div className="d-flex justify-content-end">
+
+                            {event.images && event.images.length > 0 &&
+                                event.images.map((image, index) => (
+                                    <div key={index} className="">
+                                        <div style={{ height: "300px", aspectRatio: "1/1" }} className="event-images">
+                                            <img style={{ objectFit: "cover" }} src={image} alt={`Event Image ${index + 1}`} />
+                                        </div>
+                                    </div>
+                                ))
+
+
+                            }
+
+                        </div>
+
                     </div>
                 </div>
 

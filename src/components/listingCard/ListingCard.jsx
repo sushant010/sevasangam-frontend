@@ -7,7 +7,7 @@ import axios from 'axios';
 const ListingCard = ({ temple }) => {
   const {
     templeName,
-    images: { logo } = {}
+    images: { bannerImage } = {}
   } = temple;
 
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const ListingCard = ({ temple }) => {
     <div className="listing" onClick={navigateToTemple(temple._id)}>
       <div className="listing-img-wrapper">
         <img
-          src={logo || "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+          src={bannerImage || "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
           alt="temple image"
         />
       </div>
@@ -72,7 +72,7 @@ ListingCard.propTypes = {
     }),
     donation: PropTypes.number.isRequired,
     images: PropTypes.shape({
-      logo: PropTypes.string
+      bannerImage: PropTypes.string
     })
   }).isRequired
 };

@@ -3,12 +3,21 @@
   justify-content: flex-start;
   /* align-items: center; */
   width: 100%;
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   flex-wrap: wrap;
 
   &.center {
     justify-content: center;
   }
+
+  &.home {
+    & .listing {
+      max-width: 330px;
+    }
+  }
+}
+.sc-ifAKCX {
+  z-index: 2;
 }
 
 .listing {
@@ -21,7 +30,7 @@
   margin: 15px 10px;
   flex: 1;
   /* padding: 1rem; */
-  min-width: 330px;
+  min-width: 300px;
   width: 100%;
   border: 1px solid transparent;
   max-width: 400px;
@@ -63,7 +72,6 @@
   width: 100%;
   border: 1px solid #ccc;
   box-shadow: var(--shadow-dark);
-  height: 260px;
   aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: 8px;

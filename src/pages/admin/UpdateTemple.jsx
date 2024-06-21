@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
-
+import compress from 'compress-base64'
+import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 const UpdateTemple = () => {
     const [auth] = useAuth();
     const navigate = useNavigate();
@@ -31,8 +32,8 @@ const UpdateTemple = () => {
         },
         images: {
             logo: '',
-            templeBannerImage: '',
-            templeImages: [],
+            bannerImage: '',
+            otherImages: [],
         },
         bankDetails: {
             bankName: '',
@@ -61,6 +62,8 @@ const UpdateTemple = () => {
         },
     });
 
+    const [loading, setLoading] = useState(false);
+
     // for google map
     const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
     const libraries = ['places'];
@@ -73,8 +76,6 @@ const UpdateTemple = () => {
 
 
     const handleLocationChange = (place) => {
-
-
         const address = place.formatted_address;
         const components = place.address_components;
         const locationDetails = {
@@ -151,9 +152,7 @@ const UpdateTemple = () => {
         fetchTemple();
     }, []);
 
-    const [templeLogoImage, setTempleLogoImage] = useState(null);
-    const [templeBannerImage, setTempleBannerImage] = useState(null);
-    const [templeImages, setTempleImages] = useState([]);
+
 
     const [imagePreviews, setImagePreviews] = useState({
         logo: null,
@@ -161,31 +160,47 @@ const UpdateTemple = () => {
         otherImages: [],
     });
 
-    const handleTempleLogoImage = (e) => {
-        const selectedFile = e.target.files[0];
-        setTempleLogoImage(selectedFile);
-        setImagePreviews(prev => ({
-            ...prev,
-            logo: URL.createObjectURL(selectedFile),
-        }));
-    };
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        try {
 
-    const handleTempleBannerImage = (e) => {
-        const selectedFile = e.target.files[0];
-        setTempleBannerImage(selectedFile);
-        setImagePreviews(prev => ({
-            ...prev,
-            banner: URL.createObjectURL(selectedFile),
-        }));
-    };
 
-    const handleTempleImagesChange = (e) => {
-        const selectedFiles = Array.from(e.target.files);
-        setTempleImages(selectedFiles);
-        setImagePreviews(prev => ({
-            ...prev,
-            otherImages: selectedFiles.map(file => URL.createObjectURL(file)),
-        }));
+            if (e.target.name === 'templeLogo') {
+                setImagePreviews(prev => ({
+                    ...prev,
+                    logo: URL.createObjectURL(file),
+                }));
+                setLoading(true);
+                const compressedImage = await convertToBase64(file);
+                setTemple(prevTemple => ({ ...prevTemple, images: { ...prevTemple.images, logo: compressedImage } }))
+
+            } else if (e.target.name === 'templeBanner') {
+                setImagePreviews(prev => ({
+                    ...prev,
+                    banner: URL.createObjectURL(file),
+                }));
+                setLoading(true);
+                const compressedImage = await convertToBase64(file);
+                setTemple(prevTemple => ({ ...prevTemple, images: { ...prevTemple.images, bannerImage: compressedImage } }))
+
+
+            } else if (e.target.name === 'templeImages') {
+                setImagePreviews(prev => ({
+                    ...prev,
+                    otherImages: selectedFiles.map(file => URL.createObjectURL(file)),
+                }));
+                setLoading(true);
+                const selectedFiles = Array.from(e.target.files);
+                const compressedImages = await Promise.all(selectedFiles.map(file => convertToBase64(file)));
+
+                setTemple(prevTemple => ({ ...prevTemple, images: { ...prevTemple.images, otherImages: compressedImages } }))
+
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleChange = (e) => {
@@ -210,33 +225,34 @@ const UpdateTemple = () => {
             }));
         }
     };
-
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.onload = event => {
+                compress(event.target.result, {
+                    width: 400,
+                    type: 'image/jpg',
+                    max: 200, // max size
+                    min: 20, // min size
+                    quality: 0.5,
+                }).then(result => {
+                    resolve(result);
+                }).catch(error => {
+                    reject(error);
+                });
+            };
+            fileReader.readAsDataURL(file);
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Prepare form data
-            const formData = new FormData();
-            Object.entries(temple).forEach(([key, value]) => {
-                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-                    Object.entries(value).forEach(([subKey, subValue]) => {
-                        formData.append(`${key}.${subKey}`, subValue);
-                    });
-                } else if (Array.isArray(value)) {
-                    value.forEach((item, index) => {
-                        Object.entries(item).forEach(([subKey, subValue]) => {
-                            formData.append(`${key}[${index}].${subKey}`, subValue);
-                        });
-                    });
-                } else {
-                    formData.append(key, value);
-                }
-            });
-            formData.append("userUpdating", auth.user.role);
-            const res = await axios.put(`${api}/temple/update-temple/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            temple.userUpdating = auth.user.role;
+            console.log(temple.images.logo)
+            const res = await axios.put(`${api}/temple/update-temple/${id}`, temple);
             if (res.data.success) {
                 toast.success(res.data.message);
                 setTimeout(() => {
@@ -392,7 +408,7 @@ const UpdateTemple = () => {
                                 <input
                                     type="file"
                                     name="templeLogo"
-                                    onChange={handleTempleLogoImage}
+                                    onChange={handleFileUpload}
                                     className="form-control"
                                     id="templeLogo"
                                     accept="image/*"
@@ -406,13 +422,13 @@ const UpdateTemple = () => {
                                 <input
                                     type="file"
                                     name="templeBanner"
-                                    onChange={handleTempleBannerImage}
+                                    onChange={handleFileUpload}
                                     className="form-control"
                                     id="templeBanner"
                                     accept="image/*"
                                 />
                                 {imagePreviews.banner && (
-                                    <img src={imagePreviews.banner} alt="Banner Preview" className="mt-2" style={{ width: '140px', height: '100px', border: "3px solid #fff" }} />
+                                    <img src={imagePreviews.banner} alt="Banner Preview" className="mt-2" style={{ aspectRatio: '1/1', height: '100px', objectFit: "cover", border: "3px solid #fff" }} />
                                 )}
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
@@ -420,14 +436,14 @@ const UpdateTemple = () => {
                                 <input
                                     type="file"
                                     name="templeImages"
-                                    onChange={handleTempleImagesChange}
+                                    onChange={handleFileUpload}
                                     className="form-control"
                                     id="templeImages"
                                     multiple
                                     accept="image/*"
                                 />
                                 {imagePreviews.otherImages.map((src, index) => (
-                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', width: 'auto', border: "3px solid #fff" }} />
+                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', aspectRatio: '1/1', objectFit: "cover", border: "3px solid #fff" }} />
                                 ))}
                             </div>
                         </div>
@@ -712,6 +728,7 @@ const UpdateTemple = () => {
                     </div>
                 </form>
             </section>
+            {loading && <LoadingSpinner />}
         </Layout >
     );
 };

@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import React from "react";
+import { HashLoader } from "react-spinners";
+import { set } from "zod";
 
 const VerifyTempleChanges = () => {
     const { id } = useParams();
     const api = import.meta.env.VITE_API_URL;
 
     const [pendingChanges, setPendingChanges] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const [currentTemple, setCurrentTemple] = useState({});
     const [createdBy, setCreatedBy] = useState('');
@@ -62,9 +65,15 @@ const VerifyTempleChanges = () => {
         }
     };
 
+    const fetchData = async () => {
+        setLoading(true)
+        await fetchPendingChanges();
+        await fetchCurrentTemple();
+        setLoading(false)
+    }
+
     useEffect(() => {
-        fetchPendingChanges();
-        fetchCurrentTemple();
+        fetchData()
     }, []);
 
     const formatKey = (key) => {
@@ -139,11 +148,107 @@ const VerifyTempleChanges = () => {
 
     };
 
-    const renderPropertyRowsForModifiedTemples = (currentTemple, modifiedTemple) => {
-        console.log("current below")
-        console.log(currentTemple)
-        console.log("modified below")
-        console.log(modifiedTemple)
+    const renderNestedObject = (obj, objOld, parentKey = '') => {
+        console.log(obj)
+        console.log(objOld)
+        console.log(parentKey)
+
+
+
+        return Object.entries(obj).map(([key, value]) => {
+            const formattedKey = formatKey(key);
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                return (
+                    <React.Fragment key={formattedKey}>
+                        <tr>
+                            <td colSpan={3}>
+                                <strong>{formattedKey}</strong>
+                            </td>
+                        </tr>
+                        {renderNestedObject(value, formattedKey)}
+                    </React.Fragment>
+                );
+            } else {
+                const isSame = objOld[parentKey][key] === value;
+                return (
+                    !isSame &&
+                    <React.Fragment key={formattedKey}>
+                        <tr>
+                            <td>{formattedKey}</td>
+
+                            <td>{typeof objOld[key] === 'object' ? JSON.stringify(objOld[parentKey][key]) : objOld[parentKey][key]}</td>
+
+                            <td style={{ color: 'var(--color-theme-success)' }}>
+                                {typeof value === 'object' ? JSON.stringify(value) : value}
+                            </td>
+                        </tr>
+                    </React.Fragment>
+
+
+
+                );
+            }
+        });
+    };
+
+
+    const renderPropertyRowsForModifiedTemples = (currentTemple) => {
+        // console.log("current below")
+        // console.log(currentTemple.pendingChanges)
+        const changes = currentTemple.pendingChanges
+        const old = currentTemple
+        return Object.entries(changes).map(([key, value]) => {
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                return (
+                    <React.Fragment key={key}>
+                        <tr>
+                            <td colSpan={3}>
+                                <strong>{formatKey(key)}</strong>
+                            </td>
+
+                        </tr>
+                        {renderNestedObject(value, old, key)}
+
+
+                    </React.Fragment>
+                );
+            } else {
+                if (key === 'logo' || key === 'bannerImage') {
+                    return (
+                        <React.Fragment key={key}>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td> <img src={currentTemple[key] || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+                                <td> <img src={value || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+                            </tr>
+                        </React.Fragment>
+                    );
+                } else if (key === 'otherImages') {
+                    return (
+                        <React.Fragment key={key}>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td>{currentTemple[key] || ''}</td>
+                                <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+                            </tr>
+                        </React.Fragment>
+                    );
+                } else {
+                    return (
+                        <React.Fragment key={key}>
+                            <tr>
+                                <td><strong>{formatKey(key)}</strong> </td>
+                                <td>{currentTemple[key] || ''}</td>
+                                <td style={{ color: 'var(--color-theme-success)' }}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+                            </tr>
+                        </React.Fragment>
+                    );
+                }
+            }
+        })
+
+        // console.log("modified below")
+        // console.log(modifiedTemple)
         // return Object.entries(modifiedTemple).map(([key, value]) => {
         //     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         //         return (
@@ -194,7 +299,7 @@ const VerifyTempleChanges = () => {
 
     return (
         <Layout>
-            <section>
+            {!loading && (<section>
                 {currentTemple?.isCreated === 1 && (
                     <div>
                         <div style={{ fontSize: "30px" }} className="section-heading mb-2">
@@ -233,7 +338,7 @@ const VerifyTempleChanges = () => {
                         </div>
                         {pendingChanges ? (
                             <div>
-                                <table className="table table-light table-bordered table-striped">
+                                <table className="verify-changes-table table table-light table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>Property</th>
@@ -251,13 +356,20 @@ const VerifyTempleChanges = () => {
                                 </button>
                             </div>
                         ) : (
-                            <p>No pending changes to review.</p>
+                            !loading && <p>No pending changes to review.</p>
+
                         )}
                     </div>
 
 
                 )}
-            </section>
+            </section>)}
+
+            {loading && (
+                <section className="d-flex m-auto">
+                    <HashLoader color={"#ff395c"} />
+                </section>
+            )}
         </Layout >
     );
 

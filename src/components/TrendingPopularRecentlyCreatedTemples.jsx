@@ -159,14 +159,16 @@ const TrendingPopularRecentlyCreatedTemples = () => {
 
                             ))}
 
-                            <Carousel.Item className="carousel-item-spacing">
-                                <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+                            {popularTemples.length > 8
+                                && (
+                                    <Carousel.Item className="carousel-item-spacing">
+                                        <div className="h-100 d-flex justify-content-center align-items-center flex-column">
 
 
-                                    <button onClick={handleViewAllPopularTemples} className="btn btn-theme-primary">View All Popular Temples</button>
-                                </div>
-                            </Carousel.Item>
-
+                                            <button onClick={handleViewAllPopularTemples} className="btn btn-theme-primary">View All Popular Temples</button>
+                                        </div>
+                                    </Carousel.Item>
+                                )}
                         </Carousel>
 
 
@@ -196,14 +198,15 @@ const TrendingPopularRecentlyCreatedTemples = () => {
                                 </Carousel.Item>
 
                             ))}
+                            {recentlyCreatedTemples.length > 8
+                                && (
+                                    <Carousel.Item >
+                                        <div className="h-100 d-flex justify-content-center align-items-center flex-column">
 
-                            <Carousel.Item >
-                                <div className="h-100 d-flex justify-content-center align-items-center flex-column">
 
-
-                                    <button onClick={handleViewAllRecentCreatedTemples} className="btn btn-theme-primary">View All Recent Created Temples</button>
-                                </div>
-                            </Carousel.Item>
+                                            <button onClick={handleViewAllRecentCreatedTemples} className="btn btn-theme-primary">View All Recent Created Temples</button>
+                                        </div>
+                                    </Carousel.Item>)}
 
                         </Carousel>
 

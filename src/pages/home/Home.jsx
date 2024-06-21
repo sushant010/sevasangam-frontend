@@ -39,7 +39,7 @@ function Home() {
   const fetchfilteredTemples = async () => {
     try {
 
-      const response = await axios.post(`${api}/temple/filter-temples`, { limit: 3 });
+      const response = await axios.post(`${api}/temple/filter-temples`, { limit: 4 });
       if (response.data.success) {
 
         setSearchTemple(response.data.data.temples);
@@ -51,22 +51,6 @@ function Home() {
     }
   };
 
-  const handleViewAllPopularTemples = () => {
-
-    window.scrollTo(0, 0);
-    navigate('/temples?sortOption=mostPopular')
-  }
-
-  const handleViewAllRecentCreatedTemples = () => {
-
-    window.scrollTo(0, 0);
-    navigate('/temples?sortOption=recentlyAdded')
-  }
-
-  const handleViewAllTrendingTemples = () => {
-    window.scrollTo(0, 0);
-    navigate('/temples?sortOption=trending')
-  }
 
 
   const handleSearchSubmitOnHomepage = async (searchTerm, location) => {
@@ -75,10 +59,18 @@ function Home() {
       const res = await axios.post(`${api}/temple/filter-temples`, {
         templeName: searchTerm,
         address: location
-      }, { limit: 3 });
+      }, { limit: 4 });
       const { data } = res.data;
-      console.log(data)
-      setSearchTemple(data.temples);
+      if (data.temples.length > 0) {
+        setSearchTemple(data.temples);
+
+      } else {
+        const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
+        const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
+        window.scrollTo(0, 0);
+        navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
+      }
+
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
@@ -128,15 +120,15 @@ function Home() {
             <SearchBar inHomepage={true} handleSearchSubmitOnHomepage={handleSearchSubmitOnHomepage} />
           </div>
 
-          <div className="listing-container center">
-            {searchTemple.length > 0 ? (
-              searchTemple.slice(0, 3).map((temple) => (
+          <div className="listing-container center home">
+            {searchTemple && searchTemple.length > 0 ? (
+              searchTemple.slice(0, 4).map((temple) => (
                 <ListingCard
                   key={temple._id} temple={temple}
                 />
               ))
             ) : (
-              popularTemples.slice(0, 3).map((temple) => (
+              popularTemples.slice(0, 4).map((temple) => (
                 <ListingCard
                   key={temple._id} temple={temple}
                 />

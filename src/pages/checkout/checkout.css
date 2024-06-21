@@ -221,6 +221,12 @@
 }
 
 @media (max-width: 768px) {
+  .selected-temple .img-wrapper {
+    max-width: 100px;
+  }
+  .selected-temple .content {
+    flex: 1;
+  }
   .payment-options {
     justify-content: center;
   }

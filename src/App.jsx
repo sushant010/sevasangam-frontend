@@ -6,6 +6,7 @@ import './css/typography.css';
 import './css/variables.css';
 import './css/customForm.css';
 import './css/animations.css';
+import './css/tables.css';
 import About from "./pages/about/About";
 import HowItWorks from "./pages/howItWorks/HowItWorks";
 import Contact from "./pages/contact/Contact";

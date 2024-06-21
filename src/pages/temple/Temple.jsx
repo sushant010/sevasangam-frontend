@@ -16,8 +16,15 @@ import ListingCard from "../../components/listingCard/ListingCard";
 import Carousel from "react-grid-carousel";
 import EventCard from "../../components/eventCard/EventCard";
 import defaultLogo from '../../assets/images/sevasangam-logo.png';
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import { object, set } from "zod";
+
+
+
 
 const Temple = () => {
+
+  const [loading, setLoading] = useState(false);
   //console all the currency code with symbols
 
   const initialState = {
@@ -36,8 +43,8 @@ const Temple = () => {
     },
     images: {
       logo: "",
-      templeBannerImage: [],
-      templeImages: [],
+      bannerImage: [],
+      otherImages: [],
     },
     bankDetails: {
       bankName: "",
@@ -107,14 +114,16 @@ const Temple = () => {
 
   const fetchTemple = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(`${api}/temple/get-temple/${id}`);
       const { data } = res.data;
-      console.log("templeeee ")
-      console.log(data);
+
       setTemple(data);
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -151,80 +160,29 @@ const Temple = () => {
     navigate('/temples?sortOption=trending')
   }
 
+
+
   useEffect(() => {
     fetchTemple();
     fetchSimilarTemples();
     fetchEventsOfTemple()
-  }, []);
+  }, [id]);
 
   return (
     <Layout>
       <section className="temple-container">
         <div className="d-flex align-items-start" style={{ gap: "15px" }}>
-          <div>
-            <div className="img-wrapper" style={{ height: "400px" }}>
+          <div style={{}}>
+            <div style={{ height: "400px", position: "relative" }}>
+
               <img
-                src={
-                  temple.bannerImage
-                    ? temple.bannerImage
-                    : "https://images.unsplash.com/photo-1564804955013-e02ad9516982?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                }
+                src={temple.images?.bannerImage || defaultLogo}
                 alt="temple"
-              />
-              <div className="temple-details">
-                <div className="d-flex">
-                  <span className="feature bg-primary">Tax Benfit</span>
-                  <span className="feature bg-success">Assured</span>
-                </div>
-                <p>Type of Organization : {temple.typeOfOrganization}</p>
-                <p>{temple.description}</p>
-
-                <div className="social-media">
-                  {temple.socialMedia.facebook && (
-                    <div>
-                      <a href={temple.socialMedia.facebook}>
-                        <img
-                          src="https://1000logos.net/wp-content/uploads/2017/02/Facebook-Logosu.png"
-                          alt="Facebook"
-                        />
-                      </a>
-                    </div>
-                  )}
-
-                  {temple.socialMedia.instagram && (
-                    <div>
-                      <a href={temple.socialMedia.instagram}>
-                        <img
-                          src="https://cdn.pixabay.com/photo/2016/08/09/17/52/instagram-1581266_1280.jpg"
-                          alt="Instagram"
-                        />
-                      </a>
-                    </div>
-                  )}
-
-                  {temple.socialMedia.twitter && (
-                    <div>
-                      <a href={temple.socialMedia.twitter}>
-                        <img
-                          src="https://www.shutterstock.com/image-vector/indonesia-31-july-2023-logo-260nw-2340258601.jpg"
-                          alt="Twitter"
-                        />
-                      </a>
-                    </div>
-                  )}
-
-                  {temple.website && (
-                    <div>
-                      <a href={temple.website}>
-                        <img
-                          src="https://static.vecteezy.com/system/resources/thumbnails/003/731/316/small/web-icon-line-on-white-background-image-for-web-presentation-logo-icon-symbol-free-vector.jpg"
-                          alt="Website"
-                        />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
+                style={{ height: "100%", width: "100%", objectFit: "cover" }} />
+              <img
+                src={temple.images?.logo}
+                alt="temple"
+                style={{ borderRadius: "4px", height: "auto", width: "120px", objectFit: "contain", position: "absolute", top: "10px", right: "10px" }} />
             </div>
             <div className="mt-2 temple-details">
 
@@ -233,51 +191,7 @@ const Temple = () => {
               <p>Timing : {temple.timing && temple.timing.start} - {temple.timing && temple.timing.end}</p>
 
 
-              {/* <div className="social-media">
-                {temple.socialMedia.facebook && (
-                  <div>
-                    <a href={temple.socialMedia.facebook}>
-                      <img
-                        src="https://1000logos.net/wp-content/uploads/2017/02/Facebook-Logosu.png"
-                        alt="Facebook"
-                      />
-                    </a>
-                  </div>
-                )}
 
-                {temple.socialMedia.instagram && (
-                  <div>
-                    <a href={temple.socialMedia.instagram}>
-                      <img
-                        src="https://cdn.pixabay.com/photo/2016/08/09/17/52/instagram-1581266_1280.jpg"
-                        alt="Instagram"
-                      />
-                    </a>
-                  </div>
-                )}
-
-                {temple.socialMedia.twitter && (
-                  <div>
-                    <a href={temple.socialMedia.twitter}>
-                      <img
-                        src="https://www.shutterstock.com/image-vector/indonesia-31-july-2023-logo-260nw-2340258601.jpg"
-                        alt="Twitter"
-                      />
-                    </a>
-                  </div>
-                )}
-
-                {temple.website && (
-                  <div>
-                    <a href={temple.website}>
-                      <img
-                        src="https://static.vecteezy.com/system/resources/thumbnails/003/731/316/small/web-icon-line-on-white-background-image-for-web-presentation-logo-icon-symbol-free-vector.jpg"
-                        alt="Website"
-                      />
-                    </a>
-                  </div>
-                )}
-              </div> */}
               <div style={{ gap: "20px", justifyContent: "start" }} className="icon-container">
                 <div className="icon-wrapper">
                   <i className="fa-brands fa-facebook-f"></i>
@@ -304,21 +218,71 @@ const Temple = () => {
               <h3 className="section-heading ">
                 About {temple.templeName}
               </h3>
-              <p>
-                {temple.aboutTemple1}
-              </p>
 
-              <div className="img-wrapper">
-                <img
-                  src={temple.images?.logo || "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1844&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-                  alt="temple"
-                />
+
+              <div className="about-container row">
+                {temple?.images?.otherImages && temple.images.otherImages.slice(0, 2).map((image, index) => (
+                  <>
+                    <div key={index} style={{ gap: "10px" }} className="col-md-12 mb-3 d-flex flex-wrap">
+                      <div className={`img-wrapper order-${index}`}>
+                        <img
+                          src={image}
+                          alt="temple"
+                        />
+                      </div>
+
+                      <div style={{ flex: "1" }}>
+                        {temple[`aboutTemple${index + 1}`]}
+                      </div>
+
+                    </div>
+                    <hr></hr>
+                  </>
+                ))}
+
               </div>
-              <p>
-                <p>
-                  {temple.aboutTemple2}
-                </p>
-              </p>
+              <div className="section-heading" style={{ fontSize: "24px" }}>All Images</div>
+              <div className="all-images-container">
+
+                {temple?.images?.bannerImage && (
+                  <>
+                    <div className={`img-wrapper `}>
+                      <img
+                        src={temple?.images?.bannerImage}
+                        alt="temple"
+                      />
+                    </div>
+
+                  </>
+                )}
+                {temple?.images?.logo && (
+                  <>
+                    <div className={`img-wrapper `}>
+                      <img
+                        style={{ objectFit: "contain" }}
+                        src={temple?.images?.logo}
+                        alt="temple"
+                      />
+                    </div>
+
+                  </>
+                )}
+                {temple?.images?.otherImages && temple.images.otherImages.map((image, index) => (
+                  <>
+                    <div className={`img-wrapper order-${index}`}>
+                      <img
+                        src={image}
+                        alt="temple"
+                      />
+                    </div>
+
+                  </>
+                ))}
+
+              </div>
+
+
+
 
 
               {events.length > 0 ? (
@@ -506,7 +470,8 @@ const Temple = () => {
         </div>
 
         <div className="listing-container row">
-          <Carousel cols={4} rows={1} gap={1} loop>
+          {/* eslint-disable-next-line */}
+          <Carousel cols={4} rows={1} gap={1} loop={similarTemple.length > 4 ? hideArrow : ''}>
             {similarTemple && similarTemple.map((temple, index) => (
 
 
@@ -535,6 +500,7 @@ const Temple = () => {
 
         </div>
       </section>
+      {loading && <LoadingSpinner />}
     </Layout >
   );
 };

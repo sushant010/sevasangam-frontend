@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import compress from 'compress-base64'
 
 const AddEvent = () => {
 
@@ -17,15 +18,63 @@ const AddEvent = () => {
     const [eventStartTime, setEventStartTime] = useState('');
     const [eventEndTime, setEventEndTime] = useState('');
     const [events, setEvents] = useState([]);
+    const [eventImages, setEventImages] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState(
+        []
+    );
+
 
     useEffect(() => {
         fetchTemple();
-        console.log(temple)
+
         if (temple) {
             fetchEventsOfTemple();
         }
 
     }, []);
+
+
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.onload = event => {
+                compress(event.target.result, {
+                    width: 400,
+                    type: 'image/jpg',
+                    max: 200, // max size
+                    min: 20, // min size
+                    quality: 0.8,
+                }).then(result => {
+                    resolve(result);
+                }).catch(error => {
+                    reject(error);
+                });
+            };
+            fileReader.readAsDataURL(file);
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    }
+
+
+
+    const handleFileUpload = async (e) => {
+
+        const selectedFiles = Array.from(e.target.files);
+        try {
+            setImagePreviews(selectedFiles.map(file => URL.createObjectURL(file)));
+            const compressedImages = await Promise.all(selectedFiles.map(file => convertToBase64(file)));
+
+            setEventImages(compressedImages);
+            console.log("done")
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     const fetchTemple = async () => {
         try {
@@ -65,6 +114,7 @@ const AddEvent = () => {
                     end: eventEndTime,
                 },
                 templeId: temple._id,
+                images: eventImages,
             };
 
             const res = await axios.post(`${api}/temple/event/create-event`, newEventData);
@@ -77,6 +127,7 @@ const AddEvent = () => {
                 setEventEndDate('');
                 setEventStartTime('');
                 setEventEndTime('');
+                setEventImages([]);
                 // Optionally, display success message
             } else {
                 // Handle error, e.g., display a toast message
@@ -185,7 +236,21 @@ const AddEvent = () => {
                                     />
                                 </div>
                             </div>
-
+                            <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
+                                <label htmlFor="eventImages" className="form-label">Event Images <i className="fa fa-asterisk"></i></label>
+                                <input
+                                    type="file"
+                                    name="eventImages"
+                                    onChange={handleFileUpload}
+                                    className="form-control"
+                                    id="eventImages"
+                                    multiple
+                                    accept="image/*"
+                                />
+                                {imagePreviews.map((src, index) => (
+                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', aspectRatio: '1/1', objectFit: "cover", border: "3px solid #fff" }} />
+                                ))}
+                            </div>
 
                             <div className="mb-3">
                                 <button type="submit" className="w-100 btn btn-theme-primary">

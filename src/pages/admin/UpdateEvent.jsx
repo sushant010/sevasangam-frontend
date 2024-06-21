@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
-
+import compress from 'compress-base64'
 const UpdateEvent = () => {
 
 
@@ -22,6 +22,10 @@ const UpdateEvent = () => {
     const [eventStartTime, setEventStartTime] = useState('');
     const [eventEndTime, setEventEndTime] = useState('');
     const [eventTemple, setEventTemple] = useState('');
+    const [eventImages, setEventImages] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState(
+        []
+    );
 
     useEffect(() => {
 
@@ -42,6 +46,47 @@ const UpdateEvent = () => {
         }
     };
 
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.onload = event => {
+                compress(event.target.result, {
+                    width: 400,
+                    type: 'image/jpg',
+                    max: 200, // max size
+                    min: 20, // min size
+                    quality: 0.8,
+                }).then(result => {
+                    resolve(result);
+                }).catch(error => {
+                    reject(error);
+                });
+            };
+            fileReader.readAsDataURL(file);
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    }
+
+
+
+    const handleFileUpload = async (e) => {
+
+        const selectedFiles = Array.from(e.target.files);
+        try {
+            setImagePreviews(selectedFiles.map(file => URL.createObjectURL(file)));
+            const compressedImages = await Promise.all(selectedFiles.map(file => convertToBase64(file)));
+
+            setEventImages(compressedImages);
+            console.log("done")
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const fetchCurrentEvent = async () => {
         try {
             const res = await axios.get(`${api}/temple/event/fetch-event/${id}`);
@@ -54,6 +99,7 @@ const UpdateEvent = () => {
             setEventStartTime(event.timing.start.slice(0, 5));
             setEventEndTime(event.timing.end.slice(0, 5));
             setEventTemple(event.temple._id);
+            setImagePreviews(event.images);
 
         } catch (error) {
             console.error(error);
@@ -78,6 +124,7 @@ const UpdateEvent = () => {
                     end: eventEndTime,
                 },
                 templeId: temple._id,
+                images: eventImages
             };
 
             const res = await axios.put(`${api}/temple/event/update-event/${id}`, newEventData);
@@ -90,6 +137,7 @@ const UpdateEvent = () => {
                 setEventEndDate('');
                 setEventStartTime('');
                 setEventEndTime('');
+                setEventImages([]);
                 // Optionally, display success message
                 toast.success(res.data.message);
                 window.scrollTo(0, 0);
@@ -205,7 +253,21 @@ const UpdateEvent = () => {
                                     />
                                 </div>
                             </div>
-
+                            <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
+                                <label htmlFor="eventImages" className="form-label">Event Images <i className="fa fa-asterisk"></i></label>
+                                <input
+                                    type="file"
+                                    name="eventImages"
+                                    onChange={handleFileUpload}
+                                    className="form-control"
+                                    id="eventImages"
+                                    multiple
+                                    accept="image/*"
+                                />
+                                {imagePreviews.map((src, index) => (
+                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', aspectRatio: '1/1', objectFit: "cover", border: "3px solid #fff" }} />
+                                ))}
+                            </div>
 
                             <div className="mb-3">
                                 <button type="submit" className="w-100 btn btn-theme-primary">

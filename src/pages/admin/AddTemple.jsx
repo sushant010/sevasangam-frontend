@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
-
+import compress from 'compress-base64'
 
 const libraries = ['places'];
 
@@ -114,14 +114,7 @@ const AddTemple = () => {
         }));
     };
 
-    const handleTempleBannerImage = (e) => {
-        const selectedFile = e.target.files[0];
-        setTempleBannerImage(selectedFile);
-        setImagePreviews(prev => ({
-            ...prev,
-            banner: URL.createObjectURL(selectedFile),
-        }));
-    };
+
 
     const handleTempleImagesChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -134,78 +127,31 @@ const AddTemple = () => {
 
     const api = import.meta.env.VITE_API_URL;
 
-    // const initialState = {
-    //     templeName: 'Sample Temple',
-    //     typeOfOrganization: 'Non-Profit',
-    //     description: 'Lorem ipsum dolor sit amet...',
-    //     createdBy: '', // Replace with actual user ID
-    //     contactPerson: {
-    //         name: 'John Doe',
-    //         email: 'johndoe@example.com',
-    //         mobile: '+1234567890',
-    //     },
-    //     location: {
-    //         address: '123 Main Street',
-    //         city: 'New York',
-    //         state: 'NY',
-    //         zipCode: '10001',
-    //         country: 'United States',
-    //         longitude: 77.01502627,
-    //         latitude: 10.99835602,
-    //     },
-    //     bankDetails: {
-    //         bankName: 'Sample Bank',
-    //         branch: 'Main Branch',
-    //         accountHolderName: 'John Doe',
-    //         accountNumber: '1234567890',
-    //         ifscCode: 'SAMPLEIFSC123',
-    //         routingNumber: '',
-    //         swiftBicCode: '',
-    //     },
-    //     taxInformation: {
-    //         taxId: '',
-    //         ein: '',
-    //     },
-    //     website: '',
-    //     socialMedia: {
-    //         facebook: '',
-    //         twitter: '',
-    //         instagram: '',
-    //     },
-
-    //     timing: {
-    //         start: '',
-    //         end: '',
-    //     },
-    //     aboutTemple1: '',
-    //     aboutTemple2: '',
-    // };
-
     const initialState = {
-        templeName: '',
-        typeOfOrganization: '',
-        description: '',
+        templeName: 'Sample Temple',
+        typeOfOrganization: 'Non-Profit',
+        description: 'Lorem ipsum dolor sit amet...',
         createdBy: '', // Replace with actual user ID
         contactPerson: {
-            name: '',
-            email: '',
-            mobile: '',
+            name: 'John Doe',
+            email: 'johndoe@example.com',
+            mobile: '+1234567890',
         },
         location: {
-            address: '',
-            city: '',
-            state: '',
-            zipCode: '',
-            country: '',
-            longitude: null,
-            latitude: null,
+            address: '123 Main Street',
+            city: 'New York',
+            state: 'NY',
+            zipCode: '10001',
+            country: 'United States',
+            longitude: 77.01502627,
+            latitude: 10.99835602,
         },
         bankDetails: {
-            bankName: '',
-            branch: '',
-            accountHolderName: '',
-            accountNumber: '',
-            ifscCode: '',
+            bankName: 'Sample Bank',
+            branch: 'Main Branch',
+            accountHolderName: 'John Doe',
+            accountNumber: '1234567890',
+            ifscCode: 'SAMPLEIFSC123',
             routingNumber: '',
             swiftBicCode: '',
         },
@@ -219,6 +165,7 @@ const AddTemple = () => {
             twitter: '',
             instagram: '',
         },
+
         timing: {
             start: '',
             end: '',
@@ -227,9 +174,51 @@ const AddTemple = () => {
         aboutTemple2: '',
     };
 
-
-
-
+    // const initialState = {
+    //     templeName: '',
+    //     typeOfOrganization: '',
+    //     description: '',
+    //     createdBy: '', // Replace with actual user ID
+    //     contactPerson: {
+    //         name: '',
+    //         email: '',
+    //         mobile: '',
+    //     },
+    //     location: {
+    //         address: '',
+    //         city: '',
+    //         state: '',
+    //         zipCode: '',
+    //         country: '',
+    //         longitude: null,
+    //         latitude: null,
+    //     },
+    //     bankDetails: {
+    //         bankName: '',
+    //         branch: '',
+    //         accountHolderName: '',
+    //         accountNumber: '',
+    //         ifscCode: '',
+    //         routingNumber: '',
+    //         swiftBicCode: '',
+    //     },
+    //     taxInformation: {
+    //         taxId: '',
+    //         ein: '',
+    //     },
+    //     website: '',
+    //     socialMedia: {
+    //         facebook: '',
+    //         twitter: '',
+    //         instagram: '',
+    //     },
+    //     timing: {
+    //         start: '',
+    //         end: '',
+    //     },
+    //     aboutTemple1: '',
+    //     aboutTemple2: '',
+    // };
 
     const [temple, setTemple] = useState(initialState);
 
@@ -276,56 +265,34 @@ const AddTemple = () => {
         }
     };
 
-
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const formData = new FormData();
 
-            // Adding text fields to formData
-            Object.keys(temple).forEach((key) => {
-                if (typeof temple[key] === 'object' && temple[key] !== null && !Array.isArray(temple[key])) {
-                    Object.keys(temple[key]).forEach((subKey) => {
-                        formData.append(`${key}.${subKey}`, temple[key][subKey]);
-                    });
-                } else {
-                    if (key === 'createdBy') {
-                        formData.append(key, auth.user._id);
-                    } else {
-                        formData.append(key, temple[key]);
-                    }
-                }
-            });
 
             const templeImagesArray = Array.isArray(templeImages) ? templeImages : [];
 
-            // Adding image fields to formData
-            if (templeLogoImage) formData.append('logo', templeLogoImage);
-            if (templeBannerImage) formData.append('bannerImage', templeBannerImage);
-            templeImagesArray.forEach((image) => formData.append('otherImages', image));
 
-            const res = await axios.post(`${api}/temple/create-temple`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+
+            temple.createdBy = auth.user._id;
+            temple.images = {
+                logo: templeLogoImage,
+                bannerImage: templeBannerImage,
+                otherImages: templeImagesArray,
+            };
+
+
+            const res = await axios.post(`${api}/temple/create-temple`, temple);
 
             if (res.data.success) {
                 toast.success(res.data.message);
 
                 const authData = localStorage.getItem('auth');
                 const auth = JSON.parse(authData);
-                auth.user.role = 1;
                 localStorage.setItem('auth', JSON.stringify(auth));
-
-
-
                 setTimeout(() => {
-                    window.scrollTo(0, 0);
-                    if (auth.user.role == 1) {
+                    if (auth?.user?.role == 1) {
                         navigate('/admin/temples')
                         window.location.reload();
                     } else {
@@ -347,6 +314,74 @@ const AddTemple = () => {
             toast.error(error);
         }
     };
+
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.onload = event => {
+                compress(event.target.result, {
+                    width: 400,
+                    type: 'image/jpg',
+                    max: 200, // max size
+                    min: 20, // min size
+                    quality: 0.8,
+                }).then(result => {
+                    resolve(result);
+                }).catch(error => {
+                    reject(error);
+                });
+            };
+            fileReader.readAsDataURL(file);
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    }
+
+
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        try {
+
+
+            if (e.target.name === 'templeLogo') {
+                setImagePreviews(prev => ({
+                    ...prev,
+                    logo: URL.createObjectURL(file),
+                }));
+                const compressedImage = await convertToBase64(file);
+                setTempleLogoImage(compressedImage);
+                console.log("done for logo")
+
+            } else if (e.target.name === 'templeBanner') {
+                setImagePreviews(prev => ({
+                    ...prev,
+                    banner: URL.createObjectURL(file),
+                }));
+                const compressedImage = await convertToBase64(file);
+                setTempleBannerImage(compressedImage);
+
+                console.log("done for banner")
+
+
+            } else if (e.target.name === 'templeImages') {
+                setImagePreviews(prev => ({
+                    ...prev,
+                    otherImages: selectedFiles.map(file => URL.createObjectURL(file)),
+                }));
+                const selectedFiles = Array.from(e.target.files);
+                const compressedImages = await Promise.all(selectedFiles.map(file => convertToBase64(file)));
+
+                setTempleImages(compressedImages);
+                console.log("done for others")
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     return (
         <Layout>
@@ -493,7 +528,7 @@ const AddTemple = () => {
                                 <input
                                     type="file"
                                     name="templeLogo"
-                                    onChange={handleTempleLogoImage}
+                                    onChange={handleFileUpload}
                                     className="form-control"
                                     id="templeLogo"
                                     accept="image/*"
@@ -507,13 +542,13 @@ const AddTemple = () => {
                                 <input
                                     type="file"
                                     name="templeBanner"
-                                    onChange={handleTempleBannerImage}
+                                    onChange={handleFileUpload}
                                     className="form-control"
                                     id="templeBanner"
                                     accept="image/*"
                                 />
                                 {imagePreviews.banner && (
-                                    <img src={imagePreviews.banner} alt="Banner Preview" className="mt-2" style={{ width: '140px', height: '100px', border: "3px solid #fff" }} />
+                                    <img src={imagePreviews.banner} alt="Banner Preview" className="mt-2" style={{ aspectRatio: '1/1', height: '100px', border: "3px solid #fff" }} />
                                 )}
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
@@ -521,14 +556,14 @@ const AddTemple = () => {
                                 <input
                                     type="file"
                                     name="templeImages"
-                                    onChange={handleTempleImagesChange}
+                                    onChange={handleFileUpload}
                                     className="form-control"
                                     id="templeImages"
                                     multiple
                                     accept="image/*"
                                 />
                                 {imagePreviews.otherImages.map((src, index) => (
-                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', width: 'auto', border: "3px solid #fff" }} />
+                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', aspectRatio: '1/1', border: "3px solid #fff" }} />
                                 ))}
                             </div>
                         </div >

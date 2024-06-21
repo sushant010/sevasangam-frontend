@@ -2,6 +2,9 @@ body,
 button {
   font-family: var(--font-body);
 }
+body {
+  overflow-x: hidden;
+}
 
 p,
 a {

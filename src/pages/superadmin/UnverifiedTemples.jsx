@@ -3,11 +3,14 @@ import Layout from '../../components/layout/Layout'
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
+import { set } from 'zod';
 
 const UnverifiedTemples = () => {
     const api = import.meta.env.VITE_API_URL;
     const [newlyCreatedUnverifiedTemples, setNewlyCreatedUnverifiedTemples] = useState([])
     const [updatedByAdminUnverifiedTemples, setUpdatedByAdminUnverifiedTemples] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const fetchNewlyCreatedUnverifiedTemples = async () => {
 
@@ -91,12 +94,15 @@ const UnverifiedTemples = () => {
 
 
     const fetchData = async () => {
+        setLoading(true)
         await fetchNewlyCreatedUnverifiedTemples()
         await fetchUpdatedByAdminUnverifiedTemples()
+        setLoading(false)
     }
 
 
     useEffect(() => {
+
         fetchData()
 
     }, [])
@@ -212,7 +218,13 @@ const UnverifiedTemples = () => {
 
 
             </section>
-            {updatedByAdminUnverifiedTemples.length === 0 && newlyCreatedUnverifiedTemples.length === 0 && <div className='my-4  text-center'>No New Changes in Temples Found</div>}
+            {!loading && updatedByAdminUnverifiedTemples.length === 0 && newlyCreatedUnverifiedTemples.length === 0 && <div className='my-4  text-center'>No New Changes in Temples Found</div>}
+            {loading && (
+                <section className="d-flex m-auto">
+                    <HashLoader color={"#ff395c"} />
+                </section>
+            )}
+
         </Layout >
     )
 }
