@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../context/Auth";
 import { CSVLink } from 'react-csv';
 import HashLoader from "react-spinners/HashLoader";
+import compress from 'compress-base64'
 
 const AllSubscriptionsAdmin = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -67,6 +68,34 @@ const AllSubscriptionsAdmin = () => {
     }
   };
 
+
+  function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      fileReader.readAsDataURL(file);
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
+
+
+
+  const handleFileChange = async (e) => {
+    try {
+      const file = e.target.files[0];
+      const base64 = await convertToBase64(file);
+      setFile(base64);
+      setFilePreview(URL.createObjectURL(file));
+      alert("foennn")
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleUpload80GCertificate = async (id, e) => {
     e.preventDefault();
     try {
@@ -106,11 +135,11 @@ const AllSubscriptionsAdmin = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    setFilePreview(URL.createObjectURL(selectedFile));
-  };
+  // const handleFileChange = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   setFile(selectedFile);
+  //   setFilePreview(URL.createObjectURL(selectedFile));
+  // };
   // Function to handle scroll event
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
