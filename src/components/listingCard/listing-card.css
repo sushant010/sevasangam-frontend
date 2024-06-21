@@ -13,7 +13,7 @@
 
   &.home {
     & .listing {
-      max-width: 330px;
+      max-width: 270px;
     }
   }
 }
