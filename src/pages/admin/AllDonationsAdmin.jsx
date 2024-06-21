@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../context/Auth";
 import { CSVLink } from 'react-csv';
 import HashLoader from "react-spinners/HashLoader";
+import compress from "compress-base64";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 
 const AllDonationsAdmin = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -22,6 +24,7 @@ const AllDonationsAdmin = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [imgLoading, setImgLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const [filters, setFilters] = useState({
@@ -54,12 +57,11 @@ const AllDonationsAdmin = () => {
   const handleUpload80GCertificate = async (id, e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("certificate", file);
-      formData.append("id", id);
+
+
       const res = await axios.post(
         `${api}/donation/upload-80-certificate`,
-        formData
+        { id, certificate: file }
       );
       if (res.data.success) {
         toast.success(res.data.message);
@@ -73,12 +75,10 @@ const AllDonationsAdmin = () => {
   const handleUpdate80GCertificate = async (id, e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("certificate", file);
-      formData.append("id", id);
+
       const res = await axios.put(
         `${api}/donation/update-80-certificate`,
-        formData
+        { id: id, certificate: file }
       );
 
       if (res.data.success) {
@@ -90,11 +90,46 @@ const AllDonationsAdmin = () => {
     }
   };
 
-  const handleFileChange = (e) => {
+  function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.onload = (event) => {
+        resolve(event.target.result);
+      };
+
+      fileReader.readAsDataURL(file);
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
+
+
+
+  const handleFileChange = async (e) => {
+
     const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    setFilePreview(URL.createObjectURL(selectedFile));
+    try {
+      setImgLoading(true);
+
+      setFilePreview(URL.createObjectURL(selectedFile));
+
+
+      const compressedImage = await convertToBase64(selectedFile);
+      setFile(compressedImage);
+      console.log("done for PDF")
+
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setImgLoading(false);
+    }
   };
+
+
   // Function to handle scroll event
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -398,19 +433,28 @@ const AllDonationsAdmin = () => {
                             {donation.certificate ? (
                               <>
                                 <div className="file-preview">
+                                  {/* <a
+                                    className="fw-bold"
+                                    style={{ color: "green", textDecoration: "underline" }}
+                                    target="_blank"
+                                    // rel="noopener noreferrer"
+                                    href={donation.certificate}
+                                  >
+                                    View Certificate
+                                  </a> */}
                                   <a
                                     className="fw-bold"
                                     style={{ color: "green", textDecoration: "underline" }}
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={donation.certificate}
+                                    // rel="noopener noreferrer"
+                                    href={donation.certificate} download
                                   >
-                                    View Certificate
+                                    Download Certificate & View
                                   </a>
                                 </div>
                                 <div className="fw-bold text-danger">Request Received Again</div>
                                 <form
-                                  onSubmit={(e) => handleUpdate80GCertificate(donation.id, e)}
+                                  onSubmit={(e) => handleUpdate80GCertificate(donation._id, e)}
                                 >
                                   <input
                                     onChange={handleFileChange}
@@ -425,7 +469,7 @@ const AllDonationsAdmin = () => {
                                   </button>
                                   {filePreview && (
                                     <div className="file-preview">
-                                      <a
+                                      {/* <a
                                         className="fw-bold"
                                         style={{ color: "green", textDecoration: "underline" }}
                                         target="_blank"
@@ -433,6 +477,15 @@ const AllDonationsAdmin = () => {
                                         href={filePreview}
                                       >
                                         View Preview
+                                      </a> */}
+                                      <a
+                                        className="fw-bold"
+                                        style={{ color: "green", textDecoration: "underline" }}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={filePreview} download
+                                      >
+                                        Preview Certificate
                                       </a>
                                     </div>
                                   )}
@@ -442,7 +495,7 @@ const AllDonationsAdmin = () => {
                             ) : (
                               <>
                                 <form
-                                  onSubmit={(e) => handleUpload80GCertificate(donation.id, e)}
+                                  onSubmit={(e) => handleUpload80GCertificate(donation._id, e)}
                                 >
                                   <label className="mb-2" style={{ color: "red" }}>
                                     80G Certificate Requested:
@@ -479,7 +532,7 @@ const AllDonationsAdmin = () => {
                           <>
                             {donation.certificate ? (
                               <div className="file-preview">
-                                <a
+                                {/* <a
                                   className="fw-bold"
                                   style={{ color: "green", textDecoration: "underline" }}
                                   target="_blank"
@@ -487,6 +540,15 @@ const AllDonationsAdmin = () => {
                                   href={donation.certificate}
                                 >
                                   View Certificate
+                                </a> */}
+                                <a
+                                  className="fw-bold"
+                                  style={{ color: "green", textDecoration: "underline" }}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href={donation.certificate} download
+                                >
+                                  Download Uploaded Certificate
                                 </a>
                               </div>
                             ) : (
@@ -504,12 +566,18 @@ const AllDonationsAdmin = () => {
         </div>
       </section>
 
+
+      {
+        imgLoading && (
+          <LoadingSpinner text={"Have Patience, Loading your Pdf."} />
+        )
+      }
+
       {loading && (
         <section className="d-flex m-auto">
           <HashLoader color={"#ff395c"} />
         </section>
       )}
-
 
     </Layout>
   );

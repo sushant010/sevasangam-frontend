@@ -100,21 +100,21 @@ const UserDonations = () => {
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                         <td>
 
-                                            {donation && donation.is80CertificateRequested === false ? <> <button onClick={() => handleRequestCertificate(donation._id)} className='btn btn-theme-primary' title="Request 80 Certificate">
+                                            {(donation?.is80CertificateRequested === false && !donation.certificate) ? <> <button onClick={() => handleRequestCertificate(donation._id)} className='btn btn-theme-primary' title="Request 80 Certificate">
                                                 Request 80 Certificate
                                             </button></> : <>
 
-                                                {donation && donation.certificate ? <>
+                                                {donation?.certificate ? <>
                                                     <div style={{ gap: "6px" }} className='d-flex flex-wrap'>
-                                                        <div className="file-preview">
+                                                        {/* <div className="file-preview">
                                                             <a className='btn btn-theme-primary' rel="noopener noreferrer" target="_blank" href={donation.certificate}><i className="fa-solid fa-eye"></i> View</a>
-                                                        </div>
+                                                        </div> */}
                                                         <div className="file-preview">
                                                             <a className='btn btn-theme-primary' target="_blank" href={donation.certificate} download><i className="fa-solid fa-download"></i> Download</a>
                                                         </div>
 
-                                                        {donation.is80CertificateRequested && donation.certificate ? <><p className='mt-1 text-danger'>Certificate Requested again</p></> : <button onClick={() => {
-                                                            handleRequestCertificate(donation.id); setIsCertificateRequestedAgain(true)
+                                                        {(donation.is80CertificateRequested && donation.certificate) ? <><p className='mt-1 text-danger'>Certificate Requested again</p></> : <button onClick={() => {
+                                                            handleRequestCertificate(donation._id); setIsCertificateRequestedAgain(true)
                                                         }} className='btn btn-theme-primary' title="Request 80 Certificate">
                                                             Request 80 Certificate Again
                                                         </button>}
