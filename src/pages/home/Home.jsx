@@ -11,6 +11,7 @@ import Carousel from 'react-grid-carousel'
 import { Link, useNavigate } from "react-router-dom";
 import { devoteeSteps, templeAdminSteps } from "./steps";
 import TrendingPopularRecentlyCreatedTemples from "../../components/TrendingPopularRecentlyCreatedTemples";
+import { HashLoader } from "react-spinners";
 
 function Home() {
 
@@ -122,18 +123,29 @@ function Home() {
 
           <div className="listing-container center home">
 
-            {searchTemple && searchTemple.length > 0 ? (
+            {searchTemple?.length > 0 ? (
               searchTemple.slice(0, 4).map((temple) => (
                 <ListingCard
                   key={temple._id} temple={temple}
                 />
               ))
             ) : (
-              popularTemples.slice(0, 4).map((temple) => (
-                <ListingCard
-                  key={temple._id} temple={temple}
-                />
-              ))
+              popularTemples?.length > 0 ? (
+                <>
+                  {popularTemples.slice(0, 4).map((temple) => (
+                    <ListingCard
+                      key={temple._id} temple={temple}
+                    />
+                  ))
+                  }
+                </>
+              ) : (
+                <>
+                  <div className="d-flex align-items-center">
+                    <HashLoader color={"#ff395c"} />
+                  </div>
+                </>
+              )
             )}
           </div>
         </section>
@@ -380,7 +392,7 @@ Together, let&apos;s uphold the legacy of our cultural heritage, support the san
             </div>
           </div>
         </section>
-      </Layout>
+      </Layout >
     </>
   );
 }
