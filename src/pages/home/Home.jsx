@@ -63,10 +63,12 @@ function Home() {
         setSearchTemple(data.temples);
 
       } else {
-        const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
-        const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
-        window.scrollTo(0, 0);
-        navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
+
+
+        // const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
+        // const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
+        // window.scrollTo(0, 0);
+        // navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
       }
 
     } catch (error) {
@@ -119,6 +121,7 @@ function Home() {
           </div>
 
           <div className="listing-container center home">
+
             {searchTemple && searchTemple.length > 0 ? (
               searchTemple.slice(0, 4).map((temple) => (
                 <ListingCard

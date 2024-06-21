@@ -83,9 +83,9 @@ const TrendingPopularRecentlyCreatedTemples = () => {
 
     const fetchData = async () => {
         setLoading(true)
-        await fetchPopularTemples();
-        await fetchRecentlyCreatedTemples();
-        await fetchTrendingTemples()
+        fetchPopularTemples();
+        fetchRecentlyCreatedTemples();
+        fetchTrendingTemples()
         setLoading(false)
     }
     useEffect(() => {

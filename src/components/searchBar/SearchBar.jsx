@@ -88,7 +88,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
     fetchCities()
   }, []);
 
-  const handleSearchSubmit = (id) => {
+  const handleSearchSubmit = () => {
     if (inHomepage && handleSearchSubmitOnHomepage) {
       handleSearchSubmitOnHomepage(searchTerm, location);
     } else {
@@ -99,14 +99,15 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
       const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
       window.scrollTo(0, 0);
       navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
-      // }
+
+
     }
     setSuggestions([]); // Clear suggestions after search
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setSearchTerm(suggestion.templeName);
-    handleSearchSubmit(suggestion._id);
+
+    navigate(`/temple/${suggestion._id}`);
   };
 
 

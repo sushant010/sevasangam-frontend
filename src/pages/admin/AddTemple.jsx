@@ -6,6 +6,8 @@ import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 import compress from 'compress-base64'
+import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
+import { set } from 'zod';
 
 const libraries = ['places'];
 
@@ -24,7 +26,7 @@ const AddTemple = () => {
 
 
     const [autocomplete, setAutocomplete] = useState(null);
-
+    const [loading, setLoading] = useState(false);
 
     const handleLocationChange = (place) => {
 
@@ -105,25 +107,7 @@ const AddTemple = () => {
         otherImages: [],
     });
 
-    const handleTempleLogoImage = (e) => {
-        const selectedFile = e.target.files[0];
-        setTempleLogoImage(selectedFile);
-        setImagePreviews(prev => ({
-            ...prev,
-            logo: URL.createObjectURL(selectedFile),
-        }));
-    };
 
-
-
-    const handleTempleImagesChange = (e) => {
-        const selectedFiles = Array.from(e.target.files);
-        setTempleImages(selectedFiles);
-        setImagePreviews(prev => ({
-            ...prev,
-            otherImages: selectedFiles.map(file => URL.createObjectURL(file)),
-        }));
-    };
 
     const api = import.meta.env.VITE_API_URL;
 
@@ -346,6 +330,7 @@ const AddTemple = () => {
 
 
             if (e.target.name === 'templeLogo') {
+                setLoading(true);
                 setImagePreviews(prev => ({
                     ...prev,
                     logo: URL.createObjectURL(file),
@@ -355,6 +340,7 @@ const AddTemple = () => {
                 console.log("done for logo")
 
             } else if (e.target.name === 'templeBanner') {
+                setLoading(true);
                 setImagePreviews(prev => ({
                     ...prev,
                     banner: URL.createObjectURL(file),
@@ -366,6 +352,7 @@ const AddTemple = () => {
 
 
             } else if (e.target.name === 'templeImages') {
+                setLoading(true);
                 setImagePreviews(prev => ({
                     ...prev,
                     otherImages: selectedFiles.map(file => URL.createObjectURL(file)),
@@ -379,6 +366,8 @@ const AddTemple = () => {
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -850,7 +839,11 @@ const AddTemple = () => {
                     </div >
                 </form >
             </section >
-
+            {
+                loading && (
+                    <LoadingSpinner text={"Have Patience, Loading your Image."} />
+                )
+            }
 
         </Layout >
     );

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 import compress from 'compress-base64'
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
+import { HashLoader } from 'react-spinners';
 const UpdateTemple = () => {
     const [auth] = useAuth();
     const navigate = useNavigate();
@@ -63,6 +64,8 @@ const UpdateTemple = () => {
     });
 
     const [loading, setLoading] = useState(false);
+
+
 
     // for google map
     const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
@@ -404,6 +407,7 @@ const UpdateTemple = () => {
                                 <h3 className='text-primary fw-bold text-md'>Images</h3>
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
+
                                 <label htmlFor="templeLogo" className="form-label">Temple Logo <i className="fa fa-asterisk"></i></label>
                                 <input
                                     type="file"
@@ -728,7 +732,13 @@ const UpdateTemple = () => {
                     </div>
                 </form>
             </section>
-            {loading && <LoadingSpinner />}
+
+            {
+                loading && (
+                    <LoadingSpinner text={"Have Patience, Loading your Image."} />
+                )
+            }
+
         </Layout >
     );
 };

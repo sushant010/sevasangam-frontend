@@ -92,6 +92,7 @@ const Temples = () => {
       state: '',
       city: ''
     });
+    setSortOption('');
 
   }
 
@@ -189,7 +190,7 @@ const Temples = () => {
 
   useEffect(() => {
     fetchPopularTemples();
-    fetchRecentlyCreatedTemples();
+    // fetchRecentlyCreatedTemples();
 
   }, []);
 
