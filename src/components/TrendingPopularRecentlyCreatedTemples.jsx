@@ -82,16 +82,14 @@ const TrendingPopularRecentlyCreatedTemples = () => {
     }
 
     const fetchData = async () => {
-        // setLoading(true)
+        setLoading(true)
         await fetchPopularTemples();
         await fetchRecentlyCreatedTemples();
         await fetchTrendingTemples()
-        // setLoading(false)
+        setLoading(false)
     }
     useEffect(() => {
-        fetchPopularTemples();
-        fetchRecentlyCreatedTemples();
-        fetchTrendingTemples()
+        fetchData()
     }, []);
 
 
@@ -222,7 +220,7 @@ const TrendingPopularRecentlyCreatedTemples = () => {
                 </section>
 
             )}
-            {/* {loading && <LoadingSpinner />} */}
+            {loading && <LoadingSpinner />}
         </>
     )
 }

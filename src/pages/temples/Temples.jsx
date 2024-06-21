@@ -254,6 +254,19 @@ const Temples = () => {
     }
   };
 
+  const fetchDonationInLast30Days = async () => {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/donation/fetch-donation-last-30-days`);
+      console.log(res.data.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDonationInLast30Days();
+  }, []);
+
   return (
     <Layout>
 

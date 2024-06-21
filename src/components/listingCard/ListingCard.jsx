@@ -13,21 +13,7 @@ const ListingCard = ({ temple }) => {
   const navigate = useNavigate();
 
 
-  const [donationInLast30DaysAmount, setDonationInLast30DaysAmount] = useState(0);
 
-
-  const fetchDonationInLast30Days = async () => {
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/donation/fetch-donation-last-30-days`, { id: temple._id });
-      setDonationInLast30DaysAmount(res.data.donationInLast30DaysAmount);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    // fetchDonationInLast30Days();
-  }, []);
 
   const navigateToTemple = (id) => () => {
     window.scrollTo(0, 0);
@@ -52,7 +38,7 @@ const ListingCard = ({ temple }) => {
           <span className='fw-bold'>₹ {donationInLast30DaysAmount}</span> Donated in last 30 days <Link className='px-2 text-primary' style={{ textDecoration: "underline" }} to="/checkout">Donate Now</Link>
         </p>} */}
         <p className="text-grey-light fw-normal text-xs">
-          <span className='fw-bold'>₹ {donationInLast30DaysAmount}</span> Donated in last 30 days
+          <span className='fw-bold'>₹ {temple.donationInLast30Days}</span> Donated in last 30 days
         </p>
 
       </div>
@@ -71,6 +57,7 @@ ListingCard.propTypes = {
       state: PropTypes.string
     }),
     donation: PropTypes.number.isRequired,
+    donationInLast30Days: PropTypes.number.isRequired,
     images: PropTypes.shape({
       bannerImage: PropTypes.string
     })
