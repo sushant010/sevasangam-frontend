@@ -149,9 +149,9 @@ const VerifyTempleChanges = () => {
     };
 
     const renderNestedObject = (obj, objOld, parentKey = '') => {
-        console.log(obj)
-        console.log(objOld)
-        console.log(parentKey)
+        // console.log(obj)
+        // console.log(objOld)
+        // console.log(parentKey)
 
 
 
@@ -168,7 +168,66 @@ const VerifyTempleChanges = () => {
                         {renderNestedObject(value, formattedKey)}
                     </React.Fragment>
                 );
-            } else {
+            } else if (parentKey === 'images') {
+
+                if (key !== 'otherImages') {
+                    const isSame = objOld[parentKey][key] === value;
+                    return (
+                        !isSame &&
+                        <React.Fragment key={formattedKey}>
+                            <tr>
+                                <td>{formattedKey}</td>
+
+                                <td>{objOld[parentKey][key] && <img src={objOld[parentKey][key]} alt="Banner Preview" className="mt-2" style={{ objectFit: "cover", aspectRatio: '1/1', height: '200px', border: "3px solid #fff" }} />}
+                                </td>
+
+
+                                <td style={{ color: 'var(--color-theme-success)' }}>
+
+
+                                    <img src={value} alt="Banner Preview" className="mt-2" style={{ objectFit: "cover", aspectRatio: '1/1', height: '200px', border: "3px solid #fff" }} />
+                                </td>
+                            </tr>
+                        </React.Fragment>
+
+
+
+                    );
+                } else {
+                    const oldImages = objOld[parentKey][key];
+                    const newImages = value;
+                    return (
+                        <React.Fragment key={formattedKey}>
+                            <tr>
+                                <td>{formattedKey}</td>
+
+                                <td>
+                                    <div className="d-flex">
+                                        {oldImages.map((img, index) => (
+                                            <div key={index}>
+
+                                                <img src={img} alt="Other images Preview" className="mt-2" style={{ objectFit: "cover", aspectRatio: '1/1', height: '200px', border: "3px solid #fff" }} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </td>
+
+                                <td style={{ color: 'var(--color-theme-success)' }}>
+                                    <div className="d-flex">
+                                        {newImages.map((img, index) => (
+                                            <div key={index}>
+
+                                                <img src={img} alt="Other images Preview" className="mt-2" style={{ objectFit: "cover", aspectRatio: '1/1', height: '200px', border: "3px solid #fff" }} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </td>
+                            </tr>
+                        </React.Fragment>
+                    );
+                }
+            }
+            else {
                 const isSame = objOld[parentKey][key] === value;
                 return (
                     !isSame &&

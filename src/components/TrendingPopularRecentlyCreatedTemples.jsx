@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Carousel from 'react-grid-carousel'
 import ListingCard from './listingCard/ListingCard'
+import LoadingSpinner from './loadingSpinner/LoadingSpinner'
 
 const TrendingPopularRecentlyCreatedTemples = () => {
     const [trendingTemples, setTrendingTemples] = useState([])
     const [popularTemples, setPopularTemples] = useState([])
     const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
+    const [loading, setLoading] = useState(false)
     const hideArrow = { display: 'none' }
 
     const api = import.meta.env.VITE_API_URL;
@@ -79,11 +81,15 @@ const TrendingPopularRecentlyCreatedTemples = () => {
 
     }
 
+    const fetchData = async () => {
+        setLoading(true)
+        await fetchPopularTemples();
+        await fetchRecentlyCreatedTemples();
+        await fetchTrendingTemples()
+        setLoading(false)
+    }
     useEffect(() => {
-        fetchPopularTemples();
-        fetchRecentlyCreatedTemples();
-
-        fetchTrendingTemples()
+        fetchData()
     }, []);
 
 
@@ -214,7 +220,7 @@ const TrendingPopularRecentlyCreatedTemples = () => {
                 </section>
 
             )}
-
+            {loading && <LoadingSpinner />}
         </>
     )
 }

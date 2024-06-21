@@ -3,7 +3,6 @@ import Layout from "../../components/layout/Layout";
 import SearchBar from "../../components/searchBar/SearchBar";
 import SectionImgWithText from "../../components/sectionImgWithTextDesc/SectionImgWithText";
 import SectionBgImgWithGradient from "../../components/sectionBgImgWithGradient/SectionBgImgWithGradient";
-import Button from "../../components/buttons/Button";
 import ListingCard from "../../components/listingCard/ListingCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -19,9 +18,9 @@ function Home() {
 
   const [showSteps, setShowSteps] = useState("devotee")
 
-  const [trendingTemples, setTrendingTemples] = useState([])
+
   const [popularTemples, setPopularTemples] = useState([])
-  const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
+
   const [searchTemple, setSearchTemple] = useState([])
 
 
@@ -54,7 +53,6 @@ function Home() {
 
 
   const handleSearchSubmitOnHomepage = async (searchTerm, location) => {
-
     try {
       const res = await axios.post(`${api}/temple/filter-temples`, {
         templeName: searchTerm,
