@@ -38,13 +38,30 @@ const AddEvent = () => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.onload = event => {
-                compress(event.target.result, {
-                    width: 400,
-                    type: 'image/jpg',
-                    max: 200, // max size
-                    min: 20, // min size
-                    quality: 0.8,
-                }).then(result => {
+                compress(event.target.result,
+
+                    {
+                        width: 800, // Increased width for better details
+                        type: 'image/jpeg',
+                        max: 1000, // Increased max size to allow for higher quality
+                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        quality: 0.95, // Adjusted quality to improve image fidelity
+                    },
+                    {
+                        width: 800, // Increased width for better details
+                        type: 'image/png',
+                        max: 1000, // Increased max size to allow for higher quality
+                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        quality: 0.95, // Adjusted quality to improve image fidelity
+                    },
+                    {
+                        width: 800, // Increased width for better details
+                        type: 'image/webp',
+                        max: 1000, // Increased max size to allow for higher quality
+                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        quality: 0.95, // Adjusted quality to improve image fidelity
+                    },
+                ).then(result => {
                     resolve(result);
                 }).catch(error => {
                     reject(error);

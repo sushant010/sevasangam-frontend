@@ -119,7 +119,7 @@ const AddTemple = () => {
         contactPerson: {
             name: 'John Doe',
             email: 'johndoe@example.com',
-            mobile: '+1234567890',
+            mobile: '8528528528',
         },
         location: {
             address: '123 Main Street',
@@ -154,8 +154,8 @@ const AddTemple = () => {
             start: '',
             end: '',
         },
-        aboutTemple1: '',
-        aboutTemple2: '',
+        aboutTemple1: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
+        aboutTemple2: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
     };
 
     // const initialState = {
@@ -303,13 +303,29 @@ const AddTemple = () => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.onload = event => {
-                compress(event.target.result, {
-                    width: 400,
-                    type: 'image/jpg',
-                    max: 200, // max size
-                    min: 20, // min size
-                    quality: 0.8,
-                }).then(result => {
+                compress(event.target.result,
+                    {
+                        width: 800, // Increased width for better details
+                        type: 'image/jpeg',
+                        max: 1000, // Increased max size to allow for higher quality
+                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        quality: 0.95, // Adjusted quality to improve image fidelity
+                    },
+                    {
+                        width: 800, // Increased width for better details
+                        type: 'image/png',
+                        max: 1000, // Increased max size to allow for higher quality
+                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        quality: 0.95, // Adjusted quality to improve image fidelity
+                    },
+                    {
+                        width: 800, // Increased width for better details
+                        type: 'image/webp',
+                        max: 1000, // Increased max size to allow for higher quality
+                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        quality: 0.95, // Adjusted quality to improve image fidelity
+                    },
+                ).then(result => {
                     resolve(result);
                 }).catch(error => {
                     reject(error);
@@ -337,7 +353,7 @@ const AddTemple = () => {
                 }));
                 const compressedImage = await convertToBase64(file);
                 setTempleLogoImage(compressedImage);
-                console.log("done for logo")
+
 
             } else if (e.target.name === 'templeBanner') {
                 setLoading(true);
@@ -347,9 +363,6 @@ const AddTemple = () => {
                 }));
                 const compressedImage = await convertToBase64(file);
                 setTempleBannerImage(compressedImage);
-
-                console.log("done for banner")
-
 
             } else if (e.target.name === 'templeImages') {
                 setLoading(true);
@@ -361,7 +374,6 @@ const AddTemple = () => {
                 const compressedImages = await Promise.all(selectedFiles.map(file => convertToBase64(file)));
 
                 setTempleImages(compressedImages);
-                console.log("done for others")
 
             }
         } catch (error) {
@@ -537,7 +549,7 @@ const AddTemple = () => {
                                     accept="image/*"
                                 />
                                 {imagePreviews.banner && (
-                                    <img src={imagePreviews.banner} alt="Banner Preview" className="mt-2" style={{ aspectRatio: '1/1', height: '100px', border: "3px solid #fff" }} />
+                                    <img src={imagePreviews.banner} alt="Banner Preview" className="mt-2" style={{ aspectRatio: '1/1', height: '100px', objectFit: "cover", border: "3px solid #fff" }} />
                                 )}
                             </div>
                             <div style={{ background: "var(--color-theme-accent)", padding: "10px", borderRadius: "4px" }} className="mb-3">
@@ -552,7 +564,7 @@ const AddTemple = () => {
                                     accept="image/*"
                                 />
                                 {imagePreviews.otherImages.map((src, index) => (
-                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', aspectRatio: '1/1', border: "3px solid #fff" }} />
+                                    <img key={index} src={src} alt={`Image Preview ${index}`} className="mt-2 me-2" style={{ height: '80px', aspectRatio: '1/1', objectFit: "cover", border: "3px solid #fff" }} />
                                 ))}
                             </div>
                         </div >

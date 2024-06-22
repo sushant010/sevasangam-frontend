@@ -82,12 +82,23 @@ const TrendingPopularRecentlyCreatedTemples = () => {
     }
 
     const fetchData = async () => {
-        setLoading(true)
-        fetchPopularTemples();
-        fetchRecentlyCreatedTemples();
-        fetchTrendingTemples()
-        setLoading(false)
-    }
+        setLoading(true); // Indicate that loading is in progress
+
+        try {
+            // Run all fetch functions simultaneously and wait for all of them to complete
+            await Promise.all([
+                fetchPopularTemples(),
+                fetchRecentlyCreatedTemples(),
+                fetchTrendingTemples()
+            ]);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            // Handle the error appropriately, e.g., set an error state
+        } finally {
+            setLoading(false); // Indicate that loading is finished
+        }
+    };
+
     useEffect(() => {
         fetchData()
     }, []);

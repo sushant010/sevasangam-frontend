@@ -26,6 +26,7 @@ const Temple = () => {
 
   const [loading, setLoading] = useState(false);
   //console all the currency code with symbols
+  const hideArrow = { display: 'none' }
 
   const initialState = {
     templeName: "",
