@@ -94,7 +94,7 @@ const UserDonations = () => {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
 
-                                        <td>{temples.find((temp) => temp._id === donation.temple)?.templeName}</td>
+                                        <td>{donation.temple.templeName}</td>
 
                                         <td>{formattedDate}</td>
                                         <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>

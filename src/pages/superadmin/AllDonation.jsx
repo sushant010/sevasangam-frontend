@@ -60,7 +60,7 @@ const AllDonation = () => {
             if (res.data.success) {
                 if (reset) {
                     setDonations(res.data.donations);
-                    console.log(res.data.donations)
+
 
                 } else {
 
@@ -388,7 +388,7 @@ const AllDonation = () => {
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>{donation.razorpay_payment_id}</td>
-                                                <td>{temples.find((temp) => temp._id === donation.temple)?.templeName}</td>
+                                                <td>{donation.temple.templeName}</td>
                                                 <td>{formattedDate}</td>
                                                 <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
                                                 <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
