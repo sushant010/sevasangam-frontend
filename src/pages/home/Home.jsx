@@ -29,6 +29,28 @@ function Home() {
 
 
 
+  // const fetchImagesOfTemples = async () => {
+  //   try {
+
+  //     const res = await axios.get(`${api}/temple/get-images-of-temples`);
+  //     if (res.data.success) {
+  //       alert("success")
+  //       console.log(res.data.templesImages)
+  //     } else {
+  //       toast.error(res.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching filtered temples:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchImagesOfTemples();
+  // }, []);
+
+
+
+
   // const [filters, setFilters] = useState({
   //   templeName: '',
   //   address: ''
@@ -39,7 +61,7 @@ function Home() {
   const fetchfilteredTemples = async () => {
     try {
 
-      const response = await axios.post(`${api}/temple/filter-temples`, { limit: 4 });
+      const response = await axios.post(`${api} /temple/filter-temples`, { limit: 4 });
       if (response.data.success) {
 
         setSearchTemple(response.data.data.temples);
@@ -55,7 +77,7 @@ function Home() {
 
   const handleSearchSubmitOnHomepage = async (searchTerm, location) => {
     try {
-      const res = await axios.post(`${api}/temple/filter-temples`, {
+      const res = await axios.post(`${api} / temple / filter - temples`, {
         templeName: searchTerm,
         address: location
       }, { limit: 4 });
@@ -69,7 +91,7 @@ function Home() {
         // const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
         // const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
         // window.scrollTo(0, 0);
-        // navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
+        // navigate(`/ temples ? templeName = ${ formattedSearchTerm }${ formattedLocation? `&address=${formattedLocation}` : ''}`);
       }
 
     } catch (error) {
@@ -85,11 +107,24 @@ function Home() {
   // }, [searchTemple])
 
 
+  const fetchPopularTemples = async () => {
+    try {
+      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 7 });
+      if (response.data.success) {
+        setPopularTemples(response.data.data.temples);
+        console.log(response.data.data.temples)
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching filtered temples:', error);
+    }
+  };
 
   useEffect(() => {
 
     fetchfilteredTemples();
-
+    fetchPopularTemples()
   }, []);
 
   // const handleFilterChange = (e) => {

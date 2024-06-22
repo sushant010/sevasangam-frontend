@@ -307,22 +307,22 @@ const AddTemple = () => {
                     {
                         width: 800, // Increased width for better details
                         type: 'image/jpeg',
-                        max: 1000, // Increased max size to allow for higher quality
-                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        max: 50, // Increased max size to allow for higher quality
+                        min: 10,  // Decreased min size to allow for smaller file sizes
                         quality: 0.95, // Adjusted quality to improve image fidelity
                     },
                     {
                         width: 800, // Increased width for better details
                         type: 'image/png',
-                        max: 1000, // Increased max size to allow for higher quality
-                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        max: 50, // Increased max size to allow for higher quality
+                        min: 10,  // Decreased min size to allow for smaller file sizes
                         quality: 0.95, // Adjusted quality to improve image fidelity
                     },
                     {
                         width: 800, // Increased width for better details
                         type: 'image/webp',
-                        max: 1000, // Increased max size to allow for higher quality
-                        min: 100,  // Decreased min size to allow for smaller file sizes
+                        max: 50, // Increased max size to allow for higher quality
+                        min: 10,  // Decreased min size to allow for smaller file sizes
                         quality: 0.95, // Adjusted quality to improve image fidelity
                     },
                 ).then(result => {
