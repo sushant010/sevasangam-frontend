@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import './sectionBgImgWithGradient.css';
 import { Link } from 'react-router-dom';
 
-const SectionBgImgWithGradient = ({ bgImg, heading, description, btn1Link, btn1Text, btn2Link, btn2Text, btn1Class, btn2Class }) => {
+const SectionBgImgWithGradient = ({ bgImg, heading, description, btn1Link = "/temples", btn1Text = "Donate Now", btn2Link = "/contact", btn2Text = "Contact Us", btn1Class = "btn-theme-primary", btn2Class = "btn-theme-grey" }) => {
 
   return (
 
@@ -34,15 +34,6 @@ SectionBgImgWithGradient.propTypes = {
   btn2Text: PropTypes.string,
   btn1Class: PropTypes.string,
   btn2Class: PropTypes.string,
-
-};
-SectionBgImgWithGradient.defaultProps = {
-  btn1Link: "/temples",
-  btn2Link: "/contact",
-  btn1Text: "Donate Now",
-  btn2Text: "Contact Us",
-  btn1Class: "btn-theme-primary",
-  btn2Class: "btn-theme-grey",
 
 };
 

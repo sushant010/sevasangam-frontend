@@ -11,7 +11,6 @@ const TrendingPopularRecentlyCreatedTemples = () => {
     const [popularTemples, setPopularTemples] = useState([])
     const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
     const [loading, setLoading] = useState(false)
-    const hideArrow = { display: 'none' }
 
     const api = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
@@ -120,7 +119,7 @@ const TrendingPopularRecentlyCreatedTemples = () => {
                     <div className="row">
 
                         {/* eslint-disable-next-line */}
-                        <Carousel cols={4} rows={1} gap={0} loop={trendingTemples.length > 4 ? hideArrow : ''}	>
+                        <Carousel cols={4} rows={1} gap={0} loop hideArrow={trendingTemples?.length > 4 ? false : true}>
 
                             {trendingTemples.map((temple, index) => (
 
@@ -148,89 +147,93 @@ const TrendingPopularRecentlyCreatedTemples = () => {
                         </Carousel>
 
                     </div>
-                </section>
+                </section >
             )
 
             }
 
-            {popularTemples && popularTemples.length > 0 && (
-                <section className="listings">
-                    <div className="section-heading line">
-                        Based on Popularity
-                        <span className="text-sm d-block mx-2 fw-light text-grey-light">
-                            Donate to the temples based on popularity
-                        </span>
-                    </div>
+            {
+                popularTemples && popularTemples.length > 0 && (
+                    <section className="listings">
+                        <div className="section-heading line">
+                            Based on Popularity
+                            <span className="text-sm d-block mx-2 fw-light text-grey-light">
+                                Donate to the temples based on popularity
+                            </span>
+                        </div>
 
-                    <div className="listing-container row">
-                        {/* eslint-disable-next-line */}
-                        <Carousel cols={4} rows={1} gap={0} loop={popularTemples.length > 4 ? hideArrow : ''}  >
-                            {popularTemples.map((temple, index) => (
-
-
-                                <Carousel.Item className="carousel-item-spacing" key={index}>
-                                    <ListingCard
-                                        key={index} temple={temple}
-                                    />
-                                </Carousel.Item>
-
-                            ))}
-
-                            {popularTemples.length > 8
-                                && (
-                                    <Carousel.Item className="carousel-item-spacing">
-                                        <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+                        <div className="listing-container row">
+                            {/* eslint-disable-next-line */}
+                            <Carousel cols={4} rows={1} gap={0} loop hideArrow={popularTemples?.length > 4 ? false : true}  >
+                                {popularTemples.map((temple, index) => (
 
 
-                                            <button onClick={handleViewAllPopularTemples} className="btn btn-theme-primary">View All Popular Temples</button>
-                                        </div>
+                                    <Carousel.Item className="carousel-item-spacing" key={index}>
+                                        <ListingCard
+                                            key={index} temple={temple}
+                                        />
                                     </Carousel.Item>
-                                )}
-                        </Carousel>
+
+                                ))}
+
+                                {popularTemples.length > 8
+                                    && (
+                                        <Carousel.Item className="carousel-item-spacing">
+                                            <div className="h-100 d-flex justify-content-center align-items-center flex-column">
 
 
-                    </div>
-                </section>
-            )}
-
-            {recentlyCreatedTemples && recentlyCreatedTemples.length > 0 && (
-                <section className="listings">
-                    <div className="section-heading line">
-                        Recently Created
-                        <span className="text-sm d-block mx-2 fw-light text-grey-light">
-                            Donate to the recently added temples
-                        </span>
-                    </div>
-
-                    <div className="listing-container row">
-                        {/* eslint-disable-next-line */}
-                        <Carousel cols={4} rows={1} gap={0} loop={recentlyCreatedTemples.length > 4 ? hideArrow : ''}>
-                            {recentlyCreatedTemples.map((temple, index) => (
+                                                <button onClick={handleViewAllPopularTemples} className="btn btn-theme-primary">View All Popular Temples</button>
+                                            </div>
+                                        </Carousel.Item>
+                                    )}
+                            </Carousel>
 
 
-                                <Carousel.Item key={index}>
-                                    <ListingCard
-                                        key={index} temple={temple}
-                                    />
-                                </Carousel.Item>
+                        </div>
+                    </section>
+                )
+            }
 
-                            ))}
-                            {recentlyCreatedTemples.length > 8
-                                && (
-                                    <Carousel.Item >
-                                        <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+            {
+                recentlyCreatedTemples && recentlyCreatedTemples.length > 0 && (
+                    <section className="listings">
+                        <div className="section-heading line">
+                            Recently Created
+                            <span className="text-sm d-block mx-2 fw-light text-grey-light">
+                                Donate to the recently added temples
+                            </span>
+                        </div>
+
+                        <div className="listing-container row">
+                            {/* eslint-disable-next-line */}
+                            <Carousel cols={4} rows={1} gap={0} loop hideArrow={recentlyCreatedTemples?.length > 4 ? false : true}>
+                                {recentlyCreatedTemples.map((temple, index) => (
 
 
-                                            <button onClick={handleViewAllRecentCreatedTemples} className="btn btn-theme-primary">View All Recent Created Temples</button>
-                                        </div>
-                                    </Carousel.Item>)}
+                                    <Carousel.Item key={index}>
+                                        <ListingCard
+                                            key={index} temple={temple}
+                                        />
+                                    </Carousel.Item>
 
-                        </Carousel>
+                                ))}
+                                {recentlyCreatedTemples.length > 8
+                                    && (
+                                        <Carousel.Item >
+                                            <div className="h-100 d-flex justify-content-center align-items-center flex-column">
 
-                    </div>
-                </section>
 
-            )}
+                                                <button onClick={handleViewAllRecentCreatedTemples} className="btn btn-theme-primary">View All Recent Created Temples</button>
+                                            </div>
+                                        </Carousel.Item>)}
+
+                            </Carousel>
+
+                        </div>
+                    </section>
+
+                )
+            }
             {loading && <LoadingSpinner />}
         </>
     )

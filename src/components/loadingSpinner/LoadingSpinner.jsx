@@ -1,7 +1,6 @@
 import HashLoader from "react-spinners/HashLoader";
-import './loadingSpinner.css'
-import Layout from '../layout/Layout';
-import { propTypes } from "react-grid-carousel";
+import './loadingSpinner.css';
+import PropTypes from 'prop-types';
 
 const LoadingSpinner = ({ text = '' }) => {
     return (
@@ -15,5 +14,5 @@ const LoadingSpinner = ({ text = '' }) => {
 export default LoadingSpinner
 
 LoadingSpinner.propTypes = {
-    text: propTypes.string
+    text: PropTypes.string
 }

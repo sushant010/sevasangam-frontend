@@ -112,7 +112,7 @@ function Home() {
       const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 7 });
       if (response.data.success) {
         setPopularTemples(response.data.data.temples);
-        console.log(response.data.data.temples)
+
       } else {
         toast.error(response.data.message);
       }

@@ -19,14 +19,18 @@ import defaultLogo from '../../assets/images/sevasangam-logo.png';
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 import { object, set } from "zod";
 
-
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import Map from "../../components/Map";
 
 
 const Temple = () => {
 
+
+
+
   const [loading, setLoading] = useState(false);
   //console all the currency code with symbols
-  const hideArrow = { display: 'none' }
+
 
   const initialState = {
     templeName: "",
@@ -84,6 +88,8 @@ const Temple = () => {
   const currencySelectChange = (e) => {
     setCurrency(e.target.value);
   };
+
+
 
   useEffect(() => {
     const currencySymbol = getSymbolFromCurrency(currency);
@@ -270,7 +276,7 @@ const Temple = () => {
                 )}
                 {temple?.images?.otherImages && temple.images.otherImages.map((image, index) => (
                   <>
-                    <div className={`img-wrapper order-${index}`}>
+                    <div key={index} className={`img-wrapper order-${index}`}>
                       <img
                         src={image}
                         alt="temple"
@@ -279,6 +285,7 @@ const Temple = () => {
 
                   </>
                 ))}
+                {/* <Map address={temple?.location?.address} /> */}
 
               </div>
 
@@ -325,10 +332,10 @@ const Temple = () => {
             <h2 style={{ fontSize: "28px" }} className="my-2 section-heading">
               {temple.templeName}
             </h2>
-            <p className="mb-2">
+            <div className="mb-2">
               <div className="fa-solid fa-location-dot mx-1"></div>{" "}
               {temple.location.address}
-            </p>
+            </div>
             <div className=" mb-2 d-flex">
               <span className="feature bg-primary">Tax Benefit</span>
               <span className="feature bg-success">Assured</span>
@@ -344,9 +351,9 @@ const Temple = () => {
                 </div>
                 <div
                   className="temple-donation"
-                  style={{
-                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-                  }}
+                // style={{
+                //   boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                // }}
                 >
                   <div
                     style={{ gap: "10px" }}
@@ -472,7 +479,7 @@ const Temple = () => {
 
         <div className="listing-container row">
           {/* eslint-disable-next-line */}
-          <Carousel cols={4} rows={1} gap={1} loop={similarTemple.length > 4 ? hideArrow : ''}>
+          <Carousel cols={4} rows={1} gap={1} loop hideArrow={similarTemple?.length > 4 ? false : true}>
             {similarTemple && similarTemple.map((temple, index) => (
 
 

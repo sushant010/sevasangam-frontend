@@ -10,12 +10,12 @@ import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 const UpdateProfileModal = () => {
   const api = import.meta.env.VITE_API_URL;
   const [auth, setAuth] = useAuth();
-  const [credentials, setCredentials] = useState({ name: '', phone: '', password: '' });
+  const [credentials, setCredentials] = useState({ name: '', phone: '' });
   const [avatar, setAvatar] = useState(null);
   const [avatarLoading, setAvatarLoading] = useState(false);
 
   const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setCredentials({ ...credentials, [e.target.name]: e.target.value || '' });
   };
 
   // const handleFileChange = (e) => {
@@ -32,7 +32,6 @@ const UpdateProfileModal = () => {
     const formData = new FormData();
     formData.append('name', credentials.name);
     formData.append('phone', credentials.phone);
-    console.log(avatar)
     if (avatar) {
       formData.append('avatar', avatar);
     }
@@ -138,10 +137,10 @@ const UpdateProfileModal = () => {
             </div>
             <div className="modal-body">
               <div className="mb-3">
-                <input placeholder="Name" type="text" name="name" onChange={handleChange} value={credentials.name} className="form-control" id="name" />
+                <input placeholder="Name" type="text" name="name" onChange={handleChange} value={credentials.name || ''} className="form-control" id="name" />
               </div>
               <div className="mb-3">
-                <PhoneInput placeholder='Mobile' value={credentials.phone} onChange={phoneNumChange} defaultCountry="IN" className="form-control input-form-control" international />
+                <PhoneInput placeholder='Mobile' value={credentials.phone || ''} onChange={phoneNumChange} defaultCountry="IN" className="form-control input-form-control" international />
               </div>
               {/* <div className="mb-3">
               <input placeholder="Password" type="password" name="password" onChange={handleChange} value={credentials.password} className="form-control" id="password" />

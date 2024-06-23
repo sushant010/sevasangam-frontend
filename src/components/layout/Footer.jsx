@@ -135,7 +135,7 @@ const Footer = () => {
         </footer>
 
       </div>
-      <div style={{ boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "var(--color-theme-accent)", color: "#fff" }} className="p-2 d-flex justify-content-center">
+      <div style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "var(--color-theme-accent)", color: "#fff" }} className="p-2 d-flex justify-content-center">
         <p style={{ fontSize: "13.5px", color: "var(--text-color-grey-dark)" }}>Copyright &#169; 2024 SevaSangam, All rights reserved | Designed & Developed by <a className="" style={{ color: "var(--text-color-grey-dark)" }} target="_blank" href="https://therankshell.com/">Rankshell</a></p>
       </div>
     </>
