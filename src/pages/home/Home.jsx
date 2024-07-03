@@ -267,9 +267,11 @@ function Home() {
           </div>
 
           <div className="mt-4 row">
-            <Carousel cols={4} rows={1} gap="30px" loop>
+            {
+              showSteps === "devotee" && (
+                <Carousel cols={4} rows={1} gap="30px" loop>
               {
-                showSteps === "devotee" ? devoteeSteps.map((step, index) => (
+                devoteeSteps.map((step, index) => (
                   <Carousel.Item key={index}>
 
                     <div className="card">
@@ -285,7 +287,17 @@ function Home() {
 
                     </div>
                   </Carousel.Item>
-                )) : templeAdminSteps.map((step, index) => (
+                ))
+              }
+
+                </Carousel>
+              )
+            }
+            {
+              showSteps === "admin" && (
+                <Carousel cols={4} rows={1} gap="30px" loop>
+              {
+                templeAdminSteps.map((step, index) => (
                   <Carousel.Item key={index}>
 
                     <div className="card">
@@ -299,13 +311,15 @@ function Home() {
                         <p className="card-description">{step.description}</p>
                       </div>
                     </div>
-
-
 
                   </Carousel.Item>
                 ))
               }
-            </Carousel>
+
+                </Carousel>
+              )
+            }
+            
           </div>
           {/* Content not provided */}
 
