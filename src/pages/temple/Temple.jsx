@@ -82,6 +82,7 @@ const Temple = () => {
   const [currencySymbol, setCurrencySymbol] = useState("₹");
   const [tip, setTip] = useState(0);
   const [events, setEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
 
   const [similarTemple, setSimilarTemple] = useState([]);
 
@@ -138,7 +139,8 @@ const Temple = () => {
     try {
       const res = await axios.post(`${api}/temple/event/get-all-events-by-temple/${id}`);
       const { data } = res.data;
-      setEvents(data);
+      setEvents(data.filter(event => new Date(event.date.end) >= new Date()));
+      setPastEvents(data.filter(event => new Date(event.date.end) < new Date()));
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
@@ -324,6 +326,24 @@ const Temple = () => {
 
                 </div>
               ) : null}
+
+              {
+                pastEvents.length > 0 && (
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div style={{ fontSize: "34px" }} className="section-heading line my-3">Past Events</div>
+                    </div>
+                    <Carousel cols={3} rows={1} gap={20} loop>
+                      {pastEvents && pastEvents.map((event, index) => (
+                        <Carousel.Item key={index}>
+                          <EventCard event={event} />
+                        </Carousel.Item>
+                      ))}
+
+                    </Carousel>
+                  </div>
+                )
+                }
 
 
             </div>
