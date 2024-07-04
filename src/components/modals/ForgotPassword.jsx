@@ -41,7 +41,8 @@ const ForgotPasswordModal = () => {
                 toast.error(res.data.error);
             }
         } catch (error) {
-            console.log(error);
+
+            toast.error(error.response.data.message);
         }
     };
 
