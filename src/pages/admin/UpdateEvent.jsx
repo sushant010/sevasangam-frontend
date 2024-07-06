@@ -147,21 +147,21 @@ const UpdateEvent = () => {
             if (res.data.success) {
 
                 // Clear form fields
-                setEventName('');
-                setEventDescription('');
-                setEventStartDate('');
-                setEventEndDate('');
-                setEventStartTime('');
-                setEventEndTime('');
-                setEventImages([]);
+                // setEventName('');
+                // setEventDescription('');
+                // setEventStartDate('');
+                // setEventEndDate('');
+                // setEventStartTime('');
+                // setEventEndTime('');
+                // setEventImages([]);
                 // Optionally, display success message
                 toast.success(res.data.message);
-                window.scrollTo(0, 0);
-                if (auth.user._id === 1) {
-                    navigate(`/admin/temple/${eventTemple}`)
-                } else {
-                    navigate(`/superadmin/temple/${eventTemple}`)
-                }
+                // window.scrollTo(0, 0);
+                // if (auth.user._id === 1) {
+                //     navigate(`/admin/temple/${eventTemple}`)
+                // } else {
+                //     navigate(`/superadmin/temple/${eventTemple}`)
+                // }
 
             } else {
                 // Handle error, e.g., display a toast message

@@ -7,6 +7,7 @@ import 'react-phone-number-input/style.css';
 import zod, { set } from 'zod';
 import { useAuth } from "../../context/Auth";
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import "./signupmodel.css";
 
 
 const schema = zod.object({
@@ -29,6 +30,7 @@ const SignupModal = () => {
   const [formSubmitLoading, setFormSubmitLoading] = useState(false);
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [credentials, setCredentials] = useState({ name: '', email: '', phone: '', password: '', otpToken: null, otp: '' });
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -211,10 +213,30 @@ const SignupModal = () => {
                     <PhoneInput placeholder='Mobile' value={credentials.phone} onChange={phoneNumChange} defaultCountry="IN" className="form-control input-form-control" international />
                     {phoneError && <p className="text-danger mt-1">{phoneError}</p>}
                   </div>
-                  <div className="mb-3">
-                    <input placeholder='Password' type="password" name='password' onChange={handleChange} value={credentials.password} className="form-control" id="password" />
-                    {passwordError && <p className="text-danger mt-1">{passwordError}</p>}
-                  </div>
+                  <div className=" mb-3 d-flex  password-form-control">
+                      <input
+                        placeholder="Password"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        onChange={handleChange}
+                        value={credentials.password}
+                        className="form-control"
+                        id="password"
+                      />
+                      <span className="password-eye-icon px-2 d-flex align-items-center justify-content-center">
+                        {showPassword ? (
+                          <i
+                            className="fa-solid fa-eye-slash"
+                            onClick={() => setShowPassword(!showPassword)}
+                          ></i>
+                        ) : (
+                          <i
+                            className="fa-solid fa-eye"
+                            onClick={() => setShowPassword(!showPassword)}
+                          ></i>
+                        )}
+                      </span>
+                    </div>
                   <div className="mb-3">
                     <input placeholder='Confirm Password' type="password" name='cpassword' onChange={handleChange} value={credentials.cpassword} className="form-control" id="cpassword" />
                     {cpasswordError && <p className="text-danger mt-1">{cpasswordError}</p>}

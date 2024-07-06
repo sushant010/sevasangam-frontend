@@ -59,6 +59,8 @@ const ViewTemple = () => {
     const api = import.meta.env.VITE_API_URL;
     const [temple, setTemple] = useState(initialState);
     const [events, setEvents] = useState([]);
+    const [pastEvents, setPastEvents] = useState([]);
+
     const [loading, setLoading] = useState(false);
 
 
@@ -97,7 +99,8 @@ const ViewTemple = () => {
         try {
             const res = await axios.post(`${api}/temple/event/get-all-events-by-temple/${id}`);
             const { data } = res.data;
-            setEvents(data);
+            setEvents(data.filter(event => new Date(event.date.end) > new Date()));
+            setPastEvents(data.filter(event => new Date(event.date.end) < new Date()));
         } catch (error) {
             console.error(error);
             // Handle error, e.g., display a toast message
@@ -417,6 +420,28 @@ const ViewTemple = () => {
 
                             </div>
                         ) : null}
+                    </div>
+
+                    <div className="col-md-12">
+                        {pastEvents.length > 0 && (
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div style={{ fontSize: "34px" }} className="section-heading line my-3">Past Events</div>
+                                </div>
+                                <Carousel cols={3} rows={1} gap={20} loop>
+                                    {pastEvents && pastEvents.map((event, index) => (
+                                            
+                                            <Carousel.Item key={index}>
+    
+                                                <EventCard event={event} showActions={true} handleDeleteEvent={handleDeleteEvent}  />
+                                            </Carousel.Item>
+    
+                                        ))}
+    
+                                </Carousel>
+
+                            </div>
+                        )}
                     </div>
 
 
