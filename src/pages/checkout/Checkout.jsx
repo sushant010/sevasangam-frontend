@@ -14,11 +14,14 @@ import currencyCodes from 'currency-codes';
 // import $ from 'jquery';
 import { toast } from 'react-toastify';
 import { type } from 'jquery';
+import { HashLoader } from 'react-spinners';
+import { set } from 'zod';
 const Checkout = () => {
     const api = import.meta.env.VITE_API_URL;
     const website_url = import.meta.env.VITE_WEBSITE_URL;
     const [donate, setDonate] = useDonate();
     const [temple, setTemple] = useState({});
+    const [templeLoading, setTempleLoading] = useState(false)
 
     const [temples, setTemples] = useState([])
     const [auth] = useAuth();
@@ -74,17 +77,21 @@ const Checkout = () => {
     };
 
     const handletempleToDonateMonthlyChange = (e) => {
+        setTempleLoading(true)
         setDonate({ ...donate, templeId: e.target.value })
         localStorage.setItem('donate', JSON.stringify({ amount: donate.amount, templeId: e.target.value }))
         const newTemple = fetchTempleById(e.target.value)
         setTemple(newTemple)
+        setTempleLoading(false)
     }
 
     const handletempleToDonateOnceChange = (e) => {
+        setTempleLoading(true)
         setDonate({ ...donate, templeId: e.target.value })
         localStorage.setItem('donate', JSON.stringify({ amount: donate.amount, templeId: e.target.value }))
         const newTemple = fetchTempleById(e.target.value)
         setTemple(newTemple)
+        setTempleLoading(false)
     }
 
     const fetchTemple = async () => {
@@ -111,8 +118,15 @@ const Checkout = () => {
         }
     };
 
+    const [anonymous, setAnonymous] = useState(false);
+
+    const handleAnonymousChange = (e) => {
+        setAnonymous(e.target.checked);
+    };
+
 
     const handleDonate = async (e) => {
+        console.log(anonymous)
         e.preventDefault()
         // const { data: { key } } = await axios.get("http://www.localhost:4000/api/getkey")
 
@@ -175,6 +189,7 @@ const Checkout = () => {
                 notes: {
                     amount: donate.amount,
                     temple: donate.templeId,
+                    anonymous: anonymous,
                     donateUser: JSON.stringify(donateUser), // Store as a string
                 },
                 theme: {
@@ -253,6 +268,7 @@ const Checkout = () => {
                 notes: {
                     amount: donate.amount,
                     temple: donate.templeId,
+                    anonymous: anonymous,
                     donateUser: JSON.stringify(donateUser), // Store as a string
                 },
                 theme: {
@@ -354,13 +370,16 @@ const Checkout = () => {
                                 </div>
                                 <input onChange={handleUpdateDonation} value={donate.amount} style={{ fontSize: "14px", flex: "1", padding: "4px", width: "100%", height: "40px" }} placeholder='Enter Amount' className='mb-4 form-control' />
 
-                                {temple ?
+                                {templeLoading && <section className="d-flex m-auto justify-content-center">
+                                    <HashLoader color={"#ff395c"} />
+                                </section>}
+                                {(temple && !templeLoading) ?
                                     (
 
                                         <div className='selected-temple'>
                                             <div className="img-wrapper">
                                                 <img
-                                                    src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
+                                                    src={temple.images?.bannerImage ? temple.images?.bannerImage : defaultLogo}
                                                     alt="temple"
                                                 />
                                             </div>
@@ -392,10 +411,10 @@ const Checkout = () => {
                                     style={{ fontSize: "14px", backgroundColor: "#fff" }}
                                     className="form-select"
                                     name="templeName"
-
+                                    value={donate.templeId}
                                     onChange={handletempleToDonateMonthlyChange} // Assuming this function updates donate.templeId
                                 >
-                                    <option value="">Select Temple</option>
+
                                     {temples.map((temple) => (
                                         <option key={temple._id} value={temple._id}>{temple.templeName}</option>
                                     ))}
@@ -481,7 +500,7 @@ const Checkout = () => {
                                 </form>
                                 <div style={{ gap: "16px" }} className='d-flex align-items-center justify-content-center flex-wrap'>
                                     <div className="form-check d-flex justify-content-center align-items-center">
-                                        <input className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault2" />
+                                        <input value={anonymous} onChange={(e) => handleAnonymousChange(e)} className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault2" />
                                         <label style={{ fontSize: "13.5px", color: "darkgrey" }} className="form-check-label" htmlFor="flexCheckDefault2">
                                             Make my donations anonymous
                                         </label>
@@ -516,13 +535,16 @@ const Checkout = () => {
                                 </div>
                             </div>
                             <div className='mb-4' style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>
-                                {temple ?
+                                {templeLoading && <section className="d-flex m-auto justify-content-center">
+                                    <HashLoader color={"#ff395c"} />
+                                </section>}
+                                {(temple && !templeLoading) ?
                                     (
 
                                         <div className='selected-temple'>
                                             <div style={{ height: "150px" }} className="img-wrapper">
                                                 <img
-                                                    src={temple.images?.templeBannerImage ? temple.images?.templeBannerImage : defaultLogo}
+                                                    src={temple.images?.bannerImage ? temple.images?.bannerImage : defaultLogo}
                                                     alt="temple"
                                                 />
                                             </div>
@@ -554,10 +576,10 @@ const Checkout = () => {
                                     style={{ fontSize: "14px", backgroundColor: "#fff" }}
                                     className="form-select"
                                     name="templeName"
-
+                                    value={donate.templeId}
                                     onChange={handletempleToDonateMonthlyChange} // Assuming this function updates donate.templeId
                                 >
-                                    <option value="">Select Temple</option>
+
                                     {temples.map((temple) => (
                                         <option key={temple._id} value={temple._id}>{temple.templeName}</option>
                                     ))}
@@ -611,7 +633,7 @@ const Checkout = () => {
                                 </form>
                                 <div style={{ gap: "16px" }} className='d-flex align-items-center justify-content-center flex-wrap'>
                                     <div className="form-check d-flex justify-content-center align-items-center">
-                                        <input className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault2" />
+                                        <input value={anonymous} onChange={(e) => handleAnonymousChange(e)} className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault2" />
                                         <label style={{ fontSize: "13.5px", color: "darkgrey" }} className="form-check-label" htmlFor="flexCheckDefault2">
                                             Make my donations anonymous
                                         </label>

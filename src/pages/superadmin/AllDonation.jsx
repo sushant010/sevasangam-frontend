@@ -32,7 +32,8 @@ const AllDonation = () => {
         donateUser: searchParams.get('donateUser') || '',
         paymentMethod: searchParams.get('paymentMethod') || '',
         dateFrom: searchParams.get('dateFrom') || '',
-        dateTo: searchParams.get('dateTo') || ''
+        dateTo: searchParams.get('dateTo') || '',
+        isAnonymous: searchParams.get('isAnonymous') || ''
     });
 
     const handleResetFilters = () => {
@@ -55,7 +56,8 @@ const AllDonation = () => {
                 donateUser: searchParams.get('donateUser') || '',
                 paymentMethod: searchParams.get('paymentMethod') || '',
                 dateFrom: searchParams.get('dateFrom') || '',
-                dateTo: searchParams.get('dateTo') || ''
+                dateTo: searchParams.get('dateTo') || '',
+                isAnonymous: searchParams.get('isAnonymous') || ''
             });
             if (res.data.success) {
                 if (reset) {
@@ -158,7 +160,9 @@ const AllDonation = () => {
             donateUser: searchParams.get('donateUser') || '',
             paymentMethod: searchParams.get('paymentMethod') || '',
             dateFrom: searchParams.get('dateFrom') || '',
-            dateTo: searchParams.get('dateTo') || ''
+            dateTo: searchParams.get('dateTo') || '',
+            isAnonymous: searchParams.get('isAnonymous') || ''
+
         });
 
 
@@ -345,6 +349,19 @@ const AllDonation = () => {
                                         onChange={handleFilterChange}
                                     />
                                 </div>
+                                <div className="col-md-2">
+                                    <label className='mx-2'>Anonymous Donations</label>
+                                    <select
+                                        className="form-select"
+                                        name="isAnonymous"
+                                        value={filters.isAnonymous}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="">All</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
                                 <div className="col-md-1">
                                     <div className="d-flex justify-content-end m-0 p-0">
                                         <button type="submit" className="btn btn-theme-primary"><i className="fa-solid fa-filter"></i></button>
@@ -387,7 +404,7 @@ const AllDonation = () => {
                                         return (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
-                                                <td>{donation.razorpay_payment_id}</td>
+                                                <td style={{ whiteSpace: "nowrap" }}>{donation.razorpay_payment_id} {donation.isAnonymous == true && <><i title='Anonymous Donation' style={{ fontSize: "14px" }} className="text-primary fa-solid fa-user-shield"></i></>}</td>
                                                 <td>{donation.temple.templeName}</td>
                                                 <td>{formattedDate}</td>
                                                 <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>

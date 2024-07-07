@@ -506,6 +506,7 @@ const AllDonationsAdmin = () => {
                                     type="file"
                                   />
                                   <button
+                                    disabled={!file}
                                     type="submit"
                                     className="m-2 btn btn-theme-primary"
                                   >

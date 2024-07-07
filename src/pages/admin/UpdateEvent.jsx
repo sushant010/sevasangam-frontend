@@ -146,25 +146,30 @@ const UpdateEvent = () => {
             const res = await axios.put(`${api}/temple/event/update-event/${id}`, newEventData);
             if (res.data.success) {
 
-                // Clear form fields
-                // setEventName('');
-                // setEventDescription('');
-                // setEventStartDate('');
-                // setEventEndDate('');
-                // setEventStartTime('');
-                // setEventEndTime('');
-                // setEventImages([]);
+
                 // Optionally, display success message
                 toast.success(res.data.message);
-                // window.scrollTo(0, 0);
-                // if (auth.user._id === 1) {
-                //     navigate(`/admin/temple/${eventTemple}`)
-                // } else {
-                //     navigate(`/superadmin/temple/${eventTemple}`)
-                // }
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    if (auth.user._id === 1) {
+                        navigate(`/admin/temple/${eventTemple}`)
+                    } else {
+                        navigate(`/superadmin/temple/${eventTemple}`)
+                    }
+                }, 2000);
+                // Clear form fields
+                setEventName('');
+                setEventDescription('');
+                setEventStartDate('');
+                setEventEndDate('');
+                setEventStartTime('');
+                setEventEndTime('');
+                setEventImages([]);
+
 
             } else {
                 // Handle error, e.g., display a toast message
+                toast.error(res.data.error);
             }
         } catch (error) {
             console.error(error);

@@ -8,11 +8,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Carousel from 'react-grid-carousel'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { devoteeSteps, templeAdminSteps } from "./steps";
 import TrendingPopularRecentlyCreatedTemples from "../../components/TrendingPopularRecentlyCreatedTemples";
 import { HashLoader } from "react-spinners";
 
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 function Home() {
 
   const api = import.meta.env.VITE_API_URL;
@@ -27,8 +31,25 @@ function Home() {
 
   const navigate = useNavigate();
 
+  const query = useQuery();
 
 
+  useEffect(() => {
+    const resetStatus = query.get('reset');
+    if (resetStatus === 'success') {
+      toast.success('Password reset successfully');
+    } else if (resetStatus === 'failure') {
+      toast.error('Password reset failed');
+    }
+
+    // Remove query parameter after displaying the toast
+    if (resetStatus) {
+      navigate({
+        pathname: window.location.pathname,
+        search: '',
+      });
+    }
+  }, [query, navigate]);
   // const fetchImagesOfTemples = async () => {
   //   try {
 
@@ -270,25 +291,25 @@ function Home() {
             {
               showSteps === "devotee" && (
                 <Carousel cols={4} rows={1} gap="30px" loop>
-              {
-                devoteeSteps.map((step, index) => (
-                  <Carousel.Item key={index}>
+                  {
+                    devoteeSteps.map((step, index) => (
+                      <Carousel.Item key={index}>
 
-                    <div className="card">
-                      <img
-                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Card Image"
-                        className="card-image"
-                      />
-                      <div className="card-content">
-                        <h2 className="card-title">{step.title}</h2>
-                        <p className="card-description">{step.description}</p>
-                      </div>
+                        <div className="card">
+                          <img
+                            src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Card Image"
+                            className="card-image"
+                          />
+                          <div className="card-content">
+                            <h2 className="card-title">{step.title}</h2>
+                            <p className="card-description">{step.description}</p>
+                          </div>
 
-                    </div>
-                  </Carousel.Item>
-                ))
-              }
+                        </div>
+                      </Carousel.Item>
+                    ))
+                  }
 
                 </Carousel>
               )
@@ -296,30 +317,30 @@ function Home() {
             {
               showSteps === "admin" && (
                 <Carousel cols={4} rows={1} gap="30px" loop>
-              {
-                templeAdminSteps.map((step, index) => (
-                  <Carousel.Item key={index}>
+                  {
+                    templeAdminSteps.map((step, index) => (
+                      <Carousel.Item key={index}>
 
-                    <div className="card">
-                      <img
-                        src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Card Image"
-                        className="card-image"
-                      />
-                      <div className="card-content">
-                        <h2 className="card-title">{step.title}</h2>
-                        <p className="card-description">{step.description}</p>
-                      </div>
-                    </div>
+                        <div className="card">
+                          <img
+                            src="https://plus.unsplash.com/premium_photo-1661310049066-57565d639aba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Card Image"
+                            className="card-image"
+                          />
+                          <div className="card-content">
+                            <h2 className="card-title">{step.title}</h2>
+                            <p className="card-description">{step.description}</p>
+                          </div>
+                        </div>
 
-                  </Carousel.Item>
-                ))
-              }
+                      </Carousel.Item>
+                    ))
+                  }
 
                 </Carousel>
               )
             }
-            
+
           </div>
           {/* Content not provided */}
 

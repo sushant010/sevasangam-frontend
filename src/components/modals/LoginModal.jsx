@@ -28,6 +28,7 @@ const LoginModal = () => {
   const location = useLocation();
   const loginButtonRef = useRef(null);
   const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const handleChange = (e) => {
@@ -130,16 +131,34 @@ const LoginModal = () => {
                   aria-describedby="emailHelp"
                 />
               </div>
-              <div className="mb-3">
+              <div style={{ position: "relative" }} className=" mb-3 d-flex  password-form-control">
                 <input
                   placeholder="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   onChange={handleChange}
                   value={credentials.password}
                   className="form-control"
                   id="password"
                 />
+                <span style={{
+                  position: "absolute",
+                  right: "4px",
+                  top: "50%",
+                  transform: "translateY(-50%)"
+                }} className="text-primary password-eye-icon px-2 d-flex align-items-center justify-content-center">
+                  {showPassword ? (
+                    <i
+                      className="fa-solid fa-eye-slash"
+                      onClick={() => setShowPassword(!showPassword)}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa-solid fa-eye"
+                      onClick={() => setShowPassword(!showPassword)}
+                    ></i>
+                  )}
+                </span>
               </div>
 
               {/* <Link className='forgot-pw' to={'/forgot-password'}> Forgot Password</Link> */}

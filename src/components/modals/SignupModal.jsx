@@ -213,30 +213,35 @@ const SignupModal = () => {
                     <PhoneInput placeholder='Mobile' value={credentials.phone} onChange={phoneNumChange} defaultCountry="IN" className="form-control input-form-control" international />
                     {phoneError && <p className="text-danger mt-1">{phoneError}</p>}
                   </div>
-                  <div className=" mb-3 d-flex  password-form-control">
-                      <input
-                        placeholder="Password"
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        onChange={handleChange}
-                        value={credentials.password}
-                        className="form-control"
-                        id="password"
-                      />
-                      <span className="password-eye-icon px-2 d-flex align-items-center justify-content-center">
-                        {showPassword ? (
-                          <i
-                            className="fa-solid fa-eye-slash"
-                            onClick={() => setShowPassword(!showPassword)}
-                          ></i>
-                        ) : (
-                          <i
-                            className="fa-solid fa-eye"
-                            onClick={() => setShowPassword(!showPassword)}
-                          ></i>
-                        )}
-                      </span>
-                    </div>
+                  <div style={{ position: "relative" }} className=" mb-3 d-flex  password-form-control">
+                    <input
+                      placeholder="Password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      onChange={handleChange}
+                      value={credentials.password}
+                      className="form-control"
+                      id="password"
+                    />
+                    <span style={{
+                      position: "absolute",
+                      right: "4px",
+                      top: "50%",
+                      transform: "translateY(-50%)"
+                    }} className="text-primary password-eye-icon px-2 d-flex align-items-center justify-content-center">
+                      {showPassword ? (
+                        <i
+                          className="fa-solid fa-eye-slash"
+                          onClick={() => setShowPassword(!showPassword)}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa-solid fa-eye"
+                          onClick={() => setShowPassword(!showPassword)}
+                        ></i>
+                      )}
+                    </span>
+                  </div>
                   <div className="mb-3">
                     <input placeholder='Confirm Password' type="password" name='cpassword' onChange={handleChange} value={credentials.cpassword} className="form-control" id="cpassword" />
                     {cpasswordError && <p className="text-danger mt-1">{cpasswordError}</p>}

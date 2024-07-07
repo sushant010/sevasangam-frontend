@@ -24,7 +24,9 @@ const VerifyTempleChanges = () => {
             if (res.data.success) {
                 // console.log("current temple below")
                 // console.log(res.data.data)
+                console.log("current temple below")
                 setCurrentTemple(res.data.data);
+                console.log(res.data.data)
                 setCreatedBy(res.data.data.createdBy);
             } else {
                 toast.error(res.data.message);
@@ -67,8 +69,8 @@ const VerifyTempleChanges = () => {
 
     const fetchData = async () => {
         setLoading(true)
-        await fetchPendingChanges();
         await fetchCurrentTemple();
+        await fetchPendingChanges();
         setLoading(false)
     }
 
@@ -152,9 +154,7 @@ const VerifyTempleChanges = () => {
         // console.log(obj)
         // console.log(objOld)
         // console.log(parentKey)
-
-
-
+        console.log("nested object")
         return Object.entries(obj).map(([key, value]) => {
             const formattedKey = formatKey(key);
             if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
@@ -252,11 +252,12 @@ const VerifyTempleChanges = () => {
 
 
     const renderPropertyRowsForModifiedTemples = (currentTemple) => {
-        // console.log("current below")
-        // console.log(currentTemple.pendingChanges)
-        const changes = currentTemple.pendingChanges
+
+        const changes = pendingChanges
         const old = currentTemple
+        console.log("render property rows for modified temples")
         return Object.entries(changes).map(([key, value]) => {
+            console.log(key)
             if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
                 return (
                     <React.Fragment key={key}>
@@ -267,8 +268,6 @@ const VerifyTempleChanges = () => {
 
                         </tr>
                         {renderNestedObject(value, old, key)}
-
-
                     </React.Fragment>
                 );
             } else {
@@ -305,53 +304,6 @@ const VerifyTempleChanges = () => {
                 }
             }
         })
-
-        // console.log("modified below")
-        // console.log(modifiedTemple)
-        // return Object.entries(modifiedTemple).map(([key, value]) => {
-        //     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        //         return (
-        //             <React.Fragment key={key}>
-        //                 <tr>
-        //                     <td colSpan={3}>
-        //                         <strong>{formatKey(key)}</strong>
-        //                     </td>
-        //                 </tr>
-        //                 {/* {renderPropertyRowsForModifiedTemples(currentTemple[key] || {}, value)} */}
-        //             </React.Fragment>
-        //         );
-        //     } else {
-        //         if (key === 'logo' || key === 'bannerImage') {
-        //             return (
-        //                 <>
-        //                     <tr>
-        //                         <td>{formatKey(key)}</td>
-        //                         <td> <img src={currentTemple[key] || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
-        //                         <td> <img src={value || ''} className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
-        //                     </tr>
-        //                 </>
-        //             );
-        //         } else if (key === 'otherImages') {
-        //             return (
-        //                 <>
-        //                     <tr>
-        //                         <td>{formatKey(key)}</td>
-        //                         <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>    </tr>
-        //                 </>
-        //             );
-        //         } else {
-        //             return (
-        //                 <>        <tr>
-        //                     <td>{formatKey(key)}</td>
-        //                     <td>{currentTemple[key] || ''}</td>
-        //                     <td style={{ color: 'var(--color-theme-success)' }}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
-
-        //                 </tr>
-        //                 </>
-        //             );
-        //         }
-        //     }
-        // });
     };
 
 
@@ -407,7 +359,7 @@ const VerifyTempleChanges = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {renderPropertyRowsForModifiedTemples(currentTemple, pendingChanges)}
+                                        {renderPropertyRowsForModifiedTemples(currentTemple)}
                                     </tbody>
                                 </table>
                                 <button onClick={handleApproveChanges} className='btn btn-theme-primary'>

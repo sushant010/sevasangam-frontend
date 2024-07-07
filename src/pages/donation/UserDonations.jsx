@@ -114,7 +114,7 @@ const UserDonations = () => {
                                                         </div>
 
                                                         {(donation.is80CertificateRequested && donation.certificate) ? <><p className='mt-1 text-danger'>Certificate Requested again</p></> : <button onClick={() => {
-                                                            handleRequestCertificate(donation._id); setIsCertificateRequestedAgain(true)
+                                                            handleRequestCertificate(donation._id);
                                                         }} className='btn btn-theme-primary' title="Request 80 Certificate">
                                                             Request 80 Certificate Again
                                                         </button>}
