@@ -285,10 +285,33 @@ const AllDonationsAdmin = () => {
     fetchData();
   }, []);
 
+
+  const handleResetFilters = () => {
+
+    setSearchParams(new URLSearchParams());
+    setFilters({
+      templeName: "",
+      payId: "",
+      templeCreatedBy: "",
+      donateUser: "",
+      paymentMethod: "",
+      dateFrom: "",
+      dateTo: "",
+      page: 1
+    });
+
+  }
+
+
   return (
     <Layout>
       <section>
-        <div className="section-heading">All Donations</div>
+        <div className='d-flex justify-content-between align-items-center'>
+          <div className="section-heading">
+            All Donations
+          </div>
+          <button onClick={handleResetFilters} className="btn btn-theme-primary">Reset filters</button>
+        </div>
         <div className="filter-container my-4">
           <form className="row g-4" onSubmit={handleFilterSubmit}>
             <div className="col-md-3">
@@ -323,7 +346,7 @@ const AllDonationsAdmin = () => {
               </select>
             </div> */}
 
-            <div className="col-md-3">
+            {/* <div className="col-md-3">
               <input
                 type="text"
                 className="form-control"
@@ -332,7 +355,7 @@ const AllDonationsAdmin = () => {
                 value={filters.donateUser}
                 onChange={handleFilterChange}
               />
-            </div>
+            </div> */}
             <div className="col-md-3">
               <input
                 type="text"
@@ -344,7 +367,7 @@ const AllDonationsAdmin = () => {
               />
             </div>
 
-            <div className="col-md-3">
+            <div className="col-md-2">
               <select
                 className="form-select"
                 name="paymentMethod"
@@ -359,7 +382,7 @@ const AllDonationsAdmin = () => {
                 ))}
               </select>
             </div>
-            <div className="col-md-3 flex-column align-items-start">
+            <div className="col-md-2 flex-column align-items-start">
               <label className="mx-2">Date From</label>
               <input
                 type="date"
@@ -370,7 +393,7 @@ const AllDonationsAdmin = () => {
                 onChange={handleFilterChange}
               />
             </div>
-            <div className="col-md-3 flex-column align-items-start">
+            <div className="col-md-2 flex-column align-items-start">
               <label className="mx-2">Date To</label>
               <input
                 type="date"

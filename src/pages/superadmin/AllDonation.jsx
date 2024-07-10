@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
+import { set } from 'zod';
 
 
 
@@ -38,6 +39,22 @@ const AllDonation = () => {
     const handleResetFilters = () => {
 
         setSearchParams(new URLSearchParams());
+        setFilters({
+            templeName: '',
+
+            payId: '',
+            templeCreatedBy: '',
+
+            donateUser: '',
+
+            paymentMethod: '',
+
+            dateFrom: '',
+            dateTo: '',
+            isAnonymous: '',
+
+        });
+
 
     }
 
