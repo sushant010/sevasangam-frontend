@@ -8,6 +8,7 @@ import { CSVLink } from 'react-csv';
 import HashLoader from "react-spinners/HashLoader";
 import compress from "compress-base64";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import { set } from "zod";
 
 const AllDonationsAdmin = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -28,29 +29,55 @@ const AllDonationsAdmin = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const [filters, setFilters] = useState({
-    temple: searchParams.get("temple") || "",
+    templeName: searchParams.get("templeName") || "",
     payId: searchParams.get("payId") || "",
     templeCreatedBy: searchParams.get("templeCreatedBy") || "",
     donateUser: searchParams.get("donateUser") || "",
     paymentMethod: searchParams.get("paymentMethod") || "",
     dateFrom: searchParams.get("dateFrom") || "",
     dateTo: searchParams.get("dateTo") || "",
+    page: searchParams.get("page") || 1,
   });
 
 
-  const resetFilters = () => {
-    setFilters(null)
-  }
-  const fetchAllDonationsAdmin = async () => {
+  // const resetFilters = () => {
+  //   setSearchParams(new URLSearchParams());
+  // }
+
+
+  const fetchAllDonationsAdmin = async (reset = false) => {
     try {
+
+      if (loading || (!hasMore && !reset)) return;
+      setLoading(true);
+
       const res = await axios.post(`${api}/donation/fetch-donations-by-admin`, {
         user_id: auth.user._id,
+        templeName: searchParams.get('templeName') || '',
+        payId: searchParams.get('payId') || '',
+
+        donateUser: searchParams.get('donateUser') || '',
+        paymentMethod: searchParams.get('paymentMethod') || '',
+        dateFrom: searchParams.get('dateFrom') || '',
+        dateTo: searchParams.get('dateTo') || '',
+        // isAnonymous: searchParams.get('isAnonymous') || '',
+        page: reset ? 1 : page
       });
       console.log(res);
-      setDonations(res.data.donations);
+      if (reset) {
+        setDonations(res.data.donations);
+      } else {
+        setDonations(prev => [...prev, ...res.data.donations]);
+      }
+
+      setTemples(res.data.temples);
+      setPage(prevPage => prevPage + 1);
+      setHasMore(res.data.donations.length > 0);
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,7 +175,7 @@ const AllDonationsAdmin = () => {
   // Fetch temples when filters or sortOption change
   useEffect(() => {
     fetchAllDonationsAdmin(true);
-  }, [filters]);
+  }, [searchParams]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -156,6 +183,18 @@ const AllDonationsAdmin = () => {
       ...prevFilters,
       [name]: value,
     }));
+
+    setSearchParams(
+      (prevSearchParams) => {
+        const newSearchParams = new URLSearchParams(prevSearchParams);
+        if (value) {
+          newSearchParams.set(name, value);
+        } else {
+          newSearchParams.delete(name);
+        }
+        return newSearchParams;
+      }
+    )
   };
 
   // const handleSortOption = (option) => {
@@ -201,18 +240,7 @@ const AllDonationsAdmin = () => {
       return false;
     });
   };
-  const fetchAllTemples = async () => {
-    try {
-      const res = await axios.get(`${api}/temple/get-temples`);
-      setTemples(res.data.data.temples);
-      // const creators = temples.map((temple) => temple.createdBy);
-      // const uniqueCreators = getUniqueObjects(creators, "_id");
-      // setTempleCreator(uniqueCreators);
-    } catch (error) {
-      console.error(error);
-      // Handle error, e.g., display a toast message
-    }
-  };
+
 
   // CSV Data Preparation
   const csvData = donations.map((donation, index) => {
@@ -231,11 +259,21 @@ const AllDonationsAdmin = () => {
     };
   });
 
+
+  const fetchPaymentMethod = async () => {
+    try {
+      const res = await axios.get(`${api}/donation/fetch-payment-methods`);
+      setPaymentMethod(res.data.paymentMethods);
+    } catch (error) {
+      console.error('Error fetching payment method:', error);
+    }
+  }
+
   const fetchData = async () => {
     setLoading(true);
     try {
       await fetchAllDonationsAdmin();
-      await fetchAllTemples();
+      await fetchPaymentMethod();
     } catch (error) {
       console.log(error);
     } finally {
@@ -253,16 +291,16 @@ const AllDonationsAdmin = () => {
         <div className="section-heading">All Donations</div>
         <div className="filter-container my-4">
           <form className="row g-4" onSubmit={handleFilterSubmit}>
-            <div className="col-md-2">
+            <div className="col-md-3">
               <select
                 className="form-select"
-                name="temple"
-                value={filters.temple}
+                name="templeName"
+                value={filters.templeName}
                 onChange={handleFilterChange}
               >
                 <option value="">Select Temple</option>
                 {temples.map((temple, index) => (
-                  <option key={index} value={temple._id}>
+                  <option key={index} value={temple.templeName}>
                     {temple.templeName}
                   </option>
                 ))}
@@ -285,7 +323,7 @@ const AllDonationsAdmin = () => {
               </select>
             </div> */}
 
-            <div className="col-md-2">
+            <div className="col-md-3">
               <input
                 type="text"
                 className="form-control"
@@ -295,7 +333,7 @@ const AllDonationsAdmin = () => {
                 onChange={handleFilterChange}
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-3">
               <input
                 type="text"
                 className="form-control"
@@ -306,7 +344,7 @@ const AllDonationsAdmin = () => {
               />
             </div>
 
-            <div className="col-md-2">
+            <div className="col-md-3">
               <select
                 className="form-select"
                 name="paymentMethod"
@@ -321,7 +359,7 @@ const AllDonationsAdmin = () => {
                 ))}
               </select>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-3 flex-column align-items-start">
               <label className="mx-2">Date From</label>
               <input
                 type="date"
@@ -332,7 +370,7 @@ const AllDonationsAdmin = () => {
                 onChange={handleFilterChange}
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-3 flex-column align-items-start">
               <label className="mx-2">Date To</label>
               <input
                 type="date"
@@ -343,16 +381,17 @@ const AllDonationsAdmin = () => {
                 onChange={handleFilterChange}
               />
             </div>
-            <div className="col-md-1">
+            {/* <div className="col-md-1">
               <div className="d-flex justify-content-end m-0 p-0">
                 <button type="submit" className="btn btn-theme-primary">
                   <i className="fa-solid fa-filter"></i>
                 </button>
               </div>
-            </div>
+            </div> */}
           </form>
         </div>
-        <div className="d-flex justify-content-end">
+
+        {donations.length > 0 ? (<> <div className="d-flex justify-content-end">
           <CSVLink
             data={csvData}
             filename={"donations.csv"}
@@ -362,78 +401,78 @@ const AllDonationsAdmin = () => {
           </CSVLink>
         </div>
 
-        <div className="table-responsive">
-          <table className="table table-light table-bordered table-striped">
-            <thead>
-              <tr>
-                <td>
-                  <p className="fw-bold text-primary">S. No</p>
-                </td>
-                <td>
-                  <p className="fw-bold text-primary">Payment Id</p>
-                </td>
-                <td>
-                  <p className="fw-bold text-primary">Temple</p>
-                </td>
+          <div className="table-responsive">
+            <table className="table table-light table-bordered table-striped">
+              <thead>
+                <tr>
+                  <td>
+                    <p className="fw-bold text-primary">S. No</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Payment Id</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Temple</p>
+                  </td>
 
-                <td>
-                  <p className="fw-bold text-primary">Date of Donation</p>
-                </td>
-                <td>
-                  <p className="fw-bold text-primary">Donation by User</p>
-                </td>
-                <td>
-                  <p className="fw-bold text-primary">Amount</p>
-                </td>
-                <td>
-                  <p className="fw-bold text-primary">Payment Method</p>
-                </td>
-                <td>
-                  <p className="fw-bold text-primary">80G Certificate</p>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              {donations &&
-                donations.map((donation, index) => {
-                  // const formattedDate = new Date(
-                  //   donation.created_at * 1000
-                  // ).toLocaleDateString("en-GB");
-                  const donateUser = donation.donateUser
-                    ? JSON.parse(donation.donateUser)
-                    : null;
+                  <td>
+                    <p className="fw-bold text-primary">Date of Donation</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Donation by User</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Amount</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Payment Method</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">80G Certificate</p>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                {donations &&
+                  donations.map((donation, index) => {
+                    // const formattedDate = new Date(
+                    //   donation.created_at * 1000
+                    // ).toLocaleDateString("en-GB");
+                    const donateUser = donation.donateUser
+                      ? JSON.parse(donation.donateUser)
+                      : null;
 
 
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{donation.razorpay_payment_id}</td>
-                      <td>
-                        {
-                          temples.find(
-                            (temp) => temp._id === donation.temple
-                          )?.templeName
-                        }
-                      </td>
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{donation.razorpay_payment_id}</td>
+                        <td>
+                          {
+                            temples.find(
+                              (temp) => temp._id === donation.temple
+                            )?.templeName
+                          }
+                        </td>
 
-                      <td>{new Date(donation.date).toDateString()}</td>
-                      {donateUser !== null ? (
-                        <td>{`${donateUser.name} (${donateUser.email}, ${donateUser.phone}) `}</td>
-                      ) : (
-                        <td>Anonymous</td>
-                      )}
-                      <td>
-                        {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
-                        {donation.amount}
-                      </td>
-                      <td>{donation.method}</td>
-                      <td>
-                        {donation.is80CertificateRequested ? (
-                          <>
-                            {donation.certificate ? (
-                              <>
-                                <div className="file-preview">
-                                  {/* <a
+                        <td>{new Date(donation.date).toDateString()}</td>
+                        {donateUser !== null ? (
+                          <td>{`${donateUser.name} (${donateUser.email}, ${donateUser.phone}) `}</td>
+                        ) : (
+                          <td>Anonymous</td>
+                        )}
+                        <td>
+                          {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
+                          {donation.amount}
+                        </td>
+                        <td>{donation.method}</td>
+                        <td>
+                          {donation.is80CertificateRequested ? (
+                            <>
+                              {donation.certificate ? (
+                                <>
+                                  <div className="file-preview">
+                                    {/* <a
                                     className="fw-bold"
                                     style={{ color: "green", textDecoration: "underline" }}
                                     target="_blank"
@@ -442,34 +481,34 @@ const AllDonationsAdmin = () => {
                                   >
                                     View Certificate
                                   </a> */}
-                                  <a
-                                    className="fw-bold"
-                                    style={{ color: "green", textDecoration: "underline" }}
-                                    target="_blank"
-                                    // rel="noopener noreferrer"
-                                    href={donation.certificate} download
+                                    <a
+                                      className="fw-bold"
+                                      style={{ color: "green", textDecoration: "underline" }}
+                                      target="_blank"
+                                      // rel="noopener noreferrer"
+                                      href={donation.certificate} download
+                                    >
+                                      Download Certificate & View
+                                    </a>
+                                  </div>
+                                  <div className="fw-bold text-danger">Request Received Again</div>
+                                  <form
+                                    onSubmit={(e) => handleUpdate80GCertificate(donation._id, e)}
                                   >
-                                    Download Certificate & View
-                                  </a>
-                                </div>
-                                <div className="fw-bold text-danger">Request Received Again</div>
-                                <form
-                                  onSubmit={(e) => handleUpdate80GCertificate(donation._id, e)}
-                                >
-                                  <input
-                                    onChange={handleFileChange}
-                                    type="file"
-                                  />
-                                  <button
-                                    type="submit"
-                                    className="m-2 btn btn-theme-primary"
-                                    title="View Temple"
-                                  >
-                                    Update Certificate
-                                  </button>
-                                  {filePreview && (
-                                    <div className="file-preview">
-                                      {/* <a
+                                    <input
+                                      onChange={handleFileChange}
+                                      type="file"
+                                    />
+                                    <button
+                                      type="submit"
+                                      className="m-2 btn btn-theme-primary"
+                                      title="View Temple"
+                                    >
+                                      Update Certificate
+                                    </button>
+                                    {filePreview && (
+                                      <div className="file-preview">
+                                        {/* <a
                                         className="fw-bold"
                                         style={{ color: "green", textDecoration: "underline" }}
                                         target="_blank"
@@ -478,62 +517,62 @@ const AllDonationsAdmin = () => {
                                       >
                                         View Preview
                                       </a> */}
+                                        <a
+                                          className="fw-bold"
+                                          style={{ color: "green", textDecoration: "underline" }}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          href={filePreview} download
+                                        >
+                                          Preview Certificate
+                                        </a>
+                                      </div>
+                                    )}
+                                  </form>
+
+                                </>
+                              ) : (
+                                <>
+                                  <form
+                                    onSubmit={(e) => handleUpload80GCertificate(donation._id, e)}
+                                  >
+                                    <label className="mb-2" style={{ color: "red" }}>
+                                      80G Certificate Requested:
+                                    </label>
+                                    <input
+                                      placeholder="upload certificate"
+                                      onChange={handleFileChange}
+                                      type="file"
+                                    />
+                                    <button
+                                      disabled={!file}
+                                      type="submit"
+                                      className="m-2 btn btn-theme-primary"
+                                    >
+                                      Upload
+                                    </button>
+                                  </form>
+                                  {filePreview && (
+                                    <div className="file-preview">
                                       <a
                                         className="fw-bold"
                                         style={{ color: "green", textDecoration: "underline" }}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        href={filePreview} download
+                                        href={filePreview}
                                       >
-                                        Preview Certificate
+                                        View Preview
                                       </a>
                                     </div>
                                   )}
-                                </form>
-
-                              </>
-                            ) : (
-                              <>
-                                <form
-                                  onSubmit={(e) => handleUpload80GCertificate(donation._id, e)}
-                                >
-                                  <label className="mb-2" style={{ color: "red" }}>
-                                    80G Certificate Requested:
-                                  </label>
-                                  <input
-                                    placeholder="upload certificate"
-                                    onChange={handleFileChange}
-                                    type="file"
-                                  />
-                                  <button
-                                    disabled={!file}
-                                    type="submit"
-                                    className="m-2 btn btn-theme-primary"
-                                  >
-                                    Upload
-                                  </button>
-                                </form>
-                                {filePreview && (
-                                  <div className="file-preview">
-                                    <a
-                                      className="fw-bold"
-                                      style={{ color: "green", textDecoration: "underline" }}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      href={filePreview}
-                                    >
-                                      View Preview
-                                    </a>
-                                  </div>
-                                )}
-                              </>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            {donation.certificate ? (
-                              <div className="file-preview">
-                                {/* <a
+                                </>
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              {donation.certificate ? (
+                                <div className="file-preview">
+                                  {/* <a
                                   className="fw-bold"
                                   style={{ color: "green", textDecoration: "underline" }}
                                   target="_blank"
@@ -542,29 +581,30 @@ const AllDonationsAdmin = () => {
                                 >
                                   View Certificate
                                 </a> */}
-                                <a
-                                  className="fw-bold"
-                                  style={{ color: "green", textDecoration: "underline" }}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  href={donation.certificate} download
-                                >
-                                  Download Uploaded Certificate
-                                </a>
-                              </div>
-                            ) : (
-                              <div>No request</div>
-                            )}
-                          </>
-                        )}
-                      </td>
+                                  <a
+                                    className="fw-bold"
+                                    style={{ color: "green", textDecoration: "underline" }}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={donation.certificate} download
+                                  >
+                                    Download Uploaded Certificate
+                                  </a>
+                                </div>
+                              ) : (
+                                <div>No request</div>
+                              )}
+                            </>
+                          )}
+                        </td>
 
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div></>) : <>No Donations Exist</>}
+
       </section>
 
 
