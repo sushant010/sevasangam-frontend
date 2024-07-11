@@ -5,21 +5,34 @@ import { toast } from 'react-toastify'
 import Carousel from 'react-grid-carousel'
 import ListingCard from './listingCard/ListingCard'
 import LoadingSpinner from './loadingSpinner/LoadingSpinner'
+import { set } from 'zod'
+import { usePopularTemples } from '../context/PopularTemples'
+import { useTrendingTemples } from '../context/TrendingTemples'
+import { useRecentlyCreatedTemples } from '../context/RecentlyCreatedTemples'
+import { setItemWithExpiry } from './LocalStorageSet'
 
 const TrendingPopularRecentlyCreatedTemples = () => {
-    const [trendingTemples, setTrendingTemples] = useState([])
-    const [popularTemples, setPopularTemples] = useState([])
-    const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useState([])
+
+
+    const [trendingTemples, setTrendingTemples] = useTrendingTemples([])
+    const [popularTemples, setPopularTemples] = usePopularTemples([])
+    const [recentlyCreatedTemples, setRecentlyCreatedTemples] = useRecentlyCreatedTemples([])
+
+
     const [loading, setLoading] = useState(false)
 
     const api = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
 
     const fetchPopularTemples = async () => {
+        if (popularTemples.length > 0) {
+            return;
+        }
         try {
             const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 7 });
             if (response.data.success) {
                 setPopularTemples(response.data.data.temples);
+                setItemWithExpiry('popularTemples', response.data.data.temples, 3600000);
             } else {
                 toast.error(response.data.message);
             }
@@ -29,10 +42,14 @@ const TrendingPopularRecentlyCreatedTemples = () => {
     };
 
     const fetchRecentlyCreatedTemples = async () => {
+        if (recentlyCreatedTemples.length > 0) {
+            return;
+        }
         try {
             const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'recentlyAdded', limit: 7 });
             if (response.data.success) {
                 setRecentlyCreatedTemples(response.data.data.temples);
+                setItemWithExpiry('recentlyCreatedTemples', response.data.data.temples, 3600000);
             } else {
                 toast.error(response.data.message);
             }
@@ -41,6 +58,26 @@ const TrendingPopularRecentlyCreatedTemples = () => {
         }
     };
 
+    const fetchTrendingTemples = async () => {
+        if (trendingTemples.length > 0) {
+            return;
+        }
+        try {
+            const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "7" } });
+
+            if (res.data.success) {
+                setTrendingTemples(res.data.data.temples)
+                setItemWithExpiry('trendingTemples', res.data.data.temples, 3600000);
+            } else {
+                toast.error(res.data.message);
+            }
+
+        } catch (error) {
+            console.error('Error creating temple:', error);
+        }
+
+
+    }
 
 
     const handleViewAllPopularTemples = () => {
@@ -61,24 +98,6 @@ const TrendingPopularRecentlyCreatedTemples = () => {
     }
 
 
-    const fetchTrendingTemples = async () => {
-
-        try {
-            const res = await axios.get(`${api}/temple/fetch-trending-temples`, { params: { limit: "7" } });
-
-            if (res.data.success) {
-                setTrendingTemples(res.data.data.temples)
-
-            } else {
-                toast.error(res.data.message);
-            }
-
-        } catch (error) {
-            console.error('Error creating temple:', error);
-        }
-
-
-    }
 
     const fetchData = async () => {
         setLoading(true); // Indicate that loading is in progress

@@ -12,6 +12,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { devoteeSteps, templeAdminSteps } from "./steps";
 import TrendingPopularRecentlyCreatedTemples from "../../components/TrendingPopularRecentlyCreatedTemples";
 import { HashLoader } from "react-spinners";
+import { usePopularTemples } from "../../context/PopularTemples";
 
 
 const useQuery = () => {
@@ -24,9 +25,11 @@ function Home() {
   const [showSteps, setShowSteps] = useState("devotee")
 
 
-  const [popularTemples, setPopularTemples] = useState([])
+  const [popularTemples, setPopularTemples] = usePopularTemples([])
 
   const [searchTemple, setSearchTemple] = useState([])
+
+
 
 
   const navigate = useNavigate();
@@ -50,6 +53,7 @@ function Home() {
       });
     }
   }, [query, navigate]);
+
   // const fetchImagesOfTemples = async () => {
   //   try {
 
@@ -82,10 +86,11 @@ function Home() {
   const fetchfilteredTemples = async () => {
     try {
 
-      const response = await axios.post(`${api} /temple/filter-temples`, { limit: 4 });
+      const response = await axios.post(`${api}/temple/filter-temples`, { limit: 4 });
       if (response.data.success) {
 
         setSearchTemple(response.data.data.temples);
+
       } else {
         toast.error(response.data.message);
       }
@@ -128,24 +133,10 @@ function Home() {
   // }, [searchTemple])
 
 
-  const fetchPopularTemples = async () => {
-    try {
-      const response = await axios.post(`${api}/temple/filter-temples`, { sortOption: 'mostPopular', limit: 7 });
-      if (response.data.success) {
-        setPopularTemples(response.data.data.temples);
-
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching filtered temples:', error);
-    }
-  };
 
   useEffect(() => {
-
     fetchfilteredTemples();
-    fetchPopularTemples()
+
   }, []);
 
   // const handleFilterChange = (e) => {
