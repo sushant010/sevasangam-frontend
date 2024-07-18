@@ -8,6 +8,7 @@ import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@re
 import compress from 'compress-base64'
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 import { HashLoader } from 'react-spinners';
+import MapAutoComplete from '../../components/OLA MAPS/autComplete/MapAutoComplete';
 const UpdateTemple = () => {
     const [auth] = useAuth();
     const navigate = useNavigate();
@@ -85,8 +86,8 @@ const UpdateTemple = () => {
             address: address,
             state: '',
             zipCode: '',
-            latitude: place.geometry.location.lat(),
-            longitude: place.geometry.location.lng(),
+            latitude: place.geometry.location.lat,
+            longitude: place.geometry.location.lng,
             city: '',
             country: '',
         };
@@ -111,9 +112,9 @@ const UpdateTemple = () => {
     };
 
 
-    const onPlaceChanged = () => {
-        const place = autocomplete.getPlace();
-        handleLocationChange(place);
+    const onPlaceChanged = (location) => {
+
+        handleLocationChange(location);
     };
 
     const onMarkerDragEnd = (event) => {
@@ -341,7 +342,7 @@ const UpdateTemple = () => {
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Location</h3>
                             </div>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                                 {isLoaded && (
                                     <>
                                         <Autocomplete
@@ -357,6 +358,20 @@ const UpdateTemple = () => {
                                     </>
                                 )}
 
+                            </div> */}
+                            <div className="mb-3">
+                                <MapAutoComplete
+                                onPlaceChanged={onPlaceChanged}
+                            >
+
+                            <input
+                                type="text"
+                                placeholder="Enter a location ola"
+                                className="form-control"
+                                
+                            />
+
+                            </MapAutoComplete>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="locationAddress" className="form-label">Location Address <i className="fa fa-asterisk"></i></label>
