@@ -13,6 +13,8 @@ const libraries = ['places'];
 
 const AddTemple = () => {
 
+
+
     // for google map
     const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
@@ -112,30 +114,30 @@ const AddTemple = () => {
     const api = import.meta.env.VITE_API_URL;
 
     const initialState = {
-        templeName: 'Sample Temple',
-        typeOfOrganization: 'Non-Profit',
-        description: 'Lorem ipsum dolor sit amet...',
+        templeName: '',
+        typeOfOrganization: '',
+        description: '',
         createdBy: '', // Replace with actual user ID
         contactPerson: {
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            mobile: '8528528528',
+            name: '',
+            email: '',
+            mobile: '',
         },
         location: {
-            address: '123 Main Street',
-            city: 'New York',
-            state: 'NY',
-            zipCode: '10001',
-            country: 'United States',
-            longitude: 77.01502627,
-            latitude: 10.99835602,
+            address: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            country: '',
+            longitude: null,
+            latitude: null,
         },
         bankDetails: {
-            bankName: 'Sample Bank',
-            branch: 'Main Branch',
-            accountHolderName: 'John Doe',
-            accountNumber: '1234567890',
-            ifscCode: 'SAMPLEIFSC123',
+            bankName: '',
+            branch: '',
+            accountHolderName: '',
+            accountNumber: '',
+            ifscCode: '',
             routingNumber: '',
             swiftBicCode: '',
         },
@@ -154,9 +156,56 @@ const AddTemple = () => {
             start: '',
             end: '',
         },
-        aboutTemple1: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
-        aboutTemple2: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
+        aboutTemple1: '',
+        aboutTemple2: '',
     };
+
+    // const initialState = {
+    //     templeName: 'Sample Temple',
+    //     typeOfOrganization: 'Non-Profit',
+    //     description: 'Lorem ipsum dolor sit amet...',
+    //     createdBy: '', // Replace with actual user ID
+    //     contactPerson: {
+    //         name: 'John Doe',
+    //         email: 'johndoe@example.com',
+    //         mobile: '8528528528',
+    //     },
+    //     location: {
+    //         address: '123 Main Street',
+    //         city: 'New York',
+    //         state: 'NY',
+    //         zipCode: '10001',
+    //         country: 'United States',
+    //         longitude: 77.01502627,
+    //         latitude: 10.99835602,
+    //     },
+    //     bankDetails: {
+    //         bankName: 'Sample Bank',
+    //         branch: 'Main Branch',
+    //         accountHolderName: 'John Doe',
+    //         accountNumber: '1234567890',
+    //         ifscCode: 'SAMPLEIFSC123',
+    //         routingNumber: '',
+    //         swiftBicCode: '',
+    //     },
+    //     taxInformation: {
+    //         taxId: '',
+    //         ein: '',
+    //     },
+    //     website: '',
+    //     socialMedia: {
+    //         facebook: '',
+    //         twitter: '',
+    //         instagram: '',
+    //     },
+
+    //     timing: {
+    //         start: '',
+    //         end: '',
+    //     },
+    //     aboutTemple1: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
+    //     aboutTemple2: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
+    // };
 
     // const initialState = {
     //     templeName: '',
@@ -256,9 +305,6 @@ const AddTemple = () => {
 
 
             const templeImagesArray = Array.isArray(templeImages) ? templeImages : [];
-
-
-
             temple.createdBy = auth.user._id;
             temple.images = {
                 logo: templeLogoImage,
@@ -386,9 +432,14 @@ const AddTemple = () => {
 
     return (
         <Layout>
-
+            <div className='warning-bg'>
+                <div className='warning-modal text-center'>
+                    Please Signup or Login first to Add Temple <br></br>
+                    <button className='mt-2 btn btn-theme-primary' data-bs-toggle="modal" data-bs-target="#loginBackdrop">Signup / Login</button>
+                </div>
+            </div>
             <section>
-                <form onSubmit={handleSubmit}>
+                <form className={!auth?.user?._id && 'no_user'} onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-md-12">
                             <div className="text-center section-heading">
