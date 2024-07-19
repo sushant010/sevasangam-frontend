@@ -4,29 +4,17 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
-import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 import compress from 'compress-base64'
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
-import { set } from 'zod';
 import MapAutoComplete from '../../components/OLA MAPS/autComplete/MapAutoComplete';
 
-const libraries = ['places'];
 
 const AddTemple = () => {
 
-    // for google map
-    const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
-
-
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: google_map_api,
-        libraries: libraries
-    });
 
 
 
 
-    const [autocomplete, setAutocomplete] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const handleLocationChange = (place) => {
@@ -414,7 +402,7 @@ const AddTemple = () => {
 
                                 <input
                                     type="text"
-                                    placeholder="Enter a location ola"
+                                    placeholder="Enter a location"
                                     className="form-control"
                                     
                                 />

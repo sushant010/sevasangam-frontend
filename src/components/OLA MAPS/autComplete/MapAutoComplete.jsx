@@ -108,6 +108,10 @@ export default function MapAutoComplete({ children, onPlaceChanged }) {
                 locationSelected(result.place_id);
               }}
               type="button"
+              style={{
+                fontSize: "0.7rem",
+              }}
+              className=" py-2 border-bottom-1 border-gray-200 w-full text-left"
             >
               {result.description}
             </button>
