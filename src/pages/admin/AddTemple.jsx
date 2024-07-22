@@ -4,30 +4,14 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate } from 'react-router-dom';
-import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 import compress from 'compress-base64'
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
-import { set } from 'zod';
+import MapAutoComplete from '../../components/OLA MAPS/autComplete/MapAutoComplete';
 
-const libraries = ['places'];
 
 const AddTemple = () => {
 
 
-
-    // for google map
-    const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
-
-
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: google_map_api,
-        libraries: libraries
-    });
-
-
-
-
-    const [autocomplete, setAutocomplete] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const handleLocationChange = (place) => {
@@ -39,8 +23,8 @@ const AddTemple = () => {
             address: address,
             state: '',
             zipCode: '',
-            latitude: place.geometry.location.lat(),
-            longitude: place.geometry.location.lng(),
+            latitude: place.geometry.location.lat,
+            longitude: place.geometry.location.lng,
             city: '',
             country: '',
         };
@@ -54,6 +38,8 @@ const AddTemple = () => {
             } else if (types.includes('locality')) {
                 locationDetails.city = component.long_name;
             } else if (types.includes('country')) {
+                console.log(component)
+                console.log(types)
                 locationDetails.country = component.long_name;
             }
         });
@@ -65,17 +51,9 @@ const AddTemple = () => {
     };
 
 
-    const onPlaceChanged = () => {
-        if (autocomplete) {
-            const place = autocomplete.getPlace();
-            if (place) {
-                handleLocationChange(place);
-            } else {
-                toast.error("Place not found");
-            }
-        } else {
-            toast.error("Autocomplete is not initialized");
-        }
+    const onPlaceChanged = (location) => {
+
+        handleLocationChange(location);
     };
 
     const onMarkerDragEnd = (event) => {
@@ -160,98 +138,7 @@ const AddTemple = () => {
         aboutTemple2: '',
     };
 
-    // const initialState = {
-    //     templeName: 'Sample Temple',
-    //     typeOfOrganization: 'Non-Profit',
-    //     description: 'Lorem ipsum dolor sit amet...',
-    //     createdBy: '', // Replace with actual user ID
-    //     contactPerson: {
-    //         name: 'John Doe',
-    //         email: 'johndoe@example.com',
-    //         mobile: '8528528528',
-    //     },
-    //     location: {
-    //         address: '123 Main Street',
-    //         city: 'New York',
-    //         state: 'NY',
-    //         zipCode: '10001',
-    //         country: 'United States',
-    //         longitude: 77.01502627,
-    //         latitude: 10.99835602,
-    //     },
-    //     bankDetails: {
-    //         bankName: 'Sample Bank',
-    //         branch: 'Main Branch',
-    //         accountHolderName: 'John Doe',
-    //         accountNumber: '1234567890',
-    //         ifscCode: 'SAMPLEIFSC123',
-    //         routingNumber: '',
-    //         swiftBicCode: '',
-    //     },
-    //     taxInformation: {
-    //         taxId: '',
-    //         ein: '',
-    //     },
-    //     website: '',
-    //     socialMedia: {
-    //         facebook: '',
-    //         twitter: '',
-    //         instagram: '',
-    //     },
 
-    //     timing: {
-    //         start: '',
-    //         end: '',
-    //     },
-    //     aboutTemple1: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
-    //     aboutTemple2: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups',
-    // };
-
-    // const initialState = {
-    //     templeName: '',
-    //     typeOfOrganization: '',
-    //     description: '',
-    //     createdBy: '', // Replace with actual user ID
-    //     contactPerson: {
-    //         name: '',
-    //         email: '',
-    //         mobile: '',
-    //     },
-    //     location: {
-    //         address: '',
-    //         city: '',
-    //         state: '',
-    //         zipCode: '',
-    //         country: '',
-    //         longitude: null,
-    //         latitude: null,
-    //     },
-    //     bankDetails: {
-    //         bankName: '',
-    //         branch: '',
-    //         accountHolderName: '',
-    //         accountNumber: '',
-    //         ifscCode: '',
-    //         routingNumber: '',
-    //         swiftBicCode: '',
-    //     },
-    //     taxInformation: {
-    //         taxId: '',
-    //         ein: '',
-    //     },
-    //     website: '',
-    //     socialMedia: {
-    //         facebook: '',
-    //         twitter: '',
-    //         instagram: '',
-    //     },
-    //     timing: {
-    //         start: '',
-    //         end: '',
-    //     },
-    //     aboutTemple1: '',
-    //     aboutTemple2: '',
-    // };
 
     const [temple, setTemple] = useState(initialState);
 
@@ -490,7 +377,7 @@ const AddTemple = () => {
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Location </h3>
                             </div>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                                 {isLoaded && (
                                     <>
                                         <Autocomplete
@@ -507,6 +394,20 @@ const AddTemple = () => {
                                 )}
 
 
+                            </div> */}
+                            <div className="mb-3">
+                                <MapAutoComplete
+                                    onPlaceChanged={onPlaceChanged}
+                                >
+
+                                <input
+                                    type="text"
+                                    placeholder="Enter a location"
+                                    className="form-control"
+                                    
+                                />
+
+                                </MapAutoComplete>
                             </div>
                             <div className="mb-3">
 
@@ -566,7 +467,7 @@ const AddTemple = () => {
                                     type="text"
                                     name="location.city"
                                     onChange={handleChange}
-                                    value={temple.location.city}
+                                    value={temple.location.country}
                                     className="form-control"
                                     id="locationCountry"
                                 />

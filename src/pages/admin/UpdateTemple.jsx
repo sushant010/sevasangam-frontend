@@ -4,10 +4,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Autocomplete, GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 import compress from 'compress-base64'
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 import { HashLoader } from 'react-spinners';
+import MapAutoComplete from '../../components/OLA MAPS/autComplete/MapAutoComplete';
 const UpdateTemple = () => {
     const [auth] = useAuth();
     const navigate = useNavigate();
@@ -67,16 +67,6 @@ const UpdateTemple = () => {
 
 
 
-    // for google map
-    const google_map_api = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
-    const libraries = ['places'];
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: google_map_api,
-        libraries: libraries
-    });
-
-    const [autocomplete, setAutocomplete] = useState(null);
-
 
     const handleLocationChange = (place) => {
         const address = place.formatted_address;
@@ -85,8 +75,8 @@ const UpdateTemple = () => {
             address: address,
             state: '',
             zipCode: '',
-            latitude: place.geometry.location.lat(),
-            longitude: place.geometry.location.lng(),
+            latitude: place.geometry.location.lat,
+            longitude: place.geometry.location.lng,
             city: '',
             country: '',
         };
@@ -111,9 +101,9 @@ const UpdateTemple = () => {
     };
 
 
-    const onPlaceChanged = () => {
-        const place = autocomplete.getPlace();
-        handleLocationChange(place);
+    const onPlaceChanged = (location) => {
+
+        handleLocationChange(location);
     };
 
     const onMarkerDragEnd = (event) => {
@@ -341,7 +331,7 @@ const UpdateTemple = () => {
                             <div className="mb-3">
                                 <h3 className='text-primary fw-bold text-md'>Location</h3>
                             </div>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                                 {isLoaded && (
                                     <>
                                         <Autocomplete
@@ -357,6 +347,20 @@ const UpdateTemple = () => {
                                     </>
                                 )}
 
+                            </div> */}
+                            <div className="mb-3">
+                                <MapAutoComplete
+                                onPlaceChanged={onPlaceChanged}
+                            >
+
+                            <input
+                                type="text"
+                                placeholder="Enter a location"
+                                className="form-control"
+                                
+                            />
+
+                            </MapAutoComplete>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="locationAddress" className="form-label">Location Address <i className="fa fa-asterisk"></i></label>
