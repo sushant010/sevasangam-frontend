@@ -102,16 +102,21 @@ export default function MapAutoComplete({ children, onPlaceChanged }) {
       {children}
       <ul className="resultContainer">
         {autoCompleteResults.map((result) => (
-          <li key={result.reference}>
+          <li style={{
+            border: "1px solid #e0e0e0",
+            borderRadius: "0px",
+          }} key={result.reference}>
             <button
               onClick={() => {
                 locationSelected(result.place_id);
               }}
               type="button"
               style={{
-                fontSize: "0.7rem",
+                fontSize: "0.8rem",
+                textAlign: "left",
+
               }}
-              className=" py-2 border-bottom-1 border-gray-200 w-full text-left"
+              className=" p-2 border-bottom-1 border-gray-200 w-full"
             >
               {result.description}
             </button>

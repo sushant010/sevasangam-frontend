@@ -319,12 +319,15 @@ const AddTemple = () => {
 
     return (
         <Layout>
-            <div className='warning-bg'>
-                <div className='warning-modal text-center'>
-                    Please Signup or Login first to Add Temple <br></br>
-                    <button className='mt-2 btn btn-theme-primary' data-bs-toggle="modal" data-bs-target="#loginBackdrop">Signup / Login</button>
+            {!auth?.user?._id && (
+                <div className='warning-bg'>
+                    <div className='warning-modal text-center'>
+                        Please Signup or Login first to Add Temple <br></br>
+                        <button className='mt-2 btn btn-theme-primary' data-bs-toggle="modal" data-bs-target="#loginBackdrop">Signup / Login</button>
+                    </div>
                 </div>
-            </div>
+            )}
+
             <section>
                 <form className={!auth?.user?._id && 'no_user'} onSubmit={handleSubmit}>
                     <div className="row">
@@ -400,12 +403,12 @@ const AddTemple = () => {
                                     onPlaceChanged={onPlaceChanged}
                                 >
 
-                                <input
-                                    type="text"
-                                    placeholder="Enter a location"
-                                    className="form-control"
-                                    
-                                />
+                                    <input
+                                        type="text"
+                                        placeholder="Enter a location"
+                                        className="form-control"
+
+                                    />
 
                                 </MapAutoComplete>
                             </div>
