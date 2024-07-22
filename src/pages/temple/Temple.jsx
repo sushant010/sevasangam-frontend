@@ -17,10 +17,8 @@ import Carousel from "react-grid-carousel";
 import EventCard from "../../components/eventCard/EventCard";
 import defaultLogo from '../../assets/images/sevasangam-logo.png';
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
-import { object, set } from "zod";
 
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import Map from "../../components/Map";
+
 
 
 const Temple = () => {
@@ -343,7 +341,7 @@ const Temple = () => {
                     </Carousel>
                   </div>
                 )
-                }
+              }
 
 
             </div>
