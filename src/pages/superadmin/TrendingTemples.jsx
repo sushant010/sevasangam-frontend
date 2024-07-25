@@ -129,18 +129,18 @@ const TrendingTemples = () => {
                 <form className="mb-4" onSubmit={searchFilterSubmit}>
                     <div className="row">
                         <div className="col-md-3">
-                            <div className="form-group">
+                            <div className="form-group mb-3">
                                 <input type="text" className="form-control" placeholder="Search by name" name='templeName' />
                             </div>
                         </div>
                         <div className="col-md-3">
-                            <div className="form-group">
+                            <div className="form-group mb-3">
                                 <input type="text" className="form-control" placeholder="Search by location" name='location' />
                             </div>
                         </div>
                         {/* Is trending button */}
                         <div className="col-md-3">
-                            <div className="form-group">
+                            <div className="form-group mb-3">
                                 {/* <button className="btn btn-theme-primary" onClick={
                                 () => setIsTrending(!isTrending)
                             } >Is Trending</button> */}
@@ -157,7 +157,7 @@ const TrendingTemples = () => {
 
                         </div>
                         <div className="col-md-3">
-                            <div className="form-group">
+                            <div className="form-group mb-3">
                                 <button className="btn btn-theme-primary" >Search</button>
                             </div>
                         </div>
@@ -166,34 +166,35 @@ const TrendingTemples = () => {
 
 
 
+                <div className="table-responsive">
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Temple Name</th>
+                                <th>Location</th>
 
-                <table className="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Temple Name</th>
-                            <th>Location</th>
-
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {temples.map((temple, index) => (
-                            <tr key={index}>
-                                <td ><Link className='fw-bold text-decoration-underline text-primary' to={`/superadmin/temple/${temple._id}`}>{temple.templeName}</Link> </td>
-                                <td> {temple.location.address}</td>
-                                <td>  {temple.images.bannerImage && (
-                                    <img src={temple.images.bannerImage} alt="Banner Preview" className="mt-2" style={{ height: '80px', border: "3px solid #fff" }} />
-                                )}</td>
-                                <td>
-                                    {temple.isTrending == 0 ? <>    <button className="btn btn-theme-primary" onClick={() => handleSetTrendingTemples(temple._id)}>Add to Trending</button></> : <>    <button className="btn btn-theme-error" onClick={() => handleRemoveTrendingTemple(temple._id)}>Remove from Trending</button></>}
-
-                                </td>
+                                <th>Action</th>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {temples.map((temple, index) => (
+                                <tr key={index}>
+                                    <td ><Link className='fw-bold text-decoration-underline text-primary' to={`/superadmin/temple/${temple._id}`}>{temple.templeName}</Link> </td>
+                                    <td> {temple.location.address}</td>
+                                    <td>  {temple.images.bannerImage && (
+                                        <img src={temple.images.bannerImage} alt="Banner Preview" className="mt-2" style={{ height: '80px', border: "3px solid #fff" }} />
+                                    )}</td>
+                                    <td>
+                                        {temple.isTrending == 0 ? <>    <button className="btn btn-theme-primary" onClick={() => handleSetTrendingTemples(temple._id)}>Add to Trending</button></> : <>    <button className="btn btn-theme-error" onClick={() => handleRemoveTrendingTemple(temple._id)}>Remove from Trending</button></>}
+
+                                    </td>
+                                </tr>
+                            ))}
 
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 {temples.length === 0 && <div className='my-4  text-center'>No Temples Found</div>}
             </section>
 
