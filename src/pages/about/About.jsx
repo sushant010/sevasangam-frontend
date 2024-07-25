@@ -3,9 +3,11 @@ import Layout from '../../components/layout/Layout';
 import SectionImgWithText from '../../components/sectionImgWithTextDesc/SectionImgWithText.jsx';
 import SectionLinearBg from '../../components/sectionLinearBg/sectionLinearBg';
 import './about.css';
+
 const About = () => {
   return (
-    <Layout>
+    <Layout title="About Us" description="Learn more about our team and mission">
+
       <section className='banner'>
         <div className="banner-text">
           <h2 className="text-heading">About Us</h2>

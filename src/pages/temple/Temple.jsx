@@ -176,7 +176,7 @@ const Temple = () => {
   }, [id]);
 
   return (
-    <Layout>
+    <Layout title={`${templeName} | Sevasangam`} description={`Donate to ${templeName} located in ${location.address}`}>
       <section className="temple-container">
         <div className="d-flex align-items-start" style={{ gap: "15px" }}>
           <div style={{}}>

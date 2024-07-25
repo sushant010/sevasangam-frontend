@@ -269,7 +269,9 @@ const Temples = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout title="Temples - Donate Now | SevaSangam" description="SevaSangam is a platform that connects devotees with temples and
+            trusts. We aim to make temple donations transparent, easy, and
+            accessible to all.">
 
       <section className="banner p-4" >
         <div className="banner-text">
