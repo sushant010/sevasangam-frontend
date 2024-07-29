@@ -81,6 +81,12 @@ const Event = () => {
 
                             }
 
+                            {event?.images?.length == 0 && (
+                                <div style={{ width: "60%", aspectRatio: "1/1" }} className="event-images"><img src='https://plus.unsplash.com/premium_photo-1678294329028-58d80618cac6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'></img></div>
+                            )}
+
+
+
                         </div>
 
                     </div>
