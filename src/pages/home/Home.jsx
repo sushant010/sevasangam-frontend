@@ -157,7 +157,7 @@ function Home() {
     <>
       <Layout>
 
-        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner.jpg" heading="Welcome to SevaSangam - Your Gateway to Spiritual Connection" description="From Clicks to Blessings, SevaSangam's Vision of Empowering Believers and Enriching Temples." />
+        <SectionBgImgWithGradient bgImg="src/assets/images/temple-banner-compressed.webp" heading="Welcome to SevaSangam - Your Gateway to Spiritual Connection" description="From Clicks to Blessings, SevaSangam's Vision of Empowering Believers and Enriching Temples." />
 
         <section style={{ marginTop: "-130px" }} id="searchTempleToDonate" className="search-section">
           <h2 className=" text-center m-auto text-primary text-xl fw-bold mb-4">
