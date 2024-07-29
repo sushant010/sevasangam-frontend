@@ -346,21 +346,31 @@ nav .logout {
 /* static pages */
 .accordion-button,
 .accordion-collapse {
-  transition: all 0.3s;
+  transition: all 0.1s ease-in;
+}
+
+.accordion-button {
+  background-color: #fdfdfd;
 }
 
 .accordion-collapse {
-  background-color: #fdfdfd;
+  background-color: var(--color-theme-accent);
   color: var(--text-color-grey-dark);
   font-weight: 500;
 }
-.accordion-button:not(.collapsed),
+
+.accordion-button.collapsed,
+.accordion-button[aria-expanded="false"] {
+  background-color: #fdfdfd;
+  color: var(--text-color-grey-dark);
+}
+
+.accordion-button[aria-expanded="true"],
 .accordion-button:hover {
-  color: #f5f5f5;
+  color: #ffffff;
   background-color: var(--color-theme-primary);
   border: none;
   border-radius: 0;
-  font-weight: 700;
 }
 
 @media screen and (max-width: 768px) {
