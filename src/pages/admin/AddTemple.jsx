@@ -769,7 +769,7 @@ const AddTemple = () => {
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="aboutTemple1">About Temple</label>
+                                <label htmlFor="aboutTemple1">About Temple <i className="fa fa-asterisk"></i></label>
                                 <textarea
                                     placeholder="About Temple"
                                     name="aboutTemple1"
@@ -781,7 +781,7 @@ const AddTemple = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="aboutTemple2">About Temple History / Legacy</label>
+                                <label htmlFor="aboutTemple2">About Temple History / Legacy <i className="fa fa-asterisk"></i></label>
                                 <textarea
                                     placeholder="About Temple History / Legacy"
                                     name="aboutTemple2"

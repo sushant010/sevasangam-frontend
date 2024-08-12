@@ -84,15 +84,13 @@ const AllDonationsAdmin = () => {
   const handleUpload80GCertificate = async (id, e) => {
     e.preventDefault();
     try {
-
-
       const res = await axios.post(
         `${api}/donation/upload-80-certificate`,
         { id, certificate: file }
       );
       if (res.data.success) {
         toast.success(res.data.message);
-        fetchAllDonationsAdmin();
+        fetchAllDonationsAdmin(true);
       }
     } catch (error) {
       console.error(error);
@@ -110,7 +108,7 @@ const AllDonationsAdmin = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
-        fetchAllDonationsAdmin();
+        fetchAllDonationsAdmin(true);
       }
     } catch (error) {
       console.error(error);
@@ -165,6 +163,8 @@ const AllDonationsAdmin = () => {
       fetchAllDonationsAdmin(); // Fetch more temples when scrolled to the bottom
     }
   };
+
+
 
   // Add event listener when component mounts
   useEffect(() => {

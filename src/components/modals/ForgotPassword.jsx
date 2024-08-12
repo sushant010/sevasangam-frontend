@@ -30,6 +30,17 @@ const ForgotPasswordModal = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        function isValidEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        if (!isValidEmail(email)) {
+
+            toast.error("Please enter a valid email address.");
+            return;
+        }
         try {
             const res = await axios.post(`${api}/auth/forgot-password`, { email });
             if (res && res.data.success) {

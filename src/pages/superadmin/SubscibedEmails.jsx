@@ -54,7 +54,7 @@ export default function SubscribedEmails() {
         <div className="section-heading mb-2">Subscribed Emails</div>
         {emails.length > 0 && (<div className="d-flex justify-content-end mb-2">  <CSVLink
           data={csvData}
-          filename={"donations.csv"}
+          filename={"emails.csv"}
           className="btn btn-theme-primary mb-3"
         >
           <i className="fa-solid fa-file-excel"></i> Download as CSV

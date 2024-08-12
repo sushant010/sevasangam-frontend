@@ -170,7 +170,8 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
           <i className="fa-solid fa-synagogue"></i>
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Temple Name"
+            name='templeName'
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}

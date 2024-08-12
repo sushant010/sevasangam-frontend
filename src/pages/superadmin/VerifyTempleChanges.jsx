@@ -22,11 +22,9 @@ const VerifyTempleChanges = () => {
         try {
             const res = await axios.get(`${api}/temple/get-temple/${id}`);
             if (res.data.success) {
-                // console.log("current temple below")
-                // console.log(res.data.data)
-                console.log("current temple below")
+
                 setCurrentTemple(res.data.data);
-                console.log(res.data.data)
+
                 setCreatedBy(res.data.data.createdBy);
             } else {
                 toast.error(res.data.message);
@@ -42,6 +40,7 @@ const VerifyTempleChanges = () => {
             if (res.data.success) {
 
                 const modifiedTemple = res.data.data;
+                console.log(res.data.data)
                 setPendingChanges(modifiedTemple);
 
             } else {
@@ -84,28 +83,87 @@ const VerifyTempleChanges = () => {
             .replace(/^./, (str) => str.toUpperCase()); // Capitalize the first letter
     };
 
+    // const renderPropertyRows = (object) => {
+
+    //     // console.log(object)
+
+    //     return Object.entries(object).map(([key, value]) => {
+
+
+
+    //         if (typeof value === 'object' && value !== null) {
+
+    //             if (key === 'otherImages' && value.length > 0) {
+    //                 return (
+    //                     <>
+    //                         <tr>
+    //                             <td>{formatKey(key)}</td>
+    //                             <td>
+    //                                 {value.map((img, index) => {
+    //                                     return <img key={index} src={img} alt="Banner Preview" className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} />
+    //                                 })}
+    //                             </td>
+    //                         </tr>
+    //                     </>
+    //                 );
+    //             } else {
+    //                 return (
+    //                     <React.Fragment key={key}>
+    //                         <tr>
+    //                             <td colSpan={2}>
+    //                                 <strong>{formatKey(key)}</strong>
+    //                             </td>
+    //                         </tr>
+    //                         {renderPropertyRows(value)}
+    //                     </React.Fragment>
+    //                 );
+
+    //             }
+
+
+
+
+
+    //         } else {
+    //             if (key === 'logo' || key === 'bannerImage') {
+    //                 return (
+    //                     <>
+    //                         <tr>
+    //                             <td>{formatKey(key)}</td>
+    //                             <td> <img src={value} alt="Banner Preview" className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
+    //                         </tr>
+    //                     </>
+    //                 );
+    //             } else {
+    //                 return (
+    //                     <>        <tr>
+    //                         <td>{formatKey(key)}</td>
+    //                         <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>   </tr>
+    //                     </>
+    //                 );
+    //             }
+
+
+    //         }
+    //     });
+
+    // };
+
     const renderPropertyRows = (object) => {
-
-        // console.log(object)
-
         return Object.entries(object).map(([key, value]) => {
-
-
-
             if (typeof value === 'object' && value !== null) {
-
                 if (key === 'otherImages' && value.length > 0) {
                     return (
-                        <>
+                        <React.Fragment key={key}>
                             <tr>
                                 <td>{formatKey(key)}</td>
                                 <td>
-                                    {value.map((img, index) => {
-                                        return <img key={index} src={img} alt="Banner Preview" className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} />
-                                    })}
+                                    {value.map((img, index) => (
+                                        <img key={index} src={img} alt="Banner Preview" className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} />
+                                    ))}
                                 </td>
                             </tr>
-                        </>
+                        </React.Fragment>
                     );
                 } else {
                     return (
@@ -118,43 +176,36 @@ const VerifyTempleChanges = () => {
                             {renderPropertyRows(value)}
                         </React.Fragment>
                     );
-
                 }
-
-
-
-
-
             } else {
                 if (key === 'logo' || key === 'bannerImage') {
                     return (
-                        <>
+                        <React.Fragment key={key}>
                             <tr>
                                 <td>{formatKey(key)}</td>
                                 <td> <img src={value} alt="Banner Preview" className="mt-2" style={{ width: 'auto', height: '100px', border: "3px solid #fff" }} /></td>
                             </tr>
-                        </>
+                        </React.Fragment>
                     );
                 } else {
                     return (
-                        <>        <tr>
-                            <td>{formatKey(key)}</td>
-                            <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>   </tr>
-                        </>
+                        <React.Fragment key={key}>
+                            <tr>
+                                <td>{formatKey(key)}</td>
+                                <td>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+                            </tr>
+                        </React.Fragment>
                     );
                 }
-
-
             }
         });
-
     };
 
     const renderNestedObject = (obj, objOld, parentKey = '') => {
         // console.log(obj)
         // console.log(objOld)
         // console.log(parentKey)
-        console.log("nested object")
+        // console.log("nested object")
         return Object.entries(obj).map(([key, value]) => {
             const formattedKey = formatKey(key);
             if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
@@ -251,21 +302,26 @@ const VerifyTempleChanges = () => {
     };
 
 
-    const renderPropertyRowsForModifiedTemples = (currentTemple) => {
 
-        const changes = pendingChanges
-        const old = currentTemple
-        console.log("render property rows for modified temples")
+    const renderPropertyRowsForModifiedTemples = (currentTemple) => {
+        const changes = pendingChanges;
+        const old = currentTemple;
+
+
+
         return Object.entries(changes).map(([key, value]) => {
-            console.log(key)
+            if (JSON.stringify(old[key]) === JSON.stringify(value)) {
+                return null; // Skip rendering if there's no change
+            }
+
             if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                // console.log(`doing for ${key}`)
                 return (
                     <React.Fragment key={key}>
                         <tr>
                             <td colSpan={3}>
                                 <strong>{formatKey(key)}</strong>
                             </td>
-
                         </tr>
                         {renderNestedObject(value, old, key)}
                     </React.Fragment>
@@ -291,20 +347,24 @@ const VerifyTempleChanges = () => {
                             </tr>
                         </React.Fragment>
                     );
-                } else {
+                } else if (key !== 'createdBy' && value !== '') {
+                    console.log('i am the culprit', key, value)
                     return (
                         <React.Fragment key={key}>
                             <tr>
-                                <td><strong>{formatKey(key)}</strong> </td>
+                                <td><strong>{formatKey(key)}</strong></td>
                                 <td>{currentTemple[key] || ''}</td>
                                 <td style={{ color: 'var(--color-theme-success)' }}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
                             </tr>
                         </React.Fragment>
                     );
+                } else {
+                    return null;
                 }
             }
-        })
+        });
     };
+
 
 
 
