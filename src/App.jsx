@@ -43,6 +43,7 @@ import UpdateEvent from "./pages/admin/UpdateEvent";
 import ScrollToTop from "./components/ScrollToTop";
 import Event from "./pages/temple/Event";
 import AllSubscriptionsAdmin from "./pages/admin/AllSubscriptionAdmin";
+import NotFoundPage from "./pages/other/NotFoundPage";
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/update-profile" element={<UpdateProfile />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="*" element={<NotFoundPage />} />
 
 
 

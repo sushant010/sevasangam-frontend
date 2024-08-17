@@ -4,30 +4,74 @@ import { useAuth } from "../../context/Auth";
 import { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import { CSVLink } from 'react-csv';
+import { HashLoader } from "react-spinners";
 
 export default function SubscribedEmails() {
   const auth = useAuth();
   const [emails, setEmails] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchSubscribedEmails = async () => {
+
+
+
+  const fetchSubscribedEmails = async (reset = false) => {
+    if (loading || (!hasMore && !reset)) return;
+
+    setLoading(true); // Set loading to true before the API call
+
     try {
       const api = import.meta.env.VITE_API_URL;
       const response = await axios.post(
         `${api}/subscriptionEmail/getallSubscriptionEmails`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${auth[0].token}`,
+          params: {
+            page: reset ? 1 : page,
+            limit: 10, // Increased limit to 10 as you're checking for 10 items
           },
         }
       );
-      setEmails(response.data);
+
+      const newEmails = response.data;
+
+      if (reset) {
+        setEmails(newEmails);
+        setPage(2);
+      } else {
+        setEmails((prevEmails) => [...prevEmails, ...newEmails]);
+        setPage((prevPage) => prevPage + 1);
+      }
+
+      setHasMore(newEmails.length === 10); // Set to false if less than 10 items
     } catch (error) {
       console.log(error);
       setErrorMessage("Failed to fetch emails");
+    } finally {
+      setLoading(false); // Ensure loading is set to false after the API call
     }
   };
+
+
+  useEffect(() => {
+    fetchSubscribedEmails(true);
+  }, []);
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 100 && !loading && hasMore) {
+
+      fetchSubscribedEmails();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, hasMore]);
+
 
   const csvData = emails.map((email, index) => {
     const date = new Date(email.createdAt).toLocaleDateString("en-IN", {
@@ -43,10 +87,6 @@ export default function SubscribedEmails() {
     };
   });
 
-
-  useEffect(() => {
-    fetchSubscribedEmails();
-  }, []);
 
   return (
     <Layout>
@@ -105,6 +145,11 @@ export default function SubscribedEmails() {
           <div>No Emails Subscribed</div>
         )}
       </section>
+      {loading && (
+        <section className="d-flex m-auto">
+          <HashLoader color={"#ff395c"} />
+        </section>
+      )}
     </Layout>
   );
 }

@@ -41,29 +41,69 @@ const AllSubscriptionsAdmin = () => {
     setFilters(null)
   }
 
-  const fetchAllSubscriptionsAdmin = async () => {
+  const fetchAllSubscriptionsAdmin = async (reset = false) => {
+
+    if (loading || (!hasMore && !reset)) return;
+
+    const num = 10;
+
+    setLoading(true); // Set loading to true before the API call
 
     if (auth.user.role == 1) {
       try {
         const res = await axios.post(`${api}/subscription/fetch-all-subscription-by-admin`, {
           id: auth.user._id,
+        }, {
+          params: {
+            page: reset ? 1 : page,
+            limit: num, // Increased limit to 10 as you're checking for 10 items
+          },
         });
 
-        setSubscriptions(res.data.subscriptions);
-        // console.log(res.data.subscriptions)
+        const data = res.data.subscriptions;
+
+        if (reset) {
+          setSubscriptions(data);
+          setPage(2);
+        } else {
+          setSubscriptions((prevData) => [...prevData, ...data]);
+          setPage((prevPage) => prevPage + 1);
+        }
+
+        setHasMore(data.length === num);
+
       } catch (error) {
         console.error(error);
         // Handle error, e.g., display a toast message
+      } finally {
+        setLoading(false); // Ensure loading is set to false after the API call
       }
     } else {
       try {
-        const res = await axios.get(`${api}/subscription/fetch-all-subscription`);
+        const res = await axios.post(`${api}/subscription/fetch-all-subscription`, {}, {
+          params: {
+            page: reset ? 1 : page,
+            limit: num, // Increased limit to 10 as you're checking for 10 items
+          },
+        });
 
-        setSubscriptions(res.data.subscriptions);
-        // console.log(res.data.subscriptions)
+        const data = res.data.subscriptions;
+
+        if (reset) {
+          setSubscriptions(data);
+          setPage(2);
+        } else {
+          setSubscriptions((prevData) => [...prevData, ...data]);
+          setPage((prevPage) => prevPage + 1);
+        }
+
+        setHasMore(data.length === num);
+
       } catch (error) {
         console.error(error);
         // Handle error, e.g., display a toast message
+      } finally {
+        setLoading(false); // Ensure loading is set to false after the API call
       }
     }
   };
@@ -141,24 +181,27 @@ const AllSubscriptionsAdmin = () => {
   //   setFilePreview(URL.createObjectURL(selectedFile));
   // };
   // Function to handle scroll event
+
+
+
+
+
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 100 && !loading && hasMore) {
 
-    if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
-      fetchAllSubscriptionsAdmin(); // Fetch more temples when scrolled to the bottom
+      fetchAllSubscriptionsAdmin();
     }
   };
 
-  // Add event listener when component mounts
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll); // Remove event listener on unmount
-  }, [loading]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, hasMore]);
+
 
   // Fetch temples when filters or sortOption change
-  useEffect(() => {
-    fetchAllSubscriptionsAdmin(true);
-  }, [filters]);
+
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -373,6 +416,7 @@ const AllSubscriptionsAdmin = () => {
             <i className="fa-solid fa-file-excel"></i> Download as CSV
           </CSVLink>
         </div>
+
 
         <div className="table-responsive">
           <table className="table table-light table-bordered table-striped">

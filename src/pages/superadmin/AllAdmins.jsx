@@ -3,19 +3,47 @@ import Layout from '../../components/layout/Layout'
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
 
 const AllAdmins = () => {
     const api = import.meta.env.VITE_API_URL;
     const [templeAdmins, setTempleAdmins] = useState([])
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
-    const fetchAllTempleAdmins = async () => {
+
+    const fetchAllTempleAdmins = async (reset = false) => {
 
         try {
-            const response = await axios.get(`${api}/auth/all-temple-admin`);
+            if (loading || (!hasMore && !reset)) return;
+
+            setLoading(true);
+
+            const response = await axios.get(`${api}/auth/all-temple-admin`, {}, {
+                params: {
+                    page: reset ? 1 : page,
+                    limit: 10, // Increased limit to 10 as you're checking for 10 items
+                },
+            });
 
             if (response.data.success) {
 
-                setTempleAdmins(response.data.users)
+
+
+                const data = response.data.users;
+
+                if (reset) {
+                    setTempleAdmins(data);
+                    setPage(2);
+                } else {
+                    setTempleAdmins((prevData) => [...prevData, ...data]);
+                    setPage((prevPage) => prevPage + 1);
+                }
+
+                setHasMore(data.length === 10); // Set to false if less than 10 items
+
+
 
             } else {
                 toast.error(response.data.message);
@@ -23,6 +51,8 @@ const AllAdmins = () => {
 
         } catch (error) {
             console.error('Error creating temple:', error);
+        } finally {
+            setLoading(false); // Ensure loading is set to false after the API call
         }
 
 
@@ -50,10 +80,24 @@ const AllAdmins = () => {
         fetchDonationTotals();
     }, [templeAdmins]);
 
-    useEffect(() => {
 
-        fetchAllTempleAdmins()
-    }, [])
+    useEffect(() => {
+        fetchAllTempleAdmins(true);
+    }, []);
+
+    const handleScroll = () => {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        if (scrollTop + clientHeight >= scrollHeight - 100 && !loading && hasMore) {
+            fetchAllTempleAdmins();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loading, hasMore]);
+
+
     return (
 
         <Layout>
@@ -102,6 +146,11 @@ const AllAdmins = () => {
 
 
             </section>
+            {loading && (
+                <section className="d-flex m-auto">
+                    <HashLoader color={"#ff395c"} />
+                </section>
+            )}
         </Layout >
     )
 }
