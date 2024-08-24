@@ -18,7 +18,8 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
   const api = import.meta.env.VITE_API_URL;
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
   const [activeLocationSuggestionIndex, setActiveLocationSuggestionIndex] = useState(0);
-
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
 
   const fetchSuggestions = async (term) => {
     if (term) {
@@ -42,6 +43,8 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
     setSearchTerm(term);
     fetchSuggestions(term);
     setActiveSuggestionIndex(-1); // Reset index when typing
+    setShowSearchSuggestions(true);
+    setShowLocationSuggestions(false);
   };
 
 
@@ -68,6 +71,8 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
       setLocationSuggestion([]);
       console.log('No states found.');
     }
+    setShowSearchSuggestions(false);
+    setShowLocationSuggestions(true);
     setActiveLocationSuggestionIndex(0); // Reset index when typing
   };
 
@@ -183,7 +188,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
             onChange={handleLocationChange}
             onKeyDown={handleLocationKeyDown}
           />
-          {location && locationSuggestion && locationSuggestion.length > 0 && (
+          {location && locationSuggestion && !showSearchSuggestions && showLocationSuggestions && locationSuggestion.length > 0 && (
             <ul className="suggestions-list">
               {locationSuggestion.map((suggestion, index) => (
                 <li
@@ -210,7 +215,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
             autoComplete="off"
           />
 
-          {searchTerm && searchTerm.length > 0 && (
+          {searchTerm && searchTerm.length > 0 && showSearchSuggestions && !showLocationSuggestions && (
             <ul className="suggestions-list">
               <li className={`d-flex justify-content-between ${activeSuggestionIndex === -1 ? 'active-item' : ''}`} onClick={handleSearchSubmit}>
                 <p>Show All Results with &quot;{searchTerm}&quot; </p>
