@@ -103,7 +103,7 @@ function Home() {
 
   const handleSearchSubmitOnHomepage = async (searchTerm, location) => {
     try {
-      const res = await axios.post(`${api} / temple / filter - temples`, {
+      const res = await axios.post(`${api}/temple/filter-temples`, {
         templeName: searchTerm,
         address: location
       }, { limit: 4 });
@@ -114,10 +114,10 @@ function Home() {
       } else {
 
 
-        // const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
-        // const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
-        // window.scrollTo(0, 0);
-        // navigate(`/ temples ? templeName = ${ formattedSearchTerm }${ formattedLocation? `&address=${formattedLocation}` : ''}`);
+        const formattedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '+');
+        const formattedLocation = location ? location.toLowerCase().replace(/\s+/g, '+') : '';
+        window.scrollTo(0, 0);
+        navigate(`/temples?templeName=${formattedSearchTerm}${formattedLocation ? `&address=${formattedLocation}` : ''}`);
       }
 
     } catch (error) {

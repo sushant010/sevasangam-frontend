@@ -131,16 +131,22 @@ const Checkout = () => {
         // const { data: { key } } = await axios.get("http://www.localhost:4000/api/getkey")
 
 
-        if (!donateUser.name) {
+        if (!donateUser.name || donateUser.name.trim().length === 0) {
             toast.error('Name is required');
             return;
         }
-        if (!donateUser.email) {
-            toast.error('Email is required');
+
+        // Validate email format using a regex pattern
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!donateUser.email || !emailPattern.test(donateUser.email)) {
+            toast.error('A valid email is required');
             return;
         }
-        if (!donateUser.phone) {
-            toast.error('Phone is required');
+
+        // Validate phone number (assuming a basic pattern for a 10-digit number)
+        const phonePattern = /^\d{10}$/;
+        if (!donateUser.phone || !phonePattern.test(donateUser.phone)) {
+            toast.error('A valid 10-digit phone number is required');
             return;
         }
         if (donate.amount < 1) {

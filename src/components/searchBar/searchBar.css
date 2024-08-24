@@ -99,7 +99,8 @@
       font-size: 13.5px;
     }
 
-    &:hover {
+    &:hover,
+    &.active-item {
       background-color: #eee;
       color: var(--color-theme-primary);
       & p {

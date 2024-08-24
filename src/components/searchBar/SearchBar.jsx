@@ -16,6 +16,8 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
   const [locationSuggestion, setLocationSuggestion] = useState([]);
   const navigate = useNavigate();
   const api = import.meta.env.VITE_API_URL;
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const [activeLocationSuggestionIndex, setActiveLocationSuggestionIndex] = useState(0);
 
 
   const fetchSuggestions = async (term) => {
@@ -39,13 +41,14 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
     const term = e.target.value;
     setSearchTerm(term);
     fetchSuggestions(term);
+    setActiveSuggestionIndex(-1); // Reset index when typing
   };
 
 
   const handleLocationChange = (e) => {
     const selectedLocation = e.target.value;
     setLocation(selectedLocation);
-    console.log(selectedLocation);
+    // console.log(selectedLocation);
 
     if (statesOfTemple?.length > 0) {
       const suggestionsStates = statesOfTemple.filter((state) => {
@@ -65,6 +68,7 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
       setLocationSuggestion([]);
       console.log('No states found.');
     }
+    setActiveLocationSuggestionIndex(0); // Reset index when typing
   };
 
   const handleLocationSuggestionClick = (location) => {
@@ -112,11 +116,37 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
 
 
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      handleSearchSubmit();
+      if (activeSuggestionIndex >= 0 && suggestions[activeSuggestionIndex]) {
+        handleSuggestionClick(suggestions[activeSuggestionIndex]);
+      } else {
+        handleSearchSubmit();
+      }
+    } else if (e.key === 'ArrowDown') {
+
+
+      setActiveSuggestionIndex((prevIndex) => Math.min(prevIndex + 1, suggestions.length - 2));
+    } else if (e.key === 'ArrowUp') {
+
+      setActiveSuggestionIndex((prevIndex) => Math.max(prevIndex - 1, -1));
     }
   };
+
+  const handleLocationKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if (activeLocationSuggestionIndex >= 0 && locationSuggestion[activeLocationSuggestionIndex]) {
+        handleLocationSuggestionClick(locationSuggestion[activeLocationSuggestionIndex]);
+      } else {
+        handleSearchSubmit();
+      }
+    } else if (e.key === 'ArrowDown') {
+      setActiveLocationSuggestionIndex((prevIndex) => Math.min(prevIndex + 1, locationSuggestion.length - 2));
+    } else if (e.key === 'ArrowUp') {
+      setActiveLocationSuggestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    }
+  };
+
 
   const fetchLocation = () => {
     if ("geolocation" in navigator) {
@@ -151,19 +181,21 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
             id="locations"
             value={location}
             onChange={handleLocationChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleLocationKeyDown}
           />
           {location && locationSuggestion && locationSuggestion.length > 0 && (
             <ul className="suggestions-list">
-
               {locationSuggestion.map((suggestion, index) => (
-                <li key={index} onClick={() => handleLocationSuggestionClick(suggestion)}>
+                <li
+                  key={index}
+                  onClick={() => handleLocationSuggestionClick(suggestion)}
+                  className={activeLocationSuggestionIndex === index ? 'active-item' : ''}
+                >
                   <p>{suggestion}</p>
                 </li>
               ))}
             </ul>
           )}
-
         </div>
         <div className="search-input">
           {/* <i className="fa-solid fa-gopuram"></i> */}
@@ -174,17 +206,22 @@ const SearchBar = ({ inHomepage = false, handleSearchSubmitOnHomepage }) => {
             name='templeName'
             value={searchTerm}
             onChange={handleSearchChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
+            autoComplete="off"
           />
 
           {searchTerm && searchTerm.length > 0 && (
             <ul className="suggestions-list">
-              <li className='d-flex justify-content-between' onClick={handleSearchSubmit}>
+              <li className={`d-flex justify-content-between ${activeSuggestionIndex === -1 ? 'active-item' : ''}`} onClick={handleSearchSubmit}>
                 <p>Show All Results with &quot;{searchTerm}&quot; </p>
               </li>
               {suggestions && suggestions.length > 0 && suggestions.map((suggestion, index) => (
-                <li className='d-flex justify-content-between' style={{ gap: "6px" }} key={index} onClick={() => handleSuggestionClick(suggestion)}>
-
+                <li
+                  className={`d-flex justify-content-between ${activeSuggestionIndex === index ? 'active-item' : ''}`}
+                  style={{ gap: "6px" }}
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
                   <p>{suggestion.templeName.length > 15 ? suggestion.templeName.slice(0, 15) + '...' : suggestion.templeName}</p>
                   <p style={{ color: "#BEBEBE", fontSize: "12px" }}>{suggestion.location.city}, {suggestion.location.state}</p>
                 </li>

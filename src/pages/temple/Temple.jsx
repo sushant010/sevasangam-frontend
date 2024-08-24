@@ -1,6 +1,6 @@
 import {
   createSearchParams,
-  Link,
+  // Link,
   useNavigate,
   useParams,
 } from "react-router-dom";
@@ -15,20 +15,12 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import ListingCard from "../../components/listingCard/ListingCard";
 import Carousel from "react-grid-carousel";
 import EventCard from "../../components/eventCard/EventCard";
-import defaultLogo from '../../assets/images/sevasangam-logo.png';
+import defaultLogo from "../../assets/images/sevasangam-logo.png";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 
-
-
-
 const Temple = () => {
-
-
-
-
   const [loading, setLoading] = useState(false);
   //console all the currency code with symbols
-
 
   const initialState = {
     templeName: "",
@@ -78,7 +70,7 @@ const Temple = () => {
   const [temple, setTemple] = useState(initialState);
   const [currency, setCurrency] = useState("INR");
   const [currencySymbol, setCurrencySymbol] = useState("₹");
-  const [tip, setTip] = useState(0);
+  // const [tip, setTip] = useState(0);
   const [events, setEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
 
@@ -87,8 +79,6 @@ const Temple = () => {
   const currencySelectChange = (e) => {
     setCurrency(e.target.value);
   };
-
-
 
   useEffect(() => {
     const currencySymbol = getSymbolFromCurrency(currency);
@@ -105,7 +95,7 @@ const Temple = () => {
     setAmount(e.target.value);
   };
 
-  const handleDonation = (e) => {
+  const handleDonation = () => {
     setDonate({ ...donate, amount: amount, templeId: temple._id });
     localStorage.setItem(
       "donate",
@@ -135,10 +125,14 @@ const Temple = () => {
 
   const fetchEventsOfTemple = async () => {
     try {
-      const res = await axios.post(`${api}/temple/event/get-all-events-by-temple/${id}`);
+      const res = await axios.post(
+        `${api}/temple/event/get-all-events-by-temple/${id}`
+      );
       const { data } = res.data;
-      setEvents(data.filter(event => new Date(event.date.end) >= new Date()));
-      setPastEvents(data.filter(event => new Date(event.date.end) < new Date()));
+      setEvents(data.filter((event) => new Date(event.date.end) >= new Date()));
+      setPastEvents(
+        data.filter((event) => new Date(event.date.end) < new Date())
+      );
     } catch (error) {
       console.error(error);
       // Handle error, e.g., display a toast message
@@ -159,47 +153,57 @@ const Temple = () => {
     }
   };
 
-
-
-
   const handleViewAllSimilarTemples = () => {
     window.scrollTo(0, 0);
-    navigate('/temples?sortOption=trending')
-  }
-
-
+    navigate("/temples?sortOption=trending");
+  };
 
   useEffect(() => {
     fetchTemple();
     fetchSimilarTemples();
-    fetchEventsOfTemple()
+    fetchEventsOfTemple();
   }, [id]);
 
   return (
-    <Layout title={`${temple.templeName} | Sevasangam`} description={`Donate to ${temple.templeName} located in ${location.address}`}>
+    <Layout
+      title={`${temple.templeName} | Sevasangam`}
+      description={`Donate to ${temple.templeName} located in ${location.address}`}
+    >
       <section className="temple-container">
         <div className="d-flex align-items-start" style={{ gap: "15px" }}>
-          <div style={{}}>
+          <div className="temple-info-wrapper" style={{}}>
             <div style={{ height: "400px", position: "relative" }}>
-
               <img
                 src={temple.images?.bannerImage || defaultLogo}
                 alt="temple"
-                style={{ height: "100%", width: "100%", objectFit: "cover" }} />
+                style={{ height: "100%", width: "100%", objectFit: "cover" }}
+              />
               <img
                 src={temple.images?.logo}
                 alt="temple"
-                style={{ borderRadius: "4px", height: "auto", width: "120px", objectFit: "contain", position: "absolute", top: "10px", right: "10px" }} />
+                style={{
+                  borderRadius: "4px",
+                  height: "auto",
+                  width: "120px",
+                  objectFit: "contain",
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                }}
+              />
             </div>
             <div className="mt-2 temple-details">
-
               <p>Type of Organization : {temple.typeOfOrganization}</p>
               <p>Description : {temple.description}</p>
-              <p>Timing : {temple.timing && temple.timing.start} - {temple.timing && temple.timing.end}</p>
+              <p>
+                Timing : {temple.timing && temple.timing.start} -{" "}
+                {temple.timing && temple.timing.end}
+              </p>
 
-
-
-              <div style={{ gap: "20px", justifyContent: "start" }} className="icon-container">
+              <div
+                style={{ gap: "20px", justifyContent: "start" }}
+                className="icon-container"
+              >
                 <div className="icon-wrapper">
                   <i className="fa-brands fa-facebook-f"></i>
                 </div>
@@ -222,44 +226,36 @@ const Temple = () => {
             </div>
 
             <div className="temple-details">
-              <h3 className="section-heading ">
-                About {temple.templeName}
-              </h3>
-
+              <h3 className="section-heading ">About {temple.templeName}</h3>
 
               <div className="about-container row">
-                {temple?.images?.otherImages && temple.images.otherImages.slice(0, 2).map((image, index) => (
-                  <>
-                    <div key={index} style={{ gap: "10px" }} className="col-md-12 mb-3 d-flex flex-wrap">
+                {temple?.images?.otherImages &&
+                  temple.images.otherImages.slice(0, 2).map((image, index) => (
+                    <div
+                      key={index}
+                      style={{ gap: "10px" }}
+                      className="col-md-12 mb-3 d-flex flex-wrap"
+                    >
                       <div className={`img-wrapper order-${index}`}>
-                        <img
-                          src={image}
-                          alt="temple"
-                        />
+                        <img src={image} alt="temple" />
                       </div>
 
                       <div style={{ flex: "1" }}>
                         {temple[`aboutTemple${index + 1}`]}
                       </div>
-
+                      <hr></hr>
                     </div>
-                    <hr></hr>
-                  </>
-                ))}
-
+                  ))}
               </div>
-              <div className="section-heading" style={{ fontSize: "24px" }}>All Images</div>
+              <div className="section-heading" style={{ fontSize: "24px" }}>
+                All Images
+              </div>
               <div className="all-images-container">
-
                 {temple?.images?.bannerImage && (
                   <>
                     <div className={`img-wrapper `}>
-                      <img
-                        src={temple?.images?.bannerImage}
-                        alt="temple"
-                      />
+                      <img src={temple?.images?.bannerImage} alt="temple" />
                     </div>
-
                   </>
                 )}
                 {temple?.images?.logo && (
@@ -271,78 +267,61 @@ const Temple = () => {
                         alt="temple"
                       />
                     </div>
-
                   </>
                 )}
-                {temple?.images?.otherImages && temple.images.otherImages.map((image, index) => (
-                  <>
-                    <div key={index} className={`img-wrapper order-${index}`}>
-                      <img
-                        src={image}
-                        alt="temple"
-                      />
-                    </div>
-
-                  </>
-                ))}
+                {temple?.images?.otherImages &&
+                  temple.images.otherImages.map((image, index) => (
+                    <>
+                      <div key={index} className={`img-wrapper order-${index}`}>
+                        <img src={image} alt="temple" />
+                      </div>
+                    </>
+                  ))}
                 {/* <Map address={temple?.location?.address} /> */}
-
               </div>
 
 
-
-
-
               {events.length > 0 ? (
-                <div className="row">
+                <div className=" row events-box-wrapper">
                   <div className="col-md-12">
-                    <div style={{ fontSize: "34px" }} className="section-heading line my-3">Upcoming Events</div>
+                    <div
+                      style={{ fontSize: "34px" }}
+                      className="section-heading line my-3"
+                    >
+                      Upcoming Events
+                    </div>
                   </div>
                   <Carousel cols={3} rows={1} gap={20} loop>
-                    {events && events.map((event, index) => (
-
-
-                      <Carousel.Item key={index}>
-                        <EventCard event={event} />
-                      </Carousel.Item>
-
-                    ))}
-
-                    {/* {similarTemple.length > 8
-                      && (
-                        <Carousel.Item >
-                          <div className="h-100 d-flex justify-content-center align-items-center flex-column">
-
-
-                            <button onClick={handleViewAllSimilarTemples} className="btn btn-theme-primary">View All Similar Temples</button>
-                          </div>
-                        </Carousel.Item>
-                      )} */}
-
-
-                  </Carousel>
-
-                </div>
-              ) : null}
-
-              {
-                pastEvents.length > 0 && (
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div style={{ fontSize: "34px" }} className="section-heading line my-3">Past Events</div>
-                    </div>
-                    <Carousel cols={3} rows={1} gap={20} loop>
-                      {pastEvents && pastEvents.map((event, index) => (
+                    {events &&
+                      events.map((event, index) => (
                         <Carousel.Item key={index}>
                           <EventCard event={event} />
                         </Carousel.Item>
                       ))}
+                  </Carousel>
+                </div>
+              ) : null}
 
-                    </Carousel>
+              {pastEvents.length > 0 && (
+                <div className="row events-box-wrapper">
+                  <div className="col-md-12">
+                    <div
+                      style={{ fontSize: "34px" }}
+                      className="section-heading line my-3"
+                    >
+                      Past Events
+                    </div>
                   </div>
-                )
-              }
-
+                  <Carousel cols={3} rows={1} gap={20} loop>
+                    {pastEvents &&
+                      pastEvents.map((event, index) => (
+                        <Carousel.Item key={index}>
+                          <EventCard event={event} />
+                        </Carousel.Item>
+                      ))}
+                  </Carousel>
+                </div>
+              )}
 
             </div>
           </div>
@@ -367,12 +346,7 @@ const Temple = () => {
                   </h3>
                   {/* Currency select */}
                 </div>
-                <div
-                  className="temple-donation"
-                // style={{
-                //   boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-                // }}
-                >
+                <div className="temple-donation">
                   <div
                     style={{ gap: "10px" }}
                     className="mt-2 my-4 d-flex flex-wrap align-items-center"
@@ -418,18 +392,6 @@ const Temple = () => {
                     </div>
                   </div>
                   <div className="mb-2">
-                    {/* <div className="d-flex justify-content-between">
-                      <div>Donation :</div>
-                      <div style={{ fontWeight: "500" }}>
-                        {currencySymbol} {Math.round(amount * 0.84)}
-                      </div>
-                    </div>
-                    <div className="mt-2 d-flex justify-content-between">
-                      <div>Tip :</div>
-                      <div style={{ fontWeight: "500" }}>
-                        {currencySymbol} {Math.round(amount * 0.16)}
-                      </div>
-                    </div> */}
                     <hr style={{ margin: "8px 0" }}></hr>
                     <div className="d-flex justify-content-between">
                       <div>Donation :</div>
@@ -446,7 +408,11 @@ const Temple = () => {
                     >
                       Donate Via
                     </h3>
-                    <div className="payment-options d-flex align-items-center" style={{ cursor: "pointer" }} onClick={handleDonation}>
+                    <div
+                      className="payment-options d-flex align-items-center"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleDonation}
+                    >
                       <div>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV3CdqG89NHRkD8A7h5evGqC9BkhvPfI3ss2dqK-998A&s"></img>
                       </div>
@@ -484,8 +450,6 @@ const Temple = () => {
             </div>
           </div>
         </div>
-
-
       </section>
       <section className="listings">
         <div className="section-heading line">
@@ -497,37 +461,37 @@ const Temple = () => {
 
         <div className="listing-container row">
           {/* eslint-disable-next-line */}
-          <Carousel cols={4} rows={1} gap={1} loop hideArrow={similarTemple?.length > 4 ? false : true}>
-            {similarTemple && similarTemple.map((temple, index) => (
-
-
-              <Carousel.Item key={index}>
-                <ListingCard
-                  key={index} temple={temple}
-                />
-              </Carousel.Item>
-
-            ))}
-
-            {similarTemple.length > 8
-              && (
-                <Carousel.Item >
-                  <div className="h-100 d-flex justify-content-center align-items-center flex-column">
-
-
-                    <button onClick={handleViewAllSimilarTemples} className="btn btn-theme-primary">View All Similar Temples</button>
-                  </div>
+          <Carousel
+            cols={4}
+            rows={1}
+            gap={1}
+            loop
+            hideArrow={similarTemple?.length > 4 ? false : true}
+          >
+            {similarTemple &&
+              similarTemple.map((temple, index) => (
+                <Carousel.Item key={index}>
+                  <ListingCard key={index} temple={temple} />
                 </Carousel.Item>
-              )}
+              ))}
 
-
+            {similarTemple.length > 8 && (
+              <Carousel.Item>
+                <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+                  <button
+                    onClick={handleViewAllSimilarTemples}
+                    className="btn btn-theme-primary"
+                  >
+                    View All Similar Temples
+                  </button>
+                </div>
+              </Carousel.Item>
+            )}
           </Carousel>
-
-
         </div>
       </section>
       {loading && <LoadingSpinner />}
-    </Layout >
+    </Layout>
   );
 };
 

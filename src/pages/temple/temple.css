@@ -176,4 +176,10 @@ label {
   .about-container > div > .img-wrapper {
     order: 0 !important ;
   }
+  .temple-info-wrapper {
+    max-width: 100%;
+  }
+  .events-box-wrapper {
+    z-index: -1;
+  }
 }

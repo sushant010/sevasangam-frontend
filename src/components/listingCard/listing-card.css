@@ -151,4 +151,8 @@
   .carousel-item-spacing {
     margin: 20px !important; /* Adjust the margin for mobile view */
   }
+
+  .listings {
+    z-index: -1;
+  }
 }
