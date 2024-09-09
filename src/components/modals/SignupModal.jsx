@@ -137,12 +137,17 @@ const SignupModal = () => {
   // };
 
   const closeSignupModal = () => {
-    if (modalRef.current) {
-      //eslint-disable-next-line
-      const modalInstance = new bootstrap.Modal(modalRef.current);
-      modalInstance.hide();
-    }
+    const modal = document.getElementById("signupBackdrop");
+    const closeButton = modal.querySelector(".btn-close");
+    closeButton.click();
   };
+  // const closeSignupModal = () => {
+  //   if (modalRef.current) {
+  //     //eslint-disable-next-line
+  //     const modalInstance = new bootstrap.Modal(modalRef.current);
+  //     modalInstance.hide();
+  //   }
+  // };
 
   const phoneNumChange = (value) => {
     setCredentials({ ...credentials, phone: value });
