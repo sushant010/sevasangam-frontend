@@ -146,6 +146,7 @@ footer > div:nth-of-type(2n) {
 main {
   min-height: 400px;
   margin-top: 73px;
+  z-index: 0;
 }
 .toggle-nav button {
   padding: 6px 14px;
