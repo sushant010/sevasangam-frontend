@@ -9,7 +9,7 @@ const TermsAndConditions = () => {
                 <div>
                     <h1 className='section-heading '>Terms and Conditions</h1>
                     <hr />
-                    <p>Last updated: May 30, 2024</p>
+                    <p>Last updated: Nov 15, 2024</p>
                     <h2>Interpretation and Definitions</h2>
                     <hr />
                     <h3>Interpretation</h3>
@@ -34,8 +34,7 @@ const TermsAndConditions = () => {
                         </li>
                         <li>
                             <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this
-                            Agreement) refers to SevaSangam, Shanbough Krinshappa Ln, Upparahalli,
-                            Mavalli, Bengaluru, Karnataka 560004.
+                            Agreement) refers to SevaSangam, Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008
                         </li>
                         <li />
                         <strong>Device</strong> means any device that can access the Service such as a computer, a
@@ -259,7 +258,7 @@ const TermsAndConditions = () => {
                     <ul>
                         <li>By email: support@sevasangam.com</li>
                         <li>By visiting this page on our website: <Link to="/contact">https://sevasangam.com/contact</Link></li>
-                        <li>By mail: Shanbough Krinshappa Ln, Upparahalli, Mavalli, Bengaluru, Karnataka 560004</li>
+                        <li>By mail: Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008</li>
                     </ul>
                 </div >
             </section>

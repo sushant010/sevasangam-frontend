@@ -70,7 +70,7 @@ const Contact = () => {
                 <p className="fw-bold">Office Address</p>
                 <p className="text-sm">
 
-                  <a target='_blank' href='https://maps.app.goo.gl/fxp9d26ArG8NbFrS9'>    23A, Shanbough Krinshappa Ln, Upparahalli, Mavalli, Bengaluru, Karnataka 560004</a>
+                  <a target='_blank' href='https://www.google.com/maps/search/Unit+101,+Oxford+Towers,+139,+HAL+Old+Airport+Rd,+Kodihalli,+Bengaluru,+Karnataka+560008/@12.9596323,77.6431291,17z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D'> Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008</a>
 
                 </p>
               </div>
@@ -83,7 +83,7 @@ const Contact = () => {
 
                 <p className="text-sm">
 
-                  <a rel="tel" href="+919521133652">9521133652</a> | <a rel="tel" href="+919602672516">9602672516</a>
+                  <a rel="tel" href="+919521133652">9521133652</a>
 
                 </p>
               </div>
@@ -146,10 +146,9 @@ const Contact = () => {
       </section>
 
       <section>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.3283163428573!2d77.57890541060644!3d12.950830915280683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15e973abff83%3A0x79f8f2a247b5c8b8!2s23%2C%20Shanbough%20Krinshappa%20Ln%2C%20Upparahalli%2C%20Mavalli%2C%20Bengaluru%2C%20Karnataka%20560004!5e0!3m2!1sen!2sin!4v1717845116067!5m2!1sen!2sin" width={'100%'} height={450} style={{ border: 0 }} allowFullScreen loading="lazy" />
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.1909952600804!2d77.64312907507626!3d12.959627037354629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1520ceb2f3e3%3A0xd3776cb29322695e!2sOxford%20Towers!5e0!3m2!1sen!2sin!4v1732741141045!5m2!1sen!2sin" width={'100%'} height={450} style={{ border: 0 }} allowFullScreen loading="lazy" />
       </section>
-
-
+  
     </Layout>
   )
 }

@@ -59,7 +59,7 @@ const Checkout = () => {
     });
 
     const [selectedPercentage, setSelectedPercentage] = useState('');
-    const [customPercentage, setCustomPercentage] = useState(16);
+    const [customPercentage, setCustomPercentage] = useState(7);
 
     const handleSelectChange = (event) => {
         setSelectedPercentage(event.target.value);
@@ -153,7 +153,7 @@ const Checkout = () => {
             toast.error('Please enter a valid amount');
             return;
         }
-        if (donate.amount < 100) {
+        if (donate.amount < 10) {
             toast.error('Minimum donation amount is ₹100');
             return;
         }
@@ -436,11 +436,11 @@ const Checkout = () => {
                                         <img src={defaultLogo} alt="temple" />
                                     </div>
                                     <div className='content'>
-                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt accusantium asperiores placeat culpa optio repudiandae esse enim ducimus dicta voluptatum.</p>
-                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt accusantium asperiores placeat culpa optio repudiandae esse enim ducimus dicta voluptatum.</p>
+                                        <p>Your donation is not just an offering; it's a prayer sent up to the heavens, seeking blessings for you and your loved ones.</p>
+                                        <p>Every donation is a step closer to the divine. Seek blessings by supporting the temple and its spiritual mission.</p>
                                     </div>
                                 </div>
-                                <div className="support">
+                                {/* <div className="support">
                                     <p>Support us by:</p>
                                     <div>
                                         <select
@@ -448,9 +448,9 @@ const Checkout = () => {
                                             onChange={handleSelectChange}
                                             className="form-select"
                                         >
-                                            <option value="16">16% ({currencySymbol} {Math.round(donate.amount * 0.16)})</option>
-                                            <option value="14">14% ({currencySymbol} {Math.round(donate.amount * 0.14)})</option>
-                                            <option value="12">12% ({currencySymbol} {Math.round(donate.amount * 0.12)})</option>
+                                            <option value="7">7% ({currencySymbol} {Math.round(donate.amount * 0.07)})</option>
+                                            <option value="5">5% ({currencySymbol} {Math.round(donate.amount * 0.05)})</option>
+                                            <option value="1">3% ({currencySymbol} {Math.round(donate.amount * 0.03)})</option>
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
@@ -471,14 +471,14 @@ const Checkout = () => {
                                     <div className='contribution'>
                                         <p>By supporting Us, you are helping us reach out to more campaigns like this and scale our impact.</p>
                                         <div className='checkbox-container'>
-                                            <div>Deduct 7% towards covering Sevasangams expenses (optional)</div>
+                                            <div>Deduct 7% towards covering SevaSangam's expense (optional)</div>
                                             <div className="form-check">
                                                 <input defaultChecked className="form-check-input custom-checkbox" type="checkbox" id="flexCheckDefault1" />
                                                 <label className="form-check-label" htmlFor="flexCheckDefault1"></label>
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
 
                             <div style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>

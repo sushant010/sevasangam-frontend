@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
       <section>
         <h1 className="section-heading ">Privacy Policy</h1>
         <hr />
-        <p>Last updated: May 30, 2024</p>
+        <p>Last updated: Nov 15, 2024</p>
         <hr />
 
         <p>
@@ -649,8 +649,7 @@ const PrivacyPolicy = () => {
           </li>
           <li>
             <p>
-              By Address: Shanbough Krinshappa Ln, Upparahalli, Mavalli,
-              Bengaluru, Karnataka 560004
+            Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008
             </p>
           </li>
         </ul>

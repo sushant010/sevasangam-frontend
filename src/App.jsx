@@ -37,6 +37,8 @@ import AllDonationsAdmin from "./pages/admin/AllDonationsAdmin";
 import LoadingSpinner from "./components/loadingSpinner/LoadingSpinner";
 import Faq from "./pages/staticPages/FAQ/Faq"
 import PrivacyPolicy from "./pages/staticPages/PrivacyPolicy";
+import CancellationAndRefund from "./pages/staticPages/CancellationandRefund";
+import ShippingAndDelivery from "./pages/staticPages/ShippingandDelivery";
 import TermsAndConditions from "./pages/staticPages/TermsAndConditions";
 import AddEvent from "./pages/admin/AddEvent";
 import UpdateEvent from "./pages/admin/UpdateEvent";
@@ -72,6 +74,8 @@ function App() {
 
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/cancellation-and-refund" element={<CancellationAndRefund/>} />
+          <Route path="/shipping-and-delivery" element={<ShippingAndDelivery/>} />
           <Route path="/update-profile" element={<UpdateProfile />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="*" element={<NotFoundPage />} />

@@ -87,6 +87,9 @@ const Footer = () => {
               <span className="text-lg">Policies</span>
               <Link to="/privacy-policy">Privacy Policy</Link>
               <Link to="/terms-and-conditions">Terms and Conditions</Link>
+              <Link to="/cancellation-and-refund">Cancellation and Refund</Link>
+              <Link to="/shipping-and-delivery">Shipping and Delivery</Link>
+
 
 
             </div>
@@ -100,7 +103,7 @@ const Footer = () => {
               <div className="mx-2">
                 <p className="fw-bold">Office Address</p>
                 <p className="text-sm">
-                  <a target='_blank' href='https://maps.app.goo.gl/fxp9d26ArG8NbFrS9'>    23A, Shanbough Krinshappa Ln, Upparahalli, Mavalli, Bengaluru, Karnataka 560004</a>
+                  <a target='_blank' href='https://www.google.com/maps/search/Unit+101,+Oxford+Towers,+139,+HAL+Old+Airport+Rd,+Kodihalli,+Bengaluru,+Karnataka+560008/@12.9596323,77.6431291,17z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D'>    Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008</a>
                 </p>
               </div>
             </div>
@@ -112,7 +115,7 @@ const Footer = () => {
 
                 <p className="text-sm">
 
-                  <a rel="tel" href="+919521133652">9521133652</a> | <a rel="tel" href="+919602672516">9602672516</a>
+                  <a rel="tel" href="+919521133652">9521133652</a>
 
                 </p>
               </div>
@@ -136,7 +139,7 @@ const Footer = () => {
 
       </div>
       <div style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "var(--color-theme-accent)", color: "#fff" }} className="p-2 d-flex justify-content-center">
-        <p style={{ fontSize: "13.5px", color: "var(--text-color-grey-dark)" }}>Copyright &#169; 2024 SevaSangam, All rights reserved | Designed & Developed by <a className="" style={{ color: "var(--text-color-grey-dark)" }} target="_blank" href="https://therankshell.com/">Rankshell</a></p>
+        <p style={{ fontSize: "13.5px", color: "var(--text-color-grey-dark)" }}>Copyright &#169; 2024 SevaSangam, All rights reserved</p>
       </div>
     </>
   );
