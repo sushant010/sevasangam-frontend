@@ -198,6 +198,7 @@ const Checkout = () => {
                     anonymous: anonymous,
                     donateUser: JSON.stringify(donateUser), // Store as a string
                 },
+                
                 theme: {
                     "color": "var(--color-primary-color)"
                 }
