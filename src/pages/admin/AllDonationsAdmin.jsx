@@ -253,7 +253,9 @@ const AllDonationsAdmin = () => {
       "Temple": temple,
       "Date of Donation": formattedDate,
       "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
-      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
+      "Service Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.amount*0.20}` : `₹ ${donation.amount*0.20}`,
+      "Temple Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.amount*0.20}` : `₹ ${donation.amount*0.20}`,
+      "Total": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
       "Payment Method": donation.method,
       "80G Certificate": donation.certificate ? "Available" : "Not Available"
     };
@@ -443,6 +445,12 @@ const AllDonationsAdmin = () => {
                   </td>
                   <td>
                     <p className="fw-bold text-primary">Donation by User</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Service Fee</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Temple Fee</p>
                   </td>
                   <td>
                     <p className="fw-bold text-primary">Amount</p>

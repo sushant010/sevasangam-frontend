@@ -418,7 +418,9 @@ const AllDonation = () => {
                                     <td><p className='fw-bold text-primary'>Temple Admin</p></td>
                                     <td><p className='fw-bold text-primary'>Date of Donation</p></td>
                                     <td><p className='fw-bold text-primary'>Donation by User</p></td>
-                                    <td><p className='fw-bold text-primary'>Amount</p></td>
+                                    <td><p className='fw-bold text-primary'>Service Fee</p></td>
+                                    <td><p className='fw-bold text-primary'>Temple Fee</p></td>                    
+                                    <td><p className='fw-bold text-primary'>Total</p></td>
                                     <td><p className='fw-bold text-primary'>Payment Method</p></td>
                                     <td><p className='fw-bold text-primary'>Payment Status</p></td>
                                     <td><p className='fw-bold text-primary'>80G Certificate</p></td>
@@ -439,6 +441,10 @@ const AllDonation = () => {
                                             <td>{createdBy}</td>
                                             <td>{formattedDate}</td>
                                             <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
+                                            <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount*0.20}</td> 
+                                            {/* temporary until transfer is created*/}
+                                            <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount*0.80}</td>
+                                            {/* temporary until transfer is craeted */}
                                             <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                             <td>{donation.method}</td>
                                             <td className={donation?.status == 'failed' ? 'text-danger' : 'text-success'}>{donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : ""}</td>
