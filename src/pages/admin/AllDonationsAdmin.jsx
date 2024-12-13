@@ -253,7 +253,7 @@ const AllDonationsAdmin = () => {
       "Temple": temple,
       "Date of Donation": formattedDate,
       "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
-      "Service Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.serviceFee}` : `₹ ${donation.serviceFee}`,
+      "Platform Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.serviceFee}` : `₹ ${donation.serviceFee}`,
       "Temple Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.templeFee}` : `₹ ${donation.templeFee}`,
       "Total": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
       "Payment Method": donation.method,
@@ -448,7 +448,7 @@ const AllDonationsAdmin = () => {
                     <p className="fw-bold text-primary">Donation by User</p>
                   </td>
                   <td>
-                    <p className="fw-bold text-primary">Service Fee</p>
+                    <p className="fw-bold text-primary">Platform Fee</p>
                   </td>
                   <td>
                     <p className="fw-bold text-primary">Temple Fee</p>
