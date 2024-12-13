@@ -244,7 +244,9 @@ const AllDonationsAdmin = () => {
 
   // CSV Data Preparation
   const csvData = donations.map((donation, index) => {
-    const formattedDate = new Date(donation.date).toDateString();
+    const rawDate = new Date(donation.date).toDateString();
+    const [day, month, year] = rawDate.split("/"); // Split the date manually
+    const formattedDate = new Date(`${year}-${month}-${day}`);
     const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : { name: "Anonymous", email: "", phone: "" };
     const temple = temples.find(temp => temp._id === donation.temple)?.templeName || "Unknown";
     return {
