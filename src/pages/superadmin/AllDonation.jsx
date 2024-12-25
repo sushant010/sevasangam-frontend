@@ -253,7 +253,7 @@ const AllDonation = () => {
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
-
+    
 
     // Prepare CSV data
     const csvData = donations.map((donation, index) => {
@@ -445,10 +445,8 @@ const AllDonation = () => {
                                             <td>{createdBy}</td>
                                             <td>{formattedDate}</td>
                                             <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
-                                            <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.serviceFee}</td> 
-                                            {/* temporary until transfer is created*/}
+                                            <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.serviceFee}</td>
                                             <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.templeFee}</td>
-                                            {/* temporary until transfer is craeted */}
                                             <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                             <td>{donation.method}</td>
                                             <td className={donation?.status == 'failed' ? 'text-danger' : 'text-success'}>{donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : ""}</td>
@@ -457,14 +455,15 @@ const AllDonation = () => {
                                                 donation.certificate ? (
                                                     <div>
                                                         <a
-                                                            className="fw-bold"
-                                                            style={{ color: "green", textDecoration: "underline" }}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            href={donation.certificate}
+                                                        className="fw-bold"
+                                                        style={{ color: "green", textDecoration: "underline" }}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        href={`data:application/pdf;base64,${donation.certificate}`}
                                                         >
-                                                            View Certificate
+                                                        View Certificate
                                                         </a>
+
                                                         <div className="fw-bold text-danger">Request Received Again</div>
                                                     </div>
                                                 ) : (

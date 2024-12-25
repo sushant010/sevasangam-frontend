@@ -41,7 +41,7 @@ const TemplesBySingleAdmin = () => {
                 <div className="listing-container">
 
                     {temples && temples.length > 0 && temples.map((temple, index) => {
-                        return <ListingCardAdmin key={index} temple={temple} />
+                        return <ListingCardAdmin temple={temple} />
                     })}
 
                 </div>

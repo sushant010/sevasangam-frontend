@@ -449,14 +449,9 @@ const AllDonationsAdmin = () => {
                   <td>
                     <p className="fw-bold text-primary">Donation by User</p>
                   </td>
+    
                   <td>
-                    <p className="fw-bold text-primary">Platform Fee</p>
-                  </td>
-                  <td>
-                    <p className="fw-bold text-primary">Temple Fee</p>
-                  </td>
-                  <td>
-                    <p className="fw-bold text-primary">Amount</p>
+                    <p className="fw-bold text-primary">Donated Amount</p>
                   </td>
                   <td>
                     <p className="fw-bold text-primary">Payment Method</p>
@@ -499,16 +494,8 @@ const AllDonationsAdmin = () => {
                           <td>Anonymous</td>
                         )}
                         <td>
-                          {donation.currency !== 'INR' ? donation.currency : "₹"} 
-                          {donation.serviceFee}
-                        </td> 
-                        <td>
-                          {donation.currency !== 'INR' ? donation.currency : "₹"}
-                          {donation.templeFee}
-                        </td>
-                        <td>
                           {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
-                          {donation.amount}
+                          {donation.templeFee}
                         </td>
                         <td>{donation.method}</td>
                         <td className={donation?.transferStatus == 'failed' ? 'text-danger' : 'text-success'}>{donation?.transferStatus ? donation?.transferStatus?.slice(0, 1).toUpperCase() + donation?.transferStatus?.slice(1).toLowerCase() : ""}</td>             

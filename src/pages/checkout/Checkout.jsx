@@ -168,6 +168,8 @@ const Checkout = () => {
                 amount: donate.amount,
                 currency: currency,
                 temple: donate.templeId,
+                custpercentage: customPercentage,
+                selectpercentage: selectedPercentage,
                 donateUser: {
                     name: donateUser.name,
                     email: donateUser.email,
@@ -441,7 +443,7 @@ const Checkout = () => {
                                         <p>Every donation is a step closer to the divine. Seek blessings by supporting the temple and its spiritual mission.</p>
                                     </div>
                                 </div>
-                                {/* <div className="support">
+                                <div className="support">
                                     <p>Support us by:</p>
                                     <div>
                                         <select
@@ -479,7 +481,7 @@ const Checkout = () => {
                                             </div>
                                         </div>
                                     </div>
-                                )} */}
+                                )}
                             </div>
 
                             <div style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>

@@ -11,9 +11,10 @@ const ListingCardAdmin = ({ temple }) => {
 
   const [auth] = useAuth()
   const navigate = useNavigate();
-  const [adminTemples, setAdminTemples, removeTempleFromLocalStorage] = useAdminTemples();
+  
+  const [adminTemples, setAdminTemples, removeTempleFromLocalStorage,] = useAdminTemples();
   const [loading, setLoading] = useState(false);
-  const createdBy = temple.createdBy?.name ? temple.createdBy?.name : 'ahsjh'[0].toUpperCase();
+
 
 
   const handleViewTemple = (id, e) => {
@@ -23,6 +24,8 @@ const ListingCardAdmin = ({ temple }) => {
       navigate(`/admin/temple/${id}`) :
       navigate(`/superadmin/temple/${id}`);
   };
+
+
 
   const handleUpdateTemple = (id, e) => {
     e.stopPropagation();
@@ -70,8 +73,6 @@ const ListingCardAdmin = ({ temple }) => {
       navigate('/superadmin/temple/' + id);
   }
 
-
-
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -102,7 +103,7 @@ const ListingCardAdmin = ({ temple }) => {
 
                   <tr>
                     <td className="listing-donation text-sm">Created By : </td>
-                    <td className="listing-donation text-grey-dark text-sm">{createdBy}</td>
+                    <td className="listing-donation text-grey-dark text-sm">{temple.createdBy.name}</td>
                   </tr>
                 ) : null
 
