@@ -268,7 +268,7 @@ const Checkout = () => {
                 description: `Subscription for ${temple.templeName}`,
                 image: defaultLogo,
                 redirect: false,
-                callback_url: `${website_url}/temples`,
+                callback_url: `${website_url}/user/past-donations`,
                 prefill: {
                     name: donateUser.name,
                     email: donateUser.email,

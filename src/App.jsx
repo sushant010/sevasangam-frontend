@@ -28,6 +28,7 @@ import UnverifiedTemples from "./pages/superadmin/UnverifiedTemples";
 import Checkout from "./pages/checkout/Checkout";
 import VerifyTempleChanges from "./pages/superadmin/VerifyTempleChanges";
 import UserDonations from "./pages/donation/UserDonations";
+import PastDonations from "./pages/donation/PastDonation";
 import IsSignedIn from "./routes/IsSignedIn";
 
 import TrendingTemples from "./pages/superadmin/TrendingTemples";
@@ -85,6 +86,7 @@ function App() {
 
           <Route path="/user" element={<IsSignedIn />}>
             <Route path="donations" element={<UserDonations />} />
+            <Route path="past-donations" element={<PastDonations />} />
 
           </Route>
           <Route path="loading" element={<LoadingSpinner />} />
