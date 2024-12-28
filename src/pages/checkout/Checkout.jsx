@@ -453,7 +453,7 @@ const Checkout = () => {
                                         >
                                             <option value="7">7% ({currencySymbol} {Math.round(donate.amount * 0.07)})</option>
                                             <option value="5">5% ({currencySymbol} {Math.round(donate.amount * 0.05)})</option>
-                                            <option value="1">3% ({currencySymbol} {Math.round(donate.amount * 0.03)})</option>
+                                            <option value="3">3% ({currencySymbol} {Math.round(donate.amount * 0.03)})</option>
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
