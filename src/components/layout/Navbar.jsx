@@ -92,7 +92,7 @@ const Navbar = () => {
 
             <>
               <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
-                <Link to="/temples">Temples</Link>
+                <Link to="/temples">Donate</Link>
               </div>
 
               <div className={`nav-item ${location.pathname === '/temples' ? 'active' : ''}`}>
@@ -205,7 +205,7 @@ const Navbar = () => {
           </div>
           <div className="nav-item">
 
-            <Link to="/temples" className="btn btn-theme-primary">Temples</Link>
+            <Link to="/temples" className="btn btn-theme-primary">Donate</Link>
           </div>
           <div className="nav-item">
             {auth?.user ? (null) : (<button type="button" className="btn btn-theme-primary" data-bs-toggle="modal" data-bs-target="#loginBackdrop">
