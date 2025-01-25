@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { generatePDFBlobURL } from "../../utils/pdfUtils";
 import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
 import { set } from 'zod';
@@ -451,41 +452,47 @@ const AllDonation = () => {
                                             <td>{donation.method}</td>
                                             <td className={donation?.status == 'failed' ? 'text-danger' : 'text-success'}>{donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : ""}</td>
                                             <td className={donation?.transferStatus == 'failed' ? 'text-danger' : 'text-success'}>{donation?.transferStatus ? donation?.transferStatus?.slice(0, 1).toUpperCase() + donation?.transferStatus?.slice(1).toLowerCase() : ""}</td>
-                                            <td>{donation.is80CertificateRequested ? (
+                                            <td>
+                                            {donation.is80CertificateRequested ? (
                                                 donation.certificate ? (
-                                                    <div>
-                                                        <a
-                                                        className="fw-bold"
-                                                        style={{ color: "green", textDecoration: "underline" }}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        href={`data:application/pdf;base64,${donation.certificate}`}
-                                                        >
-                                                        View Certificate
-                                                        </a>
-
-                                                        <div className="fw-bold text-danger">Request Received Again</div>
-                                                    </div>
-                                                ) : (
-
-                                                    <div className="fw-bold text-danger">Request Received</div>
-                                                )
-                                            ) : (
-                                                donation.certificate ? (
+                                                <div>
+                                                    {generatePDFBlobURL(donation.certificate) ? (
                                                     <a
                                                         className="fw-bold"
                                                         style={{ color: "green", textDecoration: "underline" }}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        href={donation.certificate}
+                                                        href={generatePDFBlobURL(donation.certificate)}
                                                     >
                                                         View Certificate
                                                     </a>
+                                                    ) : (
+                                                    <div className="fw-bold text-danger">Failed to generate certificate link</div>
+                                                    )}
+                                                    <div className="fw-bold text-danger">Request Received Again</div>
+                                                </div>
                                                 ) : (
-                                                    "No request"
+                                                <div className="fw-bold text-danger">Request Received</div>
                                                 )
+                                            ) : donation.certificate ? (
+                                                generatePDFBlobURL(donation.certificate) ? (
+                                                <a
+                                                    className="fw-bold"
+                                                    style={{ color: "green", textDecoration: "underline" }}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={generatePDFBlobURL(donation.certificate)}
+                                                >
+                                                    View Certificate
+                                                </a>
+                                                ) : (
+                                                <div className="fw-bold text-danger">Failed to generate certificate link</div>
+                                                )
+                                            ) : (
+                                                "No request"
                                             )}
                                             </td>
+
                                         </tr>
                                     );
                                 })}

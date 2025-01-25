@@ -502,7 +502,7 @@ const AllSubscriptionsAdmin = () => {
                                     style={{ color: "green", textDecoration: "underline" }}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href={customSubscription.certificate}
+                                    href={generatePDFBlobURL(customSubscription.certificate)}
                                   >
                                     View Certificate
                                   </a>
@@ -583,7 +583,7 @@ const AllSubscriptionsAdmin = () => {
                                   style={{ color: "green", textDecoration: "underline" }}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  href={customSubscription.certificate}
+                                  href={generatePDFBlobURL(customSubscription.certificate)}
                                 >
                                   View Certificate
                                 </a>
