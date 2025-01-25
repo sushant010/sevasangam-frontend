@@ -7,6 +7,8 @@ import { useAuth } from "../../context/Auth";
 import { CSVLink } from 'react-csv';
 import HashLoader from "react-spinners/HashLoader";
 import compress from "compress-base64";
+import { generatePDFBlobURL } from "../../utils/pdfUtils";
+
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 import { set } from "zod";
 
@@ -244,7 +246,9 @@ const AllDonationsAdmin = () => {
 
   // CSV Data Preparation
   const csvData = donations.map((donation, index) => {
-    const formattedDate = new Date(donation.created_at * 1000).toLocaleDateString("en-GB");
+    const rawDate = new Date(donation.date).toDateString();
+    const [day, month, year] = rawDate.split("/"); // Split the date manually
+    const formattedDate = new Date(`${year}-${month}-${day}`);
     const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : { name: "Anonymous", email: "", phone: "" };
     const temple = temples.find(temp => temp._id === donation.temple)?.templeName || "Unknown";
     return {
@@ -253,8 +257,11 @@ const AllDonationsAdmin = () => {
       "Temple": temple,
       "Date of Donation": formattedDate,
       "Donation by User": `${donateUser.name} (${donateUser.email}, ${donateUser.phone})`,
-      "Amount": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
+      "Platform Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.serviceFee}` : `₹ ${donation.serviceFee}`,
+      "Temple Fee": donation.currency !== "INR" ? `${donation.currency} ${donation.templeFee}` : `₹ ${donation.templeFee}`,
+      "Total": donation.currency !== "INR" ? `${donation.currency} ${donation.amount}` : `₹ ${donation.amount}`,
       "Payment Method": donation.method,
+      "Transfer Status": donation.transferStatus,
       "80G Certificate": donation.certificate ? "Available" : "Not Available"
     };
   });
@@ -444,11 +451,15 @@ const AllDonationsAdmin = () => {
                   <td>
                     <p className="fw-bold text-primary">Donation by User</p>
                   </td>
+    
                   <td>
-                    <p className="fw-bold text-primary">Amount</p>
+                    <p className="fw-bold text-primary">Donated Amount</p>
                   </td>
                   <td>
                     <p className="fw-bold text-primary">Payment Method</p>
+                  </td>
+                  <td>
+                    <p className="fw-bold text-primary">Transfer Status</p>
                   </td>
                   <td>
                     <p className="fw-bold text-primary">80G Certificate</p>
@@ -478,7 +489,7 @@ const AllDonationsAdmin = () => {
                           }
                         </td>
 
-                        <td>{new Date(donation.date).toDateString()}</td>
+                        <td>{new Date(donation.date).toLocaleDateString()}</td>
                         {donateUser !== null ? (
                           <td>{`${donateUser.name} (${donateUser.email}, ${donateUser.phone}) `}</td>
                         ) : (
@@ -486,9 +497,10 @@ const AllDonationsAdmin = () => {
                         )}
                         <td>
                           {donation.currency !== "INR" ? donation.currency : "₹"}{" "}
-                          {donation.amount}
+                          {donation.templeFee}
                         </td>
                         <td>{donation.method}</td>
+                        <td className={donation?.transferStatus == 'failed' ? 'text-danger' : 'text-success'}>{donation?.transferStatus ? donation?.transferStatus?.slice(0, 1).toUpperCase() + donation?.transferStatus?.slice(1).toLowerCase() : ""}</td>             
                         <td>
                           {donation.is80CertificateRequested ? (
                             <>

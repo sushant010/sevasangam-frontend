@@ -168,6 +168,8 @@ const Checkout = () => {
                 amount: donate.amount,
                 currency: currency,
                 temple: donate.templeId,
+                custpercentage: customPercentage,
+                selectpercentage: selectedPercentage,
                 donateUser: {
                     name: donateUser.name,
                     email: donateUser.email,
@@ -198,6 +200,7 @@ const Checkout = () => {
                     anonymous: anonymous,
                     donateUser: JSON.stringify(donateUser), // Store as a string
                 },
+                
                 theme: {
                     "color": "var(--color-primary-color)"
                 }
@@ -265,7 +268,7 @@ const Checkout = () => {
                 description: `Subscription for ${temple.templeName}`,
                 image: defaultLogo,
                 redirect: false,
-                callback_url: `${website_url}/temples`,
+                callback_url: `${website_url}/user/past-donations`,
                 prefill: {
                     name: donateUser.name,
                     email: donateUser.email,
@@ -440,7 +443,7 @@ const Checkout = () => {
                                         <p>Every donation is a step closer to the divine. Seek blessings by supporting the temple and its spiritual mission.</p>
                                     </div>
                                 </div>
-                                {/* <div className="support">
+                                <div className="support">
                                     <p>Support us by:</p>
                                     <div>
                                         <select
@@ -450,7 +453,7 @@ const Checkout = () => {
                                         >
                                             <option value="7">7% ({currencySymbol} {Math.round(donate.amount * 0.07)})</option>
                                             <option value="5">5% ({currencySymbol} {Math.round(donate.amount * 0.05)})</option>
-                                            <option value="1">3% ({currencySymbol} {Math.round(donate.amount * 0.03)})</option>
+                                            <option value="3">3% ({currencySymbol} {Math.round(donate.amount * 0.03)})</option>
                                             <option value="other">Other</option>
                                         </select>
                                         {selectedPercentage === 'other' && (
@@ -478,7 +481,7 @@ const Checkout = () => {
                                             </div>
                                         </div>
                                     </div>
-                                )} */}
+                                )}
                             </div>
 
                             <div style={{ background: "#f5f5f5", padding: ' 10px ', borderRadius: "8px" }}>

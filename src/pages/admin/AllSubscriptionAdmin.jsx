@@ -36,6 +36,7 @@ const AllSubscriptionsAdmin = () => {
     dateTo: searchParams.get("dateTo") || "",
   });
 
+  
 
   const resetFilters = () => {
     setFilters(null)
@@ -270,7 +271,9 @@ const AllSubscriptionsAdmin = () => {
 
   // CSV Data Preparation
   const csvData = subscriptions.map((subscription, index) => {
-    const formattedDate = new Date(subscription.date).toLocaleDateString("en-GB");
+    const rawDate = new Date(subscription.date).toDateString(); // Remove extra spaces
+    const [day, month, year] = rawDate.split("/"); // Split the date manually
+    const formattedDate = new Date(`${year}-${month}-${day}`);
     const donateUser = subscription.donateUser ? JSON.parse(subscription.donateUser) : { name: "Anonymous", email: "", phone: "" };
     const temple = temples.find(temp => temp._id === subscription.temple)?.templeName || "Unknown";
     const customSubscription = subscriptions.find(don => don.razorpay_payment_id === subscription.id) || {};
@@ -499,7 +502,7 @@ const AllSubscriptionsAdmin = () => {
                                     style={{ color: "green", textDecoration: "underline" }}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href={customSubscription.certificate}
+                                    href={generatePDFBlobURL(customSubscription.certificate)}
                                   >
                                     View Certificate
                                   </a>
@@ -580,7 +583,7 @@ const AllSubscriptionsAdmin = () => {
                                   style={{ color: "green", textDecoration: "underline" }}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  href={customSubscription.certificate}
+                                  href={generatePDFBlobURL(customSubscription.certificate)}
                                 >
                                   View Certificate
                                 </a>

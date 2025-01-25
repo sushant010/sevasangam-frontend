@@ -104,17 +104,7 @@ const Navbar = () => {
             </>
           )}
 
-          {(auth?.user?.role == 0 || auth?.user?.role == 1) && (
-            <>
-              {/* <hr className='m-0' style={{ opacity: "1", border: "1px solid #ddd" }}></hr>
-              <div className={`nav-item ${location.pathname === '/user/donations' ? 'active' : ''}`}>
-                <Link to="/user/donations">Past Donations</Link>
-              </div> */}
-
-
-            </>
-          )}
-
+          
           {auth && auth.user && auth.user.role == 1 && (
 
             <>
@@ -264,11 +254,11 @@ const Navbar = () => {
                         All Subscriptions
                       </Link>
                     </li>
-                    {/* <li>
-                      <Link className="dropdown-item" to="/user/donations">
-                        Past Donations
+                    <li>
+                      <Link className="dropdown-item" to="/user/past-donations">
+                        Your Donations
                       </Link>
-                    </li> */}
+                    </li>
 
 
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { generatePDFBlobURL } from "../../utils/pdfUtils";
 import { CSVLink } from 'react-csv'; // Import CSVLink from react-csv
 import HashLoader from "react-spinners/HashLoader";
 import { set } from 'zod';
@@ -253,25 +254,28 @@ const AllDonation = () => {
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
-
+    
 
     // Prepare CSV data
     const csvData = donations.map((donation, index) => {
-        const formattedDate = new Date(donation.date).toLocaleDateString('en-GB');
+        const formattedDate = new Date(donation.date).toDateString('en-GB');
         const donateUser = donation.donateUser ? JSON.parse(donation.donateUser) : {};
         const createdBy = templeAdmins.find((admin) => admin._id === donation.temple?.createdBy)?.name || "Anonymous";
 
         return {
-            SNo: index + 1,
-            PaymentId: donation.razorpay_payment_id,
-            Temple: donation.temple.templeName,
-            TempleAdmin: createdBy,
-            DateOfDonation: formattedDate,
-            DonationByUser: donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous",
-            Amount: donation.currency !== 'INR' ? donation.currency : "₹" + donation.amount,
-            PaymentMethod: donation.method,
-            PaymentStatus: donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : "",
-            Certificate: donations.is80CertificateRequested ? (
+            "SNo": index + 1,
+            "PaymentId": donation.razorpay_payment_id,
+            "Temple": donation.temple.templeName,
+            "TempleAdmin": createdBy,
+            "DateOfDonation": formattedDate,
+            "DonationByUser": donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous",
+            "PlatformFee": donation.currency !== 'INR' ? donation.currency : "₹" + donation.serviceFee,
+            "TempleFee": donation.currency !== 'INR' ? donation.currency : "₹" + donation.templeFee,
+            "TotalAmount": donation.currency !== 'INR' ? donation.currency : "₹" + donation.amount,
+            "PaymentMethod": donation.method,
+            "PaymentStatus": donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : "",
+            "TransferStatus": donation.transferStatus,
+            "Certificate": donations.is80CertificateRequested ? (
                 donations.certificate ? 'View Certificate' : 'Request Received Again'
             ) : (
                 donations.certificate ? 'View Certificate' : 'No request'
@@ -418,9 +422,12 @@ const AllDonation = () => {
                                     <td><p className='fw-bold text-primary'>Temple Admin</p></td>
                                     <td><p className='fw-bold text-primary'>Date of Donation</p></td>
                                     <td><p className='fw-bold text-primary'>Donation by User</p></td>
-                                    <td><p className='fw-bold text-primary'>Amount</p></td>
+                                    <td><p className='fw-bold text-primary'>Platform Fee</p></td>
+                                    <td><p className='fw-bold text-primary'>Temple Fee</p></td>                    
+                                    <td><p className='fw-bold text-primary'>Total</p></td>
                                     <td><p className='fw-bold text-primary'>Payment Method</p></td>
                                     <td><p className='fw-bold text-primary'>Payment Status</p></td>
+                                    <td><p className='fw-bold text-primary'>Transfer Status</p></td>
                                     <td><p className='fw-bold text-primary'>80G Certificate</p></td>
                                 </tr>
                             </thead>
@@ -439,43 +446,53 @@ const AllDonation = () => {
                                             <td>{createdBy}</td>
                                             <td>{formattedDate}</td>
                                             <td>{donateUser.name ? `${donateUser.name} (${donateUser.email}, ${donateUser.phone})` : "Anonymous"}</td>
+                                            <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.serviceFee}</td>
+                                            <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.templeFee}</td>
                                             <td>{donation.currency !== 'INR' ? donation.currency : "₹"} {donation.amount}</td>
                                             <td>{donation.method}</td>
                                             <td className={donation?.status == 'failed' ? 'text-danger' : 'text-success'}>{donation?.status ? donation?.status?.slice(0, 1).toUpperCase() + donation?.status?.slice(1).toLowerCase() : ""}</td>
-                                            <td>{donation.is80CertificateRequested ? (
+                                            <td className={donation?.transferStatus == 'failed' ? 'text-danger' : 'text-success'}>{donation?.transferStatus ? donation?.transferStatus?.slice(0, 1).toUpperCase() + donation?.transferStatus?.slice(1).toLowerCase() : ""}</td>
+                                            <td>
+                                            {donation.is80CertificateRequested ? (
                                                 donation.certificate ? (
-                                                    <div>
-                                                        <a
-                                                            className="fw-bold"
-                                                            style={{ color: "green", textDecoration: "underline" }}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            href={donation.certificate}
-                                                        >
-                                                            View Certificate
-                                                        </a>
-                                                        <div className="fw-bold text-danger">Request Received Again</div>
-                                                    </div>
-                                                ) : (
-
-                                                    <div className="fw-bold text-danger">Request Received</div>
-                                                )
-                                            ) : (
-                                                donation.certificate ? (
+                                                <div>
+                                                    {generatePDFBlobURL(donation.certificate) ? (
                                                     <a
                                                         className="fw-bold"
                                                         style={{ color: "green", textDecoration: "underline" }}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        href={donation.certificate}
+                                                        href={generatePDFBlobURL(donation.certificate)}
                                                     >
                                                         View Certificate
                                                     </a>
+                                                    ) : (
+                                                    <div className="fw-bold text-danger">Failed to generate certificate link</div>
+                                                    )}
+                                                    <div className="fw-bold text-danger">Request Received Again</div>
+                                                </div>
                                                 ) : (
-                                                    "No request"
+                                                <div className="fw-bold text-danger">Request Received</div>
                                                 )
+                                            ) : donation.certificate ? (
+                                                generatePDFBlobURL(donation.certificate) ? (
+                                                <a
+                                                    className="fw-bold"
+                                                    style={{ color: "green", textDecoration: "underline" }}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={generatePDFBlobURL(donation.certificate)}
+                                                >
+                                                    View Certificate
+                                                </a>
+                                                ) : (
+                                                <div className="fw-bold text-danger">Failed to generate certificate link</div>
+                                                )
+                                            ) : (
+                                                "No request"
                                             )}
                                             </td>
+
                                         </tr>
                                     );
                                 })}
