@@ -16,7 +16,7 @@ const SectionBgImgWithGradient = ({ bgImg, heading, description, btn1Link = "/te
         </p>
         <div className="btns d-flex gap-4">
 
-          <Link to={btn1Link} className={`btn ${btn1Class}`}>{btn1Text}</Link>
+          {/* <Link to={btn1Link} className={`btn ${btn1Class}`}>{btn1Text}</Link> */}
           <Link to={btn2Link} className={`btn ${btn2Class}`}>{btn2Text}</Link>
         </div>
       </div>
