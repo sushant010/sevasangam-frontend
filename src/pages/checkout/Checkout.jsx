@@ -144,11 +144,11 @@ const Checkout = () => {
         }
 
         // Validate phone number (assuming a basic pattern for a 10-digit number)
-        const phonePattern = /^\d{10}$/;
-        if (!donateUser.phone || !phonePattern.test(donateUser.phone)) {
-            toast.error('A valid 10-digit phone number is required');
+        if (!donateUser.phone) {
+            toast.error('Valid Phone number is required');
             return;
         }
+        
         if (donate.amount < 1) {
             toast.error('Please enter a valid amount');
             return;
