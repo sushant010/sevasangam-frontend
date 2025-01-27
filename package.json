@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ag-media/react-pdf-table": "^2.0.1",
     "@react-google-maps/api": "^2.19.3",
+    "@react-pdf/renderer": "^4.1.6",
     "axios": "^1.6.8",
     "browser-image-compression": "^2.0.2",
     "compress-base64": "^4.1.0",

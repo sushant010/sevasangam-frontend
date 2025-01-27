@@ -232,6 +232,11 @@ const Navbar = () => {
                     Profile
                   </Link>
                 </li>
+                <li>
+                  <Link className="dropdown-item" to="/user/past-donations">
+                    Your Donations
+                  </Link>
+                </li>
                 {auth.user.role === 1 ? (
                   <>
                     <li>
@@ -254,14 +259,7 @@ const Navbar = () => {
                         All Subscriptions
                       </Link>
                     </li>
-                    <li>
-                      <Link className="dropdown-item" to="/user/past-donations">
-                        Your Donations
-                      </Link>
-                    </li>
-
-
-
+                    
                   </>
                 ) : auth.user.role === 2 ? (
                   <>
